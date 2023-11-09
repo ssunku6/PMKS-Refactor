@@ -60,10 +60,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "PMKS:build:production"
+              "buildTarget": "PMKS:build:production"
             },
             "development": {
-              "browserTarget": "PMKS:build:development"
+              "buildTarget": "PMKS:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -71,7 +71,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "PMKS:build"
+            "buildTarget": "PMKS:build"
           }
         },
         "test": {
@@ -94,5 +94,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "7bc57763-0529-4eee-83c6-bc5f0d241633"
   }
 }
