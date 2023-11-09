@@ -20,7 +20,7 @@ export class Mechanism {
         this._idCount = 0;
     }
 
-    //----------------------------GRID CONTEXT MENU----------------------------
+    //----------------------------GRID CONTEXT MENU ACTIONS----------------------------
 
     /**
      * Given two Coordinates, generates two joints at those coordinates and makes a link between them
@@ -43,7 +43,7 @@ export class Mechanism {
         this._links.set(linkA.id, linkA);
     }
 
-    //----------------------------JOINT CONTEXT MENU----------------------------
+    //----------------------------JOINT CONTEXT MENU ACTIONS----------------------------
 
 
     /**
@@ -61,7 +61,7 @@ export class Mechanism {
      * @return {*} 
      * @memberof Mechanism
      */
-    private executeJointAction(jointID: number, canPerformAction: (joint: any) => boolean, errorMsg: string, successMsg: string, action: (joint: any) => void): boolean {
+    private executeJointAction(jointID: number, canPerformAction: (joint: Joint) => boolean, errorMsg: string, successMsg: string, action: (joint: any) => void): boolean {
         let joint = this._joints.get(jointID);
         if (joint === undefined) {
             console.error(`Joint with ID ${jointID} does not exist`);
@@ -92,7 +92,35 @@ export class Mechanism {
         this.executeJointAction(jointID,  joint => joint.canAddWeld(), 'cannot become welded', 'has been successfully welded', joint => {
             joint.addWeld();
             //cascade effects into affected links, compound links,
-            
+            let connectedLinks: Link[] = this.getConnectedLinksForJoint(joint);
+            let connectedCompoundLinks: CompoundLink[] = this.getConnectedCompoundLinks(joint);
+
+
+            //if not connected to any links do nothing
+            if(connectedLinks.length == 0){
+                return;
+
+            //if not already part of a CompoundLink create a new one and add all connected links
+            } else if(connectedCompoundLinks.length == 0){
+                let compoundLink: CompoundLink = new CompoundLink(this._idCount,connectedLinks);
+                this._idCount++;
+                this._compoundLinks.set(compoundLink.id,compoundLink);
+            //if part of one or more compoundLink, combine them and add any other existing links
+            } else if(connectedCompoundLinks.length >= 1){
+                for(let compoundLink of connectedCompoundLinks){
+                    //add all links from connected compoundlinks to connectedLinks array
+                    for(let link of compoundLink.links.values()){
+                        if(!connectedLinks.includes(link))
+                        connectedLinks.push(link);
+                    }
+                //remove compound link to avoid duplicates
+                this._compoundLinks.delete(compoundLink.id);
+                }
+                //create a new compoundlink containing all of the links that should be connected.
+                let compoundLink: CompoundLink = new CompoundLink(this._idCount,connectedLinks);
+                this._idCount++;
+                this._compoundLinks.set(compoundLink.id,compoundLink);
+            }
         });
     }
     /**
@@ -105,7 +133,15 @@ export class Mechanism {
         this.executeJointAction(jointID, joint => joint.canRemoveWeld(), 'cannot become unwelded', 'has been successfully unwelded', joint => {
             joint.removeWeld();
             //cascade effects into affected links, compound links, and forces
-
+            let connectedCompoundLinks: CompoundLink[] = this.getConnectedCompoundLinks(joint);
+            for(let compoundLink of connectedCompoundLinks){
+                let newCompoundLinks: CompoundLink[] = compoundLink.compoundLinkAfterRemoveWeld(joint, this._idCount);
+                this._compoundLinks.delete(compoundLink.id);
+                for(let link of newCompoundLinks){
+                    this._compoundLinks.set(link.id,link);
+                    this._idCount++;
+                }
+            }
         });
         
     }
@@ -199,23 +235,56 @@ export class Mechanism {
     removeJoint(jointID: number) {
         this.executeJointAction(jointID, (joint) => true, 'error','success', (joint) =>{
             //perform deletion, need helper functions to handle links(and their forces), and compound links.
-            let affectedLinks: Link[];
-            affectedLinks = [];
+
             for(let link of this._links.values()){
-                if(!link.containsJoint(joint.id)){return;}
-                affectedLinks.push(link);
-                try{
-                    link.removeJoint(joint.id);
-                }catch (error: any){
-                    //only error thrown here is when the link now only has 1 joint and must be deleted.
-                    this.removeLink(link.id);
+                if(link.containsJoint(joint.id)){
+                    try{
+                        link.removeJoint(joint.id);
+                    }catch (error: any){
+                        //only error thrown here is when the link now only has 1 joint and must be deleted.
+                        this.removeLink(link.id);
+                    }
                 }
             }
-            //maybe do more with affectedLinks(maybe remove if unneeded)
             this._joints.delete(joint.id);
         });
     }
-    //----------------------------JOINT EDIT MENU----------------------------
+    //----------------------------JOINT CONTEXT MENU ACTIONS VERIFIERS----------------------------
+    
+    canAddInput(joint: Joint): boolean{
+        //check if the joint knows it can be an input
+        if(!joint.canAddInput())
+            return false;
+
+        let numberOfEffectiveConnectedLinks = this.getNumberOfEffectiveConnectedLinksForJoint(joint)
+        //If a revolute grounded joint is connected to more than one link and isn't welded to all of them it cannot be an input.
+        if(joint.isGrounded && numberOfEffectiveConnectedLinks > 1)
+            return false;
+        return true;
+    }
+    canRemoveInput(joint: Joint): boolean{
+        return joint.canRemoveInput();
+    }   
+    canAddGround(joint: Joint): boolean{
+        return joint.canAddGround()
+    }
+    canRemoveGround(joint: Joint): boolean{
+        return joint.canRemoveGround()
+    }
+    
+    canAddWeld(joint: Joint): boolean{
+        return joint.canAddWeld()
+    }
+    canRemoveWeld(joint: Joint): boolean{
+        return joint.canRemoveWeld()
+    }
+    canAddSlider(joint: Joint): boolean{
+        return joint.canAddSlider()
+    }
+    canRemoveSlider(joint: Joint): boolean{
+        return joint.canRemoveSlider()
+    }
+    //----------------------------JOINT EDIT MENU ACTIONS----------------------------
     /**
      * Changes the name of a Joint given its ID and new name.
      *
@@ -280,7 +349,11 @@ export class Mechanism {
         }
         this.executeJointAction(jointIDtoChange, (joint) => true, 'error','success', (joint) =>{joint.setDistancetoJoint(newAngle, jointB);});
     }
-    //----------------------------LINK CONTEXT MENU----------------------------
+
+
+
+
+    //----------------------------LINK CONTEXT MENU ACTIONS----------------------------
         /**
      * Higher Order function that performs all available actions on links
      * 1. Checks the linkID is valid and gets the link to change
@@ -374,7 +447,7 @@ export class Mechanism {
             this._links.delete(link.id);
         });
     }
-    //----------------------------HELPERS----------------------------
+    //----------------------------LINK HELPERS----------------------------
     private removeLinkCascadeForces(link: Link){
         for(let forceID of link.forces.keys()){
             link.removeForce(forceID);
@@ -385,13 +458,12 @@ export class Mechanism {
         for(let joint of link.joints.values()){
             let isIsolated = true;//assume joint is isolated initially
 
-            //check if joint is paart of any other link
+            //check if joint is part of any other link
             for(let alink of this._links.values()){
                 if(alink.id !== link.id && alink.containsJoint(joint.id))
                     isIsolated = false;//joint isn't isolated, move to next joint
                     break;
             }
-
             //Delete isolated joint
             if(isIsolated){
                 this._joints.delete(joint.id);
@@ -419,7 +491,7 @@ export class Mechanism {
 
     }
 
-    //----------------------------LINK EDIT MENU----------------------------
+    //----------------------------LINK EDIT MENU ACTIONS----------------------------
     /**
      * Sets the name of a link given its ID.
      *
@@ -460,7 +532,7 @@ export class Mechanism {
     setLinkMass(linkID: number, newMass: number) {
         this.executeLinkAction(linkID, link => {link.mass = newMass;});
     }
-    //----------------------------FORCE CONTEXT MENU----------------------------
+    //----------------------------FORCE CONTEXT MENU ACTIONS----------------------------
 
 
     /**
@@ -518,7 +590,7 @@ export class Mechanism {
         });
     }
 
-    //----------------------------FORCE EDIT MENU----------------------------
+    //----------------------------FORCE EDIT MENU ACTIONS----------------------------
     /**
      *Sets the name of a force given its ID.
      *
@@ -571,7 +643,36 @@ export class Mechanism {
     }
 
     //----------------------------HELPER FUNCTIONS----------------------------
-
-
+    
+    private getConnectedLinksForJoint(joint: Joint): Link[]{
+    let connectedLinks: Link[] = [];
+    for(let link of this._links.values()){
+        if(link.containsJoint(joint.id)){
+            connectedLinks.push(link);
+        }}
+        return connectedLinks;
+    }
+    private getConnectedCompoundLinks(joint: Joint): CompoundLink[]{
+        let connectedCompoundLinks: CompoundLink[] = [];
+        for(let link of this._compoundLinks.values()){
+            if(link.containsJoint(joint.id)){
+                connectedCompoundLinks.push(link);
+            }}
+        return connectedCompoundLinks;
+    }
+    private getNumberOfEffectiveConnectedLinksForJoint(joint: Joint): number{
+        let connectedLinks: Link[] = this.getConnectedLinksForJoint(joint);
+        let connectedCompoundLinks: CompoundLink[] = this.getConnectedCompoundLinks(joint)
+        let numberOfConnectedCompoundLinks: number = connectedCompoundLinks.length.valueOf();
+        let numberOfConnectedLinks: number = connectedLinks.length.valueOf();
+        let duplicates: number = 0;
+        for(let compoundLink of connectedCompoundLinks){
+            for(let link of compoundLink.links.values()){
+                if(link.containsJoint(joint.id))
+                    duplicates++;
+            }
+        }
+        return (numberOfConnectedLinks - duplicates) + numberOfConnectedCompoundLinks;
+    }
 
 }

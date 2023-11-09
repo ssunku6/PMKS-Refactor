@@ -1,0 +1,11 @@
+<!-- Draw new node line if in new node click capture mode -->
+<ng-container *ngIf="isDrawNewNodeLine()">
+    <svg:g app-new-node-line [start]="getNewNodeLineStart()" [end]="getNewNodeLineEnd()" />
+</ng-container>
+<!-- Iterate through nodes and edges and display them in the template. Draw edges then nodes-->
+<ng-container *ngFor="let edge of getEdges()">
+    <svg:g app-edge [edge]="edge" />
+</ng-container>
+<ng-container *ngFor="let node of getNodes()">
+    <svg:g app-node [node]="node" />
+</ng-container>

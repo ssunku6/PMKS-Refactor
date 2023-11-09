@@ -1,1 +1,10 @@
-<p>context-menu works!</p>
+<div class="context-menu"
+  [ngStyle]="{'top.px': contextMenuService.getY()+5, 'left.px': contextMenuService.getX()+5}"
+  *ngIf="contextMenuService.getVisibility()">
+  <ul>
+    <li *ngFor="let option of contextMenuService.getMenuOptions()"
+        [ngClass]="{'disabled': option.disabled}"
+        (click)="onClick(option)"
+        >{{option.label}}</li>
+  </ul>
+</div>

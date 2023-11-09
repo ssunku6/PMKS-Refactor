@@ -87,30 +87,19 @@ export class Joint {
         this._inputSpeed = newSpeed;
     }
 
-    //----------------------------Joint Modification without modifying other variables----------------------------
+    //----------------------------Joint Modification with modifying other variables----------------------------
     addGround(){
-        if(this._isWelded == false){
-            throw new Error("Cannot Ground a Welded Joint");
-
-        }else if(this._type == JointType.Prismatic){
-            throw new Error("Cannot Ground a Prismatic Joint");
-
-        }else{
-            this._isGrounded = true;
-        }    
+        this._type = JointType.Revolute;
+        this._isGrounded = true;    
     }
 
     removeGround(){
-        if(this._isInput == true){
-            throw new Error("Input Joint must be Grounded");
-        } else{
-
-            this._isGrounded = false;
-        }
+        this._isInput = false;
+        this._isGrounded = false;
     }
     addInput(){
         if(this._isGrounded == false && this._type == JointType.Revolute){
-            throw new Error("Input Joint must be Grounded or Prismatic");
+            throw new Error("Input Joints must be Grounded or Prismatic");
 
         } else{
             this._isInput = true;
@@ -122,18 +111,7 @@ export class Joint {
     }
 
     addWeld(){
-        if(this._isInput == true){
-            throw new Error("Cannot Weld Input Joint");
-
-        } else if (this._isGrounded == true){
-            throw new Error("Cannot Weld Grounded Joint");
-
-        } else if(this._type == JointType.Prismatic){
-            throw new Error("Cannot Weld Prismatic Joint");
-
-        } else{
             this._isWelded = true;
-        }
     }
 
     removeWeld(){
@@ -141,21 +119,13 @@ export class Joint {
     }
 
     addSlider(){
-        if(this._isGrounded == true){
-            throw new Error("Grounded Joints cannot be Prismatic");
+        this._isGrounded = false;
+        this._type = JointType.Prismatic;
 
-        }else if(this._isWelded == true){
-            throw new Error("Welded Joints cannot be Prismatic");
-
-        }else{
-            this._type = JointType.Prismatic;
-        }
     }
 
     removeSlider(){
-        if(this._isInput == true){
-            throw new Error("Input Joints cannot be Revolute unless Grounded");
-        }
+        this._isInput = false;
         this._type = JointType.Revolute;
     }
 
@@ -165,23 +135,12 @@ export class Joint {
 
     //----------------------------Joint Modification Querying----------------------------
     canAddGround(): boolean {
-        if(this._isWelded == true){
-            return false;
-
-        }else if(this._type == JointType.Prismatic){
-            return false;
-
-        }else{
-            return true;
-        }    
-    }
+        return true;
+    }   
+    
 
     canRemoveGround(): boolean {
-        if(this._isInput == true){
-            return false;
-        } else{
-            return true;
-        }
+        return true;
     }
 
     canAddInput(): boolean {
@@ -197,18 +156,7 @@ export class Joint {
     }
 
     canAddWeld(): boolean {
-        if(this._isInput == true){
-            return false;
-
-        } else if (this._isGrounded == true){
-            return false;
-
-        } else if(this._type == JointType.Prismatic){
-            return false;
-
-        } else{
-            return true;
-        }
+        return true;
     }
 
     canRemoveWeld(): boolean {
@@ -216,20 +164,9 @@ export class Joint {
     }
 
     canAddSlider(): boolean {
-        if(this._isGrounded == true){
-            return false;
-
-        }else if(this._isWelded == true){
-            return false;
-
-        }else{
-            return true;
-        }
+        return true;
     }
     canRemoveSlider(): boolean {
-        if(this._isInput == true){
-            return false;
-        }
         return true;
     }
     //----------------------------Joint Alteration Relative to other Joints----------------------------
@@ -245,7 +182,9 @@ export class Joint {
         this._coords = coord;
 
     }
-
+    addCoordinates(coord: Coord){
+        this._coords.add(coord);
+    }
 
 }
 

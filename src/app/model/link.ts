@@ -136,6 +136,16 @@ export class Link {
             return false;
         }
     }
+    containsJoints(joints: Joint[]): Joint[]{
+        let containedJoints: Joint[] = [];
+        for(let joint of joints){
+            if(this._joints.has(joint.id))
+                containedJoints.push(joint);
+        }
+
+
+        return containedJoints;
+    }
     containsForce(idORRef: number | Force):boolean{
         let id: number;
         if(typeof idORRef === 'number'){
@@ -149,5 +159,17 @@ export class Link {
             return false;
         }
     }
+    setCoordinates( joints: Map<number,Coord>,forces: Map<number,Coord[]>,coord: Coord){
+        for(const jointID of this._joints.keys()){
+            const joint = this._joints.get(jointID)!;
+            joint.setCoordinates(joints.get(jointID)!.add(coord));
+        }
+        for(const forceID of this._forces.keys()){
+            const force = this._forces.get(forceID)!;
+            force.setCoordinates(joints.get(forceID)!.add(coord));
+        }
+
+    }
+
 
 }

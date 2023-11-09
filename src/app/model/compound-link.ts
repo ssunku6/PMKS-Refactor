@@ -81,6 +81,74 @@ export class CompoundLink{
         return this._links.has(linkID);
     }
 
+    containsJoint(jointID: number): boolean {
+        for(let link of this._links.values()){
+            if(link.containsJoint(jointID)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private DepthFirstSearch(joint: Joint, sets: Map<Joint,Link[]>,compound: Link[],visited: Link[]){
+        for(const link of sets.get(joint)!){
+            if(!visited.includes(link)){
+                visited.push(link);
+                compound.push(link);
+                for(const [nextJoint,links] of sets){
+                    if(links.includes(link) && nextJoint !== joint)
+                        this.DepthFirstSearch(nextJoint,sets,compound,visited);
+                }
+            }
+        }
+    }
 
 
+
+
+
+    compoundLinkAfterRemoveWeld(joint: Joint, idCount: number): CompoundLink[]{
+        let replacementCompoundLinks: CompoundLink[] = [];
+        let count:number = idCount
+        //need to isolate welds, and their respective links in order to perform DFS and build all CompoundLinks
+        let weldedSets: Map<Joint,Link[]> = this.getAllWeldedSets()
+        weldedSets.delete(joint);
+        const visitedLinks: Link[] = [];
+        for(const [weldedJoint,links] of weldedSets){
+            const compound: Link[] = []; 
+            if(links.some(link => !visitedLinks.includes(link))){
+                this.DepthFirstSearch(weldedJoint,weldedSets,compound, visitedLinks);
+                replacementCompoundLinks.push(new CompoundLink(count,compound));
+                count++;
+            }
+        }
+        return replacementCompoundLinks;
+    }
+
+    private getConnectedLinksForJoint(joint: Joint): Link[]{
+        let connectedLinks: Link[] = [];
+        for(let link of this._links.values()){
+            if(link.containsJoint(joint.id)){
+                connectedLinks.push(link);
+            }}
+            return connectedLinks;
+        }
+
+    
+    private getAllWeldedSets(): Map<Joint,Link[]>{
+        let sets: Map<Joint, Link[]> = new Map();
+        for(let link of this._links.values()){
+            for(let joint of link.joints.values()){
+                if(sets.has(joint)){
+                    let links: Link[] = sets.get(joint)!
+                    links.push(link)
+                    sets.set(joint, links);
+                }else{
+                    let links: Link[] = [link];
+                    sets.set(joint, links);
+                }
+            }
+        }
+        return sets;
+    }
 }

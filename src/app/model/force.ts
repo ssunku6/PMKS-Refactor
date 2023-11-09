@@ -106,5 +106,13 @@ export class Force {
     setYComp(newYComp: number){
 
     }
+    addCoordinates(coord: Coord){
+        this._start.add(coord);
+        this._end.add(coord);
+    }
+    setCoordinates(coord: Coord){
+        this._start = coord;
+        this._end = coord;
+    }
 
 }

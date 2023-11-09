@@ -2,8 +2,8 @@ import { Subject } from "rxjs";
 import { Coord } from "../model/coord";
 
 /*
-You should subclass Interactor to create Interactors specific to your interactive components, like nodes
-and edges. Your subclass will define how the model should be modified when events like
+You should subclass Interactor to create Interactors specific to your interactive components, like joints
+and links. Your subclass will define how the model should be modified when events like
 selection and dragging occur.
 
 You can override hooks like handleSelect and handleDrag to define how they will update model state.
