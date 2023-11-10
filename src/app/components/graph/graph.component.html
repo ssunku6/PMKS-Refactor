@@ -1,11 +1,22 @@
-<!-- Draw new node line if in new node click capture mode -->
-<ng-container *ngIf="isDrawNewNodeLine()">
-    <svg:g app-new-node-line [start]="getNewNodeLineStart()" [end]="getNewNodeLineEnd()" />
+
+<!-- Iterate through joints,links,compoundlinks, and forces and display them in the template. Draw links then joints-->
+<ng-container *ngFor="let link of getLinks()">
+    <svg:g app-link [link]="link" />
 </ng-container>
-<!-- Iterate through nodes and edges and display them in the template. Draw edges then nodes-->
-<ng-container *ngFor="let edge of getEdges()">
-    <svg:g app-edge [edge]="edge" />
+<!--
+<ng-container *ngFor="let compoundLink of getCompoundLinks()">
+    <svg:g app-compound-link [compoundLink]="compoundLink" />
 </ng-container>
-<ng-container *ngFor="let node of getNodes()">
-    <svg:g app-node [node]="node" />
+
+<ng-container *ngFor="let force of getForces()">
+    <svg:g app-force [force]="force" />
 </ng-container>
+-->
+<ng-container *ngFor="let joint of getJoints()">
+    <svg:g app-joint [joint]="joint" />
+</ng-container>
+<!-- Draw new line if in new component click capture mode -->
+<ng-container *ngIf="isCreatingComponent()">
+    <svg:g app-create-new-comp-line [start]="getNewCompLineStart()" [end]="getNewCompLineEnd()" />
+</ng-container>
+

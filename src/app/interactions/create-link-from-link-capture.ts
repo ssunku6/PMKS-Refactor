@@ -10,7 +10,7 @@ export class CreateLinkFromLinkCapture extends ClickCapture {
     private hoveringLink?: Link;
 
     constructor(private parentLink: Link, private startPos: Coord, private interactionService: InteractionService) {
-        super(ClickCaptureID.CREATE_LINK);
+        super(ClickCaptureID.CREATE_LINK_FROM_LINK);
 
 
         // on mouse move, if hovering over a Link, store it

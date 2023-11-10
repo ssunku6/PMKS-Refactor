@@ -125,21 +125,12 @@ export class CompoundLink{
         return replacementCompoundLinks;
     }
 
-    private getConnectedLinksForJoint(joint: Joint): Link[]{
-        let connectedLinks: Link[] = [];
-        for(let link of this._links.values()){
-            if(link.containsJoint(joint.id)){
-                connectedLinks.push(link);
-            }}
-            return connectedLinks;
-        }
-
     
     private getAllWeldedSets(): Map<Joint,Link[]>{
         let sets: Map<Joint, Link[]> = new Map();
         for(let link of this._links.values()){
             for(let joint of link.joints.values()){
-                if(sets.has(joint)){
+                if( joint.isWelded && sets.has(joint)){
                     let links: Link[] = sets.get(joint)!
                     links.push(link)
                     sets.set(joint, links);

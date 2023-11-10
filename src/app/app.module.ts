@@ -7,11 +7,15 @@ import { MatMenuModule } from '@angular/material/menu';
 
 
 /* Component Imports */
+import { InteractionDirective } from './directives/interaction-directive';
 import { AppComponent } from './app.component';
 import { AbstractInteractiveComponent } from './components/abstract-interactive/abstract-interactive.component';
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 import { SvgComponent } from './components/svg/svg.component';
-import { InteractionDirective } from './directives/interaction-directive';
+import { CreateNewCompLineComponent } from './components/create-new-comp-line/create-new-comp-line.component';
+import { GraphComponent } from './components/graph/graph.component';
+import { JointComponent } from './components/joint/joint.component';
+import { LinkComponent } from './components/link/link.component';
 
 
 @NgModule({
@@ -20,6 +24,10 @@ import { InteractionDirective } from './directives/interaction-directive';
     AppComponent,
     ContextMenuComponent,
     SvgComponent,
+    GraphComponent,
+    JointComponent,
+    LinkComponent,
+    CreateNewCompLineComponent,
     
   ],
   imports: [

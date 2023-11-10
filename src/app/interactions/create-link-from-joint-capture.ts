@@ -10,7 +10,7 @@ export class CreateLinkFromJointCapture extends ClickCapture {
     private hoveringJoint?: Joint;
 
     constructor(private parentJoint: Joint, private interactionService: InteractionService) {
-        super(ClickCaptureID.CREATE_LINK);
+        super(ClickCaptureID.CREATE_LINK_FROM_JOINT);
 
 
         // on mouse move, if hovering over a Joint, store it
@@ -24,10 +24,11 @@ export class CreateLinkFromJointCapture extends ClickCapture {
         });
 
     }
-    public getJointPosition(): Coord {
+    public getStartPos(): Coord {
         return this.parentJoint.coords;
     }
     public getHoveringJoint(): Joint | undefined {
         return this.hoveringJoint;
     }
+    
 }

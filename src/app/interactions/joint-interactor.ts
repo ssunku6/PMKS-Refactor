@@ -110,7 +110,7 @@ export class JointInteractor extends Interactor {
             if(this.joint.isWelded){
                 availableContext.push(
                     {
-                        label: "Weld Ground",
+                        label: "Remove Weld",
                         action: () => {mechanism.removeWeld(this.joint.id)},
                         disabled: !mechanism.canRemoveWeld(this.joint)
                     });

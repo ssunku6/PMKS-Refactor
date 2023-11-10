@@ -1,0 +1,21 @@
+<svg:g appInteractable [interaction]="getInteractor()">
+
+    <svg:circle 
+        [attr.cx]="getX()"
+        [attr.cy]="getY()"
+        [attr.r]="getRadius()"
+        [attr.fill]="getColor()"
+        stroke="black"
+        [attr.stroke-width]="getStrokeWidth()"
+    />
+
+    <!-- Joint name -->
+    <svg:text class = "joint-name"
+        [attr.x]="getX()" 
+        [attr.y]="getY()" 
+        alignment-baseline="middle" 
+        text-anchor="middle">
+        {{this.joint.name}}
+    </svg:text>
+
+</svg:g>

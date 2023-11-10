@@ -41,6 +41,7 @@ export class Mechanism {
         let linkA = new Link(this._idCount, [jointA,jointB]);
         this._idCount++;
         this._links.set(linkA.id, linkA);
+        console.log(this);
     }
 
     //----------------------------JOINT CONTEXT MENU ACTIONS----------------------------
@@ -75,6 +76,7 @@ export class Mechanism {
         try {
             action(joint);
             console.log(`Joint with ID ${jointID} ${successMsg}`);
+            console.log(this);
             return true;
         } catch (error: any) {
             console.error(`An error occurred when trying to ${errorMsg} joint ${jointID}: ${error.message}`);
@@ -331,7 +333,7 @@ export class Mechanism {
             return;
         }
         this.executeJointAction(jointIDtoChange, (joint) => true, 'error','success', (joint) =>{joint.setDistancetoJoint(newDistance, jointB);});
-        
+        console.log(this);
     }
     /**
      * Given two joints and a desired angle between them, rotates the first joint around the second(mantaining same distance) until the desired angle is reached. 
@@ -347,7 +349,8 @@ export class Mechanism {
             console.error(`Joint with ID ${jointIDReference} does not exist`);;
             return;
         }
-        this.executeJointAction(jointIDtoChange, (joint) => true, 'error','success', (joint) =>{joint.setDistancetoJoint(newAngle, jointB);});
+        this.executeJointAction(jointIDtoChange, (joint) => true, 'error','success', 
+        (joint) =>{joint.setDistancetoJoint(newAngle, jointB);});
     }
 
 
@@ -372,6 +375,7 @@ export class Mechanism {
             return;
         }
         action(link);
+        console.log(this);
     }
     
     /**
@@ -553,6 +557,7 @@ export class Mechanism {
             return;
         }
         action(force);
+        console.log(this);
     }
 
     /**
@@ -673,6 +678,28 @@ export class Mechanism {
             }
         }
         return (numberOfConnectedLinks - duplicates) + numberOfConnectedCompoundLinks;
+    }
+    //----------------------------GET FUNCTIONS FOR DRAWING----------------------------
+    getJoints(): IterableIterator<Joint>{
+        return this._joints.values();
+    }
+    getIndependentLinks(): IterableIterator<Link>{
+        let allLinks: Map<number,Link> = new Map();
+        for(let [id,link] of this._links){
+            allLinks.set(id,link);
+        }
+        for(let compound of this._compoundLinks.values()){
+            for(let linkID of compound.links.keys()){
+                allLinks.delete(linkID);
+            }
+        }
+        return allLinks.values();
+    }
+    getCompoundLinks(): IterableIterator<CompoundLink>{
+        return this._compoundLinks.values();
+    }
+    getForces(): IterableIterator<Force>{
+        return this._forces.values();
     }
 
 }

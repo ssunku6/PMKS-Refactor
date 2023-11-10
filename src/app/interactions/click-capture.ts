@@ -9,14 +9,18 @@ import { Subject } from "rxjs";
 import { Coord } from "../model/coord";
 
 export enum ClickCaptureID {
-    CREATE_LINK,
-    CREATE_FORCE
+    CREATE_LINK_FROM_GRID,
+    CREATE_FORCE_FROM_LINK,
+    CREATE_LINK_FROM_JOINT,
+    CREATE_LINK_FROM_LINK
 }
 
-export class ClickCapture {
+export abstract class ClickCapture {
     
     onClick$ = new Subject<Coord>();
     onMouseMove$ = new Subject<Coord>();
 
     constructor(public id: ClickCaptureID) {}
+
+    abstract getStartPos():Coord
 }
