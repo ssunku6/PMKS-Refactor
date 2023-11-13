@@ -16,6 +16,7 @@ import { CreateNewCompLineComponent } from './components/create-new-comp-line/cr
 import { GraphComponent } from './components/graph/graph.component';
 import { JointComponent } from './components/joint/joint.component';
 import { LinkComponent } from './components/link/link.component';
+import { CompoundLinkComponent } from './components/compound-link/compound-link.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { LinkComponent } from './components/link/link.component';
     GraphComponent,
     JointComponent,
     LinkComponent,
+    CompoundLinkComponent,
     CreateNewCompLineComponent,
     
   ],

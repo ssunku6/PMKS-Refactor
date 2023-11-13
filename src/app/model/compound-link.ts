@@ -90,20 +90,6 @@ export class CompoundLink{
         return false;
     }
 
-    private DepthFirstSearch(joint: Joint, sets: Map<Joint,Link[]>,compound: Link[],visited: Link[]){
-        for(const link of sets.get(joint)!){
-            if(!visited.includes(link)){
-                visited.push(link);
-                compound.push(link);
-                for(const [nextJoint,links] of sets){
-                    if(links.includes(link) && nextJoint !== joint)
-                        this.DepthFirstSearch(nextJoint,sets,compound,visited);
-                }
-            }
-        }
-    }
-
-
 
 
 
@@ -112,6 +98,7 @@ export class CompoundLink{
         let count:number = idCount
         //need to isolate welds, and their respective links in order to perform DFS and build all CompoundLinks
         let weldedSets: Map<Joint,Link[]> = this.getAllWeldedSets()
+        console.log(weldedSets);
         weldedSets.delete(joint);
         const visitedLinks: Link[] = [];
         for(const [weldedJoint,links] of weldedSets){
@@ -125,7 +112,6 @@ export class CompoundLink{
         return replacementCompoundLinks;
     }
 
-    
     private getAllWeldedSets(): Map<Joint,Link[]>{
         let sets: Map<Joint, Link[]> = new Map();
         for(let link of this._links.values()){
@@ -134,7 +120,7 @@ export class CompoundLink{
                     let links: Link[] = sets.get(joint)!
                     links.push(link)
                     sets.set(joint, links);
-                }else{
+                }else if(joint.isWelded){
                     let links: Link[] = [link];
                     sets.set(joint, links);
                 }
@@ -142,4 +128,20 @@ export class CompoundLink{
         }
         return sets;
     }
+
+    private DepthFirstSearch(joint: Joint, sets: Map<Joint,Link[]>,compound: Link[],visited: Link[]){
+        for(const link of sets.get(joint)!){
+            if(!visited.includes(link)){
+                visited.push(link);
+                compound.push(link);
+                for(const [nextJoint,links] of sets){
+                    if(links.includes(link) && nextJoint !== joint)
+                        this.DepthFirstSearch(nextJoint,sets,compound,visited);
+                }
+            }
+        }
+    }
+
+    
+   
 }

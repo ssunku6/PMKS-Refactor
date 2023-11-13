@@ -8,18 +8,16 @@ export class SVGPathService {
 
   constructor() {}
 
-  getSingleLinkDrawnPath(joints: IterableIterator<Joint>, radius: number): string{
+  getSingleLinkDrawnPath(jointsInLink: IterableIterator<Joint>, radius: number): string{
     //get all coordinates within the link.
     let allCoords: Coord[] = [];
-    for(let joint of joints){
+    for(let joint of jointsInLink){
       allCoords.push(joint._coords);
     }
-
     //check if coordinates are collinear. If they are, use the two returned coords(the end points) to draw a line
     let collinearCoords: Coord[] | undefined = this.findCollinearCoords(allCoords);
     if(collinearCoords !== undefined){
       //build path string between two coords
-
       return this.calculateTwoPointPath(collinearCoords[0],collinearCoords[1],radius)
     }
     //If not collinear, use grahamScan to determine hull Points
@@ -28,6 +26,9 @@ export class SVGPathService {
     return this.calculateConvexPath(hullCoords,radius);
   }
 
+
+
+  
   private findCollinearCoords(coords: Coord[]): Coord[] | undefined {
     // Check if there are at least two coords to form a line
     if (coords.length < 2) {
@@ -118,9 +119,9 @@ calculateTwoPointPath(coord1: Coord, coord2: Coord, r: number): string {
   // Create the rounded line path
   let pathData = `M ${rectPoints[0].x},${rectPoints[0].y} `; // Move to the first point
   pathData += `L ${rectPoints[1].x},${rectPoints[1].y} `; // Line from first to second Point
-  pathData += `A ${r},${r} 0 0 ${rotation} ${rectPoints[2].x},${rectPoints[2].y} `; // Arc from Second to Third Point
+  pathData += `A ${r},${r} 0 0 1 ${rectPoints[2].x},${rectPoints[2].y} `; // Arc from Second to Third Point
   pathData += `L ${rectPoints[3].x},${rectPoints[3].y} `; // Line From Third to Fourth Point
-  pathData += `A ${r},${r} 0 0 ${rotation} ${rectPoints[0].x},${rectPoints[0].y} `; // Arc from Fourth to First Point
+  pathData += `A ${r},${r} 0 0 1 ${rectPoints[0].x},${rectPoints[0].y} `; // Arc from Fourth to First Point
   pathData += 'Z'; // Close the path
   return pathData;
 }
@@ -130,7 +131,7 @@ calculateTwoPointPath(coord1: Coord, coord2: Coord, r: number): string {
 	return (coord2.x-coord1.x < 0) !== (coord2.y-coord1.y < 0) ? 0 : 1;
  }
 
-// Function to calculate the perpendicular direction vector between two points
+// Function to calculate the correct perpendicular direction vector between two points
 perpendicularDirection(c1: Coord, c2: Coord): Coord {
   const dir: Coord = this.direction(c1,c2);
   let xStatus = (dir.x > 0) ? 'pos' : (dir.x < 0) ? 'neg' : 'zero';
@@ -139,32 +140,26 @@ perpendicularDirection(c1: Coord, c2: Coord): Coord {
   let pointAtRadiusPerpToDir = new Coord(0,0)
   switch (caseKey) {
     case 'pos_pos':
-      // Both x and y are positive
       pointAtRadiusPerpToDir.x = dir.y; 
       pointAtRadiusPerpToDir.y = -dir.x;
       break;
     case 'pos_neg':
-      // x is positive, y is negative
-      pointAtRadiusPerpToDir.x = -dir.y; 
-      pointAtRadiusPerpToDir.y = dir.x; 
+      pointAtRadiusPerpToDir.x = dir.y; 
+      pointAtRadiusPerpToDir.y = -dir.x; 
       break;
     case 'pos_zero':
-      // x is positive, y is zero
       pointAtRadiusPerpToDir.x =  dir.y; 
       pointAtRadiusPerpToDir.y =  -dir.x; 
       break;
     case 'neg_pos':
-      // x is negative, y is positive
-      pointAtRadiusPerpToDir.x = -dir.y; 
-      pointAtRadiusPerpToDir.y = dir.x; 
+      pointAtRadiusPerpToDir.x = dir.y; 
+      pointAtRadiusPerpToDir.y = -dir.x; 
       break;
     case 'neg_neg':
-      // Both x and y are negative
       pointAtRadiusPerpToDir.x = dir.y; 
       pointAtRadiusPerpToDir.y = -dir.x; 
       break;
     case 'neg_zero':
-      // x is negative, y is zero
       pointAtRadiusPerpToDir.x = dir.y; 
       pointAtRadiusPerpToDir.y = -dir.x; 
       break;
@@ -209,7 +204,7 @@ calculateConvexPath(hullPoints: Coord[], r: number): string {
     //Determine Arc Direction
     let rotation:number =this.arcDirection(c1,c2); 
     pathData += `L ${c1.x + dirFirstToSecond.x * r},${c1.y + dirFirstToSecond.y * r} `; // Line from first joint to second joint
-    pathData += `A ${r},${r} 0 0 ${rotation} ${c1.x+ dirSecondToThird.x * r},${c1.y + dirSecondToThird.y * r}`; // Arc around second joint
+    pathData += `A ${r},${r} 0 0 1 ${c1.x+ dirSecondToThird.x * r},${c1.y + dirSecondToThird.y * r}`; // Arc around second joint
     }
     // Close the path
     pathData += ' Z';
@@ -221,4 +216,29 @@ calculateConvexPath(hullPoints: Coord[], r: number): string {
     const len = Math.sqrt((to.x - from.x) ** 2 + (to.y - from.y) ** 2);
     return new Coord((to.x - from.x) / len,  (to.y - from.y) / len);
   }
+
+  getCompoundLinkSVG(): string{
+
+    return `M -23.990810072495584 -1.933483386669705
+    L -16.18881007249559 -5.413483386669704 
+    A 0.79 0.79 0 0 1 -15.753545519898248 -5.473810770547989 
+    L -5.579746519898246 -3.9974137705479897 
+    A 0.7900000000000003 0.7900000000000003 0 0 1 -5.0365068081033435 -2.7764529819774593 
+    L -10.571305808103343 5.500150018022541 
+    A 0.7900000000000009 0.7900000000000009 0 0 1 -11.58367812746902 5.766402771216653 
+    L -24.02467812746902 -0.5065972287833476 
+    A 0.7900000000000006 0.7900000000000006 0 0 1 -23.990810072495584 -1.933483386669705 
+    Z 
+    M -8.802704933366957 0.01311865440536808 
+    A -1.9932415736006166 -1.9932415736006166 0 0 0 -10.17334794346875 -3.0674760335882683 
+    L -12.963718268305922 -3.472407797669574 
+    A -9.738183549820624 -9.738183549820624 0 0 0 -18.32914371884194 -2.728763320090794 
+    L -20.07839369528862 -1.9485287753542584 
+    A -0.9094211355174809 -0.9094211355174809 0 0 0 -20.117381448467995 -0.3059459526211141 
+    L -13.659576964856683 2.9502076946495057 
+    A -2.739085769790664 -2.739085769790664 0 0 0 -10.149482517129485 2.027056900419664 
+    L -8.802704933366957 0.01311865440536808 
+    Z`;
+  }
+
 }
