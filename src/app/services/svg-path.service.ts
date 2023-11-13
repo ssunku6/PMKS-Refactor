@@ -18,7 +18,7 @@ export class SVGPathService {
     let collinearCoords: Coord[] | undefined = this.findCollinearCoords(allCoords);
     if(collinearCoords !== undefined){
       //build path string between two coords
-      return this.calculateTwoPointPath(collinearCoords[0],collinearCoords[1],radius)
+      return this.calculateTwoPointPath(collinearCoords[0],collinearCoords[1],radius);
     }
     //If not collinear, use grahamScan to determine hull Points
     //(The points which make up a convex polygon containing the least number of "joints" in drawing order)
@@ -26,15 +26,11 @@ export class SVGPathService {
     return this.calculateConvexPath(hullCoords,radius);
   }
 
-
-
-  
   private findCollinearCoords(coords: Coord[]): Coord[] | undefined {
     // Check if there are at least two coords to form a line
     if (coords.length < 2) {
       return undefined;
     }
-  
     // Sort coords by x, then by y to find the "end coords"
     const sortedcoords = coords.slice().sort((a, b) => a.x - b.x || a.y - b.y);
     const start = sortedcoords[0];
@@ -57,12 +53,6 @@ export class SVGPathService {
     // If all coords have the same slope with the 'start' point, they are collinear
     return [start, end];
   }
-
-
-
-
-
-
   grahamScan(coords: Coord[]): Coord[] {
     // Find the point with the lowest y-coordinate, break ties by lowest x-coordinate
     let startPoint = coords[0];
@@ -106,26 +96,15 @@ calculateTwoPointPath(coord1: Coord, coord2: Coord, r: number): string {
   // Calculate perpendicular direction vectors for the line
   const dirFirstToSecond = this.perpendicularDirection(coord1, coord2);
   const dirSecondToFirst = this.perpendicularDirection(coord2, coord1);
-  // Calculate the four points that form the rectangle
-  const rectPoints = [
-    { x: coord1.x + dirFirstToSecond.x * r, y: coord1.y + dirFirstToSecond.y * r },
-    { x: coord2.x + dirFirstToSecond.x * r, y: coord2.y + dirFirstToSecond.y * r },
-    { x: coord2.x + dirSecondToFirst.x * r, y: coord2.y + dirSecondToFirst.y * r },
-    { x: coord1.x + dirSecondToFirst.x * r, y: coord1.y + dirSecondToFirst.y * r },
-  ];
-  //Determine Arc Direction
-  let rotation:number =this.arcDirection(coord1,coord2); 
-
   // Create the rounded line path
-  let pathData = `M ${rectPoints[0].x},${rectPoints[0].y} `; // Move to the first point
-  pathData += `L ${rectPoints[1].x},${rectPoints[1].y} `; // Line from first to second Point
-  pathData += `A ${r},${r} 0 0 1 ${rectPoints[2].x},${rectPoints[2].y} `; // Arc from Second to Third Point
-  pathData += `L ${rectPoints[3].x},${rectPoints[3].y} `; // Line From Third to Fourth Point
-  pathData += `A ${r},${r} 0 0 1 ${rectPoints[0].x},${rectPoints[0].y} `; // Arc from Fourth to First Point
+  let pathData = `M ${coord1.x + dirFirstToSecond.x * r},${coord1.y + dirFirstToSecond.y * r} `; // Move to the first point
+  pathData += `L ${coord2.x + dirFirstToSecond.x * r},${coord2.y + dirFirstToSecond.y * r} `; // Line from first to second Point
+  pathData += `A ${r},${r} 0 0 1 ${coord2.x + dirSecondToFirst.x * r},${coord2.y + dirSecondToFirst.y * r} `; // Arc from Second to Third Point
+  pathData += `L ${coord1.x + dirSecondToFirst.x * r},${coord1.y + dirSecondToFirst.y * r} `; // Line From Third to Fourth Point
+  pathData += `A ${r},${r} 0 0 1 ${coord1.x + dirFirstToSecond.x * r},${coord1.y + dirFirstToSecond.y * r} `; // Arc from Fourth to First Point
   pathData += 'Z'; // Close the path
   return pathData;
 }
-
 //performs a XOR on the direction of the path between two coordinates
  arcDirection(coord1: Coord, coord2: Coord): number{
 	return (coord2.x-coord1.x < 0) !== (coord2.y-coord1.y < 0) ? 0 : 1;
@@ -137,52 +116,9 @@ perpendicularDirection(c1: Coord, c2: Coord): Coord {
   let xStatus = (dir.x > 0) ? 'pos' : (dir.x < 0) ? 'neg' : 'zero';
   let yStatus = (dir.y > 0) ? 'pos' : (dir.y < 0) ? 'neg' : 'zero';
   const caseKey = `${xStatus}_${yStatus}`;
-  let pointAtRadiusPerpToDir = new Coord(0,0)
-  switch (caseKey) {
-    case 'pos_pos':
-      pointAtRadiusPerpToDir.x = dir.y; 
-      pointAtRadiusPerpToDir.y = -dir.x;
-      break;
-    case 'pos_neg':
-      pointAtRadiusPerpToDir.x = dir.y; 
-      pointAtRadiusPerpToDir.y = -dir.x; 
-      break;
-    case 'pos_zero':
-      pointAtRadiusPerpToDir.x =  dir.y; 
-      pointAtRadiusPerpToDir.y =  -dir.x; 
-      break;
-    case 'neg_pos':
-      pointAtRadiusPerpToDir.x = dir.y; 
-      pointAtRadiusPerpToDir.y = -dir.x; 
-      break;
-    case 'neg_neg':
-      pointAtRadiusPerpToDir.x = dir.y; 
-      pointAtRadiusPerpToDir.y = -dir.x; 
-      break;
-    case 'neg_zero':
-      pointAtRadiusPerpToDir.x = dir.y; 
-      pointAtRadiusPerpToDir.y = -dir.x; 
-      break;
-    case 'zero_pos':
-      // x is zero, y is positive
-      pointAtRadiusPerpToDir.x = dir.y; 
-      pointAtRadiusPerpToDir.y = -dir.x; 
-      break;
-    case 'zero_neg':
-      // x is zero, y is negative
-      pointAtRadiusPerpToDir.x =  dir.y;
-      pointAtRadiusPerpToDir.y = -dir.x;
-      break;
-    case 'zero_zero':
-      // Both x and y are zero
-      break;
-    default:
-      // This should never be reached if all cases are covered
-      throw new Error('Unhandled case');
-  }
+  let pointAtRadiusPerpToDir = new Coord(dir.y,-dir.x)
   return pointAtRadiusPerpToDir;
 }
-
 calculateConvexPath(hullPoints: Coord[], r: number): string {
     if (hullPoints.length < 3) {
       throw new Error('At least three points are required to create a path with rounded corners.');
@@ -198,11 +134,9 @@ calculateConvexPath(hullPoints: Coord[], r: number): string {
     const c0 = hullPoints[i];
     const c1 = hullPoints[(i + 1) % hullPoints.length]
     const c2 = hullPoints[(i + 2) % hullPoints.length]
-    //get the correct Perpenndicular Direction for the Path
+    //get the correct Perpendicular Direction for the Path
     const dirFirstToSecond = this.perpendicularDirection(c0, c1);
     const dirSecondToThird = this.perpendicularDirection(c1, c2);
-    //Determine Arc Direction
-    let rotation:number =this.arcDirection(c1,c2); 
     pathData += `L ${c1.x + dirFirstToSecond.x * r},${c1.y + dirFirstToSecond.y * r} `; // Line from first joint to second joint
     pathData += `A ${r},${r} 0 0 1 ${c1.x+ dirSecondToThird.x * r},${c1.y + dirSecondToThird.y * r}`; // Arc around second joint
     }
@@ -210,7 +144,6 @@ calculateConvexPath(hullPoints: Coord[], r: number): string {
     pathData += ' Z';
     return pathData;
   }
-
   // Function to calculate the direction vector between two points
   direction(from: Coord, to: Coord) {
     const len = Math.sqrt((to.x - from.x) ** 2 + (to.y - from.y) ** 2);
