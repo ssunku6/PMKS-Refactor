@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/pmks",
+            "outputPath": "dist/pmks/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -81,6 +81,7 @@
               "zone.js",
               "zone.js/testing"
             ],
+            "karmaConfig": "karma.conf.js",
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               "src/favicon.ico",
