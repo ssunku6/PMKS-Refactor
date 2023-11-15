@@ -32,7 +32,7 @@ export class SvgComponent extends AbstractInteractiveComponent {
       this.panZoomService._onWindowResize(event);
   }
   override registerInteractor(): Interactor {
-    let interactor = new SvgInteractor(this.stateService,this.interactionService, this.panZoomService, this.unitConversionService);
+    let interactor = new SvgInteractor(this.stateService,this.interactionService, this.panZoomService);
 
     interactor.onKeyDown$.subscribe((event) => {
       if (event.key === "s") {

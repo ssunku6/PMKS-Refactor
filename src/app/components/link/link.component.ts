@@ -29,7 +29,7 @@ export class LinkComponent extends AbstractInteractiveComponent {
   }
 
   override registerInteractor(): Interactor {
-    return new LinkInteractor(this.link, this.stateService, this.interactionService, this.unitConversionService);
+    return new LinkInteractor(this.link, this.stateService, this.interactionService);
   }
 
   getColor():string{

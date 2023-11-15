@@ -5,6 +5,7 @@ import { ContextMenuService } from './context-menu.service';
 import { ClickCapture, ClickCaptureID } from '../interactions/click-capture';
 import { Subject } from 'rxjs';
 import { SvgInteractor } from '../interactions/svg-interactor';
+import { UnitConversionService } from './unit-conversion.service';
 
 /*
 This service keeps track of global state for the interaction system, such as which
@@ -36,7 +37,7 @@ export class InteractionService {
 
     private clickCapture: ClickCapture | undefined;
 
-    constructor(private contextMenuService: ContextMenuService) { }
+    constructor(private contextMenuService: ContextMenuService, private unitConversionService: UnitConversionService) { }
 
 
     // select the object and deselect all others
@@ -67,7 +68,7 @@ export class InteractionService {
     // select the object and unselect all others
     public _onMouseDown(object: Interactor, event: MouseEvent): void {
 
-        this.mousePos = new Coord(event.clientX, event.clientY);
+        this.mousePos = this.unitConversionService.mouseCoordToModelCoord(new Coord(event.clientX, event.clientY));
 
         this.mouseMovedAfterDown = false;
 
@@ -102,7 +103,7 @@ export class InteractionService {
 
     public _onMouseRightClick(object: Interactor, event: MouseEvent): void {
 
-        this.mousePos = new Coord(event.clientX, event.clientY);
+        this.mousePos = this.unitConversionService.mouseCoordToModelCoord(new Coord(event.clientX, event.clientY));
         this.mouseMovedAfterDown = false;
 
         event.preventDefault(); // prevent context menu from appearing
@@ -128,7 +129,7 @@ export class InteractionService {
 
     public _onMouseUp(object: Interactor, event: MouseEvent): void {
 
-        this.mousePos = new Coord(event.clientX, event.clientY);
+        this.mousePos = this.unitConversionService.mouseCoordToModelCoord(new Coord(event.clientX, event.clientY));
         event.stopPropagation(); // don't let parent components handle this event
 
         // if it was a click, deselect objects that were not clicked on
@@ -169,7 +170,7 @@ export class InteractionService {
     // if mouse is down, then drag the selected objects
     public _onMouseMove(object: Interactor, event: MouseEvent): void {
 
-        this.mousePos = new Coord(event.clientX, event.clientY);
+        this.mousePos = this.unitConversionService.mouseCoordToModelCoord(new Coord(event.clientX, event.clientY));
         this.mouseMovedAfterDown = true;
 
         this.hoveringObject = object;

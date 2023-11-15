@@ -25,7 +25,7 @@ export class JointComponent extends AbstractInteractiveComponent {
   }
 
   override registerInteractor(): Interactor {
-    return new JointInteractor(this.joint, this.stateService, this.interactionService, this.unitConversionService);
+    return new JointInteractor(this.joint, this.stateService, this.interactionService);
   }
 
   public getX(): number {

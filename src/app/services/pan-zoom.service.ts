@@ -19,7 +19,6 @@ constructor(private stateService: StateService, private unitConversionService: U
 public _onMouseScrollWheel(event: WheelEvent){
     event.stopPropagation();
     let panZoomValues = this.stateService.getPanZoom();
-    console.log("scrolling");
 
     let zoomDirection: number = event.deltaY;
     let zoomLeftFraction: number = event.offsetX / panZoomValues.windowWidth;
@@ -63,7 +62,6 @@ public _onWindowResize(event: UIEvent){
     panZoomValues.scaledViewBoxWidth = panZoomValues.windowWidth * panZoomValues.currentScale;
     panZoomValues.scaledViewBoxHeight = panZoomValues.windowHeight * panZoomValues.currentScale;
     this.stateService.setPanZoom(panZoomValues);
-    console.log("resizing");
 }
 
 

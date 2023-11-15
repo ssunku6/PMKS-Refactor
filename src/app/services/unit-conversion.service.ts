@@ -30,10 +30,10 @@ export class UnitConversionService{
         let convertedY: number = panZoomValues.scaledViewBoxY + mouseCoord.y * panZoomValues.currentScale;
         return new Coord(convertedX,convertedY);
     }
-    public modelCoordToSVGCoord(modelCoord: Coord): Coord {
+    public modelCoordToMouseCoord(modelCoord: Coord): Coord {
         let panZoomValues = this.stateservice.getPanZoom();
-        let convertedX: number = panZoomValues.scaledViewBoxX + modelCoord.x / panZoomValues.currentScale;
-        let convertedY: number = panZoomValues.scaledViewBoxX + modelCoord.y / panZoomValues.currentScale;
+        let convertedX: number = (modelCoord.x / panZoomValues.currentScale) - panZoomValues.scaledViewBoxX;
+        let convertedY: number = (modelCoord.y / panZoomValues.currentScale) - panZoomValues.scaledViewBoxY;
         return modelCoord;
     }
 

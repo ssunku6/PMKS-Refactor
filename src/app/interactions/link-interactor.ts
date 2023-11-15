@@ -7,7 +7,6 @@ import { ClickCapture, ClickCaptureID } from "./click-capture";
 import { CreateLinkFromLinkCapture } from "./create-link-from-link-capture";
 import { CreateForceFromLinkCapture } from "./create-force-from-link-capture";
 import { ContextMenuOption, Interactor } from "./interactor";
-import { UnitConversionService } from "../services/unit-conversion.service";
 
 /*
 This interactor defines the following behaviors:
@@ -18,16 +17,14 @@ export class LinkInteractor extends Interactor {
 
 
     constructor(public link: Link, private stateService: StateService,
-        private interactionService: InteractionService, 
-        private unitConversionService: UnitConversionService) {
+        private interactionService: InteractionService) {
         super(true, true);
 
         this.onDragStart$.subscribe((event) => {
 
         });
         this.onDrag$.subscribe((event) => {
-            let convertedOffset: Coord = this.unitConversionService.mouseDeltaToModelDelta(this.dragOffset!);
-            this.link.setCoordinates(convertedOffset);
+            this.link.setCoordinates(this.dragOffsetInSVG!);
         });
         this.onDragEnd$.subscribe((event) => {
         });
@@ -51,7 +48,7 @@ export class LinkInteractor extends Interactor {
 
         let availableContext: ContextMenuOption[] = [];
         const mechanism: Mechanism = this.stateService.getMechanism();
-        let convertedMousePosAtRightClick = this.unitConversionService.mouseCoordToModelCoord(this.getMousePos());
+        let convertedMousePosAtRightClick = this.getMousePos();
         availableContext.push(
             {
                 label: "Attach Link",
@@ -82,16 +79,14 @@ export class LinkInteractor extends Interactor {
     private enterAddLinkCaptureMode(convertedMousePosAtRightClick: Coord): void {
         const capture = new CreateLinkFromLinkCapture(this.link, convertedMousePosAtRightClick, this.interactionService);
         capture.onClick$.subscribe((mousePos) => {
-            let convertedMousePos = this.unitConversionService.mouseCoordToModelCoord(mousePos);
-            this.stateService.getMechanism().addLinkToLink(this.link.id,convertedMousePosAtRightClick, convertedMousePos);
+            this.stateService.getMechanism().addLinkToLink(this.link.id,convertedMousePosAtRightClick, mousePos);
         });
         this.interactionService.enterClickCapture(capture);
     }
     private enterAddForceCaptureMode(convertedMousePosAtRightClick: Coord): void {
         const capture = new CreateForceFromLinkCapture(this.link, convertedMousePosAtRightClick, this.interactionService);
         capture.onClick$.subscribe((mousePos) => {
-            let convertedMousePos = this.unitConversionService.mouseCoordToModelCoord(mousePos);
-            this.stateService.getMechanism().addForceToLink(this.link.id,convertedMousePosAtRightClick, convertedMousePos);
+            this.stateService.getMechanism().addForceToLink(this.link.id,convertedMousePosAtRightClick, mousePos);
         });
         this.interactionService.enterClickCapture(capture);
     }
