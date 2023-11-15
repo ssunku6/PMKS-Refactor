@@ -1,4 +1,6 @@
-<svg id="rootSvg" appInteractable [interaction]="getInteractor()">
+<svg id="rootSvg" appInteractable 
+[interactor]="getInteractor()"
+[attr.viewBox]="getViewBox()">
     <g app-graph />
 </svg>
 

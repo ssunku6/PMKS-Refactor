@@ -71,7 +71,6 @@ export class SVGPathService {
   
     // Initialize the convex hull with the start point
     const hull = [startPoint];
-  
     // Process the sorted coords
     for (const point of coords) {
       while (hull.length >= 2 && !this.isCounterClockwise(hull[hull.length - 2], hull[hull.length - 1], point)) {
@@ -80,7 +79,6 @@ export class SVGPathService {
       }
       hull.push(point);
     }
-  
     return hull;
   }
   
@@ -92,7 +90,6 @@ export class SVGPathService {
 
 
 calculateTwoPointPath(coord1: Coord, coord2: Coord, r: number): string {
-
   // Calculate perpendicular direction vectors for the line
   const dirFirstToSecond = this.perpendicularDirection(coord1, coord2);
   const dirSecondToFirst = this.perpendicularDirection(coord2, coord1);
@@ -109,7 +106,6 @@ calculateTwoPointPath(coord1: Coord, coord2: Coord, r: number): string {
  arcDirection(coord1: Coord, coord2: Coord): number{
 	return (coord2.x-coord1.x < 0) !== (coord2.y-coord1.y < 0) ? 0 : 1;
  }
-
 // Function to calculate the correct perpendicular direction vector between two points
 perpendicularDirection(c1: Coord, c2: Coord): Coord {
   const dir: Coord = this.direction(c1,c2);
@@ -127,7 +123,6 @@ calculateConvexPath(hullPoints: Coord[], r: number): string {
     let pathData = 'M';
     const dirFirstToSecondInit = this.perpendicularDirection(hullPoints[0], hullPoints[1]);
      pathData += `${hullPoints[0].x + dirFirstToSecondInit.x * r}, ${hullPoints[0].y + dirFirstToSecondInit.y * r}`
-
     //iterate over all of the points, drawing one line and one arc at a time
     for (let i = 0; i < hullPoints.length; i++) {
     //get current points to look at.
@@ -151,27 +146,7 @@ calculateConvexPath(hullPoints: Coord[], r: number): string {
   }
 
   getCompoundLinkSVG(): string{
-
-    return `M -23.990810072495584 -1.933483386669705
-    L -16.18881007249559 -5.413483386669704 
-    A 0.79 0.79 0 0 1 -15.753545519898248 -5.473810770547989 
-    L -5.579746519898246 -3.9974137705479897 
-    A 0.7900000000000003 0.7900000000000003 0 0 1 -5.0365068081033435 -2.7764529819774593 
-    L -10.571305808103343 5.500150018022541 
-    A 0.7900000000000009 0.7900000000000009 0 0 1 -11.58367812746902 5.766402771216653 
-    L -24.02467812746902 -0.5065972287833476 
-    A 0.7900000000000006 0.7900000000000006 0 0 1 -23.990810072495584 -1.933483386669705 
-    Z 
-    M -8.802704933366957 0.01311865440536808 
-    A -1.9932415736006166 -1.9932415736006166 0 0 0 -10.17334794346875 -3.0674760335882683 
-    L -12.963718268305922 -3.472407797669574 
-    A -9.738183549820624 -9.738183549820624 0 0 0 -18.32914371884194 -2.728763320090794 
-    L -20.07839369528862 -1.9485287753542584 
-    A -0.9094211355174809 -0.9094211355174809 0 0 0 -20.117381448467995 -0.3059459526211141 
-    L -13.659576964856683 2.9502076946495057 
-    A -2.739085769790664 -2.739085769790664 0 0 0 -10.149482517129485 2.027056900419664 
-    L -8.802704933366957 0.01311865440536808 
-    Z`;
+    return ``;
   }
 
 }

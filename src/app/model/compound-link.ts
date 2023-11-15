@@ -141,7 +141,5 @@ export class CompoundLink{
             }
         }
     }
-
-    
    
 }

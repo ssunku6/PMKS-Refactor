@@ -159,14 +159,14 @@ export class Link {
             return false;
         }
     }
-    setCoordinates( joints: Map<number,Coord>,forces: Map<number,Coord[]>,coord: Coord){
+    setCoordinates( coord: Coord){
         for(const jointID of this._joints.keys()){
             const joint = this._joints.get(jointID)!;
-            joint.setCoordinates(joints.get(jointID)!.add(coord));
+            joint.setCoordinates(joint.coords.add(coord));
         }
         for(const forceID of this._forces.keys()){
             const force = this._forces.get(forceID)!;
-            force.setCoordinates(joints.get(forceID)!.add(coord));
+            force.setCoordinates(force.start.add(coord), force.end.add(coord));
         }
 
     }

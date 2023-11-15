@@ -5,47 +5,34 @@ import { ContextMenuOption, Interactor } from 'src/app/interactions/interactor';
 import { InteractionService } from 'src/app/services/interaction.service';
 import { ContextMenuComponent } from '../context-menu/context-menu.component';
 import { StateService } from 'src/app/services/state.service';
-
+import { PanZoomService } from 'src/app/services/pan-zoom.service';
+import { UnitConversionService } from 'src/app/services/unit-conversion.service';
 
 @Component({
   selector: 'app-svg',
   templateUrl: './svg.component.html',
   styleUrls: ['./svg.component.css']
 })
-export class SvgComponent extends AbstractInteractiveComponent implements OnInit {
+export class SvgComponent extends AbstractInteractiveComponent {
 
 
   constructor(public override interactionService: InteractionService,
-    private stateService: StateService) {
+    private stateService: StateService, private panZoomService: PanZoomService, private unitConversionService: UnitConversionService) {
+    
     super(interactionService);
   }
 
   override async ngOnInit(): Promise<void> {
     super.ngOnInit();
-
-
-    // save ONCE after any number of interactors have been dragged
-    this.interactionService.onDragEndOnce$.subscribe((event) => {
-
-    });
   }
 
   // handle keyboard events and send to interaction service
-  @HostListener('document:keydown', ['$event'])
-  onKeyDown(event: KeyboardEvent) {
-    console.log("InteractionDirective.onKeyDown", event.key);
-    this.interactionService.onKeyDown(event);
+  @HostListener('window:resize', ['$event'])
+  onWindowResize(event: UIEvent) {
+      this.panZoomService._onWindowResize(event);
   }
-
-  @HostListener('document:keyup', ['$event'])
-  onKeyUp(event: KeyboardEvent) {
-    console.log("InteractionDirective.onKeyUp", event.key);
-    this.interactionService.onKeyUp(event);
-  }
-
-
   override registerInteractor(): Interactor {
-    let interactor = new SvgInteractor(this.stateService,this.interactionService);
+    let interactor = new SvgInteractor(this.stateService,this.interactionService, this.panZoomService, this.unitConversionService);
 
     interactor.onKeyDown$.subscribe((event) => {
       if (event.key === "s") {
@@ -55,4 +42,7 @@ export class SvgComponent extends AbstractInteractiveComponent implements OnInit
     return interactor;
   }
   
+  getViewBox(): string{
+    return this.panZoomService.getViewBox();
+  }
 }

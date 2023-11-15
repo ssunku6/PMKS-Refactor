@@ -10,6 +10,7 @@ import { InteractionService } from 'src/app/services/interaction.service';
 import { LinkInteractor } from 'src/app/interactions/link-interactor';
 import { ColorService } from 'src/app/services/color.service';
 import { SVGPathService } from 'src/app/services/svg-path.service';
+import { UnitConversionService } from "src/app/services/unit-conversion.service";
 
 @Component({
   selector: '[app-link]',
@@ -22,12 +23,13 @@ export class LinkComponent extends AbstractInteractiveComponent {
   constructor(public override interactionService: InteractionService, 
 				private stateService: StateService, 
 				private colorService: ColorService, 
-				private svgPathService: SVGPathService) {
+				private svgPathService: SVGPathService,
+        private unitConversionService: UnitConversionService) {
     super(interactionService);
   }
 
   override registerInteractor(): Interactor {
-    return new LinkInteractor(this.link, this.stateService, this.interactionService);
+    return new LinkInteractor(this.link, this.stateService, this.interactionService, this.unitConversionService);
   }
 
   getColor():string{

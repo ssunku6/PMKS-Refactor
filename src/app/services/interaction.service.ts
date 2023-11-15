@@ -4,6 +4,7 @@ import { Coord } from '../model/coord';
 import { ContextMenuService } from './context-menu.service';
 import { ClickCapture, ClickCaptureID } from '../interactions/click-capture';
 import { Subject } from 'rxjs';
+import { SvgInteractor } from '../interactions/svg-interactor';
 
 /*
 This service keeps track of global state for the interaction system, such as which
@@ -49,12 +50,11 @@ export class InteractionService {
             this.selected.forEach((oldObj) => {
                 if (oldObj !== object) {
                     oldObj.isSelected = false;
+                    this.selected.delete(oldObj);
                     oldObj._onDeselect();
+
                 }
             });
-
-            // select the object and call onSelect()
-            this.selected.clear();
         }
 
         if (isAlreadySelected) return;
@@ -89,7 +89,7 @@ export class InteractionService {
 
         // don't deselect old objects if shift is held down (ie. multi-select)
         let alreadySelected = this.selected.has(object);
-        this.selectNewObject(object, !this.isPressingKey("Shift") && !alreadySelected);
+        this.selectNewObject(object, (!this.isPressingKey("Shift") && !alreadySelected) || object instanceof SvgInteractor);
 
         this.isDragging = true;
 
@@ -186,7 +186,6 @@ export class InteractionService {
                 if (obj.draggable) obj._onDrag();
             });
         }
-
     }
 
     public onKeyDown(event: KeyboardEvent): void {
@@ -222,10 +221,10 @@ export class InteractionService {
         }
 
     }
-
     public isPressingKey(key: string): boolean {
         return this.heldKeys.has(key);
     }
+
 
     // registers an interactor to receive mouse events
     public register(interactor: Interactor): void {

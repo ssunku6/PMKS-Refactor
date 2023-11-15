@@ -110,9 +110,9 @@ export class Force {
         this._start.add(coord);
         this._end.add(coord);
     }
-    setCoordinates(coord: Coord){
-        this._start = coord;
-        this._end = coord;
+    setCoordinates(newStartCoord: Coord, newEndCoord: Coord){
+        this._start = newStartCoord;
+        this._end = newEndCoord;
     }
 
 }

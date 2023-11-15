@@ -7,7 +7,7 @@ import { StateService } from 'src/app/services/state.service';
 import { InteractionService } from 'src/app/services/interaction.service';
 import { ClickCapture, ClickCaptureID } from 'src/app/interactions/click-capture';
 import { CreateLinkFromJointCapture } from 'src/app/interactions/create-link-from-joint-capture';
-
+import { UnitConversionService } from 'src/app/services/unit-conversion.service';
 
 @Component({
   selector: '[app-joint]',
@@ -19,12 +19,13 @@ export class JointComponent extends AbstractInteractiveComponent {
   @Input() joint!: Joint;
 
   constructor(public override interactionService: InteractionService,
-    private stateService: StateService) {
+    private stateService: StateService, 
+    private unitConversionService: UnitConversionService) {
     super(interactionService);
   }
 
   override registerInteractor(): Interactor {
-    return new JointInteractor(this.joint, this.stateService, this.interactionService);
+    return new JointInteractor(this.joint, this.stateService, this.interactionService, this.unitConversionService);
   }
 
   public getX(): number {

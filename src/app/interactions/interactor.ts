@@ -27,6 +27,9 @@ export abstract class Interactor {
     public isDragged: boolean = false;
     public mouseStartPos?: Coord;
     public dragOffset?: Coord;
+    public lastMousePos?: Coord | undefined;
+    public currentMousePos?: Coord | undefined;
+    
 
     public onSelect$ = new Subject<boolean>();
     public onDeselect$ = new Subject<boolean>();
@@ -56,7 +59,6 @@ export abstract class Interactor {
     // This updates Interactor state and sends events to subscribers.
     public _onSelect(): void {
         this.isSelected = true;
-        this.mouseStartPos = this.getMousePos();
         this.onSelect$.next(true);
     }
     public _onDeselect(): void {
@@ -66,10 +68,13 @@ export abstract class Interactor {
     public _onDragStart(): void {
         this.isDragged = true;
         this.mouseStartPos = this.getMousePos();
+        this.lastMousePos = this.getMousePos()
         this.onDragStart$.next(true);
     }
     public _onDrag(): void {
-        this.dragOffset = this.getMousePos().subtract(this.mouseStartPos!);
+        this.currentMousePos = this.getMousePos();
+        this.dragOffset = this.currentMousePos.subtract(this.lastMousePos!);
+        this.lastMousePos = this.currentMousePos;
         this.onDrag$.next(true);
     }
     public _onDragEnd(): void {

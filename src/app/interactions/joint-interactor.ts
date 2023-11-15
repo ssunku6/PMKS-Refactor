@@ -6,6 +6,7 @@ import { StateService } from "../services/state.service";
 import { ClickCapture, ClickCaptureID } from "./click-capture";
 import { CreateLinkFromJointCapture } from "./create-link-from-joint-capture";
 import { ContextMenuOption, Interactor } from "./interactor";
+import { UnitConversionService } from "../services/unit-conversion.service";
 
 /*
 This interactor defines the following behaviors:
@@ -14,22 +15,20 @@ This interactor defines the following behaviors:
 
 export class JointInteractor extends Interactor {
 
-    private jointPosBeforeDrag?: Coord;
 
     constructor(public joint: Joint, private stateService: StateService,
-        private interactionService: InteractionService) {
+        private interactionService: InteractionService, private unitConversionService: UnitConversionService) {
         super(true, true);
 
         this.onDragStart$.subscribe((event) => {
-            this.jointPosBeforeDrag = this.joint.coords;
         });
 
         this.onDrag$.subscribe((event) => {
-            this.joint.setCoordinates(this.jointPosBeforeDrag!.add(this.dragOffset!));
+            let convertedOffset: Coord = this.unitConversionService.mouseDeltaToModelDelta(this.dragOffset!);
+            this.joint.setCoordinates(this.joint._coords.add(convertedOffset));
         });
 
         this.onDragEnd$.subscribe((event) => {
-            this.jointPosBeforeDrag = undefined;
         });
 
         // if backspace, delete
@@ -135,9 +134,9 @@ export class JointInteractor extends Interactor {
     private enterAddLinkCaptureMode(): void {
         const capture = new CreateLinkFromJointCapture(this.joint, this.interactionService);
         capture.onClick$.subscribe((mousePos) => {
-            
+            let convertedMousePos = this.unitConversionService.mouseCoordToModelCoord(mousePos);
             if (capture.getHoveringJoint() === undefined) { // if not hovering over a joint, create a new joint to attach to
-                this.stateService.getMechanism().addLinkToJoint(this.joint.id, mousePos);
+                this.stateService.getMechanism().addLinkToJoint(this.joint.id, convertedMousePos);
             } else { // if hovering over a joint, create a link to that joint
                 this.stateService.getMechanism().addLinkToJoint(this.joint.id, capture.getHoveringJoint()!.id);
             }

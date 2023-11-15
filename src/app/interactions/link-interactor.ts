@@ -7,6 +7,7 @@ import { ClickCapture, ClickCaptureID } from "./click-capture";
 import { CreateLinkFromLinkCapture } from "./create-link-from-link-capture";
 import { CreateForceFromLinkCapture } from "./create-force-from-link-capture";
 import { ContextMenuOption, Interactor } from "./interactor";
+import { UnitConversionService } from "../services/unit-conversion.service";
 
 /*
 This interactor defines the following behaviors:
@@ -15,31 +16,20 @@ This interactor defines the following behaviors:
 
 export class LinkInteractor extends Interactor {
 
-    private linkPosJointBeforeDrag?: Map<number,Coord>;
-    private linkPosForceBeforeDrag?: Map<number,Coord[]>
 
     constructor(public link: Link, private stateService: StateService,
-        private interactionService: InteractionService) {
+        private interactionService: InteractionService, 
+        private unitConversionService: UnitConversionService) {
         super(true, true);
 
         this.onDragStart$.subscribe((event) => {
-            this.linkPosJointBeforeDrag = new Map();
-            this.linkPosForceBeforeDrag = new Map();
-            for(const [jointID, joint] of this.link.joints){
-                this.linkPosJointBeforeDrag.set(jointID,joint._coords)
-            }
-            for(const [forceID, force] of this.link.forces){
-                this.linkPosForceBeforeDrag.set(forceID,[force.start,force.end])
-            }
-        });
 
+        });
         this.onDrag$.subscribe((event) => {
-            this.link.setCoordinates(this.linkPosJointBeforeDrag!, this.linkPosForceBeforeDrag!, this.dragOffset!);
+            let convertedOffset: Coord = this.unitConversionService.mouseDeltaToModelDelta(this.dragOffset!);
+            this.link.setCoordinates(convertedOffset);
         });
-
         this.onDragEnd$.subscribe((event) => {
-            this.linkPosJointBeforeDrag = undefined;
-            this.linkPosForceBeforeDrag = undefined;
         });
 
         // if backspace, delete
@@ -61,21 +51,21 @@ export class LinkInteractor extends Interactor {
 
         let availableContext: ContextMenuOption[] = [];
         const mechanism: Mechanism = this.stateService.getMechanism();
-        let mousePosAtRightClick = this.getMousePos()
+        let convertedMousePosAtRightClick = this.unitConversionService.mouseCoordToModelCoord(this.getMousePos());
         availableContext.push(
             {
                 label: "Attach Link",
-                action: () => {this.enterAddLinkCaptureMode(mousePosAtRightClick)},
+                action: () => {this.enterAddLinkCaptureMode(convertedMousePosAtRightClick)},
                 disabled: false
             },
             {
                 label: "Attach Tracer Point",
-                action: () => {mechanism.addJointToLink(this.link.id, mousePosAtRightClick)},
+                action: () => {mechanism.addJointToLink(this.link.id, convertedMousePosAtRightClick)},
                 disabled: false
             },
             {
                 label: "Attach Force",
-                action: () => {this.enterAddForceCaptureMode(mousePosAtRightClick)},
+                action: () => {this.enterAddForceCaptureMode(convertedMousePosAtRightClick)},
                 disabled: false
             },
             {
@@ -89,17 +79,19 @@ export class LinkInteractor extends Interactor {
         
     }
     
-    private enterAddLinkCaptureMode(mousePosAtRightClick: Coord): void {
-        const capture = new CreateLinkFromLinkCapture(this.link, mousePosAtRightClick, this.interactionService);
+    private enterAddLinkCaptureMode(convertedMousePosAtRightClick: Coord): void {
+        const capture = new CreateLinkFromLinkCapture(this.link, convertedMousePosAtRightClick, this.interactionService);
         capture.onClick$.subscribe((mousePos) => {
-            this.stateService.getMechanism().addLinkToLink(this.link.id,mousePosAtRightClick, mousePos);
+            let convertedMousePos = this.unitConversionService.mouseCoordToModelCoord(mousePos);
+            this.stateService.getMechanism().addLinkToLink(this.link.id,convertedMousePosAtRightClick, convertedMousePos);
         });
         this.interactionService.enterClickCapture(capture);
     }
-    private enterAddForceCaptureMode(mousePosAtRightClick: Coord): void {
-        const capture = new CreateForceFromLinkCapture(this.link, mousePosAtRightClick, this.interactionService);
+    private enterAddForceCaptureMode(convertedMousePosAtRightClick: Coord): void {
+        const capture = new CreateForceFromLinkCapture(this.link, convertedMousePosAtRightClick, this.interactionService);
         capture.onClick$.subscribe((mousePos) => {
-            this.stateService.getMechanism().addForceToLink(this.link.id,mousePosAtRightClick, mousePos);
+            let convertedMousePos = this.unitConversionService.mouseCoordToModelCoord(mousePos);
+            this.stateService.getMechanism().addForceToLink(this.link.id,convertedMousePosAtRightClick, convertedMousePos);
         });
         this.interactionService.enterClickCapture(capture);
     }
