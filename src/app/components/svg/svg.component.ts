@@ -1,20 +1,21 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit, ViewChild,ElementRef } from '@angular/core';
 import { AbstractInteractiveComponent } from '../abstract-interactive/abstract-interactive.component';
 import { SvgInteractor } from 'src/app/interactions/svg-interactor';
 import { ContextMenuOption, Interactor } from 'src/app/interactions/interactor';
 import { InteractionService } from 'src/app/services/interaction.service';
 import { ContextMenuComponent } from '../context-menu/context-menu.component';
 import { StateService } from 'src/app/services/state.service';
-import { PanZoomService } from 'src/app/services/pan-zoom.service';
+import { PanZoomServiceOG } from 'src/app/services/pan-zoomog.service';
 import { UnitConversionService } from 'src/app/services/unit-conversion.service';
+import { PanZoomService } from 'src/app/services/pan-zoom.service';
 
 @Component({
   selector: 'app-svg',
   templateUrl: './svg.component.html',
   styleUrls: ['./svg.component.css']
 })
-export class SvgComponent extends AbstractInteractiveComponent {
-
+export class SvgComponent extends AbstractInteractiveComponent implements OnInit, AfterViewInit{
+  @ViewChild('rootSVG') root!: ElementRef<SVGElement>;
 
   constructor(public override interactionService: InteractionService,
     private stateService: StateService, private panZoomService: PanZoomService, private unitConversionService: UnitConversionService) {
@@ -26,13 +27,15 @@ export class SvgComponent extends AbstractInteractiveComponent {
     super.ngOnInit();
   }
 
-  // handle keyboard events and send to interaction service
-  @HostListener('window:resize', ['$event'])
-  onWindowResize(event: UIEvent) {
-      this.panZoomService._onWindowResize(event);
+  ngAfterViewInit(): void {
+    console.log("initialize panZoom service from svg component");
+    console.log(this.root.nativeElement);
+    this.panZoomService.init(this.root.nativeElement);
+
   }
+
   override registerInteractor(): Interactor {
-    let interactor = new SvgInteractor(this.stateService,this.interactionService, this.panZoomService);
+    let interactor = new SvgInteractor(this.stateService, this.interactionService);
 
     interactor.onKeyDown$.subscribe((event) => {
       if (event.key === "s") {
@@ -40,9 +43,5 @@ export class SvgComponent extends AbstractInteractiveComponent {
     });
 
     return interactor;
-  }
-  
-  getViewBox(): string{
-    return this.panZoomService.getViewBox();
   }
 }

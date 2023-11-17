@@ -1,5 +1,7 @@
 import { Subject } from "rxjs";
 import { Coord } from "../model/coord";
+import { PanZoomService } from "../services/pan-zoom.service";
+import MousePosition from "../services/mouse-position"
 
 /*
 You should subclass Interactor to create Interactors specific to your interactive components, like joints
@@ -25,10 +27,10 @@ export abstract class Interactor {
 
     public isSelected: boolean = false;
     public isDragged: boolean = false;
-    public startMousePosInSVG?: Coord;
-    public dragOffsetInSVG?: Coord;
-    public lastMousePosInSVG?: Coord | undefined;
-    public currentMousePosInSVG?: Coord | undefined;
+    public startMousePosInModel?: Coord;
+    public dragOffsetInModel?: Coord;
+    public lastMousePosInModel?: Coord | undefined;
+    public currentMousePosInModel?: Coord | undefined;
     
 
     public onSelect$ = new Subject<boolean>();
@@ -39,19 +41,20 @@ export abstract class Interactor {
     public onRightClick$ = new Subject<boolean>();
     public onKeyDown$ = new Subject<KeyboardEvent>();
 
-    public getMousePos: () => Coord = () => { return new Coord(0, 0); };
+    private svgService?: PanZoomService;
 
     constructor(public selectable: boolean, public draggable: boolean) {
-
         if (draggable && !selectable) {
             throw new Error("Error: draggable objects must be selectable");
         }
-
     }
 
+    public _initPanZoomService(svgService: PanZoomService): void {
+        this.svgService = svgService;
+    }
     // set the interaction service's mouse event handlers
-    public initInteraction(getMousePos: () => Coord): void {
-        this.getMousePos = getMousePos;
+    public getMousePos(): MousePosition {
+        return this.svgService!.getMousePos();
     }
 
 
@@ -67,21 +70,21 @@ export abstract class Interactor {
     }
     public _onDragStart(): void {
         this.isDragged = true;
-        this.startMousePosInSVG = this.getMousePos();
-        this.lastMousePosInSVG = this.getMousePos();
-        this.dragOffsetInSVG = new Coord(0,0);
+        this.startMousePosInModel = this.getMousePos().posModel;
+        this.lastMousePosInModel = this.getMousePos().posModel;
+        this.dragOffsetInModel = new Coord(0,0);
         this.onDragStart$.next(true);
     }
     public _onDrag(): void {
-        this.currentMousePosInSVG = this.getMousePos();
-        this.dragOffsetInSVG = this.currentMousePosInSVG!.subtract(this.lastMousePosInSVG!);
-        this.lastMousePosInSVG = this.currentMousePosInSVG;
+        this.currentMousePosInModel = this.getMousePos().posModel;
+        this.dragOffsetInModel = this.currentMousePosInModel!.subtract(this.lastMousePosInModel!);
+        this.lastMousePosInModel = this.currentMousePosInModel;
         this.onDrag$.next(true);
     }
     public _onDragEnd(): void {
         this.isDragged = false;
-        this.startMousePosInSVG = undefined;
-        this.dragOffsetInSVG = undefined;
+        this.startMousePosInModel = undefined;
+        this.dragOffsetInModel = undefined;
         this.onDragEnd$.next(true);
     }
 

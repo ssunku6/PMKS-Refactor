@@ -53,7 +53,7 @@ export class CompoundLinkInteractor extends Interactor {
 
         let availableContext: ContextMenuOption[] = [];
         const mechanism: Mechanism = this.stateService.getMechanism();
-        let mousePosAtRightClick = this.getMousePos()
+        let mousePosAtRightClick = this.getMousePos().posModel;
         availableContext.push(
             {
                 label: "Attach Link",

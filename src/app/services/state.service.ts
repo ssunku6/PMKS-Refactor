@@ -6,8 +6,7 @@ Stores the global state of the application. This includes the model, global sett
 Handles syncing client with server state, and undo/redo.
 */
 
-export interface ZoomPan {
-
+export interface PanZoom {
     scaledViewBoxX: number;
     scaledViewBoxY: number;
     scaledViewBoxWidth: number;
@@ -19,18 +18,19 @@ export interface ZoomPan {
 }
 
 
+
+
 @Injectable({
     providedIn: 'root'
 })
 export class StateService {
-    private zoomPan: ZoomPan;
+    private panZoom: PanZoom;
     private mechanism: Mechanism;
-    readonly zoomScale: number = 1.1;
 
 
     constructor() {
         console.log("StateService constructor");
-        this.zoomPan = {
+        this.panZoom = {
             scaledViewBoxX: -(window.innerWidth/2),
             scaledViewBoxY: -(window.innerHeight/2),
             scaledViewBoxWidth: window.innerWidth,
@@ -47,15 +47,15 @@ export class StateService {
         return this.mechanism;
     }
 
-    public getPanZoom(): ZoomPan{
-        return this.zoomPan;
+    public getPanZoom(): PanZoom{
+        return this.panZoom;
     }
-    public setPanZoom(newPanZoomValues: ZoomPan){
-        this.zoomPan.scaledViewBoxX = newPanZoomValues.scaledViewBoxX;
-        this.zoomPan.scaledViewBoxY = newPanZoomValues.scaledViewBoxY;
-        this.zoomPan.scaledViewBoxWidth = newPanZoomValues.scaledViewBoxWidth;
-        this.zoomPan.scaledViewBoxHeight = newPanZoomValues.scaledViewBoxHeight;
-        this.zoomPan.windowWidth = newPanZoomValues.windowWidth;
+    public setPanZoom(newPanZoomValues: PanZoom){
+        this.panZoom.scaledViewBoxX = newPanZoomValues.scaledViewBoxX;
+        this.panZoom.scaledViewBoxY = newPanZoomValues.scaledViewBoxY;
+        this.panZoom.scaledViewBoxWidth = newPanZoomValues.scaledViewBoxWidth;
+        this.panZoom.scaledViewBoxHeight = newPanZoomValues.scaledViewBoxHeight;
+        this.panZoom.windowWidth = newPanZoomValues.windowWidth;
     }
 
 }

@@ -1,76 +1,94 @@
 import { Injectable } from '@angular/core';
 import { Coord } from '../model/coord';
-import { StateService, ZoomPan } from './state.service';
-import { UnitConversionService } from './unit-conversion.service';
-
-
+import MousePosition from './mouse-position';
+import * as svgPanZoom from 'svg-pan-zoom';
 
 
 @Injectable({
     providedIn: 'root'
 })
-export class PanZoomService{
-
-constructor(private stateService: StateService, private unitConversionService: UnitConversionService) {
+export class PanZoomService {
 
 
-}
+    private ctm?: SVGMatrix;
+    private mousePos: MousePosition = new MousePosition();
 
-public _onMouseScrollWheel(event: WheelEvent){
-    event.stopPropagation();
-    let panZoomValues = this.stateService.getPanZoom();
+    private svgPanZoomInstance!: SvgPanZoom.Instance;
 
-    let zoomDirection: number = event.deltaY;
-    let zoomLeftFraction: number = event.offsetX / panZoomValues.windowWidth;
-    let zoomTopFraction: number = event.offsetY / panZoomValues.windowHeight;
-    let oldViewBoxWidth: number = panZoomValues.scaledViewBoxWidth;
-    let oldViewBoxHeight: number = panZoomValues.scaledViewBoxHeight;
+    // inits the svgPanZoomInstance with the given SVG element
+    init(svgElement: SVGElement) {
 
-    if(zoomDirection > 0){
-    
-        panZoomValues.currentScale *= panZoomValues.zoomScale;
-        panZoomValues.scaledViewBoxWidth = panZoomValues.windowWidth * panZoomValues.currentScale;
-        panZoomValues.scaledViewBoxHeight = panZoomValues.windowHeight * panZoomValues.currentScale;
+        console.log("SvgService.init", svgElement);
 
-        panZoomValues.scaledViewBoxX -=((panZoomValues.scaledViewBoxWidth - oldViewBoxWidth) * zoomLeftFraction);
-        panZoomValues.scaledViewBoxY -=((panZoomValues.scaledViewBoxHeight - oldViewBoxHeight) * zoomTopFraction);
-    }else{
-
-        panZoomValues.currentScale /= panZoomValues.zoomScale;
-        panZoomValues.scaledViewBoxWidth = panZoomValues.windowWidth * panZoomValues.currentScale;
-        panZoomValues.scaledViewBoxHeight = panZoomValues.windowHeight * panZoomValues.currentScale;
-
-        panZoomValues.scaledViewBoxX += ((panZoomValues.scaledViewBoxWidth - oldViewBoxWidth) * -zoomLeftFraction);
-        panZoomValues.scaledViewBoxY += ((panZoomValues.scaledViewBoxHeight - oldViewBoxHeight) * -zoomTopFraction);
+        // use svg-pan-zoom library to handle panning and zooming SVG
+        this.svgPanZoomInstance = svgPanZoom(svgElement, {
+            zoomEnabled: true,
+            fit: true,
+            center: true,
+            zoomScaleSensitivity: 0.15,
+            dblClickZoomEnabled: false,
+            maxZoom: 10000,
+            minZoom: 0.00001, //These are not used, look at MIN_ZOOM
+            onPan: this.handlePan.bind(this),
+            onZoom: this.handleZoom.bind(this),
+            beforePan: this.handleBeforePan.bind(this),
+            beforeZoom: this.handleBeforeZoom.bind(this),
+            onUpdatedCTM: this.updateCTM.bind(this),
+        });
     }
-    this.stateService.setPanZoom(panZoomValues);
 
-}
+    getMousePos(): MousePosition {
+        return this.mousePos;
+    }
 
-public _onSVGDrag(dragOffset: Coord){
-    let panZoomValues: ZoomPan = this.stateService.getPanZoom();
-    panZoomValues.scaledViewBoxX -= dragOffset.x;
-    panZoomValues.scaledViewBoxY -= dragOffset.y;
-    this.stateService.setPanZoom(panZoomValues);
-}
+    setMousePosScreen(screenPos: Coord) {
+        this.mousePos = new MousePosition(screenPos, this.screenPosToSVGPos(screenPos), this.screenPosToModelPos(screenPos));
+        console.log("Mouse Pos: ", this.mousePos);
+    }
 
-public _onWindowResize(event: UIEvent){
-    event.stopPropagation();
-    let panZoomValues: ZoomPan = this.stateService.getPanZoom();
-    panZoomValues.windowWidth = window.innerWidth;
-    panZoomValues.windowHeight = window.innerHeight;
-    panZoomValues.scaledViewBoxWidth = panZoomValues.windowWidth * panZoomValues.currentScale;
-    panZoomValues.scaledViewBoxHeight = panZoomValues.windowHeight * panZoomValues.currentScale;
-    this.stateService.setPanZoom(panZoomValues);
-}
+    screenPosToSVGPos(screenPos: Coord): Coord {
+        if (!this.ctm) return new Coord(0, 0);
+
+        const inverseCTM = this.ctm.inverse();
+        const svgPos = screenPos.applyMatrix(inverseCTM);
+        return new Coord(svgPos.x, svgPos.y);
+    }
+
+    svgPosToScreenPos(svgPos: Coord): Coord {
+
+        if (!this.ctm) return new Coord(0, 0);
+
+        const screenPos = svgPos.applyMatrix(this.ctm);
+        return screenPos;
+    }
+    screenPosToModelPos(screenPos: Coord): Coord {
+        let svgPos = this.screenPosToSVGPos(screenPos);
+        return new Coord(svgPos.x / 100, svgPos.y / 100);
+    }
+    modelPosToSVGPos(modelPos: Coord): Coord {
+        return new Coord(modelPos.x * 100, modelPos.y * 100);
+    }
 
 
-public getViewBox():string{
-    let panZoomValues: ZoomPan = this.stateService.getPanZoom();
-    return panZoomValues.scaledViewBoxX.toString() + " "
-        +  panZoomValues.scaledViewBoxY.toString() + " "
-        +  panZoomValues.scaledViewBoxWidth.toString() + " "
-        +  panZoomValues.scaledViewBoxHeight.toString() + " ";
-} 
+    private updateCTM(ctm: SVGMatrix) {
+        console.log("CTM updated");
+        this.ctm = ctm;
+    }
 
+    // handle pan and zoom elements
+    private handlePan(newPan: SvgPanZoom.Point) {
+        console.log("handlePan", newPan);
+    }
+
+    private handleZoom(newZoom: number) {
+        console.log("handleZoom", newZoom);
+    }
+
+    private handleBeforePan(oldPan: SvgPanZoom.Point, newPan: SvgPanZoom.Point) {
+        console.log("handleBeforePan", oldPan, newPan);
+    }
+
+    private handleBeforeZoom(oldZoom: number, newZoom: number) {
+        console.log("handleBeforeZoom", oldZoom, newZoom);
+    }
 }

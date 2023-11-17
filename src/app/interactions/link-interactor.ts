@@ -24,7 +24,7 @@ export class LinkInteractor extends Interactor {
 
         });
         this.onDrag$.subscribe((event) => {
-            this.link.setCoordinates(this.dragOffsetInSVG!);
+            this.link.setCoordinates(this.dragOffsetInModel!);
         });
         this.onDragEnd$.subscribe((event) => {
         });
@@ -38,7 +38,6 @@ export class LinkInteractor extends Interactor {
 
     }
     
-
     /**
      * Determines what options should be shown for the context menu when right clicking on a Link
      * 
@@ -48,7 +47,7 @@ export class LinkInteractor extends Interactor {
 
         let availableContext: ContextMenuOption[] = [];
         const mechanism: Mechanism = this.stateService.getMechanism();
-        let convertedMousePosAtRightClick = this.getMousePos();
+        let convertedMousePosAtRightClick = this.getMousePos().posModel;
         availableContext.push(
             {
                 label: "Attach Link",
@@ -79,14 +78,14 @@ export class LinkInteractor extends Interactor {
     private enterAddLinkCaptureMode(convertedMousePosAtRightClick: Coord): void {
         const capture = new CreateLinkFromLinkCapture(this.link, convertedMousePosAtRightClick, this.interactionService);
         capture.onClick$.subscribe((mousePos) => {
-            this.stateService.getMechanism().addLinkToLink(this.link.id,convertedMousePosAtRightClick, mousePos);
+            this.stateService.getMechanism().addLinkToLink(this.link.id,convertedMousePosAtRightClick, mousePos.posModel);
         });
         this.interactionService.enterClickCapture(capture);
     }
     private enterAddForceCaptureMode(convertedMousePosAtRightClick: Coord): void {
         const capture = new CreateForceFromLinkCapture(this.link, convertedMousePosAtRightClick, this.interactionService);
         capture.onClick$.subscribe((mousePos) => {
-            this.stateService.getMechanism().addForceToLink(this.link.id,convertedMousePosAtRightClick, mousePos);
+            this.stateService.getMechanism().addForceToLink(this.link.id,convertedMousePosAtRightClick, mousePos.posModel);
         });
         this.interactionService.enterClickCapture(capture);
     }

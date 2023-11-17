@@ -4,9 +4,9 @@ specific mode in which clicks have a special meaning, different from their defau
 For example, clicking to create a node. Pressing escape should leave this mode.
 This behavior is handled by the InteractionService.
 */
-
-import { Subject } from "rxjs";
 import { Coord } from "../model/coord";
+import { Subject } from "rxjs";
+import MousePosition from "../services/mouse-position";
 
 export enum ClickCaptureID {
     CREATE_LINK_FROM_GRID,
@@ -17,8 +17,8 @@ export enum ClickCaptureID {
 
 export abstract class ClickCapture {
     
-    onClick$ = new Subject<Coord>();
-    onMouseMove$ = new Subject<Coord>();
+    onClick$ = new Subject<MousePosition>();
+    onMouseMove$ = new Subject<MousePosition>();
 
     constructor(public id: ClickCaptureID) {}
 

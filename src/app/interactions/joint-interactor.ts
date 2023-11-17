@@ -22,7 +22,7 @@ export class JointInteractor extends Interactor {
         });
 
         this.onDrag$.subscribe((event) => {
-            this.joint.setCoordinates(this.joint._coords.add(this.dragOffsetInSVG!));
+            this.joint.setCoordinates(this.joint._coords.add(this.dragOffsetInModel!));
         });
 
         this.onDragEnd$.subscribe((event) => {
@@ -132,7 +132,7 @@ export class JointInteractor extends Interactor {
         const capture = new CreateLinkFromJointCapture(this.joint, this.interactionService);
         capture.onClick$.subscribe((mousePos) => {
             if (capture.getHoveringJoint() === undefined) { // if not hovering over a joint, create a new joint to attach to
-                this.stateService.getMechanism().addLinkToJoint(this.joint.id, mousePos);
+                this.stateService.getMechanism().addLinkToJoint(this.joint.id, mousePos.posModel);
             } else { // if hovering over a joint, create a link to that joint
                 this.stateService.getMechanism().addLinkToJoint(this.joint.id, capture.getHoveringJoint()!.id);
             }

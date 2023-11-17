@@ -12,6 +12,7 @@ import { CompoundLink } from 'src/app/model/compound-link';
 import { Mechanism } from 'src/app/model/mechanism';
 import { InteractionService } from 'src/app/services/interaction.service';
 import { StateService } from 'src/app/services/state.service';
+import { PanZoomService } from 'src/app/services/pan-zoom.service';
 
 @Component({
   selector: '[app-graph]',
@@ -20,7 +21,7 @@ import { StateService } from 'src/app/services/state.service';
 })
 export class GraphComponent {
 
-  constructor(public stateService: StateService, private interactorService: InteractionService) {
+  constructor(public stateService: StateService, private interactorService: InteractionService, private panZoomService: PanZoomService) {
     console.log("GraphComponent.constructor");
   }
 
@@ -60,10 +61,10 @@ public isCreatingComponent(): boolean{
 
   public getNewCompLineStart(): Coord {
     let capture = this.interactorService.getClickCapture()!;
-    return capture.getStartPos();
+    return this.panZoomService.modelPosToSVGPos(capture.getStartPos());
   }
 
   public getNewCompLineEnd(): Coord {
-    return this.interactorService.getMousePos();
+    return this.panZoomService.getMousePos().posSVG;
   }
 }

@@ -23,8 +23,7 @@ export class LinkComponent extends AbstractInteractiveComponent {
   constructor(public override interactionService: InteractionService, 
 				private stateService: StateService, 
 				private colorService: ColorService, 
-				private svgPathService: SVGPathService,
-        private unitConversionService: UnitConversionService) {
+				private svgPathService: SVGPathService) {
     super(interactionService);
   }
 
@@ -37,6 +36,6 @@ export class LinkComponent extends AbstractInteractiveComponent {
   }
 	getDrawnPath(): string{
 	let radius: number = 15;
-	return this.svgPathService.getSingleLinkDrawnPath(this.link.joints.values(), radius);
+	return this.svgPathService.getSingleLinkDrawnPath(this.link, radius);
   }
 }

@@ -1,7 +1,7 @@
 import { Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/core';
 import { Interactor } from '../interactions/interactor';
 import { InteractionService } from '../services/interaction.service';
-import { PanZoomService } from '../services/pan-zoom.service';
+import { PanZoomServiceOG } from '../services/pan-zoomog.service';
 
 /*
 InteractionDirectives are attached to some component that MUST extend AbstractInteractiveComponent.
@@ -15,7 +15,7 @@ events as needed.
 export class InteractionDirective {
     @Input() interactor!: Interactor;
 
-    constructor(private interactionService: InteractionService, private panZoomService: PanZoomService) { }
+    constructor(private interactionService: InteractionService, private panZoomService: PanZoomServiceOG) { }
 
 
     @HostListener('mousedown', ['$event'])

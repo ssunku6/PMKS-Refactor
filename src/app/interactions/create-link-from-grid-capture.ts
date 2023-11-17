@@ -15,8 +15,6 @@ export class CreateLinkFromGridCapture extends ClickCapture {
         // on mouse move, if hovering over a Link, store it
         this.onMouseMove$.subscribe((event) => {
             const hovering = interactionService.getHoveringObject();
-
-
         });
 
     }

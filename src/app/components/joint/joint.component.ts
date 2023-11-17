@@ -7,8 +7,7 @@ import { StateService } from 'src/app/services/state.service';
 import { InteractionService } from 'src/app/services/interaction.service';
 import { ClickCapture, ClickCaptureID } from 'src/app/interactions/click-capture';
 import { CreateLinkFromJointCapture } from 'src/app/interactions/create-link-from-joint-capture';
-import { UnitConversionService } from 'src/app/services/unit-conversion.service';
-
+import { PanZoomService } from 'src/app/services/pan-zoom.service';
 @Component({
   selector: '[app-joint]',
   templateUrl: './joint.component.html',
@@ -19,8 +18,7 @@ export class JointComponent extends AbstractInteractiveComponent {
   @Input() joint!: Joint;
 
   constructor(public override interactionService: InteractionService,
-    private stateService: StateService, 
-    private unitConversionService: UnitConversionService) {
+    private stateService: StateService, private panZoomService: PanZoomService) {
     super(interactionService);
   }
 
@@ -29,11 +27,11 @@ export class JointComponent extends AbstractInteractiveComponent {
   }
 
   public getX(): number {
-    return this.joint!.coords.x;
+    return this.panZoomService.modelPosToSVGPos(this.joint!.coords).x;
   }
 
   public getY(): number {
-    return this.joint!.coords.y;
+    return this.panZoomService.modelPosToSVGPos(this.joint!.coords).y;
   }
 
   public getRadius(): number {
