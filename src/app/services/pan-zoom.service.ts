@@ -28,7 +28,7 @@ export class PanZoomService {
             zoomScaleSensitivity: 0.15,
             dblClickZoomEnabled: false,
             maxZoom: 10000,
-            minZoom: 0.00001, //These are not used, look at MIN_ZOOM
+            minZoom: 0.00001,
             onPan: this.handlePan.bind(this),
             onZoom: this.handleZoom.bind(this),
             beforePan: this.handleBeforePan.bind(this),
@@ -43,7 +43,6 @@ export class PanZoomService {
 
     setMousePosScreen(screenPos: Coord) {
         this.mousePos = new MousePosition(screenPos, this.screenPosToSVGPos(screenPos), this.screenPosToModelPos(screenPos));
-        console.log("Mouse Pos: ", this.mousePos);
     }
 
     screenPosToSVGPos(screenPos: Coord): Coord {
@@ -91,4 +90,7 @@ export class PanZoomService {
     private handleBeforeZoom(oldZoom: number, newZoom: number) {
         console.log("handleBeforeZoom", oldZoom, newZoom);
     }
+
+    
+
 }

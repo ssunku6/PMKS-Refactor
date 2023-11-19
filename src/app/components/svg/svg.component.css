@@ -1,8 +1,10 @@
 #rootSvg {
     width: 100vw;
     height: 100vh;
-    margin: 0;
-    padding: 0;
+    margin: 100px;
+    border-radius: 20px;
+    border-color: aqua;
+    padding: 15;
     overflow: hidden;
     display: block;
 }

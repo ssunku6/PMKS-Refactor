@@ -68,7 +68,7 @@ export class InteractionService {
     // select the object and unselect all others
     public _onMouseDown(object: Interactor, event: MouseEvent): void {
         this.mouseMovedAfterDown = false;
-
+        console.log("MousePos: ",this.panZoomService.getMousePos());
         event.stopPropagation(); // don't let parent components handle this event
 
         // if click capture, handle special case
@@ -124,7 +124,7 @@ export class InteractionService {
 
     public _onMouseUp(object: Interactor, event: MouseEvent): void {
         event.stopPropagation(); // don't let parent components handle this event
-
+        console.log(event.target);
         // if it was a click, deselect objects that were not clicked on
         // if shift is held down, don't do this (ie. multi-select)
         if (!this.mouseMovedAfterDown && !this.isPressingKey("Shift")) {
@@ -164,7 +164,7 @@ export class InteractionService {
     public _onMouseMove(object: Interactor, event: MouseEvent): void {
 
         // this.mousePos = this.unitConversionService.mouseCoordToModelCoord(new Coord(event.clientX, event.clientY));
-        this.panZoomService.setMousePosScreen(new Coord(event.clientX, event.clientY));
+        this.panZoomService.setMousePosScreen(new Coord(event.offsetX, event.offsetY));
         this.mouseMovedAfterDown = true;
         this.hoveringObject = object;
 

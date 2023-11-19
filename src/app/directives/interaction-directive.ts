@@ -37,9 +37,5 @@ export class InteractionDirective {
     onRightClick(event: MouseEvent) {
         this.interactionService._onMouseRightClick(this.interactor, event);
     }
-    @HostListener('wheel', ['$event'])
-    onScrollWheel(event: WheelEvent) {
-        this.panZoomService._onMouseScrollWheel(event);
-    }
 
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostListener } from '@angular/core';
 import { Coord } from 'src/app/model/coord';
 
 @Component({
@@ -9,5 +9,6 @@ import { Coord } from 'src/app/model/coord';
 export class CreateNewCompLineComponent {
 @Input() start!: Coord;
 @Input() end!: Coord;
+
 
 }

@@ -28,8 +28,6 @@ export class SvgComponent extends AbstractInteractiveComponent implements OnInit
   }
 
   ngAfterViewInit(): void {
-    console.log("initialize panZoom service from svg component");
-    console.log(this.root.nativeElement);
     this.panZoomService.init(this.root.nativeElement);
 
   }
