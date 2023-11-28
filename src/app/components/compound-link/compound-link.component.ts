@@ -48,7 +48,18 @@ export class CompoundLinkComponent extends AbstractInteractiveComponent {
   });
 	return this.svgPathService.getSingleLinkDrawnPath(allCoordsAsArray, radius); 
   }
-  
+  getStrokeColor(): string{
+    if (this.getInteractor().isSelected) {
+      return '#FFCA26'
+      
+    } else if(this.isHovered()){
+      return '#ffecb2'
+    }
+
+    return this.colorService.getLinkColorFromID(this.compoundLink.id);
+  }
+
+
   getSubLinksPaths(): string[]{
     const radius: number = 15;
     let subLinkPaths: string[] = [];
