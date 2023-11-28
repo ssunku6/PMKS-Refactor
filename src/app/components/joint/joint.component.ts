@@ -41,16 +41,34 @@ export class JointComponent extends AbstractInteractiveComponent {
   }
 
   public getColor(): string {
-    return '#ffecb2';
+    if (this.getInteractor().isSelected) {
+      return '#FFCA26'
+      
+    } else if(this.isHovered()){
+      return '#ffecb2'
+    }
+    return '#ffffff';
+  }
+
+  isWelded(){
+    return this.joint.isWelded;
+  }
+  getTranslation(): string{
+    return "translate(" + 
+    this.unitConversionService.modelCoordToSVGCoord(this.joint._coords).x.toString() +
+    " " +
+    this.unitConversionService.modelCoordToSVGCoord(this.joint._coords).y.toString() + 
+    ") scale(0.6)";
+
+
+
   }
 
   public getStrokeWidth(): number {
     if (this.isCreateLinkCaptureAndHoveringOverThisJoint()) {
-      return 6;
-    } else if (this.getInteractor().isSelected) {
-      return 4;
+      return 2;
     }
-    return 1;
+    return 0;
   }
 
   // whether in create link click capture mode, and the mouse is hovering over this joint

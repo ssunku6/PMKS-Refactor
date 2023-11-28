@@ -1,4 +1,10 @@
 
+<!-- Draw new line if in new component click capture mode -->
+<ng-container *ngIf="isCreatingComponent()">
+    <svg:g app-create-new-comp-line [start]="getNewCompLineStart()" [end]="getNewCompLineEnd()" />
+</ng-container>
+
+
 <!-- Iterate through joints,links,compoundlinks, and forces and display them in the template. Draw links then joints-->
 <ng-container *ngFor="let link of getLinks()">
     <svg:g app-link [link]="link" />
@@ -15,9 +21,5 @@
 -->
 <ng-container *ngFor="let joint of getJoints()">
     <svg:g app-joint [joint]="joint" />
-</ng-container>
-<!-- Draw new line if in new component click capture mode -->
-<ng-container *ngIf="isCreatingComponent()">
-    <svg:g app-create-new-comp-line [start]="getNewCompLineStart()" [end]="getNewCompLineEnd()" />
 </ng-container>
 

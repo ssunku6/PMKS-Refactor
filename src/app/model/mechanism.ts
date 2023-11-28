@@ -464,9 +464,10 @@ export class Mechanism {
 
             //check if joint is part of any other link
             for(let alink of this._links.values()){
-                if(alink.id !== link.id && alink.containsJoint(joint.id))
+                if(alink.id !== link.id && alink.containsJoint(joint.id)){
                     isIsolated = false;//joint isn't isolated, move to next joint
                     break;
+                }
             }
             //Delete isolated joint
             if(isIsolated){

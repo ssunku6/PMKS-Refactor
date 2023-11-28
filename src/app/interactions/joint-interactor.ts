@@ -131,6 +131,7 @@ export class JointInteractor extends Interactor {
     private enterAddLinkCaptureMode(): void {
         const capture = new CreateLinkFromJointCapture(this.joint, this.interactionService);
         capture.onClick$.subscribe((mousePos) => {
+            
             if (capture.getHoveringJoint() === undefined) { // if not hovering over a joint, create a new joint to attach to
                 this.stateService.getMechanism().addLinkToJoint(this.joint.id, mousePos);
             } else { // if hovering over a joint, create a link to that joint

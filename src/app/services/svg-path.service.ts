@@ -144,5 +144,7 @@ calculateConvexPath(hullPoints: Coord[], r: number): string {
   getCompoundLinkSVG(): string{
     return ``;
   }
+  
+
 
 }

@@ -1,14 +1,25 @@
 <svg:g appInteractable [interactor]="getInteractor()">
 
-    <svg:circle 
-        [attr.cx]="getX()"
-        [attr.cy]="getY()"
-        [attr.r]="getRadius()"
-        [attr.fill]="getColor()"
-        stroke="black"
-        [attr.stroke-width]="getStrokeWidth()"
-    />
+    @if(isWelded()){
+        <path 
+            d='M -5.5 -5.5 H-16.5 V4.5 H-5.5 V15.5 H4.5 V4.5 H15.5 V-5.5 H4.5 V-16.5 H-5.5 V-5.5 Z'
+            [attr.fill]="getColor()"
+            stroke="#FFCA26"
+            [attr.stroke-width]="getStrokeWidth()"
+            [attr.transform]="getTranslation()"
+        ></path>
 
+
+    } @else {
+        <svg:circle 
+            [attr.cx]="getX()"
+            [attr.cy]="getY()"
+            [attr.r]="getRadius()"
+            [attr.fill]="getColor()"
+            stroke="#FFCA26"
+            [attr.stroke-width]="getStrokeWidth()"
+        />
+    }
     <!-- Joint name -->
     <svg:text class = "joint-name"
         [attr.x]="getX()" 

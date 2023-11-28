@@ -49,7 +49,6 @@ export class CompoundLinkComponent extends AbstractInteractiveComponent {
 	return this.svgPathService.getSingleLinkDrawnPath(allCoordsAsArray, radius); 
   }
   
-  
   getSubLinksPaths(): string[]{
     const radius: number = 15;
     let subLinkPaths: string[] = [];
@@ -60,7 +59,6 @@ export class CompoundLinkComponent extends AbstractInteractiveComponent {
       });
       subLinkPaths.push(this.svgPathService.getSingleLinkDrawnPath(subLinkCoords,radius));
     });
-    console.log("sublink Paths: ", subLinkPaths);
     return subLinkPaths;
   }
 

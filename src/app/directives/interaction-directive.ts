@@ -41,5 +41,13 @@ export class InteractionDirective {
     onScrollWheel(event: WheelEvent) {
         this.panZoomService._onMouseScrollWheel(event);
     }
+    @HostListener('document:keydown', ['$event'])
+    onKeyDown(event: KeyboardEvent) {
+        this.interactionService.onKeyDown(event);
+    }
+    @HostListener('document:keyup', ['$event'])
+    onKeyUp(event: KeyboardEvent) {
+        this.interactionService.onKeyUp(event);
+    }
 
 }

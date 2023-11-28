@@ -1,6 +1,7 @@
 import { Subject } from "rxjs";
 import { Coord } from "../model/coord";
 import { MousePosition } from "../services/mouse-position.service";
+import { Joint } from "../model/joint";
 
 /*
 You should subclass Interactor to create Interactors specific to your interactive components, like joints
@@ -96,6 +97,10 @@ export abstract class Interactor {
     public _onKeyDown(event: KeyboardEvent): void {
         this.onKeyDown$.next(event);
     }
+    public getSubJoints(): Joint[] {
+        return [];
+    }
+
 
     // functions for subclasses to specify behavior
     public specifyContextMenu(): ContextMenuOption[] {

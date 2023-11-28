@@ -7,7 +7,6 @@ import { JointInteractor } from "./joint-interactor";
 export class CreateLinkFromJointCapture extends ClickCapture {
 
 
-    private hoveringJoint?: Joint;
 
     constructor(private parentJoint: Joint, private interactionService: InteractionService) {
         super(ClickCaptureID.CREATE_LINK_FROM_JOINT);
@@ -15,12 +14,7 @@ export class CreateLinkFromJointCapture extends ClickCapture {
 
         // on mouse move, if hovering over a Joint, store it
         this.onMouseMove$.subscribe((event) => {
-            const hovering = interactionService.getHoveringObject();
-            if (hovering instanceof JointInteractor) {
-                this.hoveringJoint = hovering.joint;
-            } else {
-                this.hoveringJoint = undefined;
-            }
+            
         });
 
     }
@@ -28,7 +22,12 @@ export class CreateLinkFromJointCapture extends ClickCapture {
         return this.parentJoint.coords;
     }
     public getHoveringJoint(): Joint | undefined {
-        return this.hoveringJoint;
+        const hovering = this.interactionService.getHoveringObject();
+            if (hovering instanceof JointInteractor) {
+                return hovering.joint;
+            } else {
+                return undefined;
+            }
     }
     
 }

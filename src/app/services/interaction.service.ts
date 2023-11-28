@@ -26,6 +26,7 @@ export class InteractionService {
     private mousePos: MousePosition;
     private objects: Interactor[] = [];
     private selected = new Set<Interactor>(); // set of currently-selected objects
+    private uniqueInteractors = new Set<Interactor>(); //subset of selected objects to prevent joints from moving twice
     private isDragging: boolean = false; // whether the selected objects are being dragged
 
     private heldKeys: Set<string> = new Set<string>(); // keys currently being held down
@@ -56,24 +57,21 @@ export class InteractionService {
     // select the object and deselect all others
     private selectNewObject(object: Interactor, deselectOldObjects: boolean = true): void {
 
+
         let isAlreadySelected = this.selected.has(object);
 
-        if (deselectOldObjects) {
-            // deselect all other objects and call onDeselect().
-            // if the object is already selected, do not call onDeselect() on it.
-            this.selected.forEach((oldObj) => {
-                if (oldObj !== object) {
-                    oldObj.isSelected = false;
-                    this.selected.delete(oldObj);
-                    oldObj._onDeselect();
 
-                }
-            });
-        }
+        // deselect all other objects and call onDeselect().
+        // if the object is already selected, do not call onDeselect() on it.
+        this.selected.forEach((oldObj) => {
+            if (oldObj !== object && (deselectOldObjects || oldObj instanceof SvgInteractor )) {
+                oldObj.isSelected = false;
+                this.selected.delete(oldObj);
+                oldObj._onDeselect();
+            }
+        });
 
         if (isAlreadySelected) return;
-
-
         this.selected.add(object);
         if (object.selectable) object._onSelect();
     }
@@ -93,7 +91,7 @@ export class InteractionService {
 
         if (event.button !== 0) return; // only handle left click. should not be called on right click/context menu
 
-        console.log("InteractionService.onMouseDown", object, event);
+        console.log("InteractionService.onMouseDown ", object.constructor.name, event);
 
         // hide any context menus
         this.contextMenuService.hideContextMenu();
@@ -116,7 +114,7 @@ export class InteractionService {
 
         event.preventDefault(); // prevent context menu from appearing
         event.stopPropagation(); // don't let parent components handle this event
-
+        console.log("InteractionService.onMouseRightClick", object.constructor.name, event);
         // if click capture, handle special case
         if (this.clickCapture) {
             this.clickCapture.onClick$.next(this.mousePos.model);
@@ -124,7 +122,6 @@ export class InteractionService {
             return;
         }
 
-        console.log("InteractionService.onMouseRightClick", object, event);
         this.selectNewObject(object);
         this.isDragging = false;
 
@@ -155,7 +152,7 @@ export class InteractionService {
 
         }
 
-        console.log("InteractionService.onMouseUp", object, event);
+        console.log("InteractionService.onMouseUp", object.constructor.name, event);
 
         let somethingDragged = false;
         this.selected.forEach((obj) => {
@@ -186,8 +183,9 @@ export class InteractionService {
         }
 
         this.mouseMovedAfterDown = true;
-
-        this.hoveringObject = object;
+        if(!this.isDragging){
+            this.hoveringObject = object;
+        }
 
         event.stopPropagation(); // don't let parent components handle this event
 
@@ -204,8 +202,6 @@ export class InteractionService {
     }
 
     public onKeyDown(event: KeyboardEvent): void {
-
-        console.log(event.key);
 
         // add key to heldKeys
         if (!this.heldKeys.has(event.key)) {
