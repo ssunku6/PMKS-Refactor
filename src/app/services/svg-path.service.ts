@@ -8,12 +8,8 @@ export class SVGPathService {
 
   constructor() {}
 
-  getSingleLinkDrawnPath(jointsInLink: IterableIterator<Joint>, radius: number): string{
-    //get all coordinates within the link.
-    let allCoords: Coord[] = [];
-    for(let joint of jointsInLink){
-      allCoords.push(joint._coords);
-    }
+  getSingleLinkDrawnPath(allCoords: Coord[], radius: number): string{
+
     //check if coordinates are collinear. If they are, use the two returned coords(the end points) to draw a line
     let collinearCoords: Coord[] | undefined = this.findCollinearCoords(allCoords);
     if(collinearCoords !== undefined){

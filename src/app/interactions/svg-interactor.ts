@@ -12,15 +12,18 @@ This handles any interaction with the SVG canvas.
 
 export class SvgInteractor extends Interactor {
 
-
+    private lastSVGPosition: Coord | undefined;
     constructor(private stateService: StateService, 
         private interactionService: InteractionService, private panZoomService: PanZoomService) {
         super(true, true);
 
         this.onDragStart$.subscribe((event) => {
+            this.lastSVGPosition = this.getMousePos().screen;
         });
         this.onDrag$.subscribe((event) => {
-            this.panZoomService._onSVGDrag(this.currentMousePosInSVG!.subtract(this.startMousePosInSVG!));
+            let currentSVGPosition = this.getMousePos().screen;
+            this.panZoomService._onSVGDrag(currentSVGPosition.subtract(this.lastSVGPosition!));
+            this.lastSVGPosition = currentSVGPosition;
         });
         this.onDragEnd$.subscribe((event) => {
         });
@@ -29,22 +32,22 @@ export class SvgInteractor extends Interactor {
 
     public override specifyContextMenu(): ContextMenuOption[] {
         const mechanism: Mechanism = this.stateService.getMechanism();
-        let convertedMousePosAtRightClick = this.getMousePos();
+        let modelPosAtRightClick = this.getMousePos().model;
         return [
             {
                 label: "Create Link",
                 action: () => {
-                    this.enterAddLinkCaptureMode(convertedMousePosAtRightClick)
+                    this.enterAddLinkCaptureMode(modelPosAtRightClick)
                 },
                 disabled: false
             }
         ];
         
     }
-    private enterAddLinkCaptureMode(convertedMousePosAtRightClick: Coord): void {
-        const capture = new CreateLinkFromGridCapture(convertedMousePosAtRightClick, this.interactionService);
+    private enterAddLinkCaptureMode(modelPosAtRightClick: Coord): void {
+        const capture = new CreateLinkFromGridCapture(modelPosAtRightClick, this.interactionService);
         capture.onClick$.subscribe((mousePos) => {
-            this.stateService.getMechanism().addLink(convertedMousePosAtRightClick, mousePos);
+            this.stateService.getMechanism().addLink(modelPosAtRightClick, mousePos);
         });
         this.interactionService.enterClickCapture(capture);
     }

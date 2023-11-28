@@ -17,6 +17,7 @@ import { GraphComponent } from './components/graph/graph.component';
 import { JointComponent } from './components/joint/joint.component';
 import { LinkComponent } from './components/link/link.component';
 import { CompoundLinkComponent } from './components/compound-link/compound-link.component';
+import { GridLinesComponent } from './components/gridlines/gridlines.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { CompoundLinkComponent } from './components/compound-link/compound-link.
     ContextMenuComponent,
     SvgComponent,
     GraphComponent,
+    GridLinesComponent,
     JointComponent,
     LinkComponent,
     CompoundLinkComponent,

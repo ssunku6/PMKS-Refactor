@@ -22,7 +22,7 @@ export class JointInteractor extends Interactor {
         });
 
         this.onDrag$.subscribe((event) => {
-            this.joint.setCoordinates(this.joint._coords.add(this.dragOffsetInSVG!));
+            this.joint.setCoordinates(this.joint._coords.add(this.dragOffsetInModel!));
         });
 
         this.onDragEnd$.subscribe((event) => {

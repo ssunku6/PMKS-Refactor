@@ -159,7 +159,7 @@ export class Link {
             return false;
         }
     }
-    setCoordinates( coord: Coord){
+    moveCoordinates( coord: Coord){
         for(const jointID of this._joints.keys()){
             const joint = this._joints.get(jointID)!;
             joint.setCoordinates(joint.coords.add(coord));

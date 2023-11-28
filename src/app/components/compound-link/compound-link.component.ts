@@ -11,6 +11,7 @@ import { InteractionService } from 'src/app/services/interaction.service';
 import { CompoundLinkInteractor } from 'src/app/interactions/compound-link-interactor';
 import { ColorService } from 'src/app/services/color.service';
 import { SVGPathService } from 'src/app/services/svg-path.service';
+import { UnitConversionService } from 'src/app/services/unit-conversion.service';
 
 @Component({
   selector: '[app-compound-link]',
@@ -23,7 +24,8 @@ export class CompoundLinkComponent extends AbstractInteractiveComponent {
   constructor(public override interactionService: InteractionService, 
 				private stateService: StateService, 
 				private colorService: ColorService, 
-				private svgPathService: SVGPathService) {
+				private svgPathService: SVGPathService,
+        private unitConverter: UnitConversionService) {
     super(interactionService);
   }
 
@@ -34,8 +36,32 @@ export class CompoundLinkComponent extends AbstractInteractiveComponent {
   getColor():string{
 	return this.colorService.getLinkColorFromID(this.compoundLink.id);
   }
-	getDrawnPath(): string{
-	let radius: number = 15;
-	return ""; 
+	getCompoundDrawnPath(): string{
+	const radius: number = 15;
+  let allUniqueJointCoords: Set<Coord> = new Set();
+  for(let link of this.compoundLink.links.values()){
+    for(let joint of link.joints.values())
+    allUniqueJointCoords.add(joint._coords);
   }
+  let allCoordsAsArray: Coord[] = Array.from(allUniqueJointCoords,(coord,index) =>{
+    return this.unitConverter.modelCoordToSVGCoord(coord);
+  });
+	return this.svgPathService.getSingleLinkDrawnPath(allCoordsAsArray, radius); 
+  }
+  
+  
+  getSubLinksPaths(): string[]{
+    const radius: number = 15;
+    let subLinkPaths: string[] = [];
+
+    this.compoundLink.links.forEach((link,id) =>{
+      let subLinkCoords = Array.from(link.joints,([id,joint])=>{
+        return this.unitConverter.modelCoordToSVGCoord(joint._coords);
+      });
+      subLinkPaths.push(this.svgPathService.getSingleLinkDrawnPath(subLinkCoords,radius));
+    });
+    console.log("sublink Paths: ", subLinkPaths);
+    return subLinkPaths;
+  }
+
 }

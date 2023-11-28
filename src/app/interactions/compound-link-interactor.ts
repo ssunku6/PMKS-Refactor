@@ -27,6 +27,7 @@ export class CompoundLinkInteractor extends Interactor {
         });
 
         this.onDrag$.subscribe((event) => {
+            this.compoundLink.moveCoordinates(this.dragOffsetInModel!);
         });
 
         this.onDragEnd$.subscribe((event) => {
@@ -53,21 +54,21 @@ export class CompoundLinkInteractor extends Interactor {
 
         let availableContext: ContextMenuOption[] = [];
         const mechanism: Mechanism = this.stateService.getMechanism();
-        let mousePosAtRightClick = this.getMousePos()
+        let modelPosAtRightClick = this.getMousePos().model;
         availableContext.push(
             {
                 label: "Attach Link",
-                action: () => {this.enterAddLinkCaptureMode(mousePosAtRightClick)},
+                action: () => {this.enterAddLinkCaptureMode(modelPosAtRightClick)},
                 disabled: false
             },
             {
                 label: "Attach Tracer Point",
-                action: () => {mechanism.addJointToLink(this.compoundLink.id, mousePosAtRightClick)},
+                action: () => {mechanism.addJointToLink(this.compoundLink.id, modelPosAtRightClick)},
                 disabled: false
             },
             {
                 label: "Attach Force",
-                action: () => {this.enterAddForceCaptureMode(mousePosAtRightClick)},
+                action: () => {this.enterAddForceCaptureMode(modelPosAtRightClick)},
                 disabled: false
             },
             {
@@ -81,9 +82,9 @@ export class CompoundLinkInteractor extends Interactor {
         
     }
     
-    private enterAddLinkCaptureMode(mousePosAtRightClick: Coord): void {
+    private enterAddLinkCaptureMode(modelPosAtRightClick: Coord): void {
     }
-    private enterAddForceCaptureMode(mousePosAtRightClick: Coord): void {
+    private enterAddForceCaptureMode(modelPosAtRightClick: Coord): void {
     }
 
     public override toString(): string {

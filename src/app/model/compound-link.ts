@@ -1,6 +1,7 @@
 import {Link} from '../model/link'
 import { Coord } from '../model/coord'
 import {Joint} from '../model/joint'
+import { Force } from '../model/force'
 
 export class CompoundLink{
     private _id: number;
@@ -90,6 +91,22 @@ export class CompoundLink{
         return false;
     }
 
+    moveCoordinates(offset: Coord): void{
+        let allUniqueJoints: Set<Joint> = new Set();
+        let allUniqueForces: Set<Force> = new Set();
+        for(let link of this.links.values()){
+            for(let joint of link.joints.values())
+                allUniqueJoints.add(joint);
+                for(let force of link.forces.values())
+                allUniqueForces.add(force);
+        }
+        for(const joint of allUniqueJoints){
+            joint.setCoordinates(joint.coords.add(offset));
+        }
+        for(const force of allUniqueForces){
+            force.setCoordinates(force.start.add(offset), force.end.add(offset));
+        }
+    }
 
 
 

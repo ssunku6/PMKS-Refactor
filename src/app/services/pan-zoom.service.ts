@@ -1,9 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Coord } from '../model/coord';
-import { StateService, ZoomPan } from './state.service';
+import { StateService } from './state.service';
 import { UnitConversionService } from './unit-conversion.service';
+import { MousePosition } from './mouse-position.service';
 
-
+export interface ZoomPan {
+    viewBoxX: number;
+    viewBoxY: number;
+    viewBoxWidth: number;
+    viewBoxHeight: number;
+    windowWidth: number;
+    windowHeight: number;
+    currentZoom: number;
+    zoomScale: number;
+}
 
 
 @Injectable({
@@ -11,66 +21,76 @@ import { UnitConversionService } from './unit-conversion.service';
 })
 export class PanZoomService{
 
-constructor(private stateService: StateService, private unitConversionService: UnitConversionService) {
+    private zoomPan: ZoomPan;
 
+constructor() {
+    this.zoomPan = {
+        viewBoxX: -(window.innerWidth),
+        viewBoxY: -(window.innerHeight),
+        viewBoxWidth: window.innerWidth*2,
+        viewBoxHeight: window.innerHeight*2,
+        windowWidth: window.innerWidth,
+        windowHeight: window.innerHeight,
+        currentZoom: 2,
+        zoomScale: 1.1
+    }
 
 }
 
 public _onMouseScrollWheel(event: WheelEvent){
     event.stopPropagation();
-    let panZoomValues = this.stateService.getPanZoom();
 
     let zoomDirection: number = event.deltaY;
-    let zoomLeftFraction: number = event.offsetX / panZoomValues.windowWidth;
-    let zoomTopFraction: number = event.offsetY / panZoomValues.windowHeight;
-    let oldViewBoxWidth: number = panZoomValues.scaledViewBoxWidth;
-    let oldViewBoxHeight: number = panZoomValues.scaledViewBoxHeight;
+    let zoomLeftFraction: number = event.offsetX / this.zoomPan.windowWidth;
+    let zoomTopFraction: number = event.offsetY / this.zoomPan.windowHeight;
+    let oldViewBoxWidth: number = this.zoomPan.viewBoxWidth;
+    let oldViewBoxHeight: number = this.zoomPan.viewBoxHeight;
 
     if(zoomDirection > 0){
     
-        panZoomValues.currentScale *= panZoomValues.zoomScale;
-        panZoomValues.scaledViewBoxWidth = panZoomValues.windowWidth * panZoomValues.currentScale;
-        panZoomValues.scaledViewBoxHeight = panZoomValues.windowHeight * panZoomValues.currentScale;
+        this.zoomPan.currentZoom *= this.zoomPan.zoomScale;
+        this.zoomPan.viewBoxWidth = this.zoomPan.windowWidth * this.zoomPan.currentZoom;
+        this.zoomPan.viewBoxHeight = this.zoomPan.windowHeight * this.zoomPan.currentZoom;
 
-        panZoomValues.scaledViewBoxX -=((panZoomValues.scaledViewBoxWidth - oldViewBoxWidth) * zoomLeftFraction);
-        panZoomValues.scaledViewBoxY -=((panZoomValues.scaledViewBoxHeight - oldViewBoxHeight) * zoomTopFraction);
+        this.zoomPan.viewBoxX -=((this.zoomPan.viewBoxWidth - oldViewBoxWidth) * zoomLeftFraction);
+        this.zoomPan.viewBoxY -=((this.zoomPan.viewBoxHeight - oldViewBoxHeight) * zoomTopFraction);
     }else{
 
-        panZoomValues.currentScale /= panZoomValues.zoomScale;
-        panZoomValues.scaledViewBoxWidth = panZoomValues.windowWidth * panZoomValues.currentScale;
-        panZoomValues.scaledViewBoxHeight = panZoomValues.windowHeight * panZoomValues.currentScale;
+        this.zoomPan.currentZoom /= this.zoomPan.zoomScale;
+        this.zoomPan.viewBoxWidth = this.zoomPan.windowWidth * this.zoomPan.currentZoom;
+        this.zoomPan.viewBoxHeight = this.zoomPan.windowHeight * this.zoomPan.currentZoom;
 
-        panZoomValues.scaledViewBoxX += ((panZoomValues.scaledViewBoxWidth - oldViewBoxWidth) * -zoomLeftFraction);
-        panZoomValues.scaledViewBoxY += ((panZoomValues.scaledViewBoxHeight - oldViewBoxHeight) * -zoomTopFraction);
+        this.zoomPan.viewBoxX += ((this.zoomPan.viewBoxWidth - oldViewBoxWidth) * -zoomLeftFraction);
+        this.zoomPan.viewBoxY += ((this.zoomPan.viewBoxHeight - oldViewBoxHeight) * -zoomTopFraction);
     }
-    this.stateService.setPanZoom(panZoomValues);
-
 }
 
 public _onSVGDrag(dragOffset: Coord){
-    let panZoomValues: ZoomPan = this.stateService.getPanZoom();
-    panZoomValues.scaledViewBoxX -= dragOffset.x;
-    panZoomValues.scaledViewBoxY -= dragOffset.y;
-    this.stateService.setPanZoom(panZoomValues);
+    this.zoomPan.viewBoxX -= dragOffset.x * this.zoomPan.currentZoom;
+    this.zoomPan.viewBoxY -= dragOffset.y * this.zoomPan.currentZoom;
+
 }
 
 public _onWindowResize(event: UIEvent){
     event.stopPropagation();
-    let panZoomValues: ZoomPan = this.stateService.getPanZoom();
-    panZoomValues.windowWidth = window.innerWidth;
-    panZoomValues.windowHeight = window.innerHeight;
-    panZoomValues.scaledViewBoxWidth = panZoomValues.windowWidth * panZoomValues.currentScale;
-    panZoomValues.scaledViewBoxHeight = panZoomValues.windowHeight * panZoomValues.currentScale;
-    this.stateService.setPanZoom(panZoomValues);
+
+    this.zoomPan.windowWidth = window.innerWidth;
+    this.zoomPan.windowHeight = window.innerHeight;
+    this.zoomPan.viewBoxWidth = this.zoomPan.windowWidth * this.zoomPan.currentZoom;
+    this.zoomPan.viewBoxHeight = this.zoomPan.windowHeight * this.zoomPan.currentZoom;
 }
 
 
 public getViewBox():string{
-    let panZoomValues: ZoomPan = this.stateService.getPanZoom();
-    return panZoomValues.scaledViewBoxX.toString() + " "
-        +  panZoomValues.scaledViewBoxY.toString() + " "
-        +  panZoomValues.scaledViewBoxWidth.toString() + " "
-        +  panZoomValues.scaledViewBoxHeight.toString() + " ";
-} 
+
+    return this.zoomPan.viewBoxX.toString() + " "
+        +  this.zoomPan.viewBoxY.toString() + " "
+        +  this.zoomPan.viewBoxWidth.toString() + " "
+        +  this.zoomPan.viewBoxHeight.toString() + " ";
+}
+public getZoomPan(): ZoomPan{
+    return this.zoomPan;
+
+}
 
 }

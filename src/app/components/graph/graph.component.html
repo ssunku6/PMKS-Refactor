@@ -3,11 +3,12 @@
 <ng-container *ngFor="let link of getLinks()">
     <svg:g app-link [link]="link" />
 </ng-container>
-<!--
+
+
 <ng-container *ngFor="let compoundLink of getCompoundLinks()">
     <svg:g app-compound-link [compoundLink]="compoundLink" />
 </ng-container>
-
+<!--
 <ng-container *ngFor="let force of getForces()">
     <svg:g app-force [force]="force" />
 </ng-container>

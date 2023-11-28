@@ -12,6 +12,7 @@ import { CompoundLink } from 'src/app/model/compound-link';
 import { Mechanism } from 'src/app/model/mechanism';
 import { InteractionService } from 'src/app/services/interaction.service';
 import { StateService } from 'src/app/services/state.service';
+import { UnitConversionService } from 'src/app/services/unit-conversion.service';
 
 @Component({
   selector: '[app-graph]',
@@ -20,7 +21,8 @@ import { StateService } from 'src/app/services/state.service';
 })
 export class GraphComponent {
 
-  constructor(public stateService: StateService, private interactorService: InteractionService) {
+  constructor(private stateService: StateService, private interactorService: InteractionService,
+              private unitConverter: UnitConversionService) {
     console.log("GraphComponent.constructor");
   }
 
@@ -60,10 +62,10 @@ public isCreatingComponent(): boolean{
 
   public getNewCompLineStart(): Coord {
     let capture = this.interactorService.getClickCapture()!;
-    return capture.getStartPos();
+    return this.unitConverter.modelCoordToSVGCoord(capture.getStartPos());
   }
 
   public getNewCompLineEnd(): Coord {
-    return this.interactorService.getMousePos();
+    return this.interactorService.getMousePos().svg;
   }
 }

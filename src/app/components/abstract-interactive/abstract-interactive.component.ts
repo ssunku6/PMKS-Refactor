@@ -34,4 +34,12 @@ export abstract class AbstractInteractiveComponent implements OnInit, OnDestroy{
     this.interactionService.unregister(this.interactor);
   }
 
+  isSelected(): boolean {
+    return this.interactor.isSelected;
+  }
+
+  isHovered(): boolean {
+    return ( this.interactor === this.interactionService.getHoveringObject())
+  }
+
 }

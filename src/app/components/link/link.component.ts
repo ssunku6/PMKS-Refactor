@@ -37,6 +37,15 @@ export class LinkComponent extends AbstractInteractiveComponent {
   }
 	getDrawnPath(): string{
 	let radius: number = 15;
-	return this.svgPathService.getSingleLinkDrawnPath(this.link.joints.values(), radius);
+  //convert all joint coordinates from to position in model to position on screen
+  let joints: IterableIterator<Joint> = this.link.joints.values();
+  let allCoords: Coord[] = [];
+    for(let joint of joints){
+      let coord: Coord = joint._coords;
+      coord = this.unitConversionService.modelCoordToSVGCoord(coord);
+      allCoords.push(coord);
+    }
+  
+	return this.svgPathService.getSingleLinkDrawnPath(allCoords, radius);
   }
 }

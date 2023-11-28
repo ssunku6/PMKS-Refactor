@@ -29,11 +29,11 @@ export class JointComponent extends AbstractInteractiveComponent {
   }
 
   public getX(): number {
-    return this.joint!.coords.x;
+    return this.unitConversionService.modelCoordToSVGCoord(this.joint._coords).x;
   }
 
   public getY(): number {
-    return this.joint!.coords.y;
+    return this.unitConversionService.modelCoordToSVGCoord(this.joint._coords).y;
   }
 
   public getRadius(): number {

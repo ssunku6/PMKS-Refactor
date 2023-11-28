@@ -5,6 +5,9 @@ import { ContextMenuService } from './context-menu.service';
 import { ClickCapture, ClickCaptureID } from '../interactions/click-capture';
 import { Subject } from 'rxjs';
 import { SvgInteractor } from '../interactions/svg-interactor';
+import { StateService } from './state.service';
+import { MousePosition } from './mouse-position.service';
+import { PanZoomService, ZoomPan } from './pan-zoom.service';
 import { UnitConversionService } from './unit-conversion.service';
 
 /*
@@ -19,14 +22,14 @@ Interactors.
 })
 export class InteractionService {
 
+    
+    private mousePos: MousePosition;
     private objects: Interactor[] = [];
-
     private selected = new Set<Interactor>(); // set of currently-selected objects
     private isDragging: boolean = false; // whether the selected objects are being dragged
 
     private heldKeys: Set<string> = new Set<string>(); // keys currently being held down
 
-    private mousePos: Coord = new Coord(0, 0); // current mouse position
     private mouseMovedAfterDown: boolean = false; // whether the mouse has moved since the last mouse down event
 
     public hoveringObject?: Interactor; // object that the mouse is currently hovering over
@@ -37,7 +40,17 @@ export class InteractionService {
 
     private clickCapture: ClickCapture | undefined;
 
-    constructor(private contextMenuService: ContextMenuService, private unitConversionService: UnitConversionService) { }
+    constructor(private contextMenuService: ContextMenuService, 
+                private stateService: StateService, 
+                private panZoomService: PanZoomService, 
+                private unitConverter: UnitConversionService) {
+
+        this.mousePos = {
+            screen: new Coord(0,0),
+            svg: new Coord(0,0),
+            model: new Coord(0,0)
+        }
+    }
 
 
     // select the object and deselect all others
@@ -67,16 +80,13 @@ export class InteractionService {
 
     // select the object and unselect all others
     public _onMouseDown(object: Interactor, event: MouseEvent): void {
-
-        this.mousePos = this.unitConversionService.mouseCoordToModelCoord(new Coord(event.clientX, event.clientY));
-
         this.mouseMovedAfterDown = false;
 
         event.stopPropagation(); // don't let parent components handle this event
 
         // if click capture, handle special case
         if (this.clickCapture) {
-            this.clickCapture.onClick$.next(this.mousePos);
+            this.clickCapture.onClick$.next(this.mousePos.model);
             this.exitClickCapture();
             return;
         }
@@ -102,8 +112,6 @@ export class InteractionService {
     }
 
     public _onMouseRightClick(object: Interactor, event: MouseEvent): void {
-
-        this.mousePos = this.unitConversionService.mouseCoordToModelCoord(new Coord(event.clientX, event.clientY));
         this.mouseMovedAfterDown = false;
 
         event.preventDefault(); // prevent context menu from appearing
@@ -111,7 +119,7 @@ export class InteractionService {
 
         // if click capture, handle special case
         if (this.clickCapture) {
-            this.clickCapture.onClick$.next(this.mousePos);
+            this.clickCapture.onClick$.next(this.mousePos.model);
             this.exitClickCapture();
             return;
         }
@@ -129,7 +137,6 @@ export class InteractionService {
 
     public _onMouseUp(object: Interactor, event: MouseEvent): void {
 
-        this.mousePos = this.unitConversionService.mouseCoordToModelCoord(new Coord(event.clientX, event.clientY));
         event.stopPropagation(); // don't let parent components handle this event
 
         // if it was a click, deselect objects that were not clicked on
@@ -169,8 +176,15 @@ export class InteractionService {
 
     // if mouse is down, then drag the selected objects
     public _onMouseMove(object: Interactor, event: MouseEvent): void {
+        //update the mouse position within the SVG
+        let screenPos: Coord = new Coord(event.offsetX, event.offsetY);
+        let currentZoomPan: ZoomPan = this.panZoomService.getZoomPan();
+        this.mousePos = {
+            screen : screenPos,
+            svg : this.unitConverter.mouseCoordToSVGCoord(screenPos, currentZoomPan),
+            model : this.unitConverter.mouseCoordToModelCoord(screenPos, currentZoomPan),
+        }
 
-        this.mousePos = this.unitConversionService.mouseCoordToModelCoord(new Coord(event.clientX, event.clientY));
         this.mouseMovedAfterDown = true;
 
         this.hoveringObject = object;
@@ -178,7 +192,7 @@ export class InteractionService {
         event.stopPropagation(); // don't let parent components handle this event
 
         if (this.clickCapture) {
-            this.clickCapture.onMouseMove$.next(this.mousePos);
+            this.clickCapture.onMouseMove$.next(this.mousePos.model);
             return;
         }
 
@@ -268,10 +282,6 @@ export class InteractionService {
         object._onDragStart();
     }
 
-    public getMousePos(): Coord {
-        return this.mousePos;
-    }
-
     public getObjectDebug(): string[] {
         return this.objects.map((obj) => obj.toString());
     }
@@ -282,6 +292,9 @@ export class InteractionService {
 
     public getDragging(): boolean {
         return this.isDragging;
+    }
+    public getMousePos(): MousePosition {
+        return this.mousePos;
     }
 
 }
