@@ -29,8 +29,6 @@ export abstract class Interactor {
     public isDragged: boolean = false;
     public startMousePosInModel?: Coord;
     public dragOffsetInModel?: Coord;
-    public lastMousePosInModel?: Coord | undefined;
-    public currentMousePosInModel?: Coord | undefined;
     
 
     public onSelect$ = new Subject<boolean>();
@@ -73,14 +71,11 @@ export abstract class Interactor {
     public _onDragStart(): void {
         this.isDragged = true;
         this.startMousePosInModel = this.getMousePos().model;
-        this.lastMousePosInModel = this.getMousePos().model;
         this.dragOffsetInModel = new Coord(0,0);
         this.onDragStart$.next(true);
     }
     public _onDrag(): void {
-        this.currentMousePosInModel = this.getMousePos().model;
-        this.dragOffsetInModel = this.currentMousePosInModel!.subtract(this.lastMousePosInModel!);
-        this.lastMousePosInModel = this.currentMousePosInModel;
+        this.dragOffsetInModel = this.getMousePos().model.subtract(this.startMousePosInModel!);
         this.onDrag$.next(true);
     }
     public _onDragEnd(): void {

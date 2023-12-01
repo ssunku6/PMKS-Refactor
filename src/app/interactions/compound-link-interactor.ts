@@ -1,5 +1,6 @@
 import { Coord } from "../model/coord";
 import { Link } from "../model/link";
+import { Joint } from "../model/joint";
 import { CompoundLink } from "../model/compound-link";
 import { Mechanism } from "../model/mechanism";
 import { InteractionService } from "../services/interaction.service";
@@ -16,23 +17,28 @@ This interactor defines the following behaviors:
 
 export class CompoundLinkInteractor extends Interactor {
 
-    private linkPosJointBeforeDrag?: Map<number,Coord>;
-    private linkPosForceBeforeDrag?: Map<number,Coord[]>
+    private jointsStartPosModel: Map<number,Coord> = new Map();
+    
 
     constructor(public compoundLink: CompoundLink, private stateService: StateService,
         private interactionService: InteractionService) {
         super(true, true);
 
         this.onDragStart$.subscribe((event) => {
+            this.compoundLink.links.forEach((link: Link,id: number) =>{
+                link.joints.forEach((joint: Joint, id: number) =>{
+                    this.jointsStartPosModel.set(id, joint._coords);
+                });
+            });
         });
 
         this.onDrag$.subscribe((event) => {
-            this.compoundLink.moveCoordinates(this.dragOffsetInModel!);
+            this.jointsStartPosModel.forEach((coord: Coord, jointID: number)=>{
+                this.stateService.getMechanism().setJointCoord(jointID, coord.add(this.dragOffsetInModel!))
+            });
         });
-
         this.onDragEnd$.subscribe((event) => {
-            this.linkPosJointBeforeDrag = undefined;
-            this.linkPosForceBeforeDrag = undefined;
+            this.jointsStartPosModel.clear();
         });
 
         // if backspace, delete

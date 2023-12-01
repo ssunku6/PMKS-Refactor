@@ -26,7 +26,6 @@ export class InteractionService {
     private mousePos: MousePosition;
     private objects: Interactor[] = [];
     private selected = new Set<Interactor>(); // set of currently-selected objects
-    private uniqueInteractors = new Set<Interactor>(); //subset of selected objects to prevent joints from moving twice
     private isDragging: boolean = false; // whether the selected objects are being dragged
 
     private heldKeys: Set<string> = new Set<string>(); // keys currently being held down

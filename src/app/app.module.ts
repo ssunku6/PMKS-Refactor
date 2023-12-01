@@ -4,7 +4,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
-
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule} from '@angular/material/button';
+import { MatIconModule} from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 /* Component Imports */
 import { InteractionDirective } from './directives/interaction-directive';
@@ -18,6 +22,10 @@ import { JointComponent } from './components/joint/joint.component';
 import { LinkComponent } from './components/link/link.component';
 import { CompoundLinkComponent } from './components/compound-link/compound-link.component';
 import { GridLinesComponent } from './components/gridlines/gridlines.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
+
+
 
 
 @NgModule({
@@ -32,12 +40,23 @@ import { GridLinesComponent } from './components/gridlines/gridlines.component';
     LinkComponent,
     CompoundLinkComponent,
     CreateNewCompLineComponent,
+    ToolbarComponent,
+    SidenavComponent,
+
+    
     
   ],
   imports: [
     BrowserModule,
     MatMenuModule,
     BrowserAnimationsModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatButtonToggleModule,
+
+
   ],
   providers: [],
   bootstrap: [AppComponent]
