@@ -13,16 +13,17 @@ This interactor defines the following behaviors:
 */
 
 export class JointInteractor extends Interactor {
-
+    private jointStart: Coord = new Coord(0,0);
     constructor(public joint: Joint, private stateService: StateService,
         private interactionService: InteractionService) {
         super(true, true);
 
         this.onDragStart$.subscribe((event) => {
+            this.jointStart = this.joint._coords;
         });
 
         this.onDrag$.subscribe((event) => {
-            this.joint.setCoordinates(this.joint._coords.add(this.dragOffsetInModel!));
+            this.joint.setCoordinates(this.jointStart.add(this.dragOffsetInModel!));
         });
 
         this.onDragEnd$.subscribe((event) => {

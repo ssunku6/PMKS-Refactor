@@ -14,8 +14,7 @@ export class GridLinesComponent  {
   }
 
   getLines(majorMinor: boolean, horizontalVertical: boolean): {lines: {line: number, label:number}[]} {
-    
-    //setup variables
+    //setup returnn variable and get canvas state
     let lines: {line: number, label:number}[] = [];
     let zoomPan: ZoomPan = this.panZoomService.getZoomPan();
 

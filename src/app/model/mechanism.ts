@@ -304,9 +304,20 @@ export class Mechanism {
      * @param {number} newXCoord
      * @memberof Mechanism
      */
+    setJointCoord(jointID: number, newCoord: Coord) {
+        this.executeJointAction(jointID, (joint) => true, 'error','success', (joint) =>{joint.setCoordinates(newCoord);});
+    }
+    /**
+     * Moves a joint to a new specified x coordinate.
+     *
+     * @param {number} jointID
+     * @param {number} newXCoord
+     * @memberof Mechanism
+     */
     setXCoord(jointID: number, newXCoord: number) {
         this.executeJointAction(jointID, (joint) => true, 'error','success', (joint) =>{joint.coords.x = newXCoord;});
     }
+    
     /**
      *Moves a joint to a new specified y coordinate.
      *

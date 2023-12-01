@@ -1,5 +1,6 @@
 import { Coord } from "../model/coord";
 import { Link } from "../model/link";
+import { Joint } from "../model/joint";
 import { Mechanism } from "../model/mechanism";
 import { InteractionService } from "../services/interaction.service";
 import { StateService } from "../services/state.service";
@@ -15,18 +16,26 @@ This interactor defines the following behaviors:
 
 export class LinkInteractor extends Interactor {
 
+    public jointsStartPosModel: Map<number, Coord> = new Map();
 
     constructor(public link: Link, private stateService: StateService,
         private interactionService: InteractionService) {
         super(true, true);
 
         this.onDragStart$.subscribe((event) => {
+            this.link.joints.forEach((joint: Joint,id: number) =>{
+                this.jointsStartPosModel.set(id, joint._coords);
+            })
+        
 
         });
         this.onDrag$.subscribe((event) => {
-            this.link.moveCoordinates(this.dragOffsetInModel!);
+            this.jointsStartPosModel.forEach((coord: Coord, jointID: number)=>{
+                this.stateService.getMechanism().setJointCoord(jointID, coord.add(this.dragOffsetInModel!))
+            });
         });
         this.onDragEnd$.subscribe((event) => {
+            this.jointsStartPosModel.clear();
         });
 
         // if backspace, delete
