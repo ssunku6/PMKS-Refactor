@@ -2,6 +2,7 @@
         @switch (getSelectedObjectType()){
             @case('JointInteractor'){
                 <p>Joint Selected</p>
+                <app-joint-edit-panel></app-joint-edit-panel>
             }
             @case('LinkInteractor'){
                 <p>Link Selected</p>
@@ -12,5 +13,5 @@
             @default(){
                 <p>Nothing Selected</p>
             }
-        } 
+        }
 </div>

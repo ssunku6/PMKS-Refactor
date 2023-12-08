@@ -1,7 +1,7 @@
 import { Component} from '@angular/core'
 
 interface Tab {
-    selected: boolean, 
+    selected: boolean,
     label: string,
     icon: string
 }
@@ -13,44 +13,10 @@ interface Tab {
     styleUrls: ['./joint-edit-panel.component.scss'],
 
 })
-export class SidenavComponent {
 
-    tabs: Tab[] = [
-        {selected: true, label: 'Edit',icon: 'assets/sidenav/edit.svg'},
-        {selected: false, label: 'Analyze', icon:'assets/sidenav/analyze.svg'},
-        {selected: false, label: 'Synthesize',icon: 'assets/sidenav/synthesize.svg'},
-    ];
+export class jointEditPanelComponent {
     constructor(){
     }
-
-
-setCurrentTab(clickedTab: string){
-    this.tabs.forEach((tab)=>{
-        if(tab.label == clickedTab){
-            tab.selected = true;
-        } else{
-            tab.selected = false;
-        }
-    });
-}
-isSelected(id: string): boolean{
-    let isSelected = false;
-    this.tabs.forEach((tab)=>{
-        if(tab.label == id){
-            isSelected = tab.selected;
-        }
-    });
-    return isSelected;
-}
-getSelected(): string {
-    let selectedTab = '';
-    this.tabs.forEach((tab)=>{
-        if(tab.selected){
-            selectedTab = tab.label;
-        }
-    });
-    return selectedTab;
-}
 
 
 }

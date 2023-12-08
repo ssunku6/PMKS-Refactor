@@ -19,6 +19,7 @@ import { SvgComponent } from './components/svg/svg.component';
 import { CreateNewCompLineComponent } from './components/create-new-comp-line/create-new-comp-line.component';
 import { GraphComponent } from './components/graph/graph.component';
 import { JointComponent } from './components/joint/joint.component';
+import { jointEditPanelComponent} from "./components/joint-edit-panel/joint-edit-panel.component";
 import { LinkComponent } from './components/link/link.component';
 import { CompoundLinkComponent } from './components/compound-link/compound-link.component';
 import { GridLinesComponent } from './components/gridlines/gridlines.component';
@@ -37,6 +38,7 @@ import { EditPanelComponent } from './components/edit-panel/edit-panel.component
     GraphComponent,
     GridLinesComponent,
     JointComponent,
+    jointEditPanelComponent,
     LinkComponent,
     CompoundLinkComponent,
     CreateNewCompLineComponent,
