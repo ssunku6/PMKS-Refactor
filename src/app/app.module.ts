@@ -26,6 +26,7 @@ import { GridLinesComponent } from './components/gridlines/gridlines.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { EditPanelComponent } from './components/edit-panel/edit-panel.component';
+import { LinkEditPanelComponent } from './components/link-edit-panel/link-edit-panel.component';
 
 
 
@@ -45,6 +46,7 @@ import { EditPanelComponent } from './components/edit-panel/edit-panel.component
     ToolbarComponent,
     SidenavComponent,
     EditPanelComponent,
+    LinkEditPanelComponent,
   ],
   imports: [
     BrowserModule,
