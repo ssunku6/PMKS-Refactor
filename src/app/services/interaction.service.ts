@@ -27,7 +27,7 @@ export class InteractionService {
     private objects: Interactor[] = [];
     private selected = new Set<Interactor>(); // set of currently-selected objects
     private isDragging: boolean = false; // whether the selected objects are being dragged
-
+    private lastSelected: Interactor | undefined;
     private heldKeys: Set<string> = new Set<string>(); // keys currently being held down
 
     private mouseMovedAfterDown: boolean = false; // whether the mouse has moved since the last mouse down event
@@ -58,7 +58,7 @@ export class InteractionService {
 
 
         let isAlreadySelected = this.selected.has(object);
-
+        this.lastSelected = object;
 
         // deselect all other objects and call onDeselect().
         // if the object is already selected, do not call onDeselect() on it.
@@ -292,4 +292,7 @@ export class InteractionService {
         return this.mousePos;
     }
 
+    public getSelectedObject(): Interactor | undefined {
+        return this.lastSelected;
+    }
 }

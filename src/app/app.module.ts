@@ -24,7 +24,7 @@ import { CompoundLinkComponent } from './components/compound-link/compound-link.
 import { GridLinesComponent } from './components/gridlines/gridlines.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
-
+import { EditPanelComponent } from './components/edit-panel/edit-panel.component';
 
 
 
@@ -42,9 +42,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
     CreateNewCompLineComponent,
     ToolbarComponent,
     SidenavComponent,
-
-    
-    
+    EditPanelComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,52 @@
 <svg:g appInteractable [interactor]="getInteractor()">
+    @if(isGround() && !isPrismatic() && !isInput()){
+        <image xlink:href='../../../assets/joint/Ground.svg'
+        [attr.x]="getX()-getRadius()*5.2" 
+        [attr.y]="getY()-getRadius()"
+        [attr.height]="getRadius()*4.5"
+        />
+    }
+    @if(isGround() && isInput() && !isPrismatic() && isCCW()) {
+        <image xlink:href='../../../assets/joint/InputCCW.svg'
+        [attr.x]="getX()-getRadius()*4.3" 
+        [attr.y]="getY()-getRadius()*2.8"
+        [attr.height]="getRadius()*6.5"
+
+        />
+    }
+    @if(isGround() && isInput() && !isPrismatic() && !isCCW()) {
+        <image xlink:href='../../../assets/joint/InputCW.svg'
+        [attr.x]="getX()-getRadius()*4.3" 
+        [attr.y]="getY()-getRadius()*2.8"
+        [attr.height]="getRadius()*6.5"
+        
+        />
+    }
+    @if(!isInput() && isPrismatic()) {
+        <image xlink:href='../../../assets/joint/SliderPill.svg'
+        [attr.x]="getX()-getRadius()*4.6" 
+        [attr.y]="getY()-getRadius()*1.4"
+        [attr.height]="getRadius()*3"
+        />
+        <image xlink:href='../../../assets/joint/SliderTrackMid.svg'
+        [attr.x]="getX()-getRadius()*11" 
+        [attr.y]="getY()-getRadius()*2.5"
+        [attr.height]="getRadius()*5"
+        />
+
+    }
+    @if(isInput() && isPrismatic()) {
+        <image xlink:href='../../../assets/joint/SliderPillInput.svg'
+        [attr.x]="getX()-getRadius()*4.6" 
+        [attr.y]="getY()-getRadius()*1.4"
+        [attr.height]="getRadius()*3"
+        />
+        <image xlink:href='../../../assets/joint/SliderTrackMid.svg'
+        [attr.x]="getX()-getRadius()*11" 
+        [attr.y]="getY()-getRadius()*2.5"
+        [attr.height]="getRadius()*5"
+        />
+    }
 
     @if(isWelded()){
         <path 
@@ -28,5 +76,7 @@
         text-anchor="middle">
         {{this.joint.id}}
     </svg:text>
+
+
 
 </svg:g>

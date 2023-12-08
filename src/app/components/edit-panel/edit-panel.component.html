@@ -1,0 +1,16 @@
+<div class="app-edit-panel-container">
+        @switch (getSelectedObjectType()){
+            @case('JointInteractor'){
+                <p>Joint Selected</p>
+            }
+            @case('LinkInteractor'){
+                <p>Link Selected</p>
+            }
+            @case('ForceInteractor'){
+                <p>Force Selected</p>
+            }
+            @default(){
+                <p>Nothing Selected</p>
+            }
+        } 
+</div>

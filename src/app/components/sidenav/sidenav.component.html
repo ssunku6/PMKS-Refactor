@@ -1,14 +1,27 @@
-<div>
-    <div class="app-sidenav-container">
-        <mat-button-toggle-group class="sidenav-toggle-container" name="modeSelect" aria-label="Mode Select">
-            <mat-button-toggle class="sidenav-button" value="bold">Synthesize</mat-button-toggle>
-            <mat-button-toggle class="sidenav-button" value="italic">Edit</mat-button-toggle>
-            <mat-button-toggle class="sidenav-button" value="underline">Analyze</mat-button-toggle>
-        </mat-button-toggle-group>
-    </div>
+<div class="app-sidenav-container">
+    <nav class="side-nav">
+        @for(tab of this.tabs; track $index){
+        <button class ="sidenav-button"
+                [ngClass]="{'selected': tab.selected}"
+                (click)="setCurrentTab(tab.label)">
+                <img
+                [src]="tab.icon">
+                {{tab.label}}
+        </button>
+        }
+    </nav>
     <div class="app-panel-container">
-    <button mat-button></button>
+        @switch(getSelected()){
+            @case ('Edit'){
+            <app-edit-panel></app-edit-panel>
+            }
+            @case ('Synthesize'){
+                <p>Synthesize</p>
+            }
+            @case ('Analyze'){
+                <p>Analyze</p>
+            }
 
-
+        }
     </div>
 </div>

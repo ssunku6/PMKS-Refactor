@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { Joint } from 'src/app/model/joint';
+import { Joint, JointType } from 'src/app/model/joint';
 import { AbstractInteractiveComponent } from '../abstract-interactive/abstract-interactive.component';
 import { Interactor } from 'src/app/interactions/interactor';
 import { JointInteractor } from 'src/app/interactions/joint-interactor';
@@ -53,6 +53,19 @@ export class JointComponent extends AbstractInteractiveComponent {
   isWelded(){
     return this.joint.isWelded;
   }
+  isGround(){
+    return this.joint.isGrounded;
+  }
+  isInput(){
+    return this.joint.isInput;
+  }
+  isPrismatic(){
+    return this.joint.type == JointType.Prismatic;
+  }
+  isCCW(){
+    return this.joint.inputSpeed >= 0;
+  }
+
   getTranslation(): string{
     return "translate(" + 
     this.unitConversionService.modelCoordToSVGCoord(this.joint._coords).x.toString() +

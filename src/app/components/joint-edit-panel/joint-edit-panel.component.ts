@@ -8,9 +8,9 @@ interface Tab {
 
 
 @Component({
-    selector: 'app-sidenav',
-    templateUrl: './sidenav.component.html',
-    styleUrls: ['./sidenav.component.scss'],
+    selector: 'app-joint-edit-panel',
+    templateUrl: './joint-edit-panel.component.html',
+    styleUrls: ['./joint-edit-panel.component.scss'],
 
 })
 export class SidenavComponent {
