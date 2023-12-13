@@ -17,6 +17,11 @@ interface Tab {
 export class jointEditPanelComponent {
     constructor(){
     }
-
+  graphExpanded: { [key: string]: boolean } = {
+    basicBasic: false,
+    basicVisual: false,
+    advancedSettingsBasic: true,
+    advancedSettingsVisual: false
+  };
 
 }
