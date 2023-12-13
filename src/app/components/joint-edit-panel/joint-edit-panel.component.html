@@ -35,6 +35,19 @@
 -->
 <div id="editJoint">
 <!--  JOINT PANEL-->
-  <p>Hello edit panel is working</p>
+  <collapsible-subsection titleLabel="">
+    <panel-section-collapsible>
+      <title-block icon='expand_more' description='' class = "editHeader"
+      >Edit Joint
+      </title-block>
+      <p>Hello edit panel is working</p>
+    </panel-section-collapsible>
+  </collapsible-subsection>
+  <collapsible-subsection titleLabel='Basic Settings' [expanded]="graphExpanded['basicBasic']"
+                          (opened)="graphExpanded['basicBasic'] = true"
+                          (closed)="graphExpanded['basicBasic'] = false"
+                          class="panel-header">
+  <p>we are open!</p>
+  </collapsible-subsection>
 
 </div>

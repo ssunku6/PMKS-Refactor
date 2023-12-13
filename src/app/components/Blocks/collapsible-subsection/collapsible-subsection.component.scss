@@ -1,6 +1,18 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
+
+.collapsibleSubsection{
+
+}
+.panel-header{
+  width: 100%;
+  background-color: dodgerblue;
+    //<- seems to be border, not button color
+    //mat.get-color-from-palette($primary-palette, 50);
+}
+
+/*
 @mixin css($theme) {
   // Get the color config from the theme.
   $color-config: mat.get-color-config($theme);
@@ -11,8 +23,11 @@
   $background: map.get($theme, background);
   $foreground: map.get($theme, foreground);
 
+  .panel-spooky {
+    color: violet;
+  }
   .collapsibleSubsection {
-
+    margin-left: 500px;
     .panel-header {
 
       padding: 0 15px;
@@ -61,5 +76,5 @@
     }
 
   }
-
-}
+*/
+// }
