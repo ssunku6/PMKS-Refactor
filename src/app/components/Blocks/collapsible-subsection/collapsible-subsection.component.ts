@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/
 import { animate, AUTO_STYLE, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
-  selector: 'collapsible-subseciton',
+  selector: 'collapsible-subsection',
   animations: [
     trigger('openClose', [
       state(
@@ -26,10 +26,10 @@ import { animate, AUTO_STYLE, state, style, transition, trigger } from '@angular
       transition('* => *', [animate('0.15s ease-in-out')]),
     ]),
   ],
-  templateUrl: './collapsible-subseciton.component.html',
-  styleUrls: ['./collapsible-subseciton.component.scss'],
+  templateUrl: './collapsible-subsection.component.html',
+  styleUrls: ['./collapsible-subsection.component.scss'],
 })
-export class CollapsibleSubsecitonComponent {
+export class CollapsibleSubsectionComponent {
   @Input() hideHeader: boolean = false; //If this is true the content cannot be expanded
 
   @Input() expanded: boolean = false;

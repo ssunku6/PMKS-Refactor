@@ -28,9 +28,9 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { EditPanelComponent } from './components/edit-panel/edit-panel.component';
 import { LinkEditPanelComponent } from './components/link-edit-panel/link-edit-panel.component';
 import { PanelSectionCollapsibleComponent } from './components/Blocks/panel-section-collapsible/panel-section-collapsible.component';
-import { CollapsibleSubsecitonComponent } from './components/Blocks/collapsible-subseciton/collapsible-subseciton.component';
 import { PanelSectionComponent } from './components/Blocks/panel-section/panel-section.component';
 import { TitleBlock } from './components/Blocks/title/title.component';
+import { CollapsibleSubsectionComponent } from './components/Blocks/collapsible-subsection/collapsible-subsection.component';
 
 
 
@@ -52,9 +52,9 @@ import { TitleBlock } from './components/Blocks/title/title.component';
     EditPanelComponent,
     LinkEditPanelComponent,
     PanelSectionCollapsibleComponent,
-    CollapsibleSubsecitonComponent,
     PanelSectionComponent,
     TitleBlock,
+    CollapsibleSubsectionComponent,
   ],
   imports: [
     BrowserModule,
