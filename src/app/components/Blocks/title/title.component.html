@@ -10,13 +10,6 @@
     >
       {{ buttonLabel }}
     </button>
-    <button
-      id='title-icon-button'
-      (click)='toggleExpand()'
-      *ngIf='!buttonLabel && icon'
-      mat-icon-button
-    >
-    </button>
   </div>
   <p id='title-description' *ngIf='description'>{{ description }}</p>
 </div>
