@@ -1,4 +1,4 @@
-import { Component} from '@angular/core'
+import { Component, OnDestroy, OnInit} from '@angular/core'
 
 
 @Component({
@@ -7,9 +7,11 @@ import { Component} from '@angular/core'
     styleUrls: ['./link-edit-panel.component.css'],
 
 })
-export class LinkEditPanelComponent {
+export class LinkEditPanelComponent{
 
     constructor(){
     }
-
+    
+    
+    
 }
