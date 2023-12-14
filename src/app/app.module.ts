@@ -31,8 +31,11 @@ import { PanelSectionCollapsibleComponent } from './components/Blocks/panel-sect
 import { PanelSectionComponent } from './components/Blocks/panel-section/panel-section.component';
 import { TitleBlock } from './components/Blocks/title/title.component';
 import { CollapsibleSubsectionComponent } from './components/Blocks/collapsible-subsection/collapsible-subsection.component';
-
-
+import {DualInputComponent} from "./components/Blocks/dual-input/dual-input.component";
+import { FormGroup } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -55,6 +58,8 @@ import { CollapsibleSubsectionComponent } from './components/Blocks/collapsible-
     PanelSectionComponent,
     TitleBlock,
     CollapsibleSubsectionComponent,
+    DualInputComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -65,8 +70,9 @@ import { CollapsibleSubsectionComponent } from './components/Blocks/collapsible-
     MatIconModule,
     MatSidenavModule,
     MatButtonToggleModule,
-
-
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]
