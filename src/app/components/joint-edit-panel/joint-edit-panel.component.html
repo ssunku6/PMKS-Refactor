@@ -1,38 +1,3 @@
-<!--
-<panel-section-collapsible
-  [warning]='true'
-  [expanded]='false'
-  id='placeholderContainer'
-  *ngIf="hideEditPanel() && this.activeSrv.objType !== 'Grid'"
->
-  <title-block
-    alwaysShown
-    icon='expand_more'
-    description='Stop animation or reset the time slider to 0 to edit.'
-  >Edit Help
-  </title-block>
-  <img src='assets/gifs/Stop.gif' />
-</panel-section-collapsible>
-
-<panel-section-collapsible
-  [warning]='true'
-  [expanded]='false'
-  id='placeholderContainer'
-  *ngIf="
-      (this.activeSrv.objType == 'Grid' || this.activeSrv.objType == 'Nothing') &&
-      mechanismService.joints.length == 0 &&
-      !hideEditPanel()
-    "
->
-  <title-block
-    alwaysShown
-    icon='expand_more'
-    description='Right click on the grid to create a link.'
-  >Edit Help
-  </title-block>
-  <img src='assets/gifs/Create.gif' />
-</panel-section-collapsible>
--->
 <div id="editJoint">
 <!--  JOINT PANEL-->
   <panel-section-collapsible>
@@ -46,22 +11,32 @@
   <collapsible-subsection titleLabel='Basic Settings' [expanded]="graphExpanded['basicBasic']"
                           (opened)="graphExpanded['basicBasic'] = true"
                           (closed)="graphExpanded['basicBasic'] = false">
-    <dual-input-block>
-      Label Label woot woot
-    </dual-input-block>
+
     <div class="flex-container">
-      <div class="left-aligned" id="displayAngle">Left Aligned</div>
-      <div class="right-aligned" id="inputAngle">Right Aligned</div>
+      <!--
+      <dual-input-block>
+        Input X and Y positions
+      </dual-input-block>
+      -->
+      <toggle-block>
+        Grounded Joint
+      </toggle-block>
+      <toggle-block>
+        Sliding Joint
+      </toggle-block>
       <h1>
         shitposting shitposting
       </h1>
-      <p>we are open!</p>
     </div>
   </collapsible-subsection>
 
   <!-- ADVANCED SETTING DROPDOWN -->
   <collapsible-subsection titleLabel='Advanced Settings' [expanded]="graphExpanded['advancedSettingsBasic']"
                           (opened)="graphExpanded['advancedSettingsBasic'] = true"
-                          (closed)="graphExpanded['advancedSettingsBasic'] = false">
+                          (closed)="graphExpanded['advancedSettingsBasic'] = false"
+                          >
+    <h1>
+      advanced shitposting shitposting
+    </h1>
   </collapsible-subsection>
 </div>

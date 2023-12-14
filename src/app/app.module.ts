@@ -36,6 +36,8 @@ import { FormGroup } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import {ToggleComponent} from "./components/Blocks/toggle/toggle.component";
 
 @NgModule({
   declarations: [
@@ -59,6 +61,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     TitleBlock,
     CollapsibleSubsectionComponent,
     DualInputComponent,
+    ToggleComponent,
 
   ],
   imports: [
@@ -72,7 +75,8 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatButtonToggleModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSlideToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
