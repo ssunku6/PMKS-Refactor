@@ -8,6 +8,8 @@
 .panel-header{
   width: 100%;
   background-color: dodgerblue;
+  border-radius: 25px;
+  height: 20px;
     //<- seems to be border, not button color
     //mat.get-color-from-palette($primary-palette, 50);
 }
