@@ -35,18 +35,30 @@
 -->
 <div id="editJoint">
 <!--  JOINT PANEL-->
-  <div id="edit-panel-container">
-    <panel-section-collapsible>
-      <title-block icon='expand_more' description='' class = "editHeader"
+  <panel-section-collapsible>
+    <title-block icon='expand_more' description='' class = "editHeader"
       >Edit Joint
-      </title-block>
-      <p>This is where you edit joints. Change things such as the position.</p>
-    </panel-section-collapsible>
-    <collapsible-subsection titleLabel='Basic Settings' [expanded]="graphExpanded['basicBasic']"
+    </title-block>
+    <p>This is where you edit joints. Change things such as the position.</p>
+  </panel-section-collapsible>
+
+  <!-- BASIC SETTING DROPDOWN -->
+  <collapsible-subsection titleLabel='Basic Settings' [expanded]="graphExpanded['basicBasic']"
                           (opened)="graphExpanded['basicBasic'] = true"
-                          (closed)="graphExpanded['basicBasic'] = false"
-                          class="panel-header">
-    <p>we are open!</p>
-    </collapsible-subsection>
-  </div>
+                          (closed)="graphExpanded['basicBasic'] = false">
+    <div class="flex-container">
+      <div class="left-aligned" id="displayAngle">Left Aligned</div>
+      <div class="right-aligned" id="inputAngle">Right Aligned</div>
+      <h1>
+        shitposting shitposting
+      </h1>
+      <p>we are open!</p>
+    </div>
+  </collapsible-subsection>
+
+  <!-- ADVANCED SETTING DROPDOWN -->
+  <collapsible-subsection titleLabel='Advanced Settings' [expanded]="graphExpanded['advancedSettingsBasic']"
+                          (opened)="graphExpanded['advancedSettingsBasic'] = true"
+                          (closed)="graphExpanded['advancedSettingsBasic'] = false">
+  </collapsible-subsection>
 </div>

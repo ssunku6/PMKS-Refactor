@@ -20,7 +20,7 @@ export class jointEditPanelComponent {
   graphExpanded: { [key: string]: boolean } = {
     basicBasic: false,
     basicVisual: false,
-    advancedSettingsBasic: true,
+    advancedSettingsBasic: false,
     advancedSettingsVisual: false
   };
 
