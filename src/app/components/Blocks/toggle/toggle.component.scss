@@ -11,13 +11,17 @@
   $background: map.get($theme, background);
   $foreground: map.get($theme, foreground);
 }
+
 .row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px
 }
-
+.right-aligned {
+  display: flex;
+  justify-content: flex-end; /* Aligns the element to the right */
+}
   #toggle-block {
     .disabled {
       opacity: 0.5;
