@@ -4,7 +4,7 @@ import { Component, OnDestroy, OnInit} from '@angular/core'
 @Component({
     selector: 'app-link-edit-panel',
     templateUrl: './link-edit-panel.component.html',
-    styleUrls: ['./link-edit-panel.component.css'],
+    styleUrls: ['./link-edit-panel.component.scss'],
 
 })
 export class LinkEditPanelComponent{
@@ -12,8 +12,8 @@ export class LinkEditPanelComponent{
     sectionExpanded: { [key: string]: boolean } = {
         LBasic: true,
         LVisual: false,
-        LMass: true,
         LComponent: false,
+        LMass: true,
         LCompound: true,
         FBasic: true,
         FVisual: false,
