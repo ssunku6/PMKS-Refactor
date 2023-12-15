@@ -1,22 +1,6 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-/*
-.collapsibleSubsection{
-
-}
-.panel-header{
-  width: 100%;
-  background-color: dodgerblue;
-  border-radius: 25px;
-  height: 20px;
-  text-align: left;
-
-    //<- seems to be border, not button color
-    //mat.get-color-from-palette($primary-palette, 50);
-}
-*/
-
 @mixin css($theme) {
   // Get the color config from the theme.
   $color-config: mat.get-color-config($theme);
