@@ -100,6 +100,10 @@ export class LinkInteractor extends Interactor {
         this.interactionService.enterClickCapture(capture);
     }
 
+    public getLink(): Link {
+        return this.link;
+    }
+
     public override toString(): string {
         return "LinkInteractor(" + this.link.name + ")";
     }
