@@ -1,4 +1,11 @@
 import { Component, OnDestroy, OnInit} from '@angular/core'
+import { Interactor } from 'src/app/interactions/interactor';
+import { LinkInteractor } from 'src/app/interactions/link-interactor';
+import { Link } from 'src/app/model/link';
+import { Mechanism } from 'src/app/model/mechanism';
+import { InteractionService } from 'src/app/services/interaction.service';
+import { StateService } from 'src/app/services/state.service';
+import { Joint } from 'src/app/model/joint';
 
 
 @Component({
@@ -19,23 +26,32 @@ export class LinkEditPanelComponent{
         FVisual: false,
       };
 
-    constructor(){
+    constructor(private stateService: StateService, private interactionService: InteractionService){
+    }
+
+    getSelectedObject(): Link{
+        let link = this.interactionService as unknown as LinkInteractor;
+        return link.getLink();
     }
 
     getLinkLength(){
-
+        return this.getSelectedObject().calculateLength();
     }
     getLinkAngle(){
-
+        return this.getSelectedObject().calculateAngle();
     }
     getLinkColor(){
-
+        
     }
-    getLinkJoints(){
-
+    getLinkJoints(): Map<number, Joint>{
+        return this.getSelectedObject().joints;
     }
-    getLinkComponents(){
-        this.getLinkJoints();
+    getLinkComponents(): String{
+        let joints = this.getLinkJoints();
+        let components = "";
+        joints.forEach((value: Joint, key: number) => {
+            components += 'Joint' + value.getName() + ': x' + value.coords.x + ' y' + value.coords.y; 
+        });
     }
     getLinkName(){
 
