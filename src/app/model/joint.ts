@@ -22,7 +22,8 @@ export class Joint {
     constructor(id: number, coord: Coord);
     constructor(id: number, xORCoord: number | Coord, y?: number){
         this._id = id;
-        this._name = '';
+        // changed name to be the same as ID instead of blank
+        this._name = id as unknown as string;
         this._type = JointType.Revolute;
         this._angle = 0;
         this._isGrounded = false;
@@ -90,7 +91,7 @@ export class Joint {
     //----------------------------Joint Modification with modifying other variables----------------------------
     addGround(){
         this._type = JointType.Revolute;
-        this._isGrounded = true;    
+        this._isGrounded = true;
     }
 
     removeGround(){
@@ -136,8 +137,8 @@ export class Joint {
     //----------------------------Joint Modification Querying----------------------------
     canAddGround(): boolean {
         return true;
-    }   
-    
+    }
+
 
     canRemoveGround(): boolean {
         return true;

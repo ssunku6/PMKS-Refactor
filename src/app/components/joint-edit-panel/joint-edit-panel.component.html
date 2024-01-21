@@ -3,6 +3,7 @@
   <panel-section-collapsible>
     <title-block icon='expand_more' description='' class = "editHeader"
       >Edit Joint
+      {{this.getJointName()}}
     </title-block>
     <p>This is where you edit joints. Change things such as the position.</p>
   </panel-section-collapsible>
@@ -13,11 +14,11 @@
                           (closed)="graphExpanded['basicBasic'] = false">
 
     <div class="flex-container">
-      <!--
+
       <dual-input-block>
         Input X and Y positions
       </dual-input-block>
-      -->
+
       <toggle-block>
         Grounded Joint
       </toggle-block>
