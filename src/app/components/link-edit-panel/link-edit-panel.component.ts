@@ -41,18 +41,20 @@ export class LinkEditPanelComponent{
         return this.getSelectedObject().calculateAngle();
     }
     getLinkColor(){
-        
+
     }
     getLinkJoints(): Map<number, Joint>{
         return this.getSelectedObject().joints;
     }
+    /*
     getLinkComponents(): String{
         let joints = this.getLinkJoints();
         let components = "";
         joints.forEach((value: Joint, key: number) => {
-            components += 'Joint' + value.getName() + ': x' + value.coords.x + ' y' + value.coords.y; 
+            components += 'Joint' + value.getName() + ': x' + value.coords.x + ' y' + value.coords.y;
         });
     }
+     */
     getLinkName(){
 
     }
