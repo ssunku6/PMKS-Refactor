@@ -14,9 +14,10 @@
                           (closed)="graphExpanded['basicBasic'] = false">
 
     <div class="flex-container">
-
-      <dual-input-block>
+      <dual-input-block [formControl1]=getJointXCoord() [formControl2]=getJointYCoord()>
         Input X and Y positions
+        {{getJointXCoord()}}
+        {{getJointYCoord()}}
       </dual-input-block>
 
       <toggle-block>

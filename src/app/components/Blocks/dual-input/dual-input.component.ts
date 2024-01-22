@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnChanges, Output, EventEmitter } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 
 @Component({
   selector: 'dual-input-block',
@@ -9,10 +9,10 @@ import { FormGroup } from '@angular/forms';
 export class DualInputComponent {
   @Input() tooltip!: string;
   @Input() unit!: string;
-  @Input() formControl1!: string;
+  @Input() formControl1!: FormControl;
   @Input() label1: string = 'X';
   @Input() label2: string = 'Y';
-  @Input() formControl2!: string;
+  @Input() formControl2!: FormControl;
   @Input() formGroup!: FormGroup;
   @Input() formSubGroup: string | undefined;
   @Input() disabled: boolean = false;

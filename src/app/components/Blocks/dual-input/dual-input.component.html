@@ -21,7 +21,7 @@
                       (focusout)='isField1Focused = false; updateOverlay()'>
         <input class='customInput' matInput type='text' #field1
                (keyup.enter)='field1.blur()'
-               [formControlName]='this.formControl1'>
+               [formControl]=this.formControl1>
       </mat-form-field>
 
       <div class='spacer'></div>
@@ -36,7 +36,7 @@
                       (focusout)='isField2Focused = false; updateOverlay()'>
         <input class='customInput' matInput type='text' #field2
                (keyup.enter)='field2.blur()'
-               [formControlName]='this.formControl2'>
+               [formControl]='this.formControl2'>
       </mat-form-field>
     </ng-container>
     <ng-container *ngIf='!formSubGroup'>
@@ -49,7 +49,7 @@
                       (focusout)='isField1Focused = false; updateOverlay()'>
         <input class='customInput' matInput type='text' #field1
                (keyup.enter)='field1.blur()'
-               [formControlName]='this.formControl1'>
+               [formControl]='this.formControl1'>
       </mat-form-field>
 
       <div class='spacer'></div>
@@ -62,7 +62,7 @@
                       (focusout)='isField2Focused = false; updateOverlay()'>
         <input class='customInput' matInput type='text' #field2
                (keyup.enter)='field2.blur()'
-               [formControlName]='this.formControl2'>
+               [formControl]='this.formControl2'>
       </mat-form-field>
     </ng-container>
   </div>
