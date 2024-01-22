@@ -38,6 +38,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import {ToggleComponent} from "./components/Blocks/toggle/toggle.component";
+import {MatInputModule} from "@angular/material/input";
+
 
 @NgModule({
   declarations: [
@@ -62,7 +64,6 @@ import {ToggleComponent} from "./components/Blocks/toggle/toggle.component";
     CollapsibleSubsectionComponent,
     DualInputComponent,
     ToggleComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -77,6 +78,7 @@ import {ToggleComponent} from "./components/Blocks/toggle/toggle.component";
     MatFormFieldModule,
     MatTooltipModule,
     MatSlideToggleModule,
+    MatInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
