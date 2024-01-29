@@ -14,15 +14,25 @@
                           (closed)="graphExpanded['basicBasic'] = false">
 
     <div class="flex-container">
-      <dual-input-block [formControl1]=getJointXCoord() [formControl2]=getJointYCoord()>
+      <dual-input-block [formControl1]=getJointXCoord() [formControl2]=getJointYCoord()
+                        label1="This is X Label"
+        tooltip = "The location of the Joint in X and Y Positions">
         Input X and Y positions
-        {{getJointXCoord()}}
-        {{getJointYCoord()}}
       </dual-input-block>
 
-      <toggle-block>
+      <toggle-block [formControl]= jointGroundedFormControl
+                    _formControl='ground'
+                    (toggleStateChanged)="handleToggleStateChange($event)">
         Grounded Joint
       </toggle-block>
+      <!-- Toggle Debugging stuff
+      <div *ngIf="jointGroundedFormControl.value">Toggle is On</div>
+      <div *ngIf="!jointGroundedFormControl.value">Toggle is Off</div>
+      -->
+
+      <tri-button btn1Text="Add Ground" btn2Text="Remove Ground" btn3Text='text Three'
+      [btn1Action]= "groundJoint" [btn2Action]="ungroundJoint"
+      [joint]=getCurrentJoint()></tri-button>
       <toggle-block>
         Sliding Joint
       </toggle-block>
