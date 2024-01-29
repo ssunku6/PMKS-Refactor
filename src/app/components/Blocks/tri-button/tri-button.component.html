@@ -9,7 +9,7 @@
       {{btn2Text}}
     </button>
   </div>
-  <button mat-stroked-button color='primary' [disabled]='btn3Disabled'
+  <button *ngIf="btn3Visible" mat-stroked-button color='primary' [disabled]='btn3Disabled'
           class='{{btn3Disabled? "buttonDisabled button3" :"button3"}}' (click)='btn3Action()'>
     {{btn3Text}}
   </button>

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, OnChanges, Output, EventEmitter } from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {Form, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {Joint} from "../../../model/joint";
 
 @Component({
   selector: 'dual-input-block',
@@ -7,18 +8,19 @@ import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
   styleUrls: ['./dual-input.component.scss'],
 })
 export class DualInputComponent {
+  @Input() currentJoint!: Joint;
   @Input() tooltip!: string;
   @Input() unit!: string;
-  @Input() formControl1!: FormControl;
   @Input() label1: string = 'X';
   @Input() label2: string = 'Y';
-  @Input() formControl2!: FormControl;
   @Input() formGroup!: FormGroup;
   @Input() formSubGroup: string | undefined;
+  @Input() formControl1!: FormControl;
+  @Input() formControl2!: FormControl;
   @Input() disabled: boolean = false;
   @Output() field1Entry: EventEmitter<number> = new EventEmitter();
   @Output() field2Entry: EventEmitter<number> = new EventEmitter();
-  @Input() emitterOutputID: number = -2;
+  @Input() emitterOutputID: number = 1;
 
   isField1MouseOver: boolean = false;
   isField1Focused: boolean = false;
@@ -29,6 +31,26 @@ export class DualInputComponent {
   isField2Focused: boolean = false;
   showField2Overlay: boolean = false;
   lastShowField2Overlay: boolean = false;
+
+
+  form: FormGroup = new FormGroup({
+    inputValue: new FormControl(0), // Initialize with default value
+  });
+
+  ngOnInit() {
+    //console.log("Dual input block init went and we did it");
+
+    // Subscribe to changes and update the original form controls
+    this.formControl1.valueChanges.subscribe((value) => {
+      //console.log("X value changed ", value);
+      //this.formControl1.setValue(value);
+    });
+
+    this.formControl2.valueChanges.subscribe((value) => {
+      //console.log("Y value changed ", value);
+      //this.formControl2.setValue(value);
+    });
+  }
 
   updateOverlay() {
     if (this.disabled) {

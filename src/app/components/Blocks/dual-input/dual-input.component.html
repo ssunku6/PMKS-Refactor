@@ -10,6 +10,7 @@
   </div>
 
   <div class='row' [formGroup]='formGroup' style='gap: 5px'>
+    <!--
     <ng-container *ngIf='formSubGroup'>
       <span class='label {{disabled ? "disabled" : ""}}'>{{label1}}</span>
       <mat-form-field class='customInputForm'
@@ -21,7 +22,7 @@
                       (focusout)='isField1Focused = false; updateOverlay()'>
         <input class='customInput' matInput type='text' #field1
                (keyup.enter)='field1.blur()'
-               [formControl]=this.formControl1>
+               [formControl]=this.field1Control>
       </mat-form-field>
 
       <div class='spacer'></div>
@@ -36,9 +37,10 @@
                       (focusout)='isField2Focused = false; updateOverlay()'>
         <input class='customInput' matInput type='text' #field2
                (keyup.enter)='field2.blur()'
-               [formControl]='this.formControl2'>
+               [formControl]='this.field2Control'>
       </mat-form-field>
     </ng-container>
+  -->
     <ng-container *ngIf='!formSubGroup'>
       <span class='label {{disabled ? "disabled" : ""}}'>{{label1}}</span>
       <mat-form-field class='customInputForm'
@@ -65,5 +67,6 @@
                [formControl]='this.formControl2'>
       </mat-form-field>
     </ng-container>
+
   </div>
 </div>
