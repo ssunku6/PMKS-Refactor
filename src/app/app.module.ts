@@ -39,6 +39,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import {ToggleComponent} from "./components/Blocks/toggle/toggle.component";
 import {MatInputModule} from "@angular/material/input";
+import {TriButtonComponent} from "./components/Blocks/tri-button/tri-button.component";
 
 
 @NgModule({
@@ -64,6 +65,7 @@ import {MatInputModule} from "@angular/material/input";
     CollapsibleSubsectionComponent,
     DualInputComponent,
     ToggleComponent,
+    TriButtonComponent,
   ],
   imports: [
     BrowserModule,
