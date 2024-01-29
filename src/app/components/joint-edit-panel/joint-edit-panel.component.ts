@@ -33,7 +33,6 @@ export class jointEditPanelComponent {
   // These form control objects exist basically only to be passed in to the Dual Input Block component
   jointXFormControl: FormControl = new FormControl();
   jointYFormControl: FormControl = new FormControl();
-  jointGroundedFormControl: FormControl = new FormControl()
 
   getCurrentJoint(){
     let currentJointInteractor = this.interactorService.getSelectedObject();
@@ -41,20 +40,10 @@ export class jointEditPanelComponent {
   }
 
   getJointName(): string {
-    return this.getCurrentJoint().name + "<- here is the name of the joint";
+    return this.getCurrentJoint().name;
   }
   setJointName(newName: string){
     this.getCurrentJoint().name = newName;
-  }
-
-  groundJoint(){
-    this.getCurrentJoint().addGround();
-    console.log("Ground added");
-  }
-  ungroundJoint(){
-    this.getCurrentJoint().removeGround();
-    console.log("Ground removed");
-
   }
 
   // Get X Coord and Y Coord return a FormControl Object. This is the kind of
@@ -69,32 +58,41 @@ export class jointEditPanelComponent {
     this.jointYFormControl.setValue(this.getCurrentJoint().coords.y)
     return this.jointYFormControl;
   }
-  setJointXCoord(xCoordInput: FormControl): void {
-
+  setJointXCoord(xCoordInput: number): void {
+    console.log("X coordinate updated ", xCoordInput);
+    this.getCurrentJoint().coords.x = xCoordInput;
   }
-  setJointYCoord(yCoordInput: FormControl): void {
-
+  setJointYCoord(yCoordInput: number): void {
+    console.log("Y coordinate updated ", yCoordInput);
+    this.getCurrentJoint().coords.y = yCoordInput;
   }
 
-  handleToggleStateChange(stateChange: boolean) {
+  // handleToggleGroundChanged is used by the edit panel implementation of a toggle block
+  // to accurately portray whether or not the toggle is selected for grounding.
+  handleToggleGroundChange(stateChange: boolean) {
     console.log("Toggle State Changed: ", stateChange);
     const currentJoint = this.getCurrentJoint();
     if (stateChange) {
       currentJoint.addGround();
-      this.jointGroundedFormControl.setValue(true);
     }
     else {currentJoint.removeGround();
-    this.jointGroundedFormControl.setValue(false);
     }
-    console.log(this.getCurrentJoint().isGrounded);
   }
 
-  getJointColor(){
+  // these values are passed into a tri button. these handle making and removing input.
+  //        [btn1Disabled]="!getCurrentJoint().canAddInput() || getCurrentJoint().isInput"
+  makeInput() {this.getCurrentJoint().addInput();}
+  removeInput() {this.getCurrentJoint().removeInput();}
+  makeInputClockwise() {console.log("We would be making the input clockwise here");}
+  makeInputCounterClockwise() {console.log("We would be making the input counter clockwise here");}
 
-  }
-  setJointColor(){
 
-  }
+  // these values are passed into a tri button. these handle the welding and unwelding
+  // of the current joint
+  weldJoint() {this.getCurrentJoint().addWeld();}
+  unweldJoint(){this.getCurrentJoint().removeWeld();}
 
+  getJointColor(){}
+  setJointColor(){}
 
 }

@@ -11,45 +11,72 @@
   $background: map.get($theme, background);
   $foreground: map.get($theme, foreground);
 }
-
-.row {
+.toggle-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px
+  width: 100%; /* Make the container take full width */
 }
-.right-aligned {
+
+.label {
+  flex-grow: 1;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch-container {
   display: flex;
-  justify-content: flex-end; /* Aligns the element to the right */
+  align-items: center;
+  justify-content: flex-end; /* Align the toggle slider to the right */
 }
-  #toggle-block {
-    .disabled {
-      opacity: 0.5;
-    }
 
-    .customInputForm {
-      .customInput {
-        //@include mat.typography-level($typography-config, 'body-2');
-      }
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
 
-      .mat-mdc-form-field-subscript-wrapper {
-        display: none;
-      }
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 34px;
+}
 
-      .mat-mdc-form-field-infix {
-        padding: 6px 0;
-      }
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
 
-      .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-        //background-color: #eff1f8;
-        background-color: #f0f1f5;
-      }
+input:checked + .slider {
+  background-color: #2196F3;
+}
 
-      .mat-mdc-text-field-wrapper {
-        height: 30px;
-        width: 70px;
-        padding: 0 6px;
-      }
-    }
-  }
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(30px); /* Updated value for the checked state */
+  -ms-transform: translateX(30px);
+  transform: translateX(30px);
+}
 

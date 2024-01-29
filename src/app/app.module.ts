@@ -32,7 +32,7 @@ import { PanelSectionComponent } from './components/Blocks/panel-section/panel-s
 import { TitleBlock } from './components/Blocks/title/title.component';
 import { CollapsibleSubsectionComponent } from './components/Blocks/collapsible-subsection/collapsible-subsection.component';
 import {DualInputComponent} from "./components/Blocks/dual-input/dual-input.component";
-import { FormGroup } from '@angular/forms';
+import {FormGroup, FormsModule} from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from "@angular/material/tooltip";
@@ -81,6 +81,7 @@ import {TriButtonComponent} from "./components/Blocks/tri-button/tri-button.comp
     MatTooltipModule,
     MatSlideToggleModule,
     MatInputModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

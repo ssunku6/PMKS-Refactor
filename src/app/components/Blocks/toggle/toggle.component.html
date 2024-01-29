@@ -1,22 +1,12 @@
-<div id='toggle-block'>
-  <div [formGroup]='this.formGroup' class='row'>
-    <!-- <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" [formControlName]="this._formControl" /> -->
-    <span class='label'><ng-content></ng-content></span>
-    <mat-icon *ngIf='!addInput' matTooltip='{{ this.tooltip }}' [matTooltipShowDelay]='1000' class='label-help'
-    >help_outline
-    </mat-icon
-    >
-    <div class='spacer'></div>
-    <span class='label {{disableInput ? "disabled":""}}' *ngIf='addInput' style='font-size: 25px; padding-bottom: 5px;'>⊾</span>
-
-    <mat-form-field *ngIf='addInput' class='customInputForm' (click)='disableInput ? null :field.select()'>
-      <input class='customInput' matInput type='text' #field (keyup.enter)='field.blur()'
-             [formControl]='this.formControlGround'>
-    </mat-form-field>
-
-    <div class='spacer'></div>
-    <div class="right-aligned">
-      <mat-slide-toggle color='primary' [formControl]='this.formControlGround'></mat-slide-toggle>
-    </div>
+<div class="toggle-container">
+  <span class="label">{{ label }}</span>
+  <mat-icon matTooltip='{{ this.tooltip }}' [matTooltipShowDelay]='1000' class='label-help'
+  >help_outline
+  </mat-icon>
+  <div class="switch-container">
+    <label class="switch" (click)="toggle()">
+      <input type="checkbox" [(ngModel)]="value" (change)="toggle()">
+      <span class="slider"></span>
+    </label>
   </div>
 </div>

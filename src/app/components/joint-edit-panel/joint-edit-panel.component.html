@@ -15,27 +15,12 @@
 
     <div class="flex-container">
       <dual-input-block [formControl1]=getJointXCoord() [formControl2]=getJointYCoord()
-                        label1="This is X Label"
+                        label1="X"
+                        label2="Y"
         tooltip = "The location of the Joint in X and Y Positions">
         Input X and Y positions
       </dual-input-block>
 
-      <toggle-block [formControl]= jointGroundedFormControl
-                    _formControl='ground'
-                    (toggleStateChanged)="handleToggleStateChange($event)">
-        Grounded Joint
-      </toggle-block>
-      <!-- Toggle Debugging stuff
-      <div *ngIf="jointGroundedFormControl.value">Toggle is On</div>
-      <div *ngIf="!jointGroundedFormControl.value">Toggle is Off</div>
-      -->
-
-      <tri-button btn1Text="Add Ground" btn2Text="Remove Ground" btn3Text='text Three'
-      [btn1Action]= "groundJoint" [btn2Action]="ungroundJoint"
-      [joint]=getCurrentJoint()></tri-button>
-      <toggle-block>
-        Sliding Joint
-      </toggle-block>
     </div>
   </collapsible-subsection>
 
@@ -43,6 +28,25 @@
   <collapsible-subsection titleLabel='Advanced Settings' [expanded]="graphExpanded['advancedSettingsBasic']"
                           (opened)="graphExpanded['advancedSettingsBasic'] = true"
                           (closed)="graphExpanded['advancedSettingsBasic'] = false">
+    <app-toggle tooltip="This toggle will enable or disable grounding!"
+                label="Toggle Ground" [initialValue]="true"
+                (valueChanged)="handleToggleGroundChange($event)"></app-toggle>
 
+    <tri-button btn1Text="Weld" btn2Text="Unweld"
+                [btn1Disabled]="!getCurrentJoint().canAddWeld() || getCurrentJoint().isWelded"
+                [btn2Disabled]="!getCurrentJoint().canAddWeld() || !getCurrentJoint().isWelded"
+                [btn1Action]= "weldJoint" [btn2Action]="unweldJoint"
+                [joint]=getCurrentJoint()></tri-button>
+    <tri-button btn1Text="Add Input" btn2Text="Remove Input"
+                [btn1Disabled]=false
+                [btn2Disabled]="!getCurrentJoint().canAddInput() || !getCurrentJoint().isInput"
+                [btn1Action]= "makeInput" [btn2Action]="removeInput"
+                [joint]=getCurrentJoint()></tri-button>
+    <tri-button *ngIf="getCurrentJoint().isInput"
+                btn1Text="Set Input Counter Clockwise" btn2Text="Set Input Clockwise"
+                [btn1Disabled]="!getCurrentJoint().canAddInput() || getCurrentJoint().isInput"
+                [btn2Disabled]="!getCurrentJoint().canAddInput() || !getCurrentJoint().isInput"
+                [btn1Action]= "makeInputCounterClockwise" [btn2Action]="makeInputClockwise"
+                [joint]=getCurrentJoint()></tri-button>
   </collapsible-subsection>
 </div>
