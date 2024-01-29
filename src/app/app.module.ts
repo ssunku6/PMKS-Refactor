@@ -40,6 +40,7 @@ import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import {ToggleComponent} from "./components/Blocks/toggle/toggle.component";
 import {MatInputModule} from "@angular/material/input";
 import {TriButtonComponent} from "./components/Blocks/tri-button/tri-button.component";
+import { DualButtonComponent } from './components/Blocks/dual-button/dual-button.component';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import {TriButtonComponent} from "./components/Blocks/tri-button/tri-button.comp
     DualInputComponent,
     ToggleComponent,
     TriButtonComponent,
+    DualButtonComponent,
   ],
   imports: [
     BrowserModule,

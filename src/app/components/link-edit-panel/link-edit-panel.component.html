@@ -1,9 +1,11 @@
 <div id="editLink">
     <!--  LINK PANEL-->
+    <!--  Name does not work because no name is set-->
       <panel-section-collapsible>
         <title-block icon='expand_more' description='' class = "editHeader"
-          >Edit Link <img src="src/assets/icons/edit.svg">
-        </title-block>
+      >Edit Link
+      {{this.getLinkName()}}
+    </title-block>
         <p>This is where you edit links.</p>
       </panel-section-collapsible>
     
@@ -11,12 +13,28 @@
       <collapsible-subsection [expanded]='true' titleLabel='Basic Settings' [expanded]="sectionExpanded['LBasic']"
             (opened)="sectionExpanded['LBasic'] = true"
             (closed)="sectionExpanded['LBasic'] = false">
+            <div>
+              <dual-input-block id="lengthAndAngle" [formControl1]=getLinkLength() [formControl2]=getLinkAngle()
+                label1=""
+                label2="⊾"
+                tooltip = "Enter the length and angle of the link">
+                Link Length and Angle
+                <img style="height: 20; width: 20;" src = "src/assets/icons/length.svg" />
+                <img style="height: 20; width: 20;" src = "src/assets/icons/angle.svg" />
+              </dual-input-block>
+              <dual-button btn1Text="Add Tracer" btn2Text="Add Force"
+              [btn1Action]= "addTracer" ></dual-button>
+            </div>
       </collapsible-subsection>
     
       <!-- ADVANCED SETTING DROPDOWN -->
       <collapsible-subsection [expanded]='true' titleLabel='Components' [expanded]="sectionExpanded['LComponent']"
             (opened)="sectionExpanded['LComponent'] = true"
             (closed)="sectionExpanded['LComponent'] = false">
+            <div id="linkComponents">
+              <p>Components</p>
+              {{this.getLinkComponents()}}
+            </div>
       </collapsible-subsection>
       <collapsible-subsection [expanded]='true' titleLabel='Visual Settings' [expanded]="sectionExpanded['LVisual']"
             (opened)="sectionExpanded['LVisual'] = true"
@@ -24,12 +42,12 @@
         <div>
         <p class="colors">Link Color:</p>
         <div>
-            <button class ="colors" id="button1" onClick="changeColor('button1', '#727FD5')"></button>
-            <button class ="colors" id="button2" onClick="changeColor('button2', '#2F3E9F')"></button>
-            <button class ="colors" id="button3" onClick="changeColor('button3', '#0D125A')"></button>
-            <button class ="colors" id="button4" onClick="changeColor('button4', '#207297')"></button>
-            <button class ="colors" id="button5" onClick="changeColor('button5', '#00695D')"></button>
-            <button class ="colors" id="button6" onClick="changeColor('button6', '#0D453E')"></button>
+            <button class ="colors" id="button1" onClick="setColor('button1', '#727FD5')"></button>
+            <button class ="colors" id="button2" onClick="setColor('button2', '#2F3E9F')"></button>
+            <button class ="colors" id="button3" onClick="setColor('button3', '#0D125A')"></button>
+            <button class ="colors" id="button4" onClick="setColor('button4', '#207297')"></button>
+            <button class ="colors" id="button5" onClick="setColor('button5', '#00695D')"></button>
+            <button class ="colors" id="button6" onClick="setColor('button6', '#0D453E')"></button>
         </div>
     </div>
       </collapsible-subsection>

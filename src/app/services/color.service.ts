@@ -39,4 +39,16 @@ export class ColorService {
   getForceColorFromID(id: number) {
     return this.forceColorOptions[id % this.linkColorOptions.length];
   }
+
+  getLinkColorOptions(){
+    return this.linkColorOptions;
+  }
+
+  getJointColorOptions(){
+    return this.jointColorOptions;
+  }
+
+  getForceColorOptions(){
+    return this.forceColorOptions;
+  }
 }

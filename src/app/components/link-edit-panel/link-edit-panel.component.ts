@@ -6,6 +6,9 @@ import { Mechanism } from 'src/app/model/mechanism';
 import { InteractionService } from 'src/app/services/interaction.service';
 import { StateService } from 'src/app/services/state.service';
 import { Joint } from 'src/app/model/joint';
+import { ColorService } from 'src/app/services/color.service';
+import { FormControl, FormGroup } from "@angular/forms";
+import { LinkComponent } from '../link/link.component';
 
 
 @Component({
@@ -27,48 +30,86 @@ export class LinkEditPanelComponent{
       };
 
     constructor(private stateService: StateService, private interactionService: InteractionService){
+        
     }
+    lengthFormControl: FormControl = new FormControl();
+    angleFormControl: FormControl = new FormControl();
 
     getSelectedObject(): Link{
-        let link = this.interactionService as unknown as LinkInteractor;
+        let link = this.interactionService.getSelectedObject() as LinkInteractor;
         return link.getLink();
     }
 
-    getLinkLength(){
-        return this.getSelectedObject().calculateLength();
+    getLinkLength(): FormControl{
+        this.lengthFormControl.setValue(this.getSelectedObject().calculateLength());
+        return this.lengthFormControl;
     }
-    getLinkAngle(){
-        return this.getSelectedObject().calculateAngle();
+    getLinkAngle(): FormControl{
+        this.angleFormControl.setValue(this.getSelectedObject().calculateAngle());
+        return this.angleFormControl;
     }
+   
+    //TODO
     getLinkColor(){
-
+        
     }
     getLinkJoints(): Map<number, Joint>{
         return this.getSelectedObject().joints;
     }
-    /*
-    getLinkComponents(): String{
+    
+    /*getLinkComponents(): String{
         let joints = this.getLinkJoints();
-        let components = "";
+        let components = '';
         joints.forEach((value: Joint, key: number) => {
-            components += 'Joint' + value.getName() + ': x' + value.coords.x + ' y' + value.coords.y;
+            let xCoord = value.coords.x.toFixed(4);
+            let yCoord = value.coords.y.toFixed(4);
+            components += 'Joint ' + value.name + ': x: ' + xCoord + ' y: ' + yCoord + '\n'; 
         });
-    }
-     */
-    getLinkName(){
+        return components;
+    }*/
 
+    getLinkComponents() {
+        const elementContainer = document.getElementById('linkComponents');
+        if (elementContainer) {
+            let joints = this.getLinkJoints();
+            // Loop through your data
+            joints.forEach((value: Joint, key: number) => {
+                console.log(value)
+              // Create a new element
+              const dualInputBlock = document.createElement('dual-input-block');
+              dualInputBlock.setAttribute('formControl1', value.coords.x.toFixed(4));
+              dualInputBlock.setAttribute('formControl2', value.coords.y.toFixed(4));
+              dualInputBlock.innerText = `Link ${value.name}`; // Update the text content
+              // Set the content of the element based on the current data item or loop index
+        
+              // Append the new element to the container
+              elementContainer?.appendChild(dualInputBlock);
+            });
+          }
     }
-    setLinkLength(){
+    
+    getLinkName(): string{
+        return this.getSelectedObject().name;
+    }
+    setLinkLength(newLength: number){
+        this.getSelectedObject().setLength(newLength);
+    }
+    setLinkAngle(newAngle: number){
+        this.getSelectedObject().setAngle(newAngle);
+    }
+    //TODO
+    setLinkColor(newColor: number){
+    }
+    setLinkName(newName: string){
+        this.getSelectedObject().name = newName;
+    }
 
+    addTracer(){
+        let CoM = this.getSelectedObject().centerOfMass;
+        let tracer = Joint.constructor(0, CoM);
+        this.getSelectedObject().addTracer(tracer);
     }
-    setLinkAngle(){
 
-    }
-    setLinkColor(){
-
-    }
-    setLinkName(){
-
-    }
+   
 
 }
