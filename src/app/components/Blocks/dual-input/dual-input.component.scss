@@ -11,42 +11,20 @@
   $background: map.get($theme, background);
   $foreground: map.get($theme, foreground);
 }
-.row {
+.dual-input-block {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  flex-direction: column;
 }
 
-#dual-input-block {
+.input-sections {
+  display: flex;
+  flex-direction: row;
+}
 
-  .disabled {
-    opacity: 0.5;
-  }
+.input-section {
+  margin-right: 10px; /* Adjust the margin as needed */
+}
 
-  .customInputForm {
-    .customInput {
-      //@include mat.typography-level($typography-config, 'body-2');
-    }
-
-    .mat-mdc-form-field-subscript-wrapper {
-      display: none;
-    }
-
-    .mat-mdc-form-field-infix {
-      padding: 6px 0;
-    }
-
-    .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-      //background-color: #eff1f8;
-      background-color: #f0f1f5;
-    }
-
-    .mat-mdc-text-field-wrapper {
-      height: 30px;
-      width: 80px;
-      padding: 0 6px;
-    }
-  }
-
+label {
+  margin-right: 5px; /* Adjust the margin as needed */
 }
