@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {Joint} from "../../../model/joint";
+import {Mechanism} from "../../../model/mechanism";
 
 @Component({
   selector: 'tri-button',
@@ -9,6 +10,7 @@ import {Joint} from "../../../model/joint";
 })
 export class TriButtonComponent {
   @Input() joint!: Joint;
+  @Input() mechanism!: Mechanism;
   @Input() btn1Disabled: boolean = false;
   @Input() btn2Disabled: boolean = false;
   @Input() btn3Disabled: boolean = false;
@@ -29,6 +31,9 @@ export class TriButtonComponent {
 
   getCurrentJoint(): Joint{
     return this.joint;
+  }
+  getMechanism(): Mechanism{
+    return this.mechanism;
   }
   constructor() {}
 }

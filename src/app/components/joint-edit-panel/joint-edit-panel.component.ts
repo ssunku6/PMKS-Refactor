@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core'
 import {StateService} from "../../services/state.service";
 import {InteractionService} from "../../services/interaction.service";
 import {JointInteractor} from "../../interactions/joint-interactor"
+import {Mechanism} from "../../model/mechanism";
 import {Joint} from "../../model/joint";
 import {Form, FormControl, FormGroup} from "@angular/forms";
 
@@ -34,6 +35,9 @@ export class jointEditPanelComponent {
   jointXFormControl: FormControl = new FormControl();
   jointYFormControl: FormControl = new FormControl();
 
+  getMechanism(): Mechanism {
+    return this.stateService.getMechanism();
+  }
   getCurrentJoint(){
     let currentJointInteractor = this.interactorService.getSelectedObject();
     return (currentJointInteractor as JointInteractor).getJoint();
@@ -50,21 +54,19 @@ export class jointEditPanelComponent {
   // object required to pass into the Dual Input Block. Don't be fooled when you
   // look into dual input block and it says "String"- it's lying to you, and if
   // you don't give it a FormControl the values will not display.
-  getJointXCoord(): FormControl {
-    this.jointXFormControl.setValue(this.getCurrentJoint().coords.x)
-    return this.jointXFormControl;
+  getJointXCoord(): number {
+    return this.getCurrentJoint().coords.x;
   }
-  getJointYCoord(): FormControl {
-    this.jointYFormControl.setValue(this.getCurrentJoint().coords.y)
-    return this.jointYFormControl;
+  getJointYCoord(): number {
+    return this.getCurrentJoint().coords.y;
   }
   setJointXCoord(xCoordInput: number): void {
     console.log("X coordinate updated ", xCoordInput);
-    this.getCurrentJoint().coords.x = xCoordInput;
+    this.getMechanism().setXCoord(this.getCurrentJoint().id, xCoordInput);
   }
   setJointYCoord(yCoordInput: number): void {
     console.log("Y coordinate updated ", yCoordInput);
-    this.getCurrentJoint().coords.y = yCoordInput;
+    this.getMechanism().setYCoord(this.getCurrentJoint().id, yCoordInput);
   }
 
   // handleToggleGroundChanged is used by the edit panel implementation of a toggle block
@@ -73,24 +75,23 @@ export class jointEditPanelComponent {
     console.log("Toggle State Changed: ", stateChange);
     const currentJoint = this.getCurrentJoint();
     if (stateChange) {
-      currentJoint.addGround();
+      this.getMechanism().addGround(this.getCurrentJoint().id);
     }
-    else {currentJoint.removeGround();
-    }
+    else {this.getMechanism().removeGround(this.getCurrentJoint().id);}
   }
 
   // these values are passed into a tri button. these handle making and removing input.
   //        [btn1Disabled]="!getCurrentJoint().canAddInput() || getCurrentJoint().isInput"
-  makeInput() {this.getCurrentJoint().addInput();}
-  removeInput() {this.getCurrentJoint().removeInput();}
+  makeInput() {this.getMechanism().addInput(this.getCurrentJoint().id);}
+  removeInput() {this.getMechanism().removeInput(this.getCurrentJoint().id);}
   makeInputClockwise() {console.log("We would be making the input clockwise here");}
   makeInputCounterClockwise() {console.log("We would be making the input counter clockwise here");}
 
 
   // these values are passed into a tri button. these handle the welding and unwelding
   // of the current joint
-  weldJoint() {this.getCurrentJoint().addWeld();}
-  unweldJoint(){this.getCurrentJoint().removeWeld();}
+  weldJoint() {this.getMechanism().addWeld(this.getCurrentJoint().id);}
+  unweldJoint(){this.getMechanism().removeWeld(this.getCurrentJoint().id);}
 
   getJointColor(){}
   setJointColor(){}

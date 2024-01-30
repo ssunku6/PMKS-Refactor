@@ -1,5 +1,4 @@
-<div id='dual-input-block' style='{{disabled ? "cursor: default" : ""}}'>
-
+<div class="dual-input-block">
   <div class='row'>
     <span class='label {{disabled ? "disabled" : ""}}'><ng-content></ng-content></span>
     <mat-icon matTooltip='{{ this.tooltip }}' [matTooltipShowDelay]='1000' class='label-help'
@@ -8,65 +7,17 @@
     </mat-icon>
     <div class='spacer'></div>
   </div>
+  <div class="input-sections">
+    <div class="input-section">
+      <label for="input1">Label 1:</label>
+      <input type="text" id="input1" [(ngModel)]="input1Value"
+             (keyup.enter)="onEnterKeyInput1()"/>
+    </div>
 
-  <div class='row' [formGroup]='formGroup' style='gap: 5px'>
-    <!--
-    <ng-container *ngIf='formSubGroup'>
-      <span class='label {{disabled ? "disabled" : ""}}'>{{label1}}</span>
-      <mat-form-field class='customInputForm'
-                      formGroupName='{{formSubGroup}}'
-                      (click)='field1.select()'
-                      (mouseenter)='isField1MouseOver = true; updateOverlay()'
-                      (mouseleave)='isField1MouseOver = false; updateOverlay()'
-                      (focusin)='isField1Focused = true; updateOverlay()'
-                      (focusout)='isField1Focused = false; updateOverlay()'>
-        <input class='customInput' matInput type='text' #field1
-               (keyup.enter)='field1.blur()'
-               [formControl]=this.field1Control>
-      </mat-form-field>
-
-      <div class='spacer'></div>
-      <span class='label {{disabled ? "disabled" : ""}}'
-            style='{{label2 === "⊾" ? "font-size: 25px; padding-bottom: 5px" : ""}}'>{{label2}}</span>
-      <mat-form-field class='customInputForm'
-                      formGroupName='{{formSubGroup}}'
-                      (click)='field2.select()'
-                      (mouseenter)='isField2MouseOver = true; updateOverlay()'
-                      (mouseleave)='isField2MouseOver = false; updateOverlay()'
-                      (focusin)='isField2Focused = true; updateOverlay()'
-                      (focusout)='isField2Focused = false; updateOverlay()'>
-        <input class='customInput' matInput type='text' #field2
-               (keyup.enter)='field2.blur()'
-               [formControl]='this.field2Control'>
-      </mat-form-field>
-    </ng-container>
-  -->
-    <ng-container *ngIf='!formSubGroup'>
-      <span class='label {{disabled ? "disabled" : ""}}'>{{label1}}</span>
-      <mat-form-field class='customInputForm'
-                      (click)='field1.select()'
-                      (mouseenter)='isField1MouseOver = true; updateOverlay()'
-                      (mouseleave)='isField1MouseOver = false; updateOverlay()'
-                      (focusin)='isField1Focused = true; updateOverlay()'
-                      (focusout)='isField1Focused = false; updateOverlay()'>
-        <input class='customInput' matInput type='text' #field1
-               (keyup.enter)='field1.blur()'
-               [formControl]='this.formControl1'>
-      </mat-form-field>
-
-      <div class='spacer'></div>
-      <span class='label {{disabled ? "disabled" : ""}}'
-            style='{{label2 === "⊾" ? "font-size: 25px; padding-bottom: 5px" : ""}}'>{{label2}}</span>
-      <mat-form-field class='customInputForm' (click)='field2.select()'
-                      (mouseenter)='isField2MouseOver = true; updateOverlay()'
-                      (mouseleave)='isField2MouseOver = false; updateOverlay()'
-                      (focusin)='isField2Focused = true; updateOverlay()'
-                      (focusout)='isField2Focused = false; updateOverlay()'>
-        <input class='customInput' matInput type='text' #field2
-               (keyup.enter)='field2.blur()'
-               [formControl]='this.formControl2'>
-      </mat-form-field>
-    </ng-container>
-
+    <div class="input-section">
+      <label for="input2">Label 2:</label>
+      <input type="text" id="input2" [(ngModel)]="input2Value"
+             (keyup.enter)="onEnterKeyInput2()"/>
+    </div>
   </div>
 </div>

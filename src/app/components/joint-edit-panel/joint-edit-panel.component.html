@@ -14,11 +14,25 @@
                           (closed)="graphExpanded['basicBasic'] = false">
 
     <div class="flex-container">
-      <dual-input-block [formControl1]=getJointXCoord() [formControl2]=getJointYCoord()
+      <dual-input-block [input1Value]="getJointXCoord()"
+                        [input2Value]="getJointYCoord()"
+                        (input1Change)="setJointXCoord($event)"
+                        (input2Change)="setJointYCoord($event)"
+                        tooltip="Change the x and y values of the current joint!"
                         label1="X"
                         label2="Y"
         tooltip = "The location of the Joint in X and Y Positions">
         Input X and Y positions
+      </dual-input-block>
+
+      <dual-input-block [input1Value]=""
+                        [input2Value]="getJointYCoord()"
+                        (input1Change)="setJointXCoord($event)"
+                        (input2Change)="setJointYCoord($event)"
+                        label1="X"
+                        label2="Y"
+                        tooltip = "The location of the Joint in X and Y Positions">
+        Distance and Angle from Joint {{this.getCurrentJoint().name}} to Joint
       </dual-input-block>
 
     </div>
@@ -36,17 +50,17 @@
                 [btn1Disabled]="!getCurrentJoint().canAddWeld() || getCurrentJoint().isWelded"
                 [btn2Disabled]="!getCurrentJoint().canAddWeld() || !getCurrentJoint().isWelded"
                 [btn1Action]= "weldJoint" [btn2Action]="unweldJoint"
-                [joint]=getCurrentJoint()></tri-button>
+                [joint]=getCurrentJoint() [mechanism]="getMechanism()"></tri-button>
     <tri-button btn1Text="Add Input" btn2Text="Remove Input"
-                [btn1Disabled]=false
+                [btn1Disabled]="!getCurrentJoint().canAddInput() || getCurrentJoint().isInput"
                 [btn2Disabled]="!getCurrentJoint().canAddInput() || !getCurrentJoint().isInput"
                 [btn1Action]= "makeInput" [btn2Action]="removeInput"
-                [joint]=getCurrentJoint()></tri-button>
+                [joint]=getCurrentJoint() [mechanism]="getMechanism()"></tri-button>
     <tri-button *ngIf="getCurrentJoint().isInput"
                 btn1Text="Set Input Counter Clockwise" btn2Text="Set Input Clockwise"
                 [btn1Disabled]="!getCurrentJoint().canAddInput() || getCurrentJoint().isInput"
                 [btn2Disabled]="!getCurrentJoint().canAddInput() || !getCurrentJoint().isInput"
                 [btn1Action]= "makeInputCounterClockwise" [btn2Action]="makeInputClockwise"
-                [joint]=getCurrentJoint()></tri-button>
+                [joint]=getCurrentJoint() [mechanism]="getMechanism()"></tri-button>
   </collapsible-subsection>
 </div>
