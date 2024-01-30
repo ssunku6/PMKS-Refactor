@@ -14,7 +14,7 @@ export class Link {
     constructor(id: number, joints: Joint[]);
     constructor(id: number, jointAORJoints: Joint | Joint[], jointB?: Joint){
         this._id = id;
-        this._name = '';
+        this._name = this._name = id as unknown as string;
         this._mass = 0;
         this._forces = new Map();
         this._joints = new Map();
