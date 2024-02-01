@@ -31,7 +31,7 @@ export class ColorPickerComponent implements OnInit, OnChanges {
   ngOnInit(): void {}
 
   // A method that handles the click event on a color swatch
-  selectColor(index: string) {
+  selectColor(index: number) {
     this.selectedIndex = index;
     switch (this.type) {
       case 'link':

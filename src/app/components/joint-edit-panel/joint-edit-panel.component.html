@@ -25,7 +25,7 @@
         Input X and Y positions
       </dual-input-block>
 
-      <dual-input-block [input1Value]=""
+      <dual-input-block [input1Value]="getJointXCoord()"
                         [input2Value]="getJointYCoord()"
                         (input1Change)="setJointXCoord($event)"
                         (input2Change)="setJointYCoord($event)"

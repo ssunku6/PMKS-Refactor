@@ -12,7 +12,7 @@
   $foreground: map.get($theme, foreground);
 
 
-  #tri-button {
+  #dual-button {
 
     path {
       fill: mat.get-color-from-palette($primary-palette, 500);
