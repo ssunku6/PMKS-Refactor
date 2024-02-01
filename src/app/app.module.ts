@@ -42,7 +42,6 @@ import {MatInputModule} from "@angular/material/input";
 import {TriButtonComponent} from "./components/Blocks/tri-button/tri-button.component";
 import { DualButtonComponent } from './components/Blocks/dual-button/dual-button.component';
 
-
 @NgModule({
   declarations: [
     InteractionDirective,

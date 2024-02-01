@@ -5,13 +5,8 @@
         <title-block icon='expand_more' description='' class = "editHeader"
       >Edit Link
       {{this.getLinkName()}}
-      <svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 -960 960 960' width='20'>
-        <path
-          d='M176.826-174.152h47.5L663.13-614.435l-47.5-47.5-438.804 440.283v47.5Zm629.87-483.044L658.63-805.782l37.218-36.457q22.195-23.196 54.109-22.935 31.913.261 54.108 22.218l44.152 45.152q21.239 21 20.261 50.402-.978 29.402-21.5 49.924l-40.282 40.282Zm-41 41L252.609-102.348H104.783v-148.826L617.63-763.782l148.066 147.586Zm-125.457-21.369-24.609-24.37 47.5 47.5-22.891-23.13Z' />
-      </svg>
-      <svg width="16" height="19" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M10.0833 0V1H14.6667V3H13.75V16C13.75 17.1 12.925 18 11.9167 18H2.75C1.74167 18 0.916667 17.1 0.916667 16V3H0V1H4.58333V0H10.0833ZM2.75 16H11.9167V3H2.75V16ZM4.58333 5H6.41667V14H4.58333V5ZM10.0833 5H8.25V14H10.0833V5Z" fill="#FF5F5F"/>
-      </svg>
+      <img src='assets/icons/edit.svg' style="height: 20px; width: 20px;"/>
+      <img src='assets/icons/trash.svg' style="height: 20px; width: 20px;"/>
     </title-block>
       </panel-section-collapsible>
 
@@ -50,7 +45,8 @@
                     (input1Change)="joint.coords.x=($event)"
                     (input2Change)="joint.coords.y=($event)"
                     label1= "X"
-                    label2= "Y">
+                    label2= "Y"
+                    tooltip= "Change joint positions">
                     Joint {{ joint.name }}:
                   </dual-input-block>
                 </div>
