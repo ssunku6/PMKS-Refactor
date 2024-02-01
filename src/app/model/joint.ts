@@ -175,8 +175,8 @@ export class Joint {
 
     }
 
-    setAngletoJoint(newDistance: number, jointRef: Joint){
-
+    setAngletoJoint(newAngle: number, jointRef: Joint){
+        this.angle = newAngle;
     }
 
     setCoordinates(coord: Coord){
