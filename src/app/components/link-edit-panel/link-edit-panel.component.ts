@@ -9,6 +9,7 @@ import { Joint } from 'src/app/model/joint';
 import { ColorService } from 'src/app/services/color.service';
 import { FormControl, FormGroup } from "@angular/forms";
 import { LinkComponent } from '../link/link.component';
+import { Coord } from 'src/app/model/coord';
 
 
 @Component({
@@ -56,37 +57,7 @@ export class LinkEditPanelComponent{
         return this.getSelectedObject().joints;
     }
     
-    /*getLinkComponents(): String{
-        let joints = this.getLinkJoints();
-        let components = '';
-        joints.forEach((value: Joint, key: number) => {
-            let xCoord = value.coords.x.toFixed(4);
-            let yCoord = value.coords.y.toFixed(4);
-            components += 'Joint ' + value.name + ': x: ' + xCoord + ' y: ' + yCoord + '\n'; 
-        });
-        return components;
-    }
-
-    getLinkComponents() {
-        const elementContainer = document.getElementById('linkComponents');
-        if (elementContainer) {
-            let joints = this.getLinkJoints();
-            // Loop through your data
-            joints.forEach((value: Joint, key: number) => {
-                console.log(value)
-              // Create a new element
-              const dualInputBlock = document.createElement('dual-input-block');
-              dualInputBlock.setAttribute('input1Value', value.coords.x.toFixed(4));
-              dualInputBlock.setAttribute('input2Value', value.coords.y.toFixed(4));
-              dualInputBlock.innerText = `Joint ${value.name}`; // Update the text content
-              // Set the content of the element based on the current data item or loop index
-        
-              // Append the new element to the container
-              elementContainer?.appendChild(dualInputBlock);
-            });
-          }
-    }*/
-
+    //Returns the joints contained in a link.
     getLinkComponents():IterableIterator<Joint>{
         console.log(this.getLinkJoints());
         return this.getLinkJoints().values();
@@ -104,13 +75,14 @@ export class LinkEditPanelComponent{
     //TODO
     setLinkColor(newColor: number){
     }
+
     setLinkName(newName: string){
         this.getSelectedObject().name = newName;
     }
 
     addTracer(): void{
         let CoM = this.getSelectedObject().centerOfMass;
-        let tracer = Joint.constructor(0, CoM);
+        let tracer = Joint.constructor(-1, CoM);
         this.getSelectedObject().addTracer(tracer);
     }
 

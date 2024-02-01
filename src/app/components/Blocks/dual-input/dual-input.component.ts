@@ -22,6 +22,9 @@ export class DualInputComponent {
   onEnterKeyInput1() {this.input1Change.emit(this.input1Value);}
   onEnterKeyInput2() {this.input2Change.emit(this.input2Value);}
 
+  onBlurInput1() {this.input1Change.emit(this.input1Value);}
+  onBlurInput2() {this.input2Change.emit(this.input2Value);}
+
   /*
   @Input() currentJoint!: Joint;
   @Input() tooltip!: string;
