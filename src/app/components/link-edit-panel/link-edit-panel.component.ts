@@ -29,12 +29,11 @@ export class LinkEditPanelComponent{
         FBasic: true,
         FVisual: false,
       };
+      isEditingTitle: boolean = false;
 
     constructor(private stateService: StateService, private interactionService: InteractionService){
         
     }
-    lengthFormControl: FormControl = new FormControl();
-    angleFormControl: FormControl = new FormControl();
 
     getSelectedObject(): Link{
         let link = this.interactionService.getSelectedObject() as LinkInteractor;
@@ -59,7 +58,7 @@ export class LinkEditPanelComponent{
     
     //Returns the joints contained in a link.
     getLinkComponents():IterableIterator<Joint>{
-        console.log(this.getLinkJoints());
+        //console.log(this.getLinkJoints());
         return this.getLinkJoints().values();
     }
     
@@ -78,6 +77,8 @@ export class LinkEditPanelComponent{
 
     setLinkName(newName: string){
         this.getSelectedObject().name = newName;
+        console.log("it set the new name " + this.getSelectedObject().name);
+        this.isEditingTitle=false;
     }
 
     addTracer(): void{
@@ -86,5 +87,23 @@ export class LinkEditPanelComponent{
         this.getSelectedObject().addTracer(tracer);
     }
 
+    deleteLink(){
+        console.log("link " + this.getSelectedObject().id + " has been deleted")
+        this.stateService.getMechanism().removeLink(this.getSelectedObject().id);
+    }
+
+    onTitleBlockClick(event: MouseEvent): void {
+        console.log('Title clicked!');
+        const clickedElement = event.target as HTMLElement;
+        // Check if the clicked element has the 'edit-svg' class, so we can enable editing
+        if (clickedElement && clickedElement.classList.contains('edit-svg')) {
+          console.log('Edit SVG clicked!');
+          this.isEditingTitle = true;
+        }
+      }
+
+    roundToFour(round:number): number{
+        return round.toFixed(4) as unknown as number;
+    }
 
 }

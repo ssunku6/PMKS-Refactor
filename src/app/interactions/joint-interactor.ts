@@ -28,13 +28,13 @@ export class JointInteractor extends Interactor {
 
         this.onDragEnd$.subscribe((event) => {
         });
-
+        /*
         // if backspace, delete
         this.onKeyDown$.subscribe((event) => {
             if (event.key === "Backspace") {
                 this.stateService.getMechanism().removeJoint(this.joint.id);
             }
-        });
+        });*/
 
     }
 
