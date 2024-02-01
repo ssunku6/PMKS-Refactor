@@ -40,13 +40,12 @@ export class LinkEditPanelComponent{
         return link.getLink();
     }
 
-    getLinkLength(): FormControl{
-        this.lengthFormControl.setValue(this.getSelectedObject().calculateLength());
-        return this.lengthFormControl;
+    getLinkLength(): number{
+        return this.getSelectedObject().calculateLength();
     }
-    getLinkAngle(): FormControl{
-        this.angleFormControl.setValue(this.getSelectedObject().calculateAngle());
-        return this.angleFormControl;
+    getLinkAngle(): number{
+        return this.getSelectedObject().calculateAngle();
+        
     }
    
     //TODO
@@ -66,7 +65,7 @@ export class LinkEditPanelComponent{
             components += 'Joint ' + value.name + ': x: ' + xCoord + ' y: ' + yCoord + '\n'; 
         });
         return components;
-    }*/
+    }
 
     getLinkComponents() {
         const elementContainer = document.getElementById('linkComponents');
@@ -77,24 +76,29 @@ export class LinkEditPanelComponent{
                 console.log(value)
               // Create a new element
               const dualInputBlock = document.createElement('dual-input-block');
-              dualInputBlock.setAttribute('formControl1', value.coords.x.toFixed(4));
-              dualInputBlock.setAttribute('formControl2', value.coords.y.toFixed(4));
-              dualInputBlock.innerText = `Link ${value.name}`; // Update the text content
+              dualInputBlock.setAttribute('input1Value', value.coords.x.toFixed(4));
+              dualInputBlock.setAttribute('input2Value', value.coords.y.toFixed(4));
+              dualInputBlock.innerText = `Joint ${value.name}`; // Update the text content
               // Set the content of the element based on the current data item or loop index
         
               // Append the new element to the container
               elementContainer?.appendChild(dualInputBlock);
             });
           }
+    }*/
+
+    getLinkComponents():IterableIterator<Joint>{
+        console.log(this.getLinkJoints());
+        return this.getLinkJoints().values();
     }
     
     getLinkName(): string{
         return this.getSelectedObject().name;
     }
-    setLinkLength(newLength: number){
+    setLinkLength(newLength: number): void{
         this.getSelectedObject().setLength(newLength);
     }
-    setLinkAngle(newAngle: number){
+    setLinkAngle(newAngle: number): void{
         this.getSelectedObject().setAngle(newAngle);
     }
     //TODO
@@ -104,12 +108,11 @@ export class LinkEditPanelComponent{
         this.getSelectedObject().name = newName;
     }
 
-    addTracer(){
+    addTracer(): void{
         let CoM = this.getSelectedObject().centerOfMass;
         let tracer = Joint.constructor(0, CoM);
         this.getSelectedObject().addTracer(tracer);
     }
 
-   
 
 }
