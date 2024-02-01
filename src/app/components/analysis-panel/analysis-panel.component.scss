@@ -1,0 +1,28 @@
+
+
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin css($theme) {
+    // Get the color config from the theme.
+    $color-config: mat.get-color-config($theme);
+    // Get the primary color palette from the color-config.
+    $primary-palette: map.get($color-config, 'primary');
+    $accent-palette: map.get($color-config, 'accent');
+    $typography-config: mat.get-typography-config($theme);
+    $background: map.get($theme, background);
+    $foreground: map.get($theme, foreground);
+
+.app-analysis-panel-container{
+    display: flex;
+    flex-direction: column;
+    padding: 0px 0px;
+    z-index: 1;
+    position: absolute;
+}
+  .analysisHeader {
+    border: 2px solid white;
+    padding: 10px;
+    background-color: white;
+  }
+}

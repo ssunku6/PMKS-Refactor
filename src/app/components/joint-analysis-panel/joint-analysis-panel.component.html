@@ -1,0 +1,34 @@
+<div id="jointAnalysisPanel">
+<!--  JOINT PANEL-->
+  <!-- TITLE BLOCK: CONTAINS TITLE, INPUT SECTION FOR JOINT NAME, EDIT AND DELETE SVGS -->
+  <panel-section-collapsible>
+    <title-block icon='expand_more' description='' class = "editHeader"
+      >Analysis for Joint
+      {{ getJointName() }}
+    </title-block>
+
+  </panel-section-collapsible>
+
+  <!-- BASIC SETTING DROPDOWN -->
+
+  <collapsible-subsection titleLabel='Data Summary' [expanded]="graphExpanded['basicBasic']"
+                          (opened)="graphExpanded['basicBasic'] = false"
+                          (closed)="graphExpanded['basicBasic'] = true">
+
+        <div class="flex-container">
+          <p>Data Summary</p>
+          Name of Joint: {{ getJointName() }} <br>
+          X Coordinate of Joint: {{ this.getJointXCoord() }} <br>
+          Y Coordinate of Joint: {{ this.getJointYCoord() }} <br>
+        </div>
+      </collapsible-subsection>
+
+
+        <collapsible-subsection titleLabel='Advanced Settings' [expanded]="graphExpanded['advancedSettingsBasic']"
+                                (opened)="graphExpanded['advancedSettingsBasic'] = true"
+                                (closed)="graphExpanded['advancedSettingsBasic'] = false">
+
+        </collapsible-subsection>
+
+    </div>
+
