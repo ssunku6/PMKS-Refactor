@@ -37,13 +37,13 @@ export class LinkInteractor extends Interactor {
         this.onDragEnd$.subscribe((event) => {
             this.jointsStartPosModel.clear();
         });
-
+        /*
         // if backspace, delete
         this.onKeyDown$.subscribe((event) => {
             if (event.key === "Backspace") {
                 this.stateService.getMechanism().removeLink(this.link.id);
             }
-        });
+        });*/
 
     }
     

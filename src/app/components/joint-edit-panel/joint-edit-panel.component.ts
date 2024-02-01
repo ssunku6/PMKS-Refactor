@@ -33,9 +33,6 @@ export class jointEditPanelComponent {
     console.log("GraphComponent.constructor");
 
   }
-  // These form control objects exist basically only to be passed in to the Dual Input Block component
-  jointXFormControl: FormControl = new FormControl();
-  jointYFormControl: FormControl = new FormControl();
 
   getMechanism(): Mechanism {
     return this.stateService.getMechanism();
@@ -71,8 +68,8 @@ export class jointEditPanelComponent {
   // set x and y are used in conjunction with the dual input blocks. by using
   // the mechanism's built in setXCoord function, we are able to update with no
   // errors
-  getJointXCoord(): number {return this.getCurrentJoint().coords.x.toFixed(3) as unknown as number;}
-  getJointYCoord(): number {return this.getCurrentJoint().coords.y.toFixed(3) as unknown as number;}
+  getJointXCoord(): number {return this.getCurrentJoint().coords.x.toFixed(4) as unknown as number;}
+  getJointYCoord(): number {return this.getCurrentJoint().coords.y.toFixed(4) as unknown as number;}
   setJointXCoord(xCoordInput: number): void {this.getMechanism().setXCoord(this.getCurrentJoint().id, xCoordInput);}
   setJointYCoord(yCoordInput: number): void {this.getMechanism().setYCoord(this.getCurrentJoint().id, yCoordInput);}
 
