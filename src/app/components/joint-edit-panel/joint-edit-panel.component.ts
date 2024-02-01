@@ -44,7 +44,6 @@ export class jointEditPanelComponent {
     let currentJointInteractor = this.interactorService.getSelectedObject();
     return (currentJointInteractor as JointInteractor).getJoint();
   }
-
   getJointName(): string {
     return this.getCurrentJoint().name;
   }
@@ -63,6 +62,9 @@ export class jointEditPanelComponent {
     this.getCurrentJoint().name = newName;
     console.log("Here is the new name of the joint ", this.getCurrentJoint().name);
     this.isEditingTitle=false;
+  }
+  deleteJoint(){
+    this.getMechanism().removeJoint(this.getCurrentJoint().id);
   }
 
   // get x coord and y coord return the number of the currently selected coord
@@ -89,7 +91,7 @@ export class jointEditPanelComponent {
         },
         []
     );
-    console.log(allJoints);
+    // console.log(allJoints);
     return allJoints;
   }
 
