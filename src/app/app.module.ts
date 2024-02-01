@@ -41,6 +41,8 @@ import {ToggleComponent} from "./components/Blocks/toggle/toggle.component";
 import {MatInputModule} from "@angular/material/input";
 import {TriButtonComponent} from "./components/Blocks/tri-button/tri-button.component";
 import { DualButtonComponent } from './components/Blocks/dual-button/dual-button.component';
+import {JointAnalysisPanelComponent} from "./components/joint-analysis-panel/joint-analysis-panel.component";
+import {AnalysisPanelComponent} from "./components/analysis-panel/analysis-panel.component";
 
 @NgModule({
   declarations: [
@@ -67,6 +69,8 @@ import { DualButtonComponent } from './components/Blocks/dual-button/dual-button
     ToggleComponent,
     TriButtonComponent,
     DualButtonComponent,
+    JointAnalysisPanelComponent,
+    AnalysisPanelComponent,
   ],
   imports: [
     BrowserModule,

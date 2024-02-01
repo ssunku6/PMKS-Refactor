@@ -13,13 +13,13 @@ interface Tab {
     icon: string
 }
 @Component({
-    selector: 'app-joint-edit-panel',
-    templateUrl: './joint-edit-panel.component.html',
-    styleUrls: ['./joint-edit-panel.component.scss'],
+    selector: 'app-joint-analysis-panel',
+    templateUrl: './joint-analysis-panel.component.html',
+    styleUrls: ['./joint-analysis-panel.component.scss'],
 
 })
 
-export class jointEditPanelComponent {
+export class JointAnalysisPanelComponent {
 
   graphExpanded: { [key: string]: boolean } = {
     basicBasic: false,
@@ -40,25 +40,6 @@ export class jointEditPanelComponent {
     return (currentJointInteractor as JointInteractor).getJoint();
   }
   getJointName(): string {return this.getCurrentJoint().name;}
-  onTitleBlockClick(event: MouseEvent): void {
-    console.log('Title clicked!');
-    const clickedElement = event.target as HTMLElement;
-    // Check if the clicked element has the 'edit-svg' class, so we can enable editing
-    if (clickedElement && clickedElement.classList.contains('edit-svg')) {
-      console.log('Edit SVG clicked!');
-      this.isEditingTitle = true;
-    }
-  }
-  // TODO figure out where the joint names are displayed on screen and make it the name, not ID
-  setJointName(newName: string){
-    console.log("Here is the current name of the joint ", this.getCurrentJoint().name);
-    this.getCurrentJoint().name = newName;
-    console.log("Here is the new name of the joint ", this.getCurrentJoint().name);
-    this.isEditingTitle=false;
-  }
-  deleteJoint(){
-    this.getMechanism().removeJoint(this.getCurrentJoint().id);
-  }
 
   // get x coord and y coord return the number of the currently selected coord
   // set x and y are used in conjunction with the dual input blocks. by using
@@ -102,30 +83,15 @@ export class jointEditPanelComponent {
     console.log("changing distance from this joint ", jointIDReference, " to this distance ", newDistance);
     this.getMechanism().setDistanceToJoint(this.getCurrentJoint().id, jointIDReference, newDistance);
   }
-
-  // handleToggleGroundChanged is used by the edit panel implementation of a toggle block
-  // to accurately portray whether or not the toggle is selected for grounding.
-  handleToggleGroundChange(stateChange: boolean) {
-    console.log("Toggle State Changed: ", stateChange);
-    const currentJoint = this.getCurrentJoint();
-    if (stateChange) {this.getMechanism().addGround(this.getCurrentJoint().id);}
-    else {this.getMechanism().removeGround(this.getCurrentJoint().id);}
+  /*
+  onTitleBlockClick(event: MouseEvent): void {
+    console.log('Title clicked!');
+    const clickedElement = event.target as HTMLElement;
+    // Check if the clicked element has the 'edit-svg' class, so we can enable editing
+    if (clickedElement && clickedElement.classList.contains('edit-svg')) {
+      console.log('Edit SVG clicked!');
+      this.isEditingTitle = true;
+    }
   }
-
-  // these values are passed into a tri button. these handle making and removing input.
-  //        [btn1Disabled]="!getCurrentJoint().canAddInput() || getCurrentJoint().isInput"
-  makeInput() {this.getMechanism().addInput(this.getCurrentJoint().id);}
-  removeInput() {this.getMechanism().removeInput(this.getCurrentJoint().id);}
-  makeInputClockwise() {console.log("We would be making the input clockwise here");}
-  makeInputCounterClockwise() {console.log("We would be making the input counter clockwise here");}
-
-
-  // these values are passed into a tri button. these handle the welding and unwelding
-  // of the current joint
-  weldJoint() {this.getMechanism().addWeld(this.getCurrentJoint().id);}
-  unweldJoint(){this.getMechanism().removeWeld(this.getCurrentJoint().id);}
-
-  getJointColor(){}
-  setJointColor(){}
-
+   */
 }
