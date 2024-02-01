@@ -25,15 +25,26 @@
         Input X and Y positions
       </dual-input-block>
 
-      <dual-input-block [input1Value]="getJointXCoord()"
-                        [input2Value]="getJointYCoord()"
-                        (input1Change)="setJointXCoord($event)"
-                        (input2Change)="setJointYCoord($event)"
-                        label1="X"
-                        label2="Y"
-                        tooltip = "The location of the Joint in X and Y Positions">
-        Distance and Angle from Joint {{this.getCurrentJoint().name}} to Joint
-      </dual-input-block>
+      <div id="linkComponents">
+      <p>Components</p>
+      <!--{{this.getLinkComponents()}} -->
+      <div id="container">
+        <div *ngFor='let joint of getConnectedJoints(); let i = index;'>
+          <ng-container *ngIf="getCurrentJoint().name !== joint.name">
+           <dual-input-block
+                  [input1Value]="101"
+                  [input2Value]="202"
+                  (input1Change)="changeJointDistance(joint.id, $event)"
+                  (input2Change)="changeJointAngle(joint.id, $event)"
+                  label1= "Distance to Joint"
+                  label2= "Angle to Joint"
+                  tooltip = "The distance and angle from Joint {{getCurrentJoint().name}} to {{joint.name}}">
+            Joint {{ joint.name }}:
+            </dual-input-block>
+          </ng-container>
+        </div>
+      </div>
+    </div>
 
     </div>
   </collapsible-subsection>

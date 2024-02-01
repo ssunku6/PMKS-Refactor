@@ -24,7 +24,7 @@ export class Mechanism {
 
     /**
      * Given two Coordinates, generates two joints at those coordinates and makes a link between them
-     * TODO: Account for two additional cases, 
+     * TODO: Account for two additional cases,
      * 1. from grid to joint
      * 2. from grid to link
      * @param {Coord} coordOne
@@ -48,7 +48,7 @@ export class Mechanism {
 
 
     /**
-     * Generalized function for performing actions/modifications on joints, 
+     * Generalized function for performing actions/modifications on joints,
      * 1. Checks the jointID is valid.
      * 2. Checks the requested action can be performed on the joint(a Joint class function)
      * 3. Attempts to perform the action on the joint(another Joint class function)
@@ -59,7 +59,7 @@ export class Mechanism {
      * @param {string} errorMsg
      * @param {string} successMsg
      * @param {(joint: any) => void} action
-     * @return {*} 
+     * @return {*}
      * @memberof Mechanism
      */
     private executeJointAction(jointID: number, canPerformAction: (joint: Joint) => boolean, errorMsg: string, successMsg: string, action: (joint: any) => void): boolean {
@@ -81,11 +81,11 @@ export class Mechanism {
         } catch (error: any) {
             console.error(`An error occurred when trying to ${errorMsg} joint ${jointID}: ${error.message}`);
             return false;
-        } 
+        }
     }
 
     /**
-     * Given a joint's ID, welds all links attached to that joint into a single compound link, and sets the joint to welded. 
+     * Given a joint's ID, welds all links attached to that joint into a single compound link, and sets the joint to welded.
      *
      * @param {number} jointID
      * @memberof Mechanism
@@ -126,7 +126,7 @@ export class Mechanism {
         });
     }
     /**
-     * Given a joint's ID, unwelds all links attached to that joint, and sets the joint to unwelded. 
+     * Given a joint's ID, unwelds all links attached to that joint, and sets the joint to unwelded.
      *
      * @param {number} jointID
      * @memberof Mechanism
@@ -145,7 +145,7 @@ export class Mechanism {
                 }
             }
         });
-        
+
     }
     /**
      *  Given a joint's ID, turns the joint into a prismatic-revolute joint with a slider and angle.
@@ -210,7 +210,7 @@ export class Mechanism {
      * @memberof Mechanism
      */
     addLinkToJoint(jointID: number, coordOneORJointID: Coord | number) {
-    
+
         this.executeJointAction(jointID, (joint) => true, 'cannot have a new link added','has had a new link added', (joint) =>{
             let jointB: Joint;
             if(typeof coordOneORJointID !== 'number'){
@@ -252,7 +252,7 @@ export class Mechanism {
         });
     }
     //----------------------------JOINT CONTEXT MENU ACTIONS VERIFIERS----------------------------
-    
+
     canAddInput(joint: Joint): boolean{
         //check if the joint knows it can be an input
         if(!joint.canAddInput())
@@ -266,14 +266,14 @@ export class Mechanism {
     }
     canRemoveInput(joint: Joint): boolean{
         return joint.canRemoveInput();
-    }   
+    }
     canAddGround(joint: Joint): boolean{
         return joint.canAddGround()
     }
     canRemoveGround(joint: Joint): boolean{
         return joint.canRemoveGround()
     }
-    
+
     canAddWeld(joint: Joint): boolean{
         return joint.canAddWeld()
     }
@@ -317,7 +317,7 @@ export class Mechanism {
     setXCoord(jointID: number, newXCoord: number) {
         this.executeJointAction(jointID, (joint) => true, 'error','success', (joint) =>{joint.coords.x = newXCoord;});
     }
-    
+
     /**
      *Moves a joint to a new specified y coordinate.
      *
@@ -327,7 +327,7 @@ export class Mechanism {
      */
     setYCoord(jointID: number, newYCoord: number) {
         this.executeJointAction(jointID, (joint) => true, 'error','success', (joint) =>{joint.coords.y = newYCoord});
-        
+
     }
     /**
      * Given two joints and a desired length between them, moves the first joint along the line which passes between both joints(maintains angle) to a position that satisfies the length
@@ -347,7 +347,7 @@ export class Mechanism {
         console.log(this);
     }
     /**
-     * Given two joints and a desired angle between them, rotates the first joint around the second(mantaining same distance) until the desired angle is reached. 
+     * Given two joints and a desired angle between them, rotates the first joint around the second(mantaining same distance) until the desired angle is reached.
      *
      * @param {number} jointIDtoChance
      * @param {number} jointIDReference
@@ -360,8 +360,8 @@ export class Mechanism {
             console.error(`Joint with ID ${jointIDReference} does not exist`);;
             return;
         }
-        this.executeJointAction(jointIDtoChange, (joint) => true, 'error','success', 
-        (joint) =>{joint.setDistancetoJoint(newAngle, jointB);});
+        this.executeJointAction(jointIDtoChange, (joint) => true, 'error','success',
+        (joint) =>{joint.setAngletoJoint(newAngle, jointB);});
     }
 
 
@@ -376,7 +376,7 @@ export class Mechanism {
      * @private
      * @param {number} linkID
      * @param {(link: Link) => void} action
-     * @return {*} 
+     * @return {*}
      * @memberof Mechanism
      */
     private executeLinkAction(linkID: number, action: (link: Link) => void) {
@@ -388,9 +388,9 @@ export class Mechanism {
         action(link);
         console.log(this);
     }
-    
+
     /**
-     * attaches a tracer point(effectively a joint) to a an existing link. 
+     * attaches a tracer point(effectively a joint) to a an existing link.
      *
      * @param {number} linkID
      * @param {Coord} coord
@@ -520,7 +520,7 @@ export class Mechanism {
     }
     /**
      * Sets the length of a link given its ID.
-     * 
+     *
      * @param {number} linkID
      * @param {number} newLength
      * @memberof Mechanism
@@ -530,7 +530,7 @@ export class Mechanism {
     }
     /**
      * Sets the angle of a link relative to the x axis, while maintaining its length given its ID.
-     * 
+     *
      * @param {number} linkID
      * @param {number} newAngle
      * @memberof Mechanism
@@ -559,7 +559,7 @@ export class Mechanism {
      * @private
      * @param {number} forceID
      * @param {(force: Force) => void} action
-     * @return {*} 
+     * @return {*}
      * @memberof Mechanism
      */
     private executeForceAction(forceID: number, action: (force: Force) => void) {
@@ -660,8 +660,8 @@ export class Mechanism {
     }
 
     //----------------------------HELPER FUNCTIONS----------------------------
-    
-    private getConnectedLinksForJoint(joint: Joint): Link[]{
+
+    getConnectedLinksForJoint(joint: Joint): Link[]{
     let connectedLinks: Link[] = [];
     for(let link of this._links.values()){
         if(link.containsJoint(joint.id)){
