@@ -27,6 +27,7 @@ export class jointEditPanelComponent {
     advancedSettingsBasic: false,
     advancedSettingsVisual: false
   };
+  isEditingTitle: boolean = false;
 
   constructor(private stateService: StateService, private interactorService: InteractionService){
     console.log("GraphComponent.constructor");
@@ -47,8 +48,21 @@ export class jointEditPanelComponent {
   getJointName(): string {
     return this.getCurrentJoint().name;
   }
+  onTitleBlockClick(event: MouseEvent): void {
+    console.log('Title clicked!');
+    const clickedElement = event.target as HTMLElement;
+    // Check if the clicked element has the 'edit-svg' class, so we can enable editing
+    if (clickedElement && clickedElement.classList.contains('edit-svg')) {
+      console.log('Edit SVG clicked!');
+      this.isEditingTitle = true;
+    }
+  }
+  // TODO figure out where the joint names are displayed on screen
   setJointName(newName: string){
+    console.log("Here is the current name of the joint ", this.getCurrentJoint().name);
     this.getCurrentJoint().name = newName;
+    console.log("Here is the new name of the joint ", this.getCurrentJoint().name);
+    this.isEditingTitle=false;
   }
 
   // get x coord and y coord return the number of the currently selected coord
