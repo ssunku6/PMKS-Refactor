@@ -2,12 +2,22 @@
     <!--  LINK PANEL-->
     <!--  Name does not work because no name is set-->
       <panel-section-collapsible>
-        <title-block icon='expand_more' description='' class = "editHeader"
-      >Edit Link
-      {{this.getLinkName()}}
-      <img src='assets/icons/edit.svg' style="height: 20px; width: 20px;"/>
-      <img src='assets/icons/trash.svg' style="height: 20px; width: 20px;"/>
+    <title-block icon='expand_more' description='' class="editHeader" (click)="onTitleBlockClick($event)">
+      Edit Link
+      <ng-container *ngIf="isEditingTitle; else linkNameDisplay">
+    <input #linkNameInput [(ngModel)]="this.getSelectedObject().name" (blur)="setLinkName(linkNameInput.value)" (keyup.enter)="setLinkName(linkNameInput.value)"/>
+  </ng-container>
+  <ng-template #linkNameDisplay>
+    {{ this.getLinkName() }}
+  </ng-template>
+  <button (click)="this.isEditingTitle=true">
+    <img src='assets/icons/edit.svg' style="height: 20px; width: 20px;"/>
+  </button>
+  <button (click)="this.deleteLink()">
+    <img src='assets/icons/trash.svg' style="height: 20px; width: 20px;"/>
+  </button>
     </title-block>
+    <p>This is where you edit Links. Change things such as the position.</p>
       </panel-section-collapsible>
 
       <!-- BASIC SETTING DROPDOWN -->
@@ -40,8 +50,8 @@
               <div id="container">
                 <div *ngFor='let joint of getLinkComponents(); let i = index;'>
                   <dual-input-block
-                    [input1Value]="joint.coords.x"
-                    [input2Value]="joint.coords.y"
+                    [input1Value]="this.roundToFour(joint.coords.x)"
+                    [input2Value]="this.roundToFour(joint.coords.y)"
                     (input1Change)="joint.coords.x=($event)"
                     (input2Change)="joint.coords.y=($event)"
                     label1= "X"
