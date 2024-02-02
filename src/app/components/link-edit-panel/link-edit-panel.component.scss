@@ -44,41 +44,30 @@
     margin-left: auto; /* Pushes this element to the right */
   }
 
-  button.colors {
+  div.colors {
     width: 30px;
     height: 30px;
     margin: 7px 3px;
     border-radius: 5px;
     border: none;
+    //margin: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+
   p.colors {
     padding:0;
     margin-top: 5px;
     margin-bottom: 0;
   }
 
-  #button1 {
-    background-color: #727FD5;
-  }
-
-  #button2 {
-    background-color: #2F3E9F;
-  }
-  #button3 {
-    background-color: #0D125A;
-  }
-
-  #button4 {
-    background-color: #207297;
-  }
-  #button5 {
-    background-color: #00695D;
-  }
-
-  #button6 {
-    background-color: #0D453E;
-  }
-
   #lengthAndAngle {
     max-height: 10px;
   }
+
+  .row {
+    display: flex;
+  }
+  

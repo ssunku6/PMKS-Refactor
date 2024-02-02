@@ -30,8 +30,9 @@ export class LinkEditPanelComponent{
         FVisual: false,
       };
       isEditingTitle: boolean = false;
+      selectedIndex: number = this.getColorIndex();
 
-    constructor(private stateService: StateService, private interactionService: InteractionService){
+    constructor(private stateService: StateService, private interactionService: InteractionService, private colorService: ColorService){
         
     }
 
@@ -48,10 +49,6 @@ export class LinkEditPanelComponent{
         
     }
    
-    //TODO
-    getLinkColor(){
-        
-    }
     getLinkJoints(): Map<number, Joint>{
         return this.getSelectedObject().joints;
     }
@@ -71,9 +68,7 @@ export class LinkEditPanelComponent{
     setLinkAngle(newAngle: number): void{
         this.getSelectedObject().setAngle(newAngle);
     }
-    //TODO
-    setLinkColor(newColor: number){
-    }
+    
 
     setLinkName(newName: string){
         this.getSelectedObject().name = newName;
@@ -104,6 +99,25 @@ export class LinkEditPanelComponent{
 
     roundToFour(round:number): number{
         return round.toFixed(4) as unknown as number;
+    }
+
+    getColors(): string[]{
+        return this.colorService.getLinkColorOptions();
+    }
+
+    getColor(): string{
+        return this.getSelectedObject().color;
+    }
+
+    getColorIndex(): number{
+        return this.colorService.getLinkColorIndex(this.getSelectedObject().id);
+    }
+
+    //TODO
+    setLinkColor(newColor: number){
+        console.log(newColor);
+        this.getSelectedObject().setColor(newColor);
+        this.selectedIndex=newColor;
     }
 
 }

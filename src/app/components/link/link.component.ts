@@ -33,7 +33,7 @@ export class LinkComponent extends AbstractInteractiveComponent {
   }
 
   getColor():string{
-	return this.colorService.getLinkColorFromID(this.link.id);
+	return this.link.color;
   }
   getStrokeColor(): string{
     if (this.getInteractor().isSelected) {

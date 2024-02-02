@@ -9,6 +9,22 @@ export class Link {
     private _centerOfMass: Coord;
     private _joints: Map<number, Joint>;
     private _forces: Map<number, Force>;
+    private _color: string = "";
+
+    private linkColorOptions = [
+        '#727FD5',
+        '#2F3E9F',
+        '#0D125A',
+        // '#283493',
+        // '#3948ab',
+        // '#3f50b5',
+        // '#5c6ac0',
+        // '#7986cb',
+        // '#c5cae9',
+        '#207297',
+        '#00695D',
+        '#0D453E',
+      ];
 
     constructor(id: number, jointA: Joint, jointB: Joint);
     constructor(id: number, joints: Joint[]);
@@ -18,6 +34,8 @@ export class Link {
         this._mass = 0;
         this._forces = new Map();
         this._joints = new Map();
+        this._color = this.linkColorOptions[id % this.linkColorOptions.length];
+
         if(Array.isArray(jointAORJoints)){
             jointAORJoints.forEach(joint => {
                 this._joints.set(joint.id, joint);
@@ -41,6 +59,10 @@ export class Link {
 
     get mass(): number {
         return this._mass;
+    }
+
+    get color(): string{
+        return this._color;
     }
 
     get centerOfMass(): Coord {
@@ -170,6 +192,15 @@ export class Link {
         }
 
     }
+
+    setColor(index: number){
+        console.log(index);
+        this._color=this.linkColorOptions[index];
+        console.log(this._color);
+    }
+
+    
+    
 
 
 }
