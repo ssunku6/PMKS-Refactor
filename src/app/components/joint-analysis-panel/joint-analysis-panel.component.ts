@@ -22,16 +22,15 @@ interface Tab {
 export class JointAnalysisPanelComponent {
 
   graphExpanded: { [key: string]: boolean } = {
-    basicBasic: false,
-    basicVisual: false,
-    advancedSettingsBasic: false,
-    advancedSettingsVisual: false
+    dataSummary: true,
+    graphicalAnalysis: false,
+    positionOfJoint: false,
+      velocityOfJoint: false,
+      accelerationOfJoint: false
   };
-  isEditingTitle: boolean = false;
 
   constructor(private stateService: StateService, private interactorService: InteractionService){
-    console.log("joint-edit-panel.constructor");
-
+      console.log("joint-analysis-panel.constructor");
   }
 
   getMechanism(): Mechanism {return this.stateService.getMechanism();}
@@ -42,9 +41,6 @@ export class JointAnalysisPanelComponent {
   getJointName(): string {return this.getCurrentJoint().name;}
 
   // get x coord and y coord return the number of the currently selected coord
-  // set x and y are used in conjunction with the dual input blocks. by using
-  // the mechanism's built in setXCoord function, we are able to update with no
-  // errors
   getJointXCoord(): number {return this.getCurrentJoint().coords.x.toFixed(3) as unknown as number;}
   getJointYCoord(): number {return this.getCurrentJoint().coords.y.toFixed(3) as unknown as number;}
   setJointXCoord(xCoordInput: number): void {this.getMechanism().setXCoord(this.getCurrentJoint().id, xCoordInput);}
