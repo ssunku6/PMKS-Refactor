@@ -9,26 +9,39 @@
 
   </panel-section-collapsible>
 
-  <!-- BASIC SETTING DROPDOWN -->
+  <!-- DATA SUMMARY DROPDOWN -->
 
-  <collapsible-subsection titleLabel='Data Summary' [expanded]="graphExpanded['basicBasic']"
-                          (opened)="graphExpanded['basicBasic'] = false"
-                          (closed)="graphExpanded['basicBasic'] = true">
-
+  <collapsible-subsection titleLabel='Data Summary' [expanded]="graphExpanded['dataSummary']"
+                          (opened)="graphExpanded['dataSummary'] = true"
+                          (closed)="graphExpanded['dataSummary'] = false">
         <div class="flex-container">
           <p>Data Summary</p>
           Name of Joint: {{ getJointName() }} <br>
           X Coordinate of Joint: {{ this.getJointXCoord() }} <br>
           Y Coordinate of Joint: {{ this.getJointYCoord() }} <br>
         </div>
-      </collapsible-subsection>
+  </collapsible-subsection>
 
 
-        <collapsible-subsection titleLabel='Advanced Settings' [expanded]="graphExpanded['advancedSettingsBasic']"
-                                (opened)="graphExpanded['advancedSettingsBasic'] = true"
-                                (closed)="graphExpanded['advancedSettingsBasic'] = false">
+  <collapsible-subsection titleLabel='Graphical Analysis' [expanded]="graphExpanded['graphicalAnalysis']"
+                                (opened)="graphExpanded['graphicalAnalysis'] = true"
+                                (closed)="graphExpanded['graphicalAnalysis'] = false">
+    <collapsible-subsection titleLabel='Position of Joint' [expanded]="graphExpanded['positionOfJoint']"
+                            (opened)="graphExpanded['positionOfJoint'] = true"
+                            (closed)="graphExpanded['positionOfJoint'] = false">
+    </collapsible-subsection>
+    <collapsible-subsection titleLabel='Velocity of Joint' [expanded]="graphExpanded['velocityOfJoint']"
+                            (opened)="graphExpanded['velocityOfJoint'] = true"
+                            (closed)="graphExpanded['velocityOfJoint'] = false">
+    </collapsible-subsection>
+    <collapsible-subsection titleLabel='Acceleration of Joint' [expanded]="graphExpanded['accelerationOfJoint']"
+                            (opened)="graphExpanded['accelerationOfJoint'] = true"
+                            (closed)="graphExpanded['accelerationOfJoint'] = false">
 
-        </collapsible-subsection>
+
+    </collapsible-subsection>
+
+  </collapsible-subsection>
 
     </div>
 
