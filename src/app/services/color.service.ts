@@ -32,6 +32,10 @@ export class ColorService {
     return this.linkColorOptions[id % this.linkColorOptions.length];
   }
 
+  getLinkColorIndex(id: number){
+    return id%this.linkColorOptions.length;
+  }
+
   getJointColorFromID(id: number) {
     return this.jointColorOptions[id % this.linkColorOptions.length];
   }

@@ -68,13 +68,13 @@
             (closed)="sectionExpanded['LVisual'] = false">
         <div>
         <p class="colors">Link Color:</p>
-        <div>
-            <button class ="colors" id="button1" onClick="setColor('button1', '#727FD5')"></button>
-            <button class ="colors" id="button2" onClick="setColor('button2', '#2F3E9F')"></button>
-            <button class ="colors" id="button3" onClick="setColor('button3', '#0D125A')"></button>
-            <button class ="colors" id="button4" onClick="setColor('button4', '#207297')"></button>
-            <button class ="colors" id="button5" onClick="setColor('button5', '#00695D')"></button>
-            <button class ="colors" id="button6" onClick="setColor('button6', '#0D453E')"></button>
+        <div class="row">
+        <div *ngFor='let color of getColors(); let i=index' class="colors"
+               [style.backgroundColor]='color'
+               (click)='setLinkColor(i)'>
+            <!-- Use an *ngIf directive to show a check mark if the color is selected -->
+            <mat-icon *ngIf='selectedIndex === i' style="color:white">check</mat-icon>
+          </div>
         </div>
     </div>
       </collapsible-subsection>
