@@ -1,9 +1,10 @@
 import {Link} from '../model/link'
+import { RigidBody } from '../model/link'
 import { Coord } from '../model/coord'
 import {Joint} from '../model/joint'
 import { Force } from '../model/force'
 
-export class CompoundLink{
+export class CompoundLink implements RigidBody{
     private _id: number;
     private _name: string;
     private _mass: number;
@@ -158,5 +159,18 @@ export class CompoundLink{
             }
         }
     }
-   
+
+
+    getJoints(): Array<Joint>{
+        const joints: Set<Joint> = new Set();
+        for(let link of this._links.values()){
+            for(let joint of link.joints.values()){
+                joints.add(joint);
+            }
+
+
+        }
+
+        return Array.from(joints);
+    }
 }

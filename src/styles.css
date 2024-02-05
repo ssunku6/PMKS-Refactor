@@ -5,11 +5,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 :root{
     --white-background: #ffffff;
-    --light-primary: #407ba7;
-    --light-secondary: #004e89;
-    --light-tertiary: #002962;
-    --light-fourth: #00043a;
-    --light-warning: #ff002b; 
+    --light-primary: #002962;
+    --light-accent: #fdc500;
+    --light-warning: #a0001c; 
 
 
 }

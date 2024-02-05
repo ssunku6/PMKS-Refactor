@@ -1,6 +1,6 @@
 import { Coord } from '../model/coord'
 import { Joint } from '../model/joint'
-import { Link } from '../model/link'
+import { Link, RigidBody } from '../model/link'
 import { Force } from '../model/force'
 import { CompoundLink } from '../model/compound-link'
 
@@ -691,6 +691,18 @@ export class Mechanism {
         }
         return (numberOfConnectedLinks - duplicates) + numberOfConnectedCompoundLinks;
     }
+    private getEffectiveConnectedLinksForJoint(joint: Joint): RigidBody[] {
+        let connectedLinks: Link[] = this.getConnectedLinksForJoint(joint);
+        let connectedCompoundLinks: CompoundLink[] = this.getConnectedCompoundLinks(joint);
+    
+        for (let compoundLink of connectedCompoundLinks) {
+            for (let link of compoundLink.links.values()) {
+                connectedLinks = connectedLinks.filter(connectedLink => connectedLink.id !== link.id);
+            }
+        }
+        return [...connectedLinks, ...connectedCompoundLinks] as RigidBody[];
+    }
+    
     //----------------------------GET FUNCTIONS FOR DRAWING----------------------------
     getJoints(): IterableIterator<Joint>{
         return this._joints.values();
@@ -707,11 +719,45 @@ export class Mechanism {
         }
         return allLinks.values();
     }
+
     getCompoundLinks(): IterableIterator<CompoundLink>{
         return this._compoundLinks.values();
     }
     getForces(): IterableIterator<Force>{
         return this._forces.values();
     }
+ //----------------------------GET FUNCTIONS FOR KINEMATICS----------------------------
+    getSubMechanisms(): Array<Map<Joint,RigidBody[]>>{
+        const subMechanisms: Array<Map<Joint,RigidBody[]>> = new Array();
+        const visitedJoints: Set<Joint> = new Set();
+        const sublinkIndex: number = 0;
+        for(let joint of this._joints.values()){
+            if(!visitedJoints.has(joint)){
+                const subMechanism: Map<Joint,RigidBody[]> = new Map();
+                this.connectedJointsDFS(joint,visitedJoints,subMechanism);
+                subMechanisms.push(subMechanism);
+            }
+
+        }
+
+
+        return subMechanisms;
+    }
+
+    private connectedJointsDFS(joint: Joint, visited: Set<Joint>,subMechanism: Map<Joint,RigidBody[]>){
+        visited.add(joint);
+
+        subMechanism.set(joint,this.getEffectiveConnectedLinksForJoint(joint));
+        subMechanism.get(joint)?.forEach(link =>{
+            for(let connectedJoint of link.getJoints())
+            if(!visited.has(connectedJoint)){
+                this.connectedJointsDFS(connectedJoint,visited,subMechanism);
+            }
+        })
+
+    }
+
+    
+
 
 }

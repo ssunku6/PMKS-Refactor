@@ -2,7 +2,12 @@ import { Coord } from '../model/coord'
 import { Joint } from '../model/joint'
 import { Force } from '../model/force'
 
-export class Link {
+export interface RigidBody{
+    getJoints(): Joint[]
+
+}
+
+export class Link implements RigidBody{
     private _id: number;
     private _name: string;
     private _mass: number;
@@ -171,5 +176,8 @@ export class Link {
 
     }
 
+    getJoints(): Joint[] {
+        return Array.from(this._joints.values());
+    }
 
 }
