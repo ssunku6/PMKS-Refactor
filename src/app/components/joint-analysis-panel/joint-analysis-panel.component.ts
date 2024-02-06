@@ -21,6 +21,8 @@ interface Tab {
 
 export class JointAnalysisPanelComponent {
 
+    graphData: number[] = [10, 20, 15, 25, 30];
+
   graphExpanded: { [key: string]: boolean } = {
     dataSummary: true,
     graphicalAnalysis: false,
