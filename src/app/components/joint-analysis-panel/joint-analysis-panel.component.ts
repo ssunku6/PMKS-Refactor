@@ -48,6 +48,22 @@ export class JointAnalysisPanelComponent {
   setJointXCoord(xCoordInput: number): void {this.getMechanism().setXCoord(this.getCurrentJoint().id, xCoordInput);}
   setJointYCoord(yCoordInput: number): void {this.getMechanism().setYCoord(this.getCurrentJoint().id, yCoordInput);}
 
+
+    getPositionData(): any[] {
+      return [{data: [10, 7, 3, 4, 8], label: ["X Position of Joint"]},
+          {data: [8,7,6,5,4], label: ["Y Position of Joint"]}];
+    }
+    getVelocityData(): any[] {
+      let mechanism = this.getMechanism()
+        return [{data: [24,8,16,3,10], label: ["Velocity of Joint"]}];
+    }
+    getAccelerationData(): any[] {
+        return [{data: [0,0,0,0,0], label: ["Acceleration of Joint"]}];
+    }
+    getJointTimeData(): string[]{
+      return ["1", "2", "3", "4", "5"]
+    }
+
   // geteLinksForJoint and getConnectedJoints are both used to dynamically
   // view and modify the connected joints in a mechanism. Is sent to a loop of
   // dual input blocks in the HTML, that's created by looping through all of the
@@ -81,15 +97,5 @@ export class JointAnalysisPanelComponent {
     console.log("changing distance from this joint ", jointIDReference, " to this distance ", newDistance);
     this.getMechanism().setDistanceToJoint(this.getCurrentJoint().id, jointIDReference, newDistance);
   }
-  /*
-  onTitleBlockClick(event: MouseEvent): void {
-    console.log('Title clicked!');
-    const clickedElement = event.target as HTMLElement;
-    // Check if the clicked element has the 'edit-svg' class, so we can enable editing
-    if (clickedElement && clickedElement.classList.contains('edit-svg')) {
-      console.log('Edit SVG clicked!');
-      this.isEditingTitle = true;
-    }
-  }
-   */
+
 }

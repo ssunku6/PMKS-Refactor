@@ -1,13 +1,14 @@
-import { Component, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { Chart } from 'chart.js';
+import { Component, Input, AfterViewInit, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {Chart, ChartOptions} from 'chart.js';
 
 @Component({
   selector: 'app-graph',
   templateUrl: './graph-section.component.html',
   styleUrls: ['./graph-section.component.scss']
 })
-export class GraphSectionComponent {
-  @Input() data: number[] = [];
+export class GraphSectionComponent implements AfterViewInit, OnInit {
+  @Input() inputData: any[] = [{}];
+  @Input() inputLabels: string[] = [""]
   @ViewChild('graphCanvas') graphCanvas!: ElementRef;
   // Example properties, you can customize as needed
   @Input() view: [number, number] = [700, 400];
@@ -19,15 +20,74 @@ export class GraphSectionComponent {
   @Input() xAxisLabel = 'X Axis Label';
   @Input() yAxisLabel = 'Y Axis Label';
 
+  public chart!: Chart;
+
   public ChartOptions: any = {
+    bezierCurve: true,
+    tension: 0.3,
     scaleShowVerticalLines: false,
     responsive: true,
+    hover: {
+      mode: 'nearest',
+      intersect: true
+    },
+    animation: false,
+    scales: {
+      display: true,
+      text: [this.xAxisLabel, this.yAxisLabel]
+    },
+    legend: this.showLegend,
   };
 
-  public ChartLabels: string[] = ['Time', 'Time', 'Time', 'Time', 'Time'];
-  public ChartLegend = true;
+  ngOnInit() {
+    // Ensure the chart is created after the view has been initialized
+    if (this.graphCanvas) {
+      this.createChart();
+    }
+  }
+  ngAfterViewInit() {
+    // Ensure the chart is created after the view has been initialized
+    if (this.graphCanvas) {
+      this.createChart();
+    }
+  }
 
-  public ChartData: any[] = [
-    { data: [1, 2, 3, 4 ,5], label: 'Position of Joint 1' },
-  ];
+  createChart() {
+    const ctx: CanvasRenderingContext2D = this.graphCanvas.nativeElement.getContext('2d');
+
+    this.chart = new Chart(ctx, {
+
+      type: 'line',
+      data: {
+        labels: this.inputLabels,
+        datasets: this.inputData
+      },
+      options: {
+        ...(this.ChartOptions as ChartOptions),
+        plugins: {
+          afterDraw: (chart: Chart) => {
+            const lineIndex = 0; // Index of the dataset to draw the line on
+            const dataset = chart.data.datasets[lineIndex];
+            const meta = chart.getDatasetMeta(lineIndex);
+            const xAxis = chart.scales['x-axis-0'];
+            const firstDataPoint = dataset.data[0];
+
+            // Check if firstDataPoint is a number (it could be null)
+            if (typeof firstDataPoint === 'number') {
+              const yPos = xAxis.getPixelForTick(firstDataPoint);
+
+              // Draw the vertical line
+              ctx.beginPath();
+              ctx.strokeStyle = 'red';
+              ctx.lineWidth = 2;
+              ctx.moveTo(meta.data[0].x, yPos);
+              ctx.lineTo(meta.data[0].x, meta.data[meta.data.length - 1].y);
+              ctx.stroke();
+            }
+          },
+        } as ChartOptions['plugins'], // Explicitly cast to the correct type
+      }
+    });
+  }
+
 }

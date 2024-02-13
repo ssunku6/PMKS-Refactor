@@ -1,10 +1,10 @@
-<div id="jointAnalysisPanel">
-<!--  JOINT PANEL-->
-  <!-- TITLE BLOCK: CONTAINS TITLE AND DYNAMIC JOINT NAME -->
+<div id="linkAnalysisPanel">
+<!--  LINK PANEL-->
+  <!-- TITLE BLOCK: CONTAINS TITLE AND DYNAMIC LINK NAME -->
   <panel-section-collapsible>
     <title-block icon='expand_more' description='' class = "analysisHeader"
-      >Analysis for Joint
-      {{ getJointName() }}
+      >Analysis for Link
+      {{ getLinkName() }}
     </title-block>
 
   </panel-section-collapsible>
@@ -15,10 +15,16 @@
                           (opened)="graphExpanded['dataSummary'] = true"
                           (closed)="graphExpanded['dataSummary'] = false">
         <div class="flex-container">
-          <p>Data Summary</p>
-          Name of Joint: {{ getJointName() }} <br>
-          X Coordinate of Joint: {{ this.getJointXCoord() }} <br>
-          Y Coordinate of Joint: {{ this.getJointYCoord() }} <br>
+          <h3>Data Summary</h3>
+            <p>Center of Mass</p>
+          Name of Link: {{ getLinkName() }} <br>
+          X Coordinate of Center of Mass: {{ this.getCOMXCoord() }} <br>
+          Y Coordinate of Center of Mass: {{ this.getCOMYCoord() }} <br>
+            <p>Reference Joint</p>
+            Name of Joint: {{ getReferenceJointName() }} <br>
+            X Coordinate of Joint: {{ this.getReferenceJointXCoord() }} <br>
+            Y Coordinate of Joint: {{ this.getReferenceJointYCoord() }} <br>
+
         </div>
   </collapsible-subsection>
 

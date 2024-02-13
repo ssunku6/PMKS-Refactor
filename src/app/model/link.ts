@@ -125,7 +125,21 @@ export class Link {
     }
 
     calculateCenterOfMass(): Coord{
-        return new Coord(0,0);
+        let totalX = 0;
+        let totalY = 0;
+
+        // Iterate over each joint and accumulate x and y coordinates
+        this._joints.forEach((joint) => {
+            totalX += joint.coords.x;
+            totalY += joint.coords.y;
+        });
+
+        // Calculate the mean (average) by dividing by the number of joints
+        const numberOfJoints = this._joints.size;
+        const centerX = totalX / numberOfJoints;
+        const centerY = totalY / numberOfJoints;
+
+        return new Coord(centerX, centerY);
     }
 
     calculateLength(): number{
@@ -199,8 +213,8 @@ export class Link {
         console.log(this._color);
     }
 
-    
-    
+
+
 
 
 }

@@ -45,6 +45,7 @@ import {JointAnalysisPanelComponent} from "./components/joint-analysis-panel/joi
 import {AnalysisPanelComponent} from "./components/analysis-panel/analysis-panel.component";
 import { GraphSectionComponent } from './components/Blocks/graph-section/graph-section.component';
 import { NgChartsModule } from 'ng2-charts';
+import {LinkAnalysisPanelComponent} from "./components/link-analysis-panel/link-analysis-panel.component";
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { NgChartsModule } from 'ng2-charts';
     TriButtonComponent,
     DualButtonComponent,
     JointAnalysisPanelComponent,
+      LinkAnalysisPanelComponent,
     AnalysisPanelComponent,
       GraphSectionComponent,
   ],
