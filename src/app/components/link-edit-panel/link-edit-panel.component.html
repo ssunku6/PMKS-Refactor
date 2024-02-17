@@ -11,10 +11,10 @@
     {{ this.getLinkName() }}
   </ng-template>
   <button (click)="this.isEditingTitle=true">
-    <img src='assets/icons/edit.svg' style="height: 20px; width: 20px;"/>
+    <img id="edit" src='assets/icons/edit.svg' style="height: 20px; width: 20px;"/>
   </button>
   <button (click)="this.deleteLink()">
-    <img src='assets/icons/trash.svg' style="height: 20px; width: 20px;"/>
+    <img id="trash" src='assets/icons/trash.svg' style="height: 20px; width: 20px;"/>
   </button>
     </title-block>
     <p>This is where you edit Links. Change things such as the position.</p>

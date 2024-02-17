@@ -46,6 +46,8 @@ import {AnalysisPanelComponent} from "./components/analysis-panel/analysis-panel
 import { SynthesisPanelComponent } from './components/synthesis-panel/synthesis-panel.component';
 import { ThreePosSynthesis } from './components/three-pos-synthesis/three-pos-synthesis.component';
 import { PathSynthesis } from './components/path-synthesis/path-synthesis.component';
+import { RadioComponent } from './components/Blocks/radio/radio.component';
+import { SingleInputComponent } from './components/Blocks/single-input/single-input.coponent';
 
 @NgModule({
   declarations: [
@@ -77,6 +79,8 @@ import { PathSynthesis } from './components/path-synthesis/path-synthesis.compon
     SynthesisPanelComponent,
     ThreePosSynthesis,
     PathSynthesis,
+    RadioComponent,
+    SingleInputComponent,
   ],
   imports: [
     BrowserModule,

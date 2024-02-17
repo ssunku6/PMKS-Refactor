@@ -12,7 +12,7 @@
     $foreground: map.get($theme, foreground);
 }
 
-#3pos {
+#threePos {
     //border-top-color: #00043a;
     //border-top: 10px;
     //margin-top: 10px;
@@ -69,5 +69,9 @@
 
   .row {
     display: flex;
+  }
+
+  #length {
+    align-items: right;
   }
   

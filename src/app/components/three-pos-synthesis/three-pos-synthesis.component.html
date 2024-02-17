@@ -1,11 +1,62 @@
-<div id="3pos">
-
+<div id="threePos">
+      
       <collapsible-subsection [expanded]='true' titleLabel='Three Position Synthesis' [expanded]="sectionExpanded['LBasic']"
-            (opened)="sectionExpanded['Basic'] = true"
-            (closed)="sectionExpanded['Basic'] = false">
-            <div>
-              
+      (opened)="sectionExpanded['Basic'] = true"
+      (closed)="sectionExpanded['Basic'] = false">
+      <div>
+            <p>Coupler Link Specifications</p>
+            <single-input-block [input1Value]="0"
+            (input1Change)="setCouplerLength($event)"
+            label1="Length"></single-input-block>
+            
+            <div><p style="display:inline-block">Fixed Reference </p><img src='assets/icons/referencePoint.svg' style="height: 11px; width: 11px;"/>
             </div>
-      </collapsible-subsection>
-
+            <radio-block
+                  [options]="['Back', 'Center', 'Front']"
+                  [initialSelection]="'Center'"
+                  (selectionChanged)="setReference($event)">
+</radio-block>
       </div>
+      <div>
+            
+            <div *ngFor='let i of [1,2,3]'>
+                  
+                  <!-- display header, with edit button on right if pose already has been created -->
+                  
+                  <div>
+                        <p style="display:inline">Position {{i}}</p>
+                        <button *ngIf='this.isPositionDefined(i)' (click)="this.deletePosition(i)">
+                              <img src='assets/icons/trash.svg' style="height: 20px; width: 20px;"/>
+                        </button>                       
+                  </div>
+                  
+                  <!-- display editable pose configuration if pose is both created AND selected -->
+                  <div class='poseData' *ngIf='this.isPositionDefined(i)' >
+                        <dual-input-block [input2Value]="getPosYCoord(1)"
+                        (input1Change)="setPosXCoord($event, 1)"
+                        (input2Change)="setPosYCoord($event, 1)"
+                        tooltip="Change the x and y values of the reference point of the coupler position 1"
+                        label1="X"
+                        label2="Y">
+                  </dual-input-block>
+                  <single-input-block [input1Value]="getPosAngle(1)"
+                  (input1Change)="setPositionAngle($event, 1)"
+                  label1="Angle">
+            </single-input-block>
+      </div>
+      
+      <!-- if pose has not yet been created and its the first undefined pose, show "create pose" button  -->
+      <div class='positionCreate' *ngIf='this.getFirstUndefinedPosition() === i'>
+            <button id="specify" (click)="this.specifyPosition(i)">Specify Position</button>
+      </div> 
+      
+</div>
+</div>
+<div *ngIf='this.allPositionsDefined()'>
+      <button id="generateMech" (click)="generateMechanism()">Generate Mechanism</button>
+      <button id="removeAll"  (click)="removeAllPositions()">Remove All Positions</button>
+
+</div>
+</collapsible-subsection>
+
+</div>

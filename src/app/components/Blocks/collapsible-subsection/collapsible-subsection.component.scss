@@ -26,19 +26,21 @@
       //border-right: 0;
       //background-color: mat.get-color-from-palette($primary-palette, 50);
       //border-width: 1px;
-      color: #00043a;
+      color: #3f51b5;
 
-      background-color: #407ba7;
+      background-color: #e8eaf6;
       display: flex;
       justify-content: space-between;
       align-items: center;
       //@include mat.typography-level($typography-config, 'subtitle-2');
       //color: mat.get-color-from-palette($primary-palette, 500);
       cursor: pointer;
+      //box-shadow: 0 4px 4px rgba(0, 0, 0, 0.4);
 
       //On hover, change background color
       &:hover {
-        background-color: #002962;
+        background-color: #3f51b5;
+        color: #e8eaf6;
       }
 
       mat-icon {

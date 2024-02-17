@@ -120,4 +120,7 @@ export class LinkEditPanelComponent{
         this.selectedIndex=newColor;
     }
 
+    getLengthIcon() {
+    }
+
 }

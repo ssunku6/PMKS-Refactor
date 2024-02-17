@@ -11,13 +11,14 @@
   $background: map.get($theme, background);
   $foreground: map.get($theme, foreground);
 }
-.dual-input-block {
+.single-input-block {
   display: flex;
   flex-direction: column;
 }
 
 .input-sections {
   display: flex;
+  float: left;
   flex-direction: row;
 }
 
@@ -25,10 +26,7 @@
   margin-right: 10px; /* Adjust the margin as needed */
 }
 input {
-  width: 40%;
-  border: none;
-  border-bottom: 1px solid rgba(0,0,0, 75%);
-  background-color: rgba(63,81,181, 10%);
+  width: 30%;
 }
 
 label {
