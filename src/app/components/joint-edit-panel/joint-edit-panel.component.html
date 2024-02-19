@@ -1,5 +1,7 @@
 <div id="editJoint">
-<!--  JOINT PANEL-->
+  <div id="body" [class.disabled-panel]="getJointLockState()">
+
+  <!--  JOINT PANEL-->
   <!-- TITLE BLOCK: CONTAINS TITLE, INPUT SECTION FOR JOINT NAME, EDIT AND DELETE SVGS -->
   <panel-section-collapsible>
     <title-block icon='expand_more' description='' class = "editHeader" (click)="onTitleBlockClick($event)"
@@ -91,4 +93,5 @@
                 [btn1Action]= "makeInputCounterClockwise" [btn2Action]="makeInputClockwise"
                 [joint]=getCurrentJoint() [mechanism]="getMechanism()"></tri-button>
   </collapsible-subsection>
+    </div>
 </div>

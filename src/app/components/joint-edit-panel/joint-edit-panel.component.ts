@@ -69,6 +69,10 @@ export class jointEditPanelComponent {
   setJointXCoord(xCoordInput: number): void {this.getMechanism().setXCoord(this.getCurrentJoint().id, xCoordInput);}
   setJointYCoord(yCoordInput: number): void {this.getMechanism().setYCoord(this.getCurrentJoint().id, yCoordInput);}
 
+  getJointLockState(): boolean {
+    return this.getCurrentJoint().locked;
+  }
+
   // geteLinksForJoint and getConnectedJoints are both used to dynamically
   // view and modify the connected joints in a mechanism. Is sent to a loop of
   // dual input blocks in the HTML, that's created by looping through all of the

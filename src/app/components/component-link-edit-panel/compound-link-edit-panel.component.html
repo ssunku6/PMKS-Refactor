@@ -16,12 +16,13 @@
   <button (click)="this.deleteLink()">
     <img src='assets/icons/trash.svg' style="height: 20px; width: 20px;"/>
   </button>
+
     </title-block>
     <p>COMPOUND LINK EDIT PANEL WAHOO</p>
       </panel-section-collapsible>
-
+    <div id="body" [class.disabled-panel]="getCompoundLinkLockState()">
       <!-- BASIC SETTING DROPDOWN -->
-      <collapsible-subsection [expanded]='true' titleLabel='Basic Settings' [expanded]="sectionExpanded['LBasic']"
+      <collapsible-subsection titleLabel='Basic Settings' [expanded]="sectionExpanded['LBasic'] || getCompoundLinkLockState()"
             (opened)="sectionExpanded['LBasic'] = true"
             (closed)="sectionExpanded['LBasic'] = false">
             <div>
@@ -42,7 +43,7 @@
       </collapsible-subsection>
 
       <!-- COMPONENTS DROPDOWN -->
-      <collapsible-subsection [expanded]='true' titleLabel='Components' [expanded]="sectionExpanded['LComponent']"
+      <collapsible-subsection titleLabel='Components' [expanded]="sectionExpanded['LComponent'] || getCompoundLinkLockState()"
             (opened)="sectionExpanded['LComponent'] = true"
             (closed)="sectionExpanded['LComponent'] = false">
             <div id="linkComponents">
@@ -82,4 +83,5 @@
         </div>
     </div>
       </collapsible-subsection>
+      </div>
     </div>

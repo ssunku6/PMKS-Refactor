@@ -111,6 +111,7 @@ export class Mechanism {
                 let compoundLink: CompoundLink = new CompoundLink(this._idCount,connectedLinks);
                 this._idCount++;
                 this._compoundLinks.set(compoundLink.id,compoundLink);
+                compoundLink
             //if part of one or more compoundLink, combine them and add any other existing links
             } else if(connectedCompoundLinks.length >= 1){
                 for(let compoundLink of connectedCompoundLinks){

@@ -68,6 +68,9 @@ export class CompoundLinkEditPanelComponent {
     getCompoundLinkName(): string{
         return this.getSelectedObject().name;
     }
+    getCompoundLinkLockState(): boolean{
+      return this.getSelectedObject().lock;
+    }
 
     setCompoundLinkName(newName: string){
         this.getSelectedObject().name = newName;
