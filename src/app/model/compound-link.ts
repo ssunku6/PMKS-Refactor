@@ -15,7 +15,7 @@ export class CompoundLink{
     constructor(id: number, links: Link[]);
     constructor(id: number, linkAORLinks: Link | Link[], linkB?: Link){
         this._id = id;
-        this._name = '';
+        this._name = id as unknown as string;
         this._mass = 0;
         this._links = new Map();
         //currently reference to array, may need to make a deep copy later
@@ -66,7 +66,7 @@ export class CompoundLink{
         this._links.set(newLink.id,newLink);
         this.calculateCenterOfMass();
     }
-    
+
     removeLink(idORRef: number | Link){
         if(typeof idORRef === 'number'){
             this._links.delete(idORRef);
@@ -108,8 +108,6 @@ export class CompoundLink{
         }
     }
 
-
-
     compoundLinkAfterRemoveWeld(joint: Joint, idCount: number): CompoundLink[]{
         let replacementCompoundLinks: CompoundLink[] = [];
         let count:number = idCount
@@ -119,7 +117,7 @@ export class CompoundLink{
         weldedSets.delete(joint);
         const visitedLinks: Link[] = [];
         for(const [weldedJoint,links] of weldedSets){
-            const compound: Link[] = []; 
+            const compound: Link[] = [];
             if(links.some(link => !visitedLinks.includes(link))){
                 this.DepthFirstSearch(weldedJoint,weldedSets,compound, visitedLinks);
                 replacementCompoundLinks.push(new CompoundLink(count,compound));
@@ -158,5 +156,5 @@ export class CompoundLink{
             }
         }
     }
-   
+
 }

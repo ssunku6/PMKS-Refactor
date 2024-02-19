@@ -1,0 +1,73 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin css($theme) {
+    // Get the color config from the theme.
+    $color-config: mat.get-color-config($theme);
+    // Get the primary color palette from the color-config.
+    $primary-palette: map.get($color-config, 'primary');
+    $accent-palette: map.get($color-config, 'accent');
+    $typography-config: mat.get-typography-config($theme);
+    $background: map.get($theme, background);
+    $foreground: map.get($theme, foreground);
+}
+
+#editLink {
+    //border-top-color: #00043a;
+    //border-top: 10px;
+    //margin-top: 10px;
+    //margin-left: 5px;
+    background-color: white;
+    //border-left: 5px solid #3F51B5;
+    border-top: 5px solid #3F51B5;
+    border-radius: 3px;
+    box-shadow: 3px 3px 3px gray;
+    width:100%;
+  }
+  
+  .flex-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  /*
+  .flex-container > * {
+    margin: 5px;
+  }
+  */
+  .left-aligned {
+    margin-right: auto; /* Pushes this element to the left */
+  }
+  
+  .right-aligned {
+    margin-left: auto; /* Pushes this element to the right */
+  }
+
+  div.colors {
+    width: 30px;
+    height: 30px;
+    margin: 7px 3px;
+    border-radius: 5px;
+    border: none;
+    //margin: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  p.colors {
+    padding:0;
+    margin-top: 5px;
+    margin-bottom: 0;
+  }
+
+  #lengthAndAngle {
+    max-height: 10px;
+  }
+
+  .row {
+    display: flex;
+  }
+  

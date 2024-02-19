@@ -43,6 +43,9 @@ import {TriButtonComponent} from "./components/Blocks/tri-button/tri-button.comp
 import { DualButtonComponent } from './components/Blocks/dual-button/dual-button.component';
 import {JointAnalysisPanelComponent} from "./components/joint-analysis-panel/joint-analysis-panel.component";
 import {AnalysisPanelComponent} from "./components/analysis-panel/analysis-panel.component";
+import {
+  CompoundLinkEditPanelComponent
+} from "./components/component-link-edit-panel/compound-link-edit-panel.component";
 
 @NgModule({
   declarations: [
@@ -71,6 +74,7 @@ import {AnalysisPanelComponent} from "./components/analysis-panel/analysis-panel
     DualButtonComponent,
     JointAnalysisPanelComponent,
     AnalysisPanelComponent,
+    CompoundLinkEditPanelComponent,
   ],
   imports: [
     BrowserModule,

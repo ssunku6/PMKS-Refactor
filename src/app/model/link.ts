@@ -129,7 +129,26 @@ export class Link {
     }
 
     calculateLength(): number{
-        return 0;
+        // Get the first two non-empty keys from the joints map
+        const jointKeys = Array.from(this.joints.keys()).filter(key => {
+            const joint = this.joints.get(key);
+            return joint !== null && joint !== undefined;
+        }).slice(0, 2);
+
+        // Retrieve the joints using the keys
+        const jointOne = this.joints.get(jointKeys[0]);
+        const jointTwo = this.joints.get(jointKeys[1]);
+        if(jointOne && jointTwo) {
+            // @ts-ignore
+            let xDiff = Math.abs(jointOne?.coords.x - jointTwo?.coords.x);
+            // @ts-ignore
+            let yDiff = Math.abs(jointOne?.coords.y - jointTwo?.coords.y);
+            let hypotenuse = (xDiff * xDiff) + (yDiff * yDiff);
+            return Math.sqrt(hypotenuse);
+        }
+        else {
+            return 5005;
+        }
     }
 
     calculateAngle(): number{
@@ -199,8 +218,8 @@ export class Link {
         console.log(this._color);
     }
 
-    
-    
+
+
 
 
 }
