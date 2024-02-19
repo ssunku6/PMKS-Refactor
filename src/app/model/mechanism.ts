@@ -584,9 +584,11 @@ export class Mechanism {
      * @param {number} newAngle
      * @memberof Mechanism
      */
+    /*
     setLinkAngle(linkID: number, newAngle: number) {
-        this.executeLinkAction(linkID, link => {link.setAngle(newAngle);});
+        this.executeLinkAction(linkID, link => {link.setAngle(newAngle, refJoint);});
     }
+     */
     /**
      * Changes the mass of a specified Link
      *

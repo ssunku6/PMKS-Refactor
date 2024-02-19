@@ -74,7 +74,17 @@ export class LinkEditPanelComponent{
         this.getSelectedObject().setLength(newLength);
     }
     setLinkAngle(newAngle: number): void{
-        this.getSelectedObject().setAngle(newAngle);
+      let refJoint = this.getSelectedObject().joints.get(0);
+      for (const joint of this.getSelectedObject().joints.values()) {
+        if (joint !== null && joint !== undefined) {
+          refJoint = joint;
+          break;
+        }
+      }
+      if(refJoint) {
+        console.log("Reference joint ID: " + refJoint.id)
+        this.getSelectedObject().setAngle(newAngle, refJoint);
+      }
     }
 
 
