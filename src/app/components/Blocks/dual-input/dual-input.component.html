@@ -11,12 +11,16 @@
     <div class="input-section">
       <label for="input1"> {{label1}}:</label>
       <input type="text" id="input1" [(ngModel)]="input1Value"
+             [attr.disabled]="disabled ? true : null"
+             [class.disabled-input]="disabled"
              (keyup.enter)="onEnterKeyInput1()" (blur)="onBlurInput1()"/>
     </div>
 
     <div class="input-section">
       <label for="input2">{{label2}}:</label>
       <input type="text" id="input2" [(ngModel)]="input2Value"
+             [attr.disabled]="disabled ? true : null"
+             [class.disabled-input]="disabled"
              (keyup.enter)="onEnterKeyInput2()" (blur)="onBlurInput1()"/>
     </div>
   </div>

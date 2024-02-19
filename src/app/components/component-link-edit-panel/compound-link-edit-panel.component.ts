@@ -49,10 +49,11 @@ export class CompoundLinkEditPanelComponent {
     }
 
     getLinkLength(currentLink: Link): number{
-        return currentLink.calculateLength().toFixed(4) as unknown as number;
+        // @ts-ignore
+        return currentLink.calculateLength()?.toFixed(4) as unknown as number;
     }
     getLinkAngle(currentLink: Link): number{
-        return currentLink.calculateAngle();
+        return currentLink.calculateAngle()?.toFixed(4) as unknown as number;
     }
 
     getLinkJoints(currentLink: Link): Map<number, Joint>{

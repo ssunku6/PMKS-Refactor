@@ -1,6 +1,6 @@
-import { Coord } from '../model/coord'
-import { Joint } from '../model/joint'
-import { Force } from '../model/force'
+import {Coord} from '../model/coord'
+import {Joint} from '../model/joint'
+import {Force} from '../model/force'
 
 export class Link {
     private _id: number;
@@ -128,7 +128,8 @@ export class Link {
         return new Coord(0,0);
     }
 
-    calculateLength(): number{
+    // find the first two non-null joints of a link. Do pythagorean math to find length
+    calculateLength(): number | null{
         // Get the first two non-empty keys from the joints map
         const jointKeys = Array.from(this.joints.keys()).filter(key => {
             const joint = this.joints.get(key);
@@ -139,20 +140,50 @@ export class Link {
         const jointOne = this.joints.get(jointKeys[0]);
         const jointTwo = this.joints.get(jointKeys[1]);
         if(jointOne && jointTwo) {
-            // @ts-ignore
             let xDiff = Math.abs(jointOne?.coords.x - jointTwo?.coords.x);
-            // @ts-ignore
             let yDiff = Math.abs(jointOne?.coords.y - jointTwo?.coords.y);
             let hypotenuse = (xDiff * xDiff) + (yDiff * yDiff);
             return Math.sqrt(hypotenuse);
         }
         else {
-            return 5005;
+            return null;
         }
     }
 
-    calculateAngle(): number{
-        return 0;
+    calculateAngle(): number | null {
+        // Get the first two non-empty keys from the joints map
+        const jointKeys = Array.from(this.joints.keys()).filter(key => {
+            const joint = this.joints.get(key);
+            return joint !== null && joint !== undefined;
+        }).slice(0, 2);
+
+        // Retrieve the joints using the keys
+        const jointOne = this.joints.get(jointKeys[0]);
+        const jointTwo = this.joints.get(jointKeys[1]);
+
+        if (jointOne && jointTwo) {
+            // Calculate the differences in x and y coordinates
+            const xDiff = jointTwo.coords.x - jointOne.coords.x;
+            const yDiff = jointTwo.coords.y - jointOne.coords.y;
+
+            // Calculate the angle using arctangent
+            const angleInRadians = Math.atan2(yDiff, xDiff);
+
+            // Convert the angle to degrees
+            let angleInDegrees = angleInRadians * (180 / Math.PI);
+
+            // Ensure the angle is in the range of +180 to -180 degrees
+            if (angleInDegrees > 180) {
+                angleInDegrees -= 360;
+            } else if (angleInDegrees < -180) {
+                angleInDegrees += 360;
+            }
+
+            return angleInDegrees;
+        } else {
+            // Handle the case where one or both joints are not found
+            return null; // or throw an error, return NaN, or handle it based on your requirements
+        }
     }
 
     setAngle(newAngle: number){

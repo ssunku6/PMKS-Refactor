@@ -4,7 +4,6 @@
       <panel-section-collapsible>
     <title-block icon='expand_more' description='' class="editHeader" (click)="onTitleBlockClick($event)">
       Edit Compound Link
-        {{ this.getCompoundLinkName() }}
       <ng-container *ngIf="isEditingTitle; else linkNameDisplay">
     <input #linkNameInput [(ngModel)]="this.getSelectedObject().name" (blur)="setCompoundLinkName(linkNameInput.value)" (keyup.enter)="setCompoundLinkName(linkNameInput.value)"/>
   </ng-container>
@@ -28,12 +27,13 @@
             <div>
                 <div *ngFor='let link of getAllConnectedLinks(); let i = index;'>
             <dual-input-block id="lengthAndAngle"
+                              [disabled]=true
               [input1Value]="getLinkLength(link)"
               [input2Value]="getLinkAngle(link)"
                 label1=""
                 label2="⊾"
                 tooltip = "The length and angle of the link">
-                Link Length and Angle
+                Link {{ link.name }} Length and Angle
             </dual-input-block>
                 </div>
                 <!--<dual-button btn1Text="Add Tracer" btn2Text="Add Force" [btn1Action]="addTracer" ></dual-button> -->

@@ -33,7 +33,7 @@ export class LinkEditPanelComponent{
       selectedIndex: number = this.getColorIndex();
 
     constructor(private stateService: StateService, private interactionService: InteractionService, private colorService: ColorService){
-        
+
     }
 
     getSelectedObject(): Link{
@@ -42,23 +42,22 @@ export class LinkEditPanelComponent{
     }
 
     getLinkLength(): number{
-        return this.getSelectedObject().calculateLength();
+        return this.getSelectedObject().calculateLength()?.toFixed() as unknown as number;
     }
     getLinkAngle(): number{
-        return this.getSelectedObject().calculateAngle();
-        
+        return this.getSelectedObject().calculateAngle()?.toFixed as unknown as number;
     }
-   
+
     getLinkJoints(): Map<number, Joint>{
         return this.getSelectedObject().joints;
     }
-    
+
     //Returns the joints contained in a link.
     getLinkComponents():IterableIterator<Joint>{
         //console.log(this.getLinkJoints());
         return this.getLinkJoints().values();
     }
-    
+
     getLinkName(): string{
         return this.getSelectedObject().name;
     }
@@ -68,7 +67,7 @@ export class LinkEditPanelComponent{
     setLinkAngle(newAngle: number): void{
         this.getSelectedObject().setAngle(newAngle);
     }
-    
+
 
     setLinkName(newName: string){
         this.getSelectedObject().name = newName;
