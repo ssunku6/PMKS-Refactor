@@ -37,10 +37,14 @@ export class jointEditPanelComponent {
   getMechanism(): Mechanism {return this.stateService.getMechanism();}
   getCurrentJoint() {
     let currentJointInteractor = this.interactorService.getSelectedObject();
+
+    // check the lock- disable dragging if the joint is locked, enable it if not
     if (currentJointInteractor) {
       if ((currentJointInteractor as JointInteractor).getJoint().locked) {
+        console.log("Cannot drag current selected joint!")
         currentJointInteractor.draggable = false;
       }
+      else{ currentJointInteractor.draggable = true; }
     }
     return (currentJointInteractor as JointInteractor).getJoint();
   }
