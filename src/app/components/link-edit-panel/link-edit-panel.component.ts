@@ -30,6 +30,7 @@ export class LinkEditPanelComponent{
         FVisual: false,
       };
       isEditingTitle: boolean = false;
+      isLocked: boolean = false;
       selectedIndex: number = this.getColorIndex();
 
     constructor(private stateService: StateService, private interactionService: InteractionService, private colorService: ColorService){
@@ -39,6 +40,10 @@ export class LinkEditPanelComponent{
     getSelectedObject(): Link{
         let link = this.interactionService.getSelectedObject() as LinkInteractor;
         return link.getLink();
+    }
+
+    lockLink(): void {
+        this.isLocked=true;
     }
 
     getLinkLength(): number{
