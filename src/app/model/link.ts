@@ -213,7 +213,7 @@ export class Link {
         }
     }
 
-    setLength(newLength: number) {
+    setLength(newLength: number, refJoint: Joint) {
       // Get the first two non-empty keys from the joints map
       const jointKeys = Array.from(this.joints.keys()).filter(key => {
         const joint = this.joints.get(key);
@@ -221,13 +221,20 @@ export class Link {
       }).slice(0, 2);
 
       // Retrieve the joints using the keys
-      const jointOne = this.joints.get(jointKeys[0]);
-      const jointTwo = this.joints.get(jointKeys[1]);
+      let jointOne = this.joints.get(jointKeys[0]);
+      let jointTwo = this.joints.get(jointKeys[1]);
 
       // Calculate the current length
       const currentLength = this.calculateLength();
 
       if (jointOne && jointTwo && currentLength) {
+
+        // handle the reference joint ID not being the first joint
+        if(refJoint.id == jointTwo.id){
+          let placeholderJoint = jointOne;
+          jointOne = jointTwo;
+          jointTwo = placeholderJoint;
+        }
 
         // Calculate the scaling factor to achieve the new length
         const scalingFactor = newLength / currentLength;

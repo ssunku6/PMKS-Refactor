@@ -574,9 +574,11 @@ export class Mechanism {
      * @param {number} newLength
      * @memberof Mechanism
      */
+    /*
     setLinkLength(linkID: number, newLength: number) {
         this.executeLinkAction(linkID, link => {link.setLength(newLength);});
     }
+     */
     /**
      * Sets the angle of a link relative to the x axis, while maintaining its length given its ID.
      *

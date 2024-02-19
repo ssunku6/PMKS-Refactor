@@ -77,7 +77,32 @@ export class jointEditPanelComponent {
   // view and modify the connected joints in a mechanism. Is sent to a loop of
   // dual input blocks in the HTML, that's created by looping through all of the
   // connected joints
-  getLinksForJoint(): IterableIterator<Link> {return this.getMechanism().getConnectedLinksForJoint(this.getCurrentJoint()).values();}
+  getLinksForJoint(): IterableIterator<Link> {
+    return this.getMechanism().getConnectedLinksForJoint(this.getCurrentJoint()).values();
+  }
+
+  // Function utilized in conjunction with dual input blocks to change the angle of the current
+  // joint (the first parameter) in relation to the second joint (the second parameter).
+  changeJointAngle(notCurrentJoint: number, newAngle: number): void {
+    for (const link of this.getLinksForJoint()) {
+      const jointIds = Array.from(link.joints.keys());
+      if (jointIds.includes(notCurrentJoint)) {
+        link.setAngle(newAngle, this.getCurrentJoint());
+      }
+    }
+  }
+
+  // Function utilized in conjunction with dual input blocks to change the distance of the current
+  // joint (the first parameter) in relation to the second joint (the second parameter).
+  changeJointDistance(notCurrentJoint: number, newDistance: number): void {
+    for (const link of this.getLinksForJoint()) {
+      const jointIds = Array.from(link.joints.keys());
+      if (jointIds.includes(notCurrentJoint)) {
+        link.setLength(newDistance, this.getCurrentJoint());
+      }
+    }
+  }
+
   getConnectedJoints(): Joint[] {
     const connectedLinks: Link[] = Array.from(this.getLinksForJoint());
     const allJoints: Joint[] = connectedLinks.reduce(
@@ -119,21 +144,6 @@ export class jointEditPanelComponent {
       angleInDegrees += 360;
     }
     return angleInDegrees;
-  }
-
-  // Function utilized in conjunction with dual input blocks to change the angle of the current
-  // joint (the first parameter) in relation to the second joint (the second parameter).
-  // TODO does not currently work. need to account for several joints. is placeholder!
-  changeJointAngle(jointIDReference: number, newAngle: number): void {
-    console.log("changing angle from this joint ", jointIDReference, " to this angle ", newAngle);
-    this.getMechanism().setAngleToJoint(this.getCurrentJoint().id, jointIDReference, newAngle);
-  }
-  // Function utilized in conjunction with dual input blocks to change the distance of the current
-  // joint (the first parameter) in relation to the second joint (the second parameter).
-  // TODO does not currently work. need to account for several joints. is placeholder!
-  changeJointDistance(jointIDReference: number, newDistance: number): void {
-    console.log("changing distance from this joint ", jointIDReference, " to this distance ", newDistance);
-    this.getMechanism().setDistanceToJoint(this.getCurrentJoint().id, jointIDReference, newDistance);
   }
 
   // handleToggleGroundChanged is used by the edit panel implementation of a toggle block
