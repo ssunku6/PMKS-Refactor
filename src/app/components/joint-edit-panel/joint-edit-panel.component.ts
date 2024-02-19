@@ -35,8 +35,13 @@ export class jointEditPanelComponent {
   }
 
   getMechanism(): Mechanism {return this.stateService.getMechanism();}
-  getCurrentJoint(){
+  getCurrentJoint() {
     let currentJointInteractor = this.interactorService.getSelectedObject();
+    if (currentJointInteractor) {
+      if ((currentJointInteractor as JointInteractor).getJoint().locked) {
+        currentJointInteractor.draggable = false;
+      }
+    }
     return (currentJointInteractor as JointInteractor).getJoint();
   }
   getJointName(): string {return this.getCurrentJoint().name;}

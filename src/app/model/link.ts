@@ -103,16 +103,13 @@ export class Link {
         this.calculateCenterOfMass();
     }
 
+    // update all of the locks i.e. subjoints need to lock when the link is locked,
+    // and unlock when the link is unlocked
     updateLocks(value: boolean){
         console.log('Updating lock in link')
         this._joints.forEach((joint: Joint, key: number) => {
             // Your logic for updating locks for each joint goes here
-            if(value){
-                joint.addLock();
-            }
-            else{
-                joint.breakLock();
-            }
+            joint.locked = value;
             console.log(`Joint ${key}: ${joint}`);
         });
     }
@@ -213,6 +210,7 @@ export class Link {
         }
     }
 
+    // set length uses vector scaling to set the new distance at the same angle
     setLength(newLength: number, refJoint: Joint) {
       // Get the first two non-empty keys from the joints map
       const jointKeys = Array.from(this.joints.keys()).filter(key => {
@@ -253,6 +251,8 @@ export class Link {
 
       }
     }
+
+    // set angle uses trig to caluclate the new x and y coordinates along the same distance
     setAngle(newAngle: number, refJoint: Joint){
       // Get the first two non-empty keys from the joints map
       const jointKeys = Array.from(this.joints.keys()).filter(key => {
@@ -264,6 +264,7 @@ export class Link {
       let jointOne = this.joints.get(jointKeys[0]);
       let jointTwo = this.joints.get(jointKeys[1]);
 
+      // if the value of current angle is 0, program breaks, so add a miniscule amount to it
       const currentAngle = (this.calculateAngle() as number) + 0.000000001;
       const currentDistance = this.calculateLength();
       if (jointOne && jointTwo && currentAngle && currentDistance) {
