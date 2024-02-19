@@ -22,7 +22,7 @@ interface Tab {
 export class jointEditPanelComponent {
 
   graphExpanded: { [key: string]: boolean } = {
-    basicBasic: false,
+    basicBasic: true,
     basicVisual: false,
     advancedSettingsBasic: false,
     advancedSettingsVisual: false
@@ -86,6 +86,35 @@ export class jointEditPanelComponent {
     );
     // console.log(allJoints);
     return allJoints;
+  }
+
+  getJointDistance(otherJoint: Joint): number{
+    let currentJoint = this.getCurrentJoint();
+    let xDiff = otherJoint.coords.x - currentJoint.coords.x;
+    let yDiff = otherJoint.coords.y - currentJoint.coords.y;
+
+    let hypotenuse = (xDiff*xDiff) + (yDiff*yDiff);
+    return Math.sqrt(hypotenuse);
+  }
+
+  getJointAngle(otherJoint: Joint): number{
+
+    let currentJoint = this.getCurrentJoint();
+    let xDiff = otherJoint.coords.x - currentJoint.coords.x;
+    let yDiff = otherJoint.coords.y - currentJoint.coords.y;
+    // Calculate the angle using arctangent
+    const angleInRadians = Math.atan2(yDiff, xDiff);
+
+    // Convert the angle to degrees
+    let angleInDegrees = angleInRadians * (180 / Math.PI);
+
+    // Ensure the angle is in the range of +180 to -180 degrees
+    if (angleInDegrees > 180) {
+      angleInDegrees -= 360;
+    } else if (angleInDegrees < -180) {
+      angleInDegrees += 360;
+    }
+    return angleInDegrees;
   }
 
   // Function utilized in conjunction with dual input blocks to change the angle of the current

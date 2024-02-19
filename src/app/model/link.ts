@@ -150,6 +150,8 @@ export class Link {
         }
     }
 
+    // find the first tow non-empty joints in map. Calculate angle between them
+    // using trigonometry (arctan)
     calculateAngle(): number | null {
         // Get the first two non-empty keys from the joints map
         const jointKeys = Array.from(this.joints.keys()).filter(key => {
