@@ -10,6 +10,7 @@ export class Link {
     private _joints: Map<number, Joint>;
     private _forces: Map<number, Force>;
     private _color: string = "";
+    private _isLocked: boolean;
 
     private linkColorOptions = [
         '#727FD5',
@@ -35,6 +36,7 @@ export class Link {
         this._forces = new Map();
         this._joints = new Map();
         this._color = this.linkColorOptions[id % this.linkColorOptions.length];
+        this._isLocked = false;
 
         if(Array.isArray(jointAORJoints)){
             jointAORJoints.forEach(joint => {
@@ -76,6 +78,10 @@ export class Link {
     get forces(): Map<number,Force> {
         return this._forces;
     }
+    get locked(): boolean {
+        return this._isLocked;
+    }
+
     //setters
     set name(value: string) {
         this._name = value;
@@ -83,6 +89,10 @@ export class Link {
 
     set mass(value: number) {
         this._mass = value;
+    }
+
+    set locked(value: boolean) {
+        this._isLocked = value;
     }
 
 

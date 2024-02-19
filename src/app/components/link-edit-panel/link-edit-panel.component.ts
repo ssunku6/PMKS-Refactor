@@ -30,7 +30,7 @@ export class LinkEditPanelComponent{
         FVisual: false,
       };
       isEditingTitle: boolean = false;
-      isLocked: boolean = false;
+      isLocked: boolean = this.getSelectedObject().locked;
       selectedIndex: number = this.getColorIndex();
 
     constructor(private stateService: StateService, private interactionService: InteractionService, private colorService: ColorService){
@@ -43,14 +43,17 @@ export class LinkEditPanelComponent{
     }
 
     lockLink(): void {
-        this.isLocked=true;
+        this.isLocked = !this.isLocked;
+        this.getSelectedObject().locked = this.isLocked;
     }
 
     getLinkLength(): number{
-        return this.getSelectedObject().calculateLength()?.toFixed() as unknown as number;
+        // @ts-ignore
+        return this.getSelectedObject().calculateLength().toFixed(4) as unknown as number;
     }
     getLinkAngle(): number{
-        return this.getSelectedObject().calculateAngle()?.toFixed as unknown as number;
+        // @ts-ignore
+        return this.getSelectedObject().calculateAngle().toFixed(4) as unknown as number;
     }
 
     getLinkJoints(): Map<number, Joint>{

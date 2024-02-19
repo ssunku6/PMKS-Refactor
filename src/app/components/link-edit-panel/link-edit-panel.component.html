@@ -21,7 +21,9 @@
         </button>
     </title-block>
     <p>This is where you edit Links. Change things such as the position.</p>
-      </panel-section-collapsible>
+      </panel-section-collapsible >
+
+<div id="body" [class.disabled-panel]="isLocked">
 
       <!-- BASIC SETTING DROPDOWN -->
       <collapsible-subsection [expanded]='true' titleLabel='Basic Settings' [expanded]="sectionExpanded['LBasic']"
@@ -81,4 +83,6 @@
         </div>
     </div>
       </collapsible-subsection>
-    </div>
+</div>
+
+</div>
