@@ -135,6 +135,7 @@ export class CompoundLink{
             const compound: Link[] = [];
             if(links.some(link => !visitedLinks.includes(link))){
                 this.DepthFirstSearch(weldedJoint,weldedSets,compound, visitedLinks);
+
                 replacementCompoundLinks.push(new CompoundLink(count,compound));
                 count++;
             }

@@ -86,9 +86,8 @@ export class CompoundLinkEditPanelComponent {
     }
      */
 
-    deleteLink(){
-        console.log("link " + this.getSelectedObject().id + " has been deleted")
-        this.stateService.getMechanism().removeLink(this.getSelectedObject().id);
+    deleteCompoundLink(){
+        this.stateService.getMechanism().removeCompoundLink(this.getSelectedObject());
     }
 
     onTitleBlockClick(event: MouseEvent): void {

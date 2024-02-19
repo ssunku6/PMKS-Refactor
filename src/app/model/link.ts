@@ -93,7 +93,6 @@ export class Link {
 
     set locked(value: boolean) {
         this._isLocked = value;
-        console.log('Recieved in link')
         this.updateLocks(value);
     }
 
