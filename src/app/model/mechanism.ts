@@ -72,6 +72,10 @@ export class Mechanism {
             console.error(`Joint with ID ${jointID} ${errorMsg}`);
             return false;
         }
+        if(joint.locked){
+            console.error(`Joint with ID ${jointID} is locked`)
+            return false;
+        }
 
         try {
             action(joint);
@@ -202,6 +206,15 @@ export class Mechanism {
     removeInput(jointID: number) {
         this.executeJointAction(jointID, joint => joint.canRemoveInput(), 'cannot have its input removed', 'input removed successfully', joint => joint.removeInput());
     }
+
+
+    lockJoint(jointID: number) {
+        this.executeJointAction(jointID, joint => joint.canLock(), 'cannot be locked', 'successfully locked', joint => joint.addLock());
+    }
+    unlockJoint(joint: Joint) {
+        joint.breakLock();
+    }
+
     /**
      * Given a joint's ID, and a Coordinate, creates a new joint with the coordinate, and a new Link containing the passed Joint, and the new joint.
      * TODO: Account for creating a link between two joints
@@ -286,6 +299,13 @@ export class Mechanism {
     canRemoveSlider(joint: Joint): boolean{
         return joint.canRemoveSlider()
     }
+    canLock(joint: Joint): boolean{
+        return joint.canLock()
+    }
+    canUnlock(joint: Joint): boolean{
+        return joint.canUnlock()
+    }
+
     //----------------------------JOINT EDIT MENU ACTIONS----------------------------
     /**
      * Changes the name of a Joint given its ID and new name.

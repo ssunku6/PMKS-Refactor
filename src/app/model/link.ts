@@ -93,6 +93,8 @@ export class Link {
 
     set locked(value: boolean) {
         this._isLocked = value;
+        console.log('Recieved in link')
+        this.updateLocks(value);
     }
 
 
@@ -100,6 +102,20 @@ export class Link {
     addTracer(newJoint: Joint){
         this._joints.set(newJoint.id,newJoint);
         this.calculateCenterOfMass();
+    }
+
+    updateLocks(value: boolean){
+        console.log('Updating lock in link')
+        this._joints.forEach((joint: Joint, key: number) => {
+            // Your logic for updating locks for each joint goes here
+            if(value){
+                joint.addLock();
+            }
+            else{
+                joint.breakLock();
+            }
+            console.log(`Joint ${key}: ${joint}`);
+        });
     }
 
     removeJoint(idORRef: number | Joint){

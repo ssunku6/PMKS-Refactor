@@ -44,6 +44,7 @@ export class LinkEditPanelComponent{
 
     lockLink(): void {
         this.isLocked = !this.isLocked;
+        console.log('Setting in link edit panel')
         this.getSelectedObject().locked = this.isLocked;
     }
 
