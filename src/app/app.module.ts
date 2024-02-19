@@ -45,7 +45,7 @@ import {JointAnalysisPanelComponent} from "./components/joint-analysis-panel/joi
 import {AnalysisPanelComponent} from "./components/analysis-panel/analysis-panel.component";
 import {
   CompoundLinkEditPanelComponent
-} from "./components/component-link-edit-panel/compound-link-edit-panel.component";
+} from "./components/compound-link-edit-panel/compound-link-edit-panel.component";
 
 @NgModule({
   declarations: [
