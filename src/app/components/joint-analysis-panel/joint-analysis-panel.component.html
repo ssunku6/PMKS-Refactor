@@ -15,10 +15,17 @@
                           (opened)="graphExpanded['dataSummary'] = true"
                           (closed)="graphExpanded['dataSummary'] = false">
         <div class="flex-container">
-          <p>Data Summary</p>
+          <h1>Data Summary</h1>
           Name of Joint: {{ getJointName() }} <br>
           X Coordinate of Joint: {{ this.getJointXCoord() }} <br>
           Y Coordinate of Joint: {{ this.getJointYCoord() }} <br>
+          <h3> Connected Joints </h3>
+          <div *ngFor='let joint of getConnectedJoints(); let i = index;'>
+            <ng-container *ngIf="getCurrentJoint().name !== joint.name">
+              Angle to Connected Joint {{joint.name}}: {{ this.getJointAngle(joint).toFixed(4) }}
+              Distance to Connected Joint {{joint.name}}: {{ this.getJointDistance(joint).toFixed(4) }}
+            </ng-container>
+          </div>
         </div>
   </collapsible-subsection>
 

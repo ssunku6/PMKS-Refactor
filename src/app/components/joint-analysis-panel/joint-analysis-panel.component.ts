@@ -52,6 +52,35 @@ export class JointAnalysisPanelComponent {
   setJointXCoord(xCoordInput: number): void {this.getMechanism().setXCoord(this.getCurrentJoint().id, xCoordInput);}
   setJointYCoord(yCoordInput: number): void {this.getMechanism().setYCoord(this.getCurrentJoint().id, yCoordInput);}
 
+  getJointDistance(otherJoint: Joint): number{
+    let currentJoint = this.getCurrentJoint();
+    let xDiff = otherJoint.coords.x - currentJoint.coords.x;
+    let yDiff = otherJoint.coords.y - currentJoint.coords.y;
+
+    let hypotenuse = (xDiff*xDiff) + (yDiff*yDiff);
+    return Math.sqrt(hypotenuse);
+  }
+
+  getJointAngle(otherJoint: Joint): number{
+
+    let currentJoint = this.getCurrentJoint();
+    let xDiff = otherJoint.coords.x - currentJoint.coords.x;
+    let yDiff = otherJoint.coords.y - currentJoint.coords.y;
+    // Calculate the angle using arctangent
+    const angleInRadians = Math.atan2(yDiff, xDiff);
+
+    // Convert the angle to degrees
+    let angleInDegrees = angleInRadians * (180 / Math.PI);
+
+    // Ensure the angle is in the range of +180 to -180 degrees
+    if (angleInDegrees > 180) {
+      angleInDegrees -= 360;
+    } else if (angleInDegrees < -180) {
+      angleInDegrees += 360;
+    }
+    return angleInDegrees;
+  }
+
 
     getPositionData(): {xData: any[], yData: any[], timeLabels: string[]} {
       const animationPositions = this.kinematicSolverService.solvePositions();
@@ -74,6 +103,7 @@ export class JointAnalysisPanelComponent {
   // dual input blocks in the HTML, that's created by looping through all of the
   // connected joints
   getLinksForJoint(): IterableIterator<Link> {return this.getMechanism().getConnectedLinksForJoint(this.getCurrentJoint()).values();}
+
   getConnectedJoints(): Joint[] {
     const connectedLinks: Link[] = Array.from(this.getLinksForJoint());
     const allJoints: Joint[] = connectedLinks.reduce(
@@ -84,7 +114,6 @@ export class JointAnalysisPanelComponent {
         },
         []
     );
-    // console.log(allJoints);
     return allJoints;
   }
 
