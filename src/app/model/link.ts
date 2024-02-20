@@ -127,11 +127,12 @@ export class Link {
         } else {
             //may need to throw error here in future
         }
-
+        
         this.calculateCenterOfMass();
         if(this._joints.size === 1){
             throw new Error("Link now only contains 1 Joint");
         }
+        
     }
 
     addForce(newForce: Force){

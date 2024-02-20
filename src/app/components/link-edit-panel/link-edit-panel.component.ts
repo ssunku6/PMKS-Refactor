@@ -113,6 +113,7 @@ export class LinkEditPanelComponent{
     deleteLink(){
         console.log("link " + this.getSelectedObject().id + " has been deleted")
         this.stateService.getMechanism().removeLink(this.getSelectedObject().id);
+        this.interactionService.deselectObject();
     }
 
     onTitleBlockClick(event: MouseEvent): void {
@@ -146,6 +147,9 @@ export class LinkEditPanelComponent{
         console.log(newColor);
         this.getSelectedObject().setColor(newColor);
         this.selectedIndex=newColor;
+    }
+
+    getLengthIcon() {
     }
 
 }

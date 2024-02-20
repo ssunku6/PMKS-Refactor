@@ -1,7 +1,6 @@
 <div id="editLink">
     <!--  LINK PANEL-->
-    <!--  Name does not work because no name is set-->
-      <panel-section-collapsible>
+    <panel-section-collapsible>
     <title-block icon='expand_more' description='' class="editHeader" (click)="onTitleBlockClick($event)">
       Edit Link
       <ng-container *ngIf="isEditingTitle; else linkNameDisplay">
@@ -11,10 +10,10 @@
     {{ this.getLinkName() }}
   </ng-template>
   <button (click)="this.isEditingTitle=true">
-    <img src='assets/icons/edit.svg' style="height: 20px; width: 20px;"/>
+    <img id="edit" src='assets/icons/edit.svg' style="height: 20px; width: 20px;"/>
   </button>
   <button (click)="this.deleteLink()">
-    <img src='assets/icons/trash.svg' style="height: 20px; width: 20px;"/>
+    <img id="trash" src='assets/icons/trash.svg' style="height: 20px; width: 20px;"/>
   </button>
         <button (click)="this.lockLink()">
           <ng-container *ngIf="isLocked; else unlockIcon">
@@ -25,8 +24,8 @@
           </ng-template>
         </button>
     </title-block>
-    <p>This is where you edit Links. Change things such as the position.</p>
-      </panel-section-collapsible >
+    <p class="subtitle">This is where you edit Links. Change things such as the position.</p>
+      </panel-section-collapsible>
 
 <div id="body" [class.disabled-panel]="isLocked">
 
