@@ -29,13 +29,18 @@
         </div>
   </collapsible-subsection>
 
-  <analysis-graph-button dynamicText="Open Position Graph" graphText= "jointPosition" [btn1Action]="openAnalysisGraph.bind(this, GraphType.JointPosition)"></analysis-graph-button>
 
+  <!-- EVERY GRAPH OPEN BUTTON -->
+  <div *ngFor="let graphType of getGraphTypes()">
+    <analysis-graph-button [dynamicText]="'Open ' + getGraphTypeName(graphType) + ' Graph'" graphText= 'Open'
+                           [btn1Action]="openAnalysisGraph.bind(this, graphType)"></analysis-graph-button>
+  </div>
+
+  <!-- DYNAMICALLY HANDLE OPENING GRAPHS -->
   <ng-container *ngIf="currentGraphType !== null">
   <div class="overlay">
-    <div class="modal">
+    <div class="modal" (keyup.escape)="closeAnalysisGraph()">
       <button class="close-button" (click)="closeAnalysisGraph()">X</button>
-
       <app-analysis-graph-block
       [inputXData]="getGraphData().xData"
       [inputYData]="getGraphData().yData"
@@ -45,53 +50,5 @@
   </div>
   </ng-container>
 
-
-
-  <collapsible-subsection titleLabel='Graphical Analysis' [expanded]="graphExpanded['graphicalAnalysis']"
-                                (opened)="graphExpanded['graphicalAnalysis'] = true"
-                                (closed)="graphExpanded['graphicalAnalysis'] = false">
-    <!-- POSITION OF JOINT GRAPH -->
-    <collapsible-subsection titleLabel='Position of Joint' [expanded]="graphExpanded['positionOfJoint']"
-                            (opened)="graphExpanded['positionOfJoint'] = true"
-                            (closed)="graphExpanded['positionOfJoint'] = false">
-      <!--
-        <app-analysis-graph-block
-                [inputXData]="getPositionData().xData"
-                [inputYData]="getPositionData().yData"
-                [inputLabels]="getPositionData().timeLabels"
-        ></app-analysis-graph-block>
-        -->
-
-
-    </collapsible-subsection>
-
-    <!-- velocity OF JOINT GRAPH -->
-    <collapsible-subsection titleLabel='Velocity of Joint' [expanded]="graphExpanded['velocityOfJoint']"
-                            (opened)="graphExpanded['velocityOfJoint'] = true"
-                            (closed)="graphExpanded['velocityOfJoint'] = false">
-      <!--
-      <app-graph
-                [inputData]="getVelocityData()"
-                [inputLabels]="getJointTimeData()"
-        ></app-graph>
-        -->
-
-    </collapsible-subsection>
-
-    <!-- acceleration OF JOINT GRAPH -->
-    <collapsible-subsection titleLabel='Acceleration of Joint' [expanded]="graphExpanded['accelerationOfJoint']"
-                            (opened)="graphExpanded['accelerationOfJoint'] = true"
-                            (closed)="graphExpanded['accelerationOfJoint'] = false">
-      <!--
-      <app-graph
-                [inputData]="getAccelerationData()"
-                [inputLabels]="getJointTimeData()"
-        ></app-graph>
-        -->
-
-    </collapsible-subsection>
-
-  </collapsible-subsection>
-
-    </div>
+</div>
 

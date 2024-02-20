@@ -1,5 +1,34 @@
 import { Component, Input, AfterViewInit, OnInit, ViewChild, ElementRef } from '@angular/core';
-import {Chart, ChartOptions} from 'chart.js';
+import {Chart, ChartOptions,
+        // @ts-ignore
+        PluginServiceGlobalRegistrationOptions
+        } from 'chart.js';
+
+// Add a plugin to the ChartOptions
+const verticalLinePlugin: PluginServiceGlobalRegistrationOptions  = {
+  id: 'verticalLine',
+  afterDraw: (chart: Chart) => {
+    const lineIndex = 0; // Index of the dataset to draw the line on
+    const dataset = chart.data.datasets[lineIndex];
+    const meta = chart.getDatasetMeta(lineIndex);
+    const xAxis = chart.scales['x-axis-0'];
+    const firstDataPoint = dataset.data[0];
+
+    // Check if firstDataPoint is a number (it could be null)
+    if (typeof firstDataPoint === 'number') {
+      const yPos = xAxis.getPixelForTick(firstDataPoint);
+
+      // Draw the vertical line
+      const ctx: CanvasRenderingContext2D = chart.ctx;
+      ctx.beginPath();
+      ctx.strokeStyle = 'red';
+      ctx.lineWidth = 2;
+      ctx.moveTo(meta.data[0].x, yPos);
+      ctx.lineTo(meta.data[0].x, meta.data[meta.data.length - 1].y);
+      ctx.stroke();
+    }
+  },
+};
 
 @Component({
   selector: 'app-analysis-graph-block',
@@ -70,26 +99,7 @@ export class GraphSectionComponent implements AfterViewInit, OnInit {
         options: {
           ...(this.ChartOptions as ChartOptions),
           plugins: {
-            afterDraw: (chart: Chart) => {
-              const lineIndex = 0; // Index of the dataset to draw the line on
-              const dataset = chart.data.datasets[lineIndex];
-              const meta = chart.getDatasetMeta(lineIndex);
-              const xAxis = chart.scales['x-axis-0'];
-              const firstDataPoint = dataset.data[0];
-
-              // Check if firstDataPoint is a number (it could be null)
-              if (typeof firstDataPoint === 'number') {
-                const yPos = xAxis.getPixelForTick(firstDataPoint);
-
-                // Draw the vertical line
-                ctx.beginPath();
-                ctx.strokeStyle = 'red';
-                ctx.lineWidth = 2;
-                ctx.moveTo(meta.data[0].x, yPos);
-                ctx.lineTo(meta.data[0].x, meta.data[meta.data.length - 1].y);
-                ctx.stroke();
-              }
-            },
+            plugins: [verticalLinePlugin]
           } as ChartOptions['plugins'], // Explicitly cast to the correct type
         }
       });

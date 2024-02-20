@@ -32,6 +32,8 @@ export enum GraphType {
 export class JointAnalysisPanelComponent {
 
   currentGraphType: GraphType | null = null;
+  graphTypes = GraphType; // Make the enum accessible in the template
+
 
   graphExpanded: { [key: string]: boolean } = {
     dataSummary: true,
@@ -51,8 +53,27 @@ export class JointAnalysisPanelComponent {
     //this.getGraphData();
   }
 
-
   closeAnalysisGraph() {this.currentGraphType = null;}
+
+
+  getGraphTypes(){
+    // @ts-ignore
+    return Object.keys(this.graphTypes).filter(key => !isNaN(Number(this.graphTypes[key]))).map(key => Number(this.graphTypes[key])) as GraphType[];
+  }
+
+  getGraphTypeName(graphType: GraphType): string {
+    switch (graphType) {
+      case GraphType.JointPosition:
+        return 'Position';
+      case GraphType.JointVelocity:
+        return 'Velocity';
+      case GraphType.JointAcceleration:
+        return 'Acceleration';
+      // Add more cases as needed
+      default:
+        return ''; // Handle unknown cases or add a default value
+    }
+  }
 
   // utilizes enums to properly open each graph and find the data for it.
   // will one day have velocity, acceleration, the whole 9 yards.
@@ -65,6 +86,9 @@ export class JointAnalysisPanelComponent {
 
       case GraphType.JointVelocity:
         // do at a later date, bozo TODO
+
+      case GraphType.JointAcceleration:
+        // TODO more bozo behavior
 
       default:
         return {
