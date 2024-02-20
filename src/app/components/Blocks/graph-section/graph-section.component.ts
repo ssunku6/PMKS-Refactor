@@ -51,8 +51,8 @@ export class GraphSectionComponent implements AfterViewInit, OnInit {
   @Input() showLegend = true;
   @Input() showXAxis = true;
   @Input() showYAxis = true;
-  @Input() xAxisLabel = 'X Axis Label';
-  @Input() yAxisLabel = 'Y Axis Label';
+  @Input() xAxisLabel = 'Time in Time Steps';
+  @Input() yAxisLabel = 'Position';
 
   public chart!: Chart;
 
@@ -63,17 +63,37 @@ export class GraphSectionComponent implements AfterViewInit, OnInit {
     responsive: true,
     hover: {
       mode: 'nearest',
-      intersect: true
     },
+
+    elements: {
+      point: {
+        radius: 0.5,  // Set a fixed radius for all points in all datasets
+      },
+    },
+
     animation: false,
     scales: {
       x: {
         display: this.showXAxis,
-        text: this.xAxisLabel,
+        title: {
+          display: true,
+          text: this.xAxisLabel,
+          color: 'black',  // Set the text color to black
+          font: {
+            weight: 'bold',  // Make the text bold
+          },
+        },
       },
       y: {
         display: this.showYAxis,
-        text: this.yAxisLabel,
+        title: {
+          display: true,
+          text: this.yAxisLabel,
+          color: 'black',  // Set the text color to black
+          font: {
+            weight: 'bold',  // Make the text bold
+          },
+        },
         padding: {
           top: 10,  // Add padding as a percentage of the chart height
           bottom: 10,
