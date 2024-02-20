@@ -132,8 +132,8 @@ export class KinematicSolverService {
         return 3 * (N - 1) - 2 * J;
     }
 
-    private minDistanceFromGround(input: Joint, subMechanism: Map<Joint, RigidBody[]>, visitedJoints: Joint[] = new Array()): number {
-        visitedJoints.push(input);
+    private minDistanceFromGround(input: Joint, subMechanism: Map<Joint, RigidBody[]>, visitedJoints: number[] = new Array()): number {
+        visitedJoints.push(input.id);
         let prismaticAddOne = input.type == JointType.Prismatic ? 2 : 1;
         if (input.isGrounded && !input.isInput) {
             return prismaticAddOne;
@@ -141,8 +141,8 @@ export class KinematicSolverService {
         let min = Number.MAX_VALUE;
         for (let rigidBody of subMechanism.get(input)!) {
             for (let joint of rigidBody.getJoints()) {
-                if (!visitedJoints.includes(joint)) {
-                    let minFromJoint = this.minDistanceFromGround(joint, subMechanism, visitedJoints);
+                if (!visitedJoints.includes(joint.id)) {
+                    let minFromJoint = this.minDistanceFromGround(joint, subMechanism, Array.from(visitedJoints));
                     if (minFromJoint + prismaticAddOne < min) {
                         min = minFromJoint + prismaticAddOne;
                     }

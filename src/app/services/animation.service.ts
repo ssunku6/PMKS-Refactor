@@ -68,6 +68,7 @@ export class AnimationService {
             })
         }
         this.invaldMechanism = this.animationStates.length == 0 ? true : false;
+        console.log(this.invaldMechanism);
         console.log("animation states:\n");
         console.log(this.animationStates);
     }

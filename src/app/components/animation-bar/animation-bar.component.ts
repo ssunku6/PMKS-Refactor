@@ -13,7 +13,7 @@ import { AnimationService } from 'src/app/services/animation.service';
 export class AnimationBarComponent {
 
     private isAnimating: boolean = false;
-    private isPausedAnimating: boolean = false;
+    private isPausedAnimating: boolean = true;
     constructor(private stateService: StateService, private animationService: AnimationService) {
 
 
@@ -37,7 +37,7 @@ export class AnimationBarComponent {
             case 'stop':
                 this.animationService.reset();
                 this.isAnimating = false;
-                this.isPausedAnimating = false;
+                this.isPausedAnimating = true;
                 break;
         }
     }
