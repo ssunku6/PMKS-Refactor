@@ -45,4 +45,7 @@ export class SvgComponent extends AbstractInteractiveComponent {
   getViewBox(): string{
     return this.panZoomService.getViewBox();
   }
+  
+
+
 }
