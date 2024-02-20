@@ -38,7 +38,7 @@ export class KinematicSolverService {
         console.log("Solving Positions");
         //first get the list of submechanisms to collect positions independently
         const subMechanisms: Map<Joint, RigidBody[]>[] = this.stateService.getMechanism().getSubMechanisms();
-        console.log(`number of subMechanisms: ${subMechanisms.length}`);
+        //console.log(`number of subMechanisms: ${subMechanisms.length}`);
         const validMechanisms: Map<Joint, RigidBody[]>[] = new Array();
         //second, determine which submechanisms are valid and can be simulated
         for (let subMechanism of subMechanisms) {
@@ -46,13 +46,13 @@ export class KinematicSolverService {
                 validMechanisms.push(subMechanism);
             }
         }
-        console.log(`number of valid subMechanisms: ${validMechanisms.length}`);
+        //console.log(`number of valid subMechanisms: ${validMechanisms.length}`);
         //third determine solve order.
         let solveOrders: { order: Joint[], prerequisites: Map<number, SolvePrerequisite> }[] = new Array();
         for (let subMechanism of validMechanisms) {
             solveOrders.push(this.determineSolveOrder(subMechanism))
         }
-        console.log(`number of solve orders completed: ${solveOrders.length}`);
+        //console.log(`number of solve orders completed: ${solveOrders.length}`);
         console.log(solveOrders);
         //fourth, solve for all of the possible positions for each mechanism.
 
@@ -60,17 +60,18 @@ export class KinematicSolverService {
         let correspondingJoints: number[][] = new Array();
         for (let solveOrder of solveOrders) {
           const jointIds: number[] = solveOrder.order.map(joint => joint.id);
-          console.log("here are joint ID's in order" + jointIds)
           correspondingJoints.push(jointIds);
             positions.push(this.getPositions(jointIds, solveOrder.prerequisites));
 
         }
-        console.log(`number animations completed: ${positions.length}`);
-        console.log(positions);
+        //console.log(`number animations completed: ${positions.length}`);
+        //console.log(positions);
 
         return { correspondingJoints: correspondingJoints, positions: positions } as AnimationPositions;
     }
 
+    // helper function transforms the positions and corresponding joints
+    // into data that can be fed into a chart.js object
   transformPositionsForChart(animationPositions: AnimationPositions, joint: Joint): { xData: any[], yData: any[], timeLabels: string[] } {
       const positions = animationPositions.positions;
       const correspondingJoints = animationPositions.correspondingJoints;
@@ -78,23 +79,21 @@ export class KinematicSolverService {
     const yData = [];
     const timeLabels = positions[0].map((_, index) => `${index + 1}`);
 
+    // LOOP THROUGH EVERY MECHANISM, with intention of finding current joint
     for (let i = 0; i < correspondingJoints.length; i++) {
       const jointsInMechanismI = correspondingJoints[i];
 
+      // if the current joint is in the mechanism, do the thing and get the positions. if not, keep moving
         if (jointsInMechanismI.includes(joint.id)){
           let timeStepsforJoints = positions[i];
           let columnOfJointPos = timeStepsforJoints.map(row => row[jointsInMechanismI.indexOf(joint.id)]);
 
-        const xValues = columnOfJointPos.map(coord => coord.x);
-        const yValues = columnOfJointPos.map(coord => coord.y);
-        console.log("Here are the values being transformed into a chart for joint: " + joint.id + " and name: " + joint.name)
-        console.log(xValues);
-        console.log(yValues);
-        xData.push({data: xValues, label: `X Position of Joint`});
-        yData.push({data: yValues, label: `Y Position of Joint`});
+          const xValues = columnOfJointPos.map(coord => coord.x);
+          const yValues = columnOfJointPos.map(coord => coord.y);
+          xData.push({data: xValues, label: `X Position of Joint`});
+          yData.push({data: yValues, label: `Y Position of Joint`});
         }
     }
-
 
     return { xData, yData, timeLabels };
   }
@@ -130,10 +129,10 @@ export class KinematicSolverService {
             }
         }
 
-        console.log(`Mechanism Validity:`)
-        console.log(`number of inputs: ${numberOfInputs} , Must be 1`);
-        console.log(`Degrees of Freedom: ${degreesOfFreedom}, Must be 1`);
-        console.log(`Minimum Distance From Ground: ${minDistanceFromGround}, Must be 4`);
+        //console.log(`Mechanism Validity:`)
+        //console.log(`number of inputs: ${numberOfInputs} , Must be 1`);
+        //console.log(`Degrees of Freedom: ${degreesOfFreedom}, Must be 1`);
+        //console.log(`Minimum Distance From Ground: ${minDistanceFromGround}, Must be 4`);
 
         return isValid;
 
@@ -229,11 +228,8 @@ export class KinematicSolverService {
 
         }
 
-      let solveOrderWithJoints: Joint[] = solveOrder.map(id => jointIdToJointMap.get(id)!);
-      console.log("SolveOrderForJoints: ");
-      for (const joint of solveOrderWithJoints) {
-        console.log(joint.id + " ");
-      }      return { order: solveOrderWithJoints, prerequisites: solveMap };
+        let solveOrderWithJoints: Joint[] = solveOrder.map(id => jointIdToJointMap.get(id)!);
+        return { order: solveOrderWithJoints, prerequisites: solveMap };
 
     }
 
@@ -331,7 +327,6 @@ export class KinematicSolverService {
             }
 
         }
-        console.log("Here is the position of every joint at T=0" + positions[0])
         return positions;
     }
 

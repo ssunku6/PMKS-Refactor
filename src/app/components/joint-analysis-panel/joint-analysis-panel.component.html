@@ -41,7 +41,7 @@
   <div class="overlay">
     <div class="modal" (keyup.escape)="closeAnalysisGraph()">
       <button class="close-button" (click)="closeAnalysisGraph()">X</button>
-      <app-analysis-graph-block
+      <app-analysis-graph-block class="large-graph"
       [inputXData]="getGraphData().xData"
       [inputYData]="getGraphData().yData"
       [inputLabels]="getGraphData().timeLabels">

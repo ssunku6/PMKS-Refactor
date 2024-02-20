@@ -253,6 +253,11 @@ export class Link implements RigidBody{
           jointTwo = placeholderJoint;
         }
 
+        // dont manipulate locked joints
+        if(jointOne.locked || jointTwo.locked){
+          return;
+        }
+
         // Calculate the scaling factor to achieve the new length
         const scalingFactor = newLength / currentLength;
 
@@ -293,6 +298,11 @@ export class Link implements RigidBody{
           let placeholderJoint = jointOne;
           jointOne = jointTwo;
           jointTwo = placeholderJoint;
+        }
+
+        // dont manipulate locked joints
+        if(jointOne.locked || jointTwo.locked){
+          return;
         }
 
 

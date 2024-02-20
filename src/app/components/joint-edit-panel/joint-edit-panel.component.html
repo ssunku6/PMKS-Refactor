@@ -50,6 +50,7 @@
                   [input2Value]="getJointAngle(joint)"
                   (input1Change)="changeJointDistance(joint.id, $event)"
                   (input2Change)="changeJointAngle(joint.id, $event)"
+                  [disabled] = "joint.locked"
                   label1= "Distance to Joint"
                   label2= "Angle to Joint"
                   tooltip = "The distance and angle from Joint {{getCurrentJoint().name}} to {{joint.name}}">
@@ -63,7 +64,7 @@
   </collapsible-subsection>
 
   <!-- ADVANCED SETTING DROPDOWN -->
-  <collapsible-subsection titleLabel='Advanced Settings' [expanded]="graphExpanded['advancedSettingsBasic']"
+  <collapsible-subsection titleLabel='Advanced Settings' [expanded]="graphExpanded['advancedSettingsBasic'] || this.getCurrentJoint().locked"
                           (opened)="graphExpanded['advancedSettingsBasic'] = true"
                           (closed)="graphExpanded['advancedSettingsBasic'] = false">
     <!-- TOGGLE BLOCK FOR GROUNDING -->

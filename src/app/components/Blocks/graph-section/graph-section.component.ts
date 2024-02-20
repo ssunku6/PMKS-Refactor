@@ -1,22 +1,26 @@
 import { Component, Input, AfterViewInit, OnInit, ViewChild, ElementRef } from '@angular/core';
-import {Chart, ChartOptions,
-        // @ts-ignore
-        PluginServiceGlobalRegistrationOptions
-        } from 'chart.js';
+import {
+  Chart,
+  ChartOptions,
+  Plugin
+} from 'chart.js'
+
 
 // Add a plugin to the ChartOptions
-const verticalLinePlugin: PluginServiceGlobalRegistrationOptions  = {
+const verticalLinePlugin: Plugin  = {
   id: 'verticalLine',
   afterDraw: (chart: Chart) => {
-    const lineIndex = 0; // Index of the dataset to draw the line on
+    const lineIndex = 1; // Index of the dataset to draw the line on
     const dataset = chart.data.datasets[lineIndex];
     const meta = chart.getDatasetMeta(lineIndex);
-    const xAxis = chart.scales['x-axis-0'];
+    const xAxis = chart.scales['x'];
+    console.log('X-axis details:', xAxis);
+    console.log('Logging the X Axis!');
     const firstDataPoint = dataset.data[0];
 
     // Check if firstDataPoint is a number (it could be null)
     if (typeof firstDataPoint === 'number') {
-      const yPos = xAxis.getPixelForTick(firstDataPoint);
+      const yPos = xAxis.getPixelForValue(firstDataPoint);
 
       // Draw the vertical line
       const ctx: CanvasRenderingContext2D = chart.ctx;
@@ -40,7 +44,7 @@ export class GraphSectionComponent implements AfterViewInit, OnInit {
   @Input() inputYData?: any[] = [{ data: [/* y-values */], label: 'Y Position' }];
   @Input() inputLabels?: string[] = [""]
   @ViewChild('graphCanvas') graphCanvas!: ElementRef;
-  // Example properties, you can customize as needed
+
   @Input() view: [number, number] = [700, 400];
   @Input() colorScheme = {domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']};
   @Input() gradient = false;
@@ -63,8 +67,18 @@ export class GraphSectionComponent implements AfterViewInit, OnInit {
     },
     animation: false,
     scales: {
-      display: true,
-      text: [this.xAxisLabel, this.yAxisLabel]
+      x: {
+        display: this.showXAxis,
+        text: this.xAxisLabel,
+      },
+      y: {
+        display: this.showYAxis,
+        text: this.yAxisLabel,
+        padding: {
+          top: 10,  // Add padding as a percentage of the chart height
+          bottom: 10,
+        },
+      },
     },
     legend: this.showLegend,
   };
@@ -84,6 +98,7 @@ export class GraphSectionComponent implements AfterViewInit, OnInit {
 
   createChart() {
     const ctx: CanvasRenderingContext2D = this.graphCanvas.nativeElement.getContext('2d');
+    console.log("Creating chart!");
 
     if (this.inputXData && this.inputYData) {
       this.chart = new Chart(ctx, {
@@ -98,10 +113,8 @@ export class GraphSectionComponent implements AfterViewInit, OnInit {
         },
         options: {
           ...(this.ChartOptions as ChartOptions),
-          plugins: {
-            plugins: [verticalLinePlugin]
-          } as ChartOptions['plugins'], // Explicitly cast to the correct type
-        }
+        },
+        plugins: [verticalLinePlugin]
       });
     }
   }
