@@ -26,4 +26,7 @@ export class StateService {
     public getMechanism(): Mechanism {
         return this.mechanism;
     }
+    public getMechanismObservable(){
+        return this.mechanism._mechanismChange$;
+    }
 }

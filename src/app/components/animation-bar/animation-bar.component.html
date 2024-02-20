@@ -1,0 +1,12 @@
+<div class="app-animation-bar-container">
+    <div class="animationBar">
+        <button class='animation-button' [disabled]='invalidMechanism()' *ngIf='!this.getIsAnimating()' mat-mini-fab color='primary'
+            (click)="controlAnimation('play')" matTooltip='Play Animation' matTooltipShowDelay='1000'>
+            'Play'
+        </button>
+        <button class="animation-button" [disabled]='invalidMechanism()' *ngIf='this.getIsAnimating()' mat-mini-fab color='primary'
+            (click)="controlAnimation('pause')" matTooltip='Play Animation' matTooltipShowDelay='1000'>
+            'Pause'
+        </button>
+    </div>
+</div>

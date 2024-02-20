@@ -28,7 +28,7 @@ export class Joint {
         this._isGrounded = false;
         this._isInput = false;
         this._isWelded = false;
-        this._inputSpeed = 0;
+        this._inputSpeed = 10;
 
         if(typeof xORCoord === 'number' && y !== undefined)
         {
@@ -119,7 +119,7 @@ export class Joint {
     }
 
     addSlider(){
-        this._isGrounded = false;
+        this._isGrounded = true;
         this._type = JointType.Prismatic;
 
     }

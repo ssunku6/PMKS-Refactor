@@ -3,7 +3,7 @@ import { Joint } from '../model/joint'
 import { Link, RigidBody } from '../model/link'
 import { Force } from '../model/force'
 import { CompoundLink } from '../model/compound-link'
-
+import { BehaviorSubject } from 'rxjs'
 
 export class Mechanism {
     private _joints: Map<number, Joint>;
@@ -11,6 +11,8 @@ export class Mechanism {
     private _forces: Map<number, Force>;
     private _compoundLinks: Map<number, CompoundLink>;
     private _idCount: number;
+    private _mechanismChange: BehaviorSubject<Mechanism> = new BehaviorSubject<Mechanism>(this);
+    public _mechanismChange$ = this._mechanismChange.asObservable();
 
     constructor() {
         this._joints = new Map();
@@ -19,6 +21,12 @@ export class Mechanism {
         this._compoundLinks = new Map();
         this._idCount = 0;
     }
+
+    notifyChange(): void{
+        console.log("updated Mechanism");
+        this._mechanismChange.next(this);
+    }
+
 
     //----------------------------GRID CONTEXT MENU ACTIONS----------------------------
 
@@ -41,7 +49,8 @@ export class Mechanism {
         let linkA = new Link(this._idCount, [jointA,jointB]);
         this._idCount++;
         this._links.set(linkA.id, linkA);
-        console.log(this);
+        this.notifyChange();
+        //console.log(this);
     }
 
     //----------------------------JOINT CONTEXT MENU ACTIONS----------------------------
@@ -75,8 +84,9 @@ export class Mechanism {
 
         try {
             action(joint);
-            console.log(`Joint with ID ${jointID} ${successMsg}`);
-            console.log(this);
+            //console.log(`Joint with ID ${jointID} ${successMsg}`);
+            this.notifyChange();
+            //console.log(this);
             return true;
         } catch (error: any) {
             console.error(`An error occurred when trying to ${errorMsg} joint ${jointID}: ${error.message}`);
@@ -344,7 +354,6 @@ export class Mechanism {
             return;
         }
         this.executeJointAction(jointIDtoChange, (joint) => true, 'error','success', (joint) =>{joint.setDistancetoJoint(newDistance, jointB);});
-        console.log(this);
     }
     /**
      * Given two joints and a desired angle between them, rotates the first joint around the second(mantaining same distance) until the desired angle is reached. 
@@ -382,11 +391,12 @@ export class Mechanism {
     private executeLinkAction(linkID: number, action: (link: Link) => void) {
         let link = this._links.get(linkID);
         if (link === undefined) {
-            console.error(`Force with ID ${linkID} does not exist`);
+            console.error(`Link with ID ${linkID} does not exist`);
             return;
         }
         action(link);
-        console.log(this);
+        this.notifyChange();
+        //console.log(this);
     }
     
     /**
@@ -569,7 +579,8 @@ export class Mechanism {
             return;
         }
         action(force);
-        console.log(this);
+        this.notifyChange();
+        //console.log(this);
     }
 
     /**
@@ -703,7 +714,13 @@ export class Mechanism {
         return [...connectedLinks, ...connectedCompoundLinks] as RigidBody[];
     }
     
-    //----------------------------GET FUNCTIONS FOR DRAWING----------------------------
+    //----------------------------GET FUNCTIONS----------------------------
+    getJoint(id: number): Joint {
+        return this._joints.get(id)!;
+    }
+    
+    
+    
     getJoints(): IterableIterator<Joint>{
         return this._joints.values();
     }

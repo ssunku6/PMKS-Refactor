@@ -25,7 +25,7 @@ import { GridLinesComponent } from './components/gridlines/gridlines.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { EditPanelComponent } from './components/edit-panel/edit-panel.component';
-
+import { AnimationBarComponent } from './components/animation-bar/animation-bar.component';
 
 
 @NgModule({
@@ -43,6 +43,7 @@ import { EditPanelComponent } from './components/edit-panel/edit-panel.component
     ToolbarComponent,
     SidenavComponent,
     EditPanelComponent,
+    AnimationBarComponent,
   ],
   imports: [
     BrowserModule,

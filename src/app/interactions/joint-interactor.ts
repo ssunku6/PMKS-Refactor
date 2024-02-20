@@ -23,7 +23,7 @@ export class JointInteractor extends Interactor {
         });
 
         this.onDrag$.subscribe((event) => {
-            this.joint.setCoordinates(this.jointStart.add(this.dragOffsetInModel!));
+            this.stateService.getMechanism().setJointCoord(this.joint.id,this.jointStart.add(this.dragOffsetInModel!))
         });
 
         this.onDragEnd$.subscribe((event) => {
