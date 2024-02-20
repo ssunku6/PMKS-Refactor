@@ -1,13 +1,18 @@
 <div class="single-input-block">
   <div class='row'>
     <span class='label {{disabled ? "disabled" : ""}}'><ng-content></ng-content></span>
+    <mat-icon *ngIf="showIcon" matTooltip='{{ this.tooltip }}' [matTooltipShowDelay]='1000' class='label-help'
+              [matTooltipDisabled]='disabled'
+    >help_outline
+    </mat-icon>
     <div class='spacer'></div>
   </div>
   <div class="input-sections">
     <div class="input-section">
-      <label for="input1"> {{label1}}:</label>
-      <input type="text" id="input1" [(ngModel)]="input1Value"
+      <label for="input1"> {{label1}}:</label> 
+      <input style="padding-right:30px;" type="text" id="input1" [(ngModel)]="input1Value"
              (keyup.enter)="onEnterKeyInput1()" (blur)="onBlurInput1()"/>
+             <span class="unit" style="margin-left:-30px;">{{unit1}}</span>
     </div>
   </div>
 </div>

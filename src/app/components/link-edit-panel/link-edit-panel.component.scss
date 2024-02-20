@@ -76,12 +76,16 @@
     border: none;
     height: 25px;
     width: 25px;
+    text-align: center;
+    &:hover {
+      background-color: red;
+      border-radius:100%;
+    }
   }
 
   #trash {
     &:hover {
-      background-color: red;
-      fill: #e8eaf6;
+      filter: brightness(0) invert(1);        
       border-radius:100%;
     }
   }

@@ -14,6 +14,9 @@ export class DualInputComponent {
   @Input() input2Value: number = 0;
   @Input() label1: string ="X";
   @Input() label2: string ="Y";
+  @Input() unit1: string ="cm";
+  @Input() unit2: string ="deg";
+  @Input() showIcon: boolean = true;
 
   @Output() input1Change: EventEmitter<number> = new EventEmitter<number>();
   @Output() input2Change: EventEmitter<number> = new EventEmitter<number>();

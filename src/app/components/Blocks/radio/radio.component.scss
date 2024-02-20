@@ -12,6 +12,7 @@
   $foreground: map.get($theme, foreground);
 
   #radio-block {
+
     #radio-buttons {
       //font-size: 14px !important;
       //font-weight: 200 !important;
@@ -22,6 +23,7 @@
       mat-button-toggle {
         height: 100%;
         flex-grow: 1;
+        background-color: purple;
 
         .mat-button-toggle-label-content {
           padding: 0;

@@ -3,9 +3,19 @@
         <title-block icon='expand_more' description='' class="synthesisHeader">
           Synthesis
         </title-block>
-        <p>This is where you synthesize links</p>
-    </panel-section-collapsible>
+        <p class="subtitle">This is where you synthesize links</p>
+    
     <!--each type of synthesis has its own file and is a collapsible sub section-->
+    <collapsible-subsection [expanded]='true' titleLabel='Three Position Synthesis' [expanded]="sectionExpanded['LBasic']"
+    (opened)="sectionExpanded['threePos'] = true"
+    (closed)="sectionExpanded['threePos'] = false">
     <three-pos-synthesis></three-pos-synthesis>
+    </collapsible-subsection>
+    <collapsible-subsection [expanded]='true' titleLabel='Path Synthesis' [expanded]="sectionExpanded['LBasic']"
+    (opened)="sectionExpanded['path'] = true"
+    (closed)="sectionExpanded['path'] = false">
     <path-synthesis></path-synthesis>
+    </collapsible-subsection>
+    
+  </panel-section-collapsible>
 </div>

@@ -13,16 +13,14 @@
 }
 
 #threePos {
-    //border-top-color: #00043a;
-    //border-top: 10px;
-    //margin-top: 10px;
-    //margin-left: 5px;
-    background-color: white;
-    //border-left: 5px solid #3F51B5;
-    //border-top: 5px solid #3F51B5;
-    border-radius: 3px;
-    box-shadow: 3px 3px 3px gray;
-    width:100%;
+  background-color: white;
+  //border-left: 5px solid #3F51B5;
+  //border-top: 5px solid #3F51B5;
+  border-radius: 3px;
+  //box-shadow: 3px 3px 3px gray;
+  width:395px;
+  margin-left: 5px;
+  margin-right: -5px;
   }
   
   .flex-container {
@@ -44,25 +42,6 @@
     margin-left: auto; /* Pushes this element to the right */
   }
 
-  div.colors {
-    width: 30px;
-    height: 30px;
-    margin: 7px 3px;
-    border-radius: 5px;
-    border: none;
-    //margin: 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  p.colors {
-    padding:0;
-    margin-top: 5px;
-    margin-bottom: 0;
-  }
-
   #lengthAndAngle {
     max-height: 10px;
   }
@@ -71,7 +50,75 @@
     display: flex;
   }
 
-  #length {
-    align-items: right;
-  }
   
+  #trash {
+    background-color: white;
+    border: none;
+    height: 25px;
+    width: 25px;
+    align-items: center;
+    &:hover {
+      background-color: red;
+      border-radius:100%;
+    }
+    
+
+    #icon {
+      
+      &:hover {
+        filter: brightness(0) invert(1);        
+      }
+      
+    }
+  }
+
+  #generateFourBar{ 
+    margin:0 auto;
+    display:block;
+    background-color: white;
+    width: 75%;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid black;
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
+
+  #removeAll{ 
+    margin:0 auto;
+    display:block;
+    background-color: white;
+    width: 75%;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid red;
+    color: red;
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
+
+  #specify {
+    margin:0 auto;
+    display:block;
+    background-color: white;
+    width: 75%;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid black;
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
+
+
+  #tooltip {
+    color: #3f51b5;
+    font-size: 18px;
+    vertical-align: middle;
+    padding-top: 2px;
+  }
+
+  #reference {
+    margin-bottom: 5px;
+    margin-top: -10px;
+    margin-left: 5px;
+  }

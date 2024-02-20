@@ -22,7 +22,7 @@
     top: 30px;
     max-width: 500px;
     height:auto;
-    background-color: white;
+    //background-color: white;
 }
 
 .side-nav{
@@ -39,6 +39,8 @@
 .sidenav-button{
     margin:0px;
     display: flex;
+    align-items: center; /* Centers content vertically */
+    justify-content: center; /* Centers content horizontally */
     width: 4rem;
     height: 4rem;
     background-color: var(--white-secondary);
@@ -46,6 +48,7 @@
     display: flex;
     flex-direction: column;
     font-size: 8pt;
+    text-align: center;
 }
 .sidenav-button:hover{
     background-color: #E8EAF6;

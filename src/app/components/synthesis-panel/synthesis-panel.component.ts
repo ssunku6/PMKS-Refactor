@@ -9,7 +9,12 @@ import { JointInteractor } from 'src/app/interactions/joint-interactor';
     styleUrls: ['./synthesis-panel.component.scss'],
 
 })
+
 export class SynthesisPanelComponent {
+    sectionExpanded: { [key: string]: boolean } = {
+        threePos: false,
+        path: false,
+      };
     constructor(private interactionService: InteractionService){}
     getSelectedObjectType(): string{
         let obj = this.interactionService.getSelectedObject();

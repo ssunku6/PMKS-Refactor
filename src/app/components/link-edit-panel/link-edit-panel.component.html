@@ -1,7 +1,6 @@
 <div id="editLink">
     <!--  LINK PANEL-->
-    <!--  Name does not work because no name is set-->
-      <panel-section-collapsible>
+    <panel-section-collapsible>
     <title-block icon='expand_more' description='' class="editHeader" (click)="onTitleBlockClick($event)">
       Edit Link
       <ng-container *ngIf="isEditingTitle; else linkNameDisplay">
@@ -17,7 +16,7 @@
     <img id="trash" src='assets/icons/trash.svg' style="height: 20px; width: 20px;"/>
   </button>
     </title-block>
-    <p>This is where you edit Links. Change things such as the position.</p>
+    <p class="subtitle">This is where you edit Links. Change things such as the position.</p>
       </panel-section-collapsible>
 
       <!-- BASIC SETTING DROPDOWN -->

@@ -1,21 +1,22 @@
 <div id="threePos">
       
-      <collapsible-subsection [expanded]='true' titleLabel='Three Position Synthesis' [expanded]="sectionExpanded['LBasic']"
-      (opened)="sectionExpanded['Basic'] = true"
-      (closed)="sectionExpanded['Basic'] = false">
+
       <div>
             <p>Coupler Link Specifications</p>
-            <single-input-block [input1Value]="0"
+            <single-input-block class="right-aligned" [input1Value]="0"
             (input1Change)="setCouplerLength($event)"
-            label1="Length"></single-input-block>
+            label1="Length"
+            unit1="cm"
+            [showIcon]="false"></single-input-block>
             
-            <div><p style="display:inline-block">Fixed Reference </p><img src='assets/icons/referencePoint.svg' style="height: 11px; width: 11px;"/>
+            <div><img src='assets/icons/referencePoint.svg' style="height: 12px; width: 12px;"/><p style="display:inline-block">Fixed Reference </p>
             </div>
-            <radio-block
+            <radio-block id="reference"
                   [options]="['Back', 'Center', 'Front']"
                   [initialSelection]="'Center'"
-                  (selectionChanged)="setReference($event)">
-</radio-block>
+                  (selectionChanged)="setReference($event)"
+                  >
+            </radio-block>
       </div>
       <div>
             
@@ -24,9 +25,13 @@
                   <!-- display header, with edit button on right if pose already has been created -->
                   
                   <div>
-                        <p style="display:inline">Position {{i}}</p>
-                        <button *ngIf='this.isPositionDefined(i)' (click)="this.deletePosition(i)">
-                              <img src='assets/icons/trash.svg' style="height: 20px; width: 20px;"/>
+                        <mat-icon id="tooltip" matTooltip="Change the x and y values of the reference point of the coupler position {{i}}" [matTooltipShowDelay]='1000' class='label-help'
+                        [matTooltipDisabled]='disabled'
+                        >help_outline
+                        </mat-icon>
+                        <p style="display:inline; margin: -3px;">Position {{i}}</p>
+                        <button id="trash" *ngIf='this.isPositionDefined(i)' (click)="this.deletePosition(i)">
+                              <img id="icon" src='assets/icons/trash.svg' style="height: 20px; width: 20px;"/>
                         </button>                       
                   </div>
                   
@@ -35,13 +40,16 @@
                         <dual-input-block [input2Value]="getPosYCoord(1)"
                         (input1Change)="setPosXCoord($event, 1)"
                         (input2Change)="setPosYCoord($event, 1)"
-                        tooltip="Change the x and y values of the reference point of the coupler position 1"
+                        tooltip="Change the x and y values of the reference point of the coupler position {{i}}"
                         label1="X"
-                        label2="Y">
+                        label2="Y"
+                        [showIcon]="false">
                   </dual-input-block>
                   <single-input-block [input1Value]="getPosAngle(1)"
                   (input1Change)="setPositionAngle($event, 1)"
-                  label1="Angle">
+                  label1="Angle"
+                  unit1="deg"
+                  [showIcon]="false">
             </single-input-block>
       </div>
       
@@ -52,11 +60,10 @@
       
 </div>
 </div>
-<div *ngIf='this.allPositionsDefined()'>
-      <button id="generateMech" (click)="generateMechanism()">Generate Mechanism</button>
+<div *ngIf='this.allPositionsDefined()' class="definedButtons">
+      <button id="generateFourBar" (click)="generateFourBar()">Generate Four-Bar</button>
       <button id="removeAll"  (click)="removeAllPositions()">Remove All Positions</button>
 
 </div>
-</collapsible-subsection>
 
 </div>

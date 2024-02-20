@@ -21,7 +21,7 @@ import { Coord } from 'src/app/model/coord';
 export class ThreePosSynthesis{
 
     sectionExpanded: { [key: string]: boolean } = {
-        LBasic: false,
+        Basic: false,
       };
     @Input() disabled: boolean=false;
     @Input() tooltip: string = '';
@@ -88,7 +88,7 @@ resetPos(pos: number){
 }
 
 
-generateMechanism(){
+generateFourBar(){
 
 }
 
@@ -176,6 +176,7 @@ allPositionsDefined(): boolean {
 removeAllPositions(){
     for(let i=1; i<=3; i++){
         this.deletePosition(i);
+        this.resetPos(i)
     }
 }
 }

@@ -295,4 +295,8 @@ export class InteractionService {
     public getSelectedObject(): Interactor | undefined {
         return this.lastSelected;
     }
+
+    public deselectObject(){
+        this.lastSelected=undefined;
+    }
 }

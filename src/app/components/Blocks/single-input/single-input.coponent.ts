@@ -12,6 +12,8 @@ export class SingleInputComponent {
   @Input() tooltip: string = '';
   @Input() input1Value: number=0;
   @Input() label1: string ="X";
+  @Input() unit1: string = "cm";
+  @Input() showIcon: boolean = true;
 
   @Output() input1Change: EventEmitter<number> = new EventEmitter<number>();
 

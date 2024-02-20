@@ -5,10 +5,10 @@
                   [class.selected]="option === selectedOption"
                   [disabled]="disabled"
                   *ngFor="let option of options"
-                  (click)="selectOption(option)">
+                  (click)="selectOption(option)"
+                  >
             {{ option }}
           </button>
         </div>
       </div>
     </div>
-    

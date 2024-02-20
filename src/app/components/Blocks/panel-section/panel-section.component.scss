@@ -20,6 +20,7 @@
     flex-direction: column;
     //gap: 10px;
     background-color: mat.get-color-from-palette($background, 'background');
+    background-color: white;
     border-top: 5px solid mat.get-color-from-palette($primary-palette, 500);
     //padding: 20px;
 

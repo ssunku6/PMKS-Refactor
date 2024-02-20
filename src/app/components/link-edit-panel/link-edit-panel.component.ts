@@ -85,6 +85,7 @@ export class LinkEditPanelComponent{
     deleteLink(){
         console.log("link " + this.getSelectedObject().id + " has been deleted")
         this.stateService.getMechanism().removeLink(this.getSelectedObject().id);
+        this.interactionService.deselectObject();
     }
 
     onTitleBlockClick(event: MouseEvent): void {
