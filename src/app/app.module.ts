@@ -50,6 +50,7 @@ import {
   CompoundLinkEditPanelComponent
 } from "./components/compound-link-edit-panel/compound-link-edit-panel.component";
 import { AnimationBarComponent } from './components/animation-bar/animation-bar.component';
+import {AnalysisGraphButtonComponent} from "./components/Blocks/analysis-graph-button/analysis-graph-button.component";
 
 
 @NgModule({
@@ -78,11 +79,12 @@ import { AnimationBarComponent } from './components/animation-bar/animation-bar.
     TriButtonComponent,
     DualButtonComponent,
     JointAnalysisPanelComponent,
-      LinkAnalysisPanelComponent,
+    LinkAnalysisPanelComponent,
     AnalysisPanelComponent,
     CompoundLinkEditPanelComponent,
-      GraphSectionComponent,
+    GraphSectionComponent,
     AnimationBarComponent,
+    AnalysisGraphButtonComponent,
   ],
   imports: [
     BrowserModule,

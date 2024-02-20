@@ -13,6 +13,14 @@ interface Tab {
     label: string,
     icon: string
 }
+
+// enum contains every kind of graph this panel can open.
+export enum GraphType {
+  JointPosition,
+  JointVelocity,
+  JointAcceleration,
+  // Add more graph types as needed
+}
 @Component({
     selector: 'app-joint-analysis-panel',
     templateUrl: './joint-analysis-panel.component.html',
@@ -20,9 +28,10 @@ interface Tab {
 
 })
 
+
 export class JointAnalysisPanelComponent {
 
-    graphData: number[] = [10, 20, 15, 25, 30];
+  currentGraphType: GraphType | null = null;
 
   graphExpanded: { [key: string]: boolean } = {
     dataSummary: true,
@@ -34,6 +43,36 @@ export class JointAnalysisPanelComponent {
 
   constructor(private stateService: StateService, private interactorService: InteractionService, private kinematicSolverService: KinematicSolverService){
       console.log("joint-analysis-panel.constructor");
+  }
+
+  // helper function to open a graph using the graph-button block
+  openAnalysisGraph(graphType: GraphType): void {
+    this.currentGraphType = graphType;
+    //this.getGraphData();
+  }
+
+
+  closeAnalysisGraph() {this.currentGraphType = null;}
+
+  // utilizes enums to properly open each graph and find the data for it.
+  // will one day have velocity, acceleration, the whole 9 yards.
+  getGraphData() {
+    switch(this.currentGraphType) {
+      case GraphType.JointPosition:
+        const animationPositions = this.kinematicSolverService.solvePositions();
+        let chartData = this.kinematicSolverService.transformPositionsForChart(animationPositions, this.getCurrentJoint());
+        return chartData;
+
+      case GraphType.JointVelocity:
+        // do at a later date, bozo TODO
+
+      default:
+        return {
+          xData: [],
+          yData: [],
+          timeLabels: []
+        };
+    }
   }
 
   getMechanism(): Mechanism {return this.stateService.getMechanism();}
@@ -82,11 +121,6 @@ export class JointAnalysisPanelComponent {
   }
 
 
-    getPositionData(): {xData: any[], yData: any[], timeLabels: string[]} {
-      const animationPositions = this.kinematicSolverService.solvePositions();
-      let chartData;
-      return chartData = this.kinematicSolverService.transformPositionsForChart(animationPositions, this.getCurrentJoint());
-    }
     getVelocityData(): any[] {
       let mechanism = this.getMechanism()
         return [{data: [24,8,16,3,10], label: ["Velocity of Joint"]}];
@@ -132,4 +166,5 @@ export class JointAnalysisPanelComponent {
     this.getMechanism().setDistanceToJoint(this.getCurrentJoint().id, jointIDReference, newDistance);
   }
 
+  protected readonly GraphType = GraphType;
 }

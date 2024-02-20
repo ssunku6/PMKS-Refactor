@@ -22,12 +22,29 @@
           <h3> Connected Joints </h3>
           <div *ngFor='let joint of getConnectedJoints(); let i = index;'>
             <ng-container *ngIf="getCurrentJoint().name !== joint.name">
-              Angle to Connected Joint {{joint.name}}: {{ this.getJointAngle(joint).toFixed(4) }}
-              Distance to Connected Joint {{joint.name}}: {{ this.getJointDistance(joint).toFixed(4) }}
+              Angle to Connected Joint {{joint.name}}: {{ this.getJointAngle(joint).toFixed(4) }} <br>
+              Distance to Connected Joint {{joint.name}}: {{ this.getJointDistance(joint).toFixed(4) }} <br>
             </ng-container>
           </div>
         </div>
   </collapsible-subsection>
+
+  <analysis-graph-button dynamicText="Open Position Graph" graphText= "jointPosition" [btn1Action]="openAnalysisGraph.bind(this, GraphType.JointPosition)"></analysis-graph-button>
+
+  <ng-container *ngIf="currentGraphType !== null">
+  <div class="overlay">
+    <div class="modal">
+      <button class="close-button" (click)="closeAnalysisGraph()">X</button>
+
+      <app-analysis-graph-block
+      [inputXData]="getGraphData().xData"
+      [inputYData]="getGraphData().yData"
+      [inputLabels]="getGraphData().timeLabels">
+    </app-analysis-graph-block>
+    </div>
+  </div>
+  </ng-container>
+
 
 
   <collapsible-subsection titleLabel='Graphical Analysis' [expanded]="graphExpanded['graphicalAnalysis']"
@@ -37,11 +54,13 @@
     <collapsible-subsection titleLabel='Position of Joint' [expanded]="graphExpanded['positionOfJoint']"
                             (opened)="graphExpanded['positionOfJoint'] = true"
                             (closed)="graphExpanded['positionOfJoint'] = false">
+      <!--
         <app-analysis-graph-block
                 [inputXData]="getPositionData().xData"
                 [inputYData]="getPositionData().yData"
                 [inputLabels]="getPositionData().timeLabels"
         ></app-analysis-graph-block>
+        -->
 
 
     </collapsible-subsection>
