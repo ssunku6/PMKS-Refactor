@@ -30,10 +30,11 @@
     <collapsible-subsection titleLabel='Position of Joint' [expanded]="graphExpanded['positionOfJoint']"
                             (opened)="graphExpanded['positionOfJoint'] = true"
                             (closed)="graphExpanded['positionOfJoint'] = false">
-        <app-graph
-                [inputData]="getPositionData()"
-                [inputLabels]="getJointTimeData()"
-        ></app-graph>
+        <app-analysis-graph-block
+                [inputXData]="getPositionData().xData"
+                [inputYData]="getPositionData().yData"
+                [inputLabels]="getPositionData().timeLabels"
+        ></app-analysis-graph-block>
 
 
     </collapsible-subsection>
@@ -42,10 +43,12 @@
     <collapsible-subsection titleLabel='Velocity of Joint' [expanded]="graphExpanded['velocityOfJoint']"
                             (opened)="graphExpanded['velocityOfJoint'] = true"
                             (closed)="graphExpanded['velocityOfJoint'] = false">
-        <app-graph
+      <!--
+      <app-graph
                 [inputData]="getVelocityData()"
                 [inputLabels]="getJointTimeData()"
         ></app-graph>
+        -->
 
     </collapsible-subsection>
 
@@ -53,10 +56,12 @@
     <collapsible-subsection titleLabel='Acceleration of Joint' [expanded]="graphExpanded['accelerationOfJoint']"
                             (opened)="graphExpanded['accelerationOfJoint'] = true"
                             (closed)="graphExpanded['accelerationOfJoint'] = false">
-        <app-graph
+      <!--
+      <app-graph
                 [inputData]="getAccelerationData()"
                 [inputLabels]="getJointTimeData()"
         ></app-graph>
+        -->
 
     </collapsible-subsection>
 

@@ -2,12 +2,13 @@ import { Component, Input, AfterViewInit, OnInit, ViewChild, ElementRef } from '
 import {Chart, ChartOptions} from 'chart.js';
 
 @Component({
-  selector: 'app-graph',
+  selector: 'app-analysis-graph-block',
   templateUrl: './graph-section.component.html',
   styleUrls: ['./graph-section.component.scss']
 })
 export class GraphSectionComponent implements AfterViewInit, OnInit {
-  @Input() inputData: any[] = [{}];
+  @Input() inputXData: any[] = [{ data: [/* x-values */], label: 'X Position' }];
+  @Input() inputYData: any[] = [{ data: [/* y-values */], label: 'Y Position' }];
   @Input() inputLabels: string[] = [""]
   @ViewChild('graphCanvas') graphCanvas!: ElementRef;
   // Example properties, you can customize as needed
@@ -60,7 +61,10 @@ export class GraphSectionComponent implements AfterViewInit, OnInit {
       type: 'line',
       data: {
         labels: this.inputLabels,
-        datasets: this.inputData
+        datasets: [
+          ...this.inputXData,
+          ...this.inputYData,
+          ]
       },
       options: {
         ...(this.ChartOptions as ChartOptions),

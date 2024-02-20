@@ -3,6 +3,7 @@ import { StateService } from './state.service';
 import { Joint, JointType } from '../model/joint';
 import { Link, RigidBody } from '../model/link';
 import { Coord } from '../model/coord';
+import {join} from "@angular/compiler-cli";
 
 
 export enum SolveType {
@@ -57,14 +58,40 @@ export class KinematicSolverService {
         let positions: Coord[][][] = new Array();
         let correspondingJoints: number[][] = new Array();
         for (let solveOrder of solveOrders) {
-            correspondingJoints.push(solveOrder.order);
+          correspondingJoints.push(solveOrder.order);
             positions.push(this.getPositions(solveOrder.order, solveOrder.prerequisites));
         }
         console.log(`number animations completed: ${positions.length}`);
         console.log(positions);
+
         return { correspondingJoints: correspondingJoints, positions: positions } as AnimationPositions;
     }
 
+
+  transformPositionsForChart(positions: Coord[][][]): { xData: any[], yData: any[], timeLabels: string[] } {
+    const xData = [];
+    const yData = [];
+    const timeLabels = [];
+
+    for (let i = 0; i < positions.length; i++) {
+      const timeStepData = positions[i];
+
+      const flattenedTimeStepData = timeStepData.flat();
+
+
+      const xValues = flattenedTimeStepData.map(coord => coord.x);
+      const yValues = flattenedTimeStepData.map(coord => coord.y);
+      console.log("Here are the values being transformed into a chart")
+      console.log(xValues);
+      console.log(yValues);
+
+      xData.push({ data: xValues, label: `X Position of Joint (Time Step ${i + 1})` });
+      yData.push({ data: yValues, label: `Y Position of Joint (Time Step ${i + 1})` });
+      timeLabels.push(`Time Step ${i + 1}`);
+    }
+
+    return { xData, yData, timeLabels };
+  }
 
     private isValidMechanism(subMechanism: Map<Joint, RigidBody[]>): boolean {
         //ensure only one input is present and grounded
@@ -156,7 +183,8 @@ export class KinematicSolverService {
         let solveMap: Map<number, SolvePrerequisite> = new Map();
         let solveOrder: number[] = new Array();
         let unsolvedJoints: Joint[] = new Array();
-        //iterate over joints, adding grounded joints to be solved first (since their position doesn't change)
+
+      //iterate over joints, adding grounded joints to be solved first (since their position doesn't change)
         for (let joint of subMechanism.keys()) {
             if (joint.isGrounded && !joint.isInput && joint.type != JointType.Prismatic) {
 
@@ -185,6 +213,7 @@ export class KinematicSolverService {
                 //if an object is returned, add to order and map.
                 solveOrder.push(currentJoint.id);
                 solveMap.set(currentJoint.id, canBeSolved);
+
             } else {
                 //append to the end of the array
                 unsolvedJoints.push(currentJoint);
@@ -194,6 +223,8 @@ export class KinematicSolverService {
         return { order: solveOrder, prerequisites: solveMap };
 
     }
+
+
     private jointCanBeSolved(joint: Joint, links: RigidBody[], solvedJoints: number[]): SolvePrerequisite | undefined {
         let canBeSolved = undefined;
         let solveType: SolveType | undefined;
@@ -252,7 +283,7 @@ export class KinematicSolverService {
         let positions: Coord[][] = new Array();
         /**
          * 2D array represents the following
-         * [[p1n,p2n,p3n,p4n],           //positions [1..n] are the positions of joints at timestep n-1
+         *  [[p1n,p2n,p3n,p4n],           //positions [1..n] are the positions of joints at timestep n-1
          *  [p1n+1,p2n+1,p3n+1,p4n+1]
          * ]
          */
@@ -287,6 +318,7 @@ export class KinematicSolverService {
             }
 
         }
+        console.log("Here is the position of every joint at T=0" + positions[0])
         return positions;
     }
     returnedToStart(positions: Coord[][]): boolean {

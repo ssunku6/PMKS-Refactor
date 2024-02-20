@@ -6,6 +6,7 @@ import {Mechanism} from "../../model/mechanism";
 import {Joint} from "../../model/joint";
 import {Form, FormControl, FormGroup} from "@angular/forms";
 import {Link} from "../../model/link";
+import {KinematicSolverService} from "../../services/kinematic-solver.service";
 
 interface Tab {
     selected: boolean,
@@ -31,11 +32,14 @@ export class JointAnalysisPanelComponent {
       accelerationOfJoint: false
   };
 
-  constructor(private stateService: StateService, private interactorService: InteractionService){
+  constructor(private stateService: StateService, private interactorService: InteractionService, private kinematicSolverService: KinematicSolverService){
       console.log("joint-analysis-panel.constructor");
   }
 
   getMechanism(): Mechanism {return this.stateService.getMechanism();}
+  getKinematicSolver(): KinematicSolverService{
+    return this.kinematicSolverService;
+  }
   getCurrentJoint(){
     let currentJointInteractor = this.interactorService.getSelectedObject();
     return (currentJointInteractor as JointInteractor).getJoint();
@@ -49,9 +53,10 @@ export class JointAnalysisPanelComponent {
   setJointYCoord(yCoordInput: number): void {this.getMechanism().setYCoord(this.getCurrentJoint().id, yCoordInput);}
 
 
-    getPositionData(): any[] {
-      return [{data: [10, 7, 3, 4, 8], label: ["X Position of Joint"]},
-          {data: [8,7,6,5,4], label: ["Y Position of Joint"]}];
+    getPositionData(): {xData: any[], yData: any[], timeLabels: string[]} {
+      const animationPositions = this.kinematicSolverService.solvePositions();
+      let chartData;
+      return chartData = this.kinematicSolverService.transformPositionsForChart(animationPositions.positions);
     }
     getVelocityData(): any[] {
       let mechanism = this.getMechanism()
