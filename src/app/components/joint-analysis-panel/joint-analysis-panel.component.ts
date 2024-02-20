@@ -56,7 +56,7 @@ export class JointAnalysisPanelComponent {
     getPositionData(): {xData: any[], yData: any[], timeLabels: string[]} {
       const animationPositions = this.kinematicSolverService.solvePositions();
       let chartData;
-      return chartData = this.kinematicSolverService.transformPositionsForChart(animationPositions.positions, this.getCurrentJoint());
+      return chartData = this.kinematicSolverService.transformPositionsForChart(animationPositions, this.getCurrentJoint());
     }
     getVelocityData(): any[] {
       let mechanism = this.getMechanism()

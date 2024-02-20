@@ -48,18 +48,22 @@ export class KinematicSolverService {
         }
         console.log(`number of valid subMechanisms: ${validMechanisms.length}`);
         //third determine solve order.
-        let solveOrders: { order: number[], prerequisites: Map<number, SolvePrerequisite> }[] = new Array();
+        let solveOrders: { order: Joint[], prerequisites: Map<number, SolvePrerequisite> }[] = new Array();
         for (let subMechanism of validMechanisms) {
             solveOrders.push(this.determineSolveOrder(subMechanism))
         }
         console.log(`number of solve orders completed: ${solveOrders.length}`);
         console.log(solveOrders);
         //fourth, solve for all of the possible positions for each mechanism.
+
         let positions: Coord[][][] = new Array();
         let correspondingJoints: number[][] = new Array();
         for (let solveOrder of solveOrders) {
-          correspondingJoints.push(solveOrder.order);
-            positions.push(this.getPositions(solveOrder.order, solveOrder.prerequisites));
+          const jointIds: number[] = solveOrder.order.map(joint => joint.id);
+          console.log("here are joint ID's in order" + jointIds)
+          correspondingJoints.push(jointIds);
+            positions.push(this.getPositions(jointIds, solveOrder.prerequisites));
+
         }
         console.log(`number animations completed: ${positions.length}`);
         console.log(positions);
@@ -67,15 +71,20 @@ export class KinematicSolverService {
         return { correspondingJoints: correspondingJoints, positions: positions } as AnimationPositions;
     }
 
-  transformPositionsForChart(positions: Coord[][][], joint: Joint): { xData: any[], yData: any[], timeLabels: string[] } {
-    const xData = [];
+  transformPositionsForChart(animationPositions: AnimationPositions, joint: Joint): { xData: any[], yData: any[], timeLabels: string[] } {
+      const positions = animationPositions.positions;
+      const correspondingJoints = animationPositions.correspondingJoints;
+      const xData = [];
     const yData = [];
     const timeLabels = positions[0].map((_, index) => `${index + 1}`);
 
-    for (let i = 0; i < positions.length; i++) {
-      const mechanismOfI = positions[i];
+    for (let i = 0; i < correspondingJoints.length; i++) {
+      const jointsInMechanismI = correspondingJoints[i];
 
-        let columnOfJointPos: Coord[] = mechanismOfI.map(row => row[joint.id]);
+        if (jointsInMechanismI.includes(joint.id)){
+          let timeStepsforJoints = positions[i];
+          let columnOfJointPos = timeStepsforJoints.map(row => row[jointsInMechanismI.indexOf(joint.id)]);
+
         const xValues = columnOfJointPos.map(coord => coord.x);
         const yValues = columnOfJointPos.map(coord => coord.y);
         console.log("Here are the values being transformed into a chart for joint: " + joint.id + " and name: " + joint.name)
@@ -83,7 +92,7 @@ export class KinematicSolverService {
         console.log(yValues);
         xData.push({data: xValues, label: `X Position of Joint`});
         yData.push({data: yValues, label: `Y Position of Joint`});
-
+        }
     }
 
 
@@ -180,6 +189,8 @@ export class KinematicSolverService {
         let solveMap: Map<number, SolvePrerequisite> = new Map();
         let solveOrder: number[] = new Array();
         let unsolvedJoints: Joint[] = new Array();
+        let jointIdToJointMap: Map<number, Joint> = new Map();
+
 
       //iterate over joints, adding grounded joints to be solved first (since their position doesn't change)
         for (let joint of subMechanism.keys()) {
@@ -199,7 +210,7 @@ export class KinematicSolverService {
             } else {
                 unsolvedJoints.push(joint);
             }
-
+          jointIdToJointMap.set(joint.id, joint);
         }
         //continue to iterate until all joints are solved
         while (unsolvedJoints.length > 0) {
@@ -217,7 +228,12 @@ export class KinematicSolverService {
             }
 
         }
-        return { order: solveOrder, prerequisites: solveMap };
+
+      let solveOrderWithJoints: Joint[] = solveOrder.map(id => jointIdToJointMap.get(id)!);
+      console.log("SolveOrderForJoints: ");
+      for (const joint of solveOrderWithJoints) {
+        console.log(joint.id + " ");
+      }      return { order: solveOrderWithJoints, prerequisites: solveMap };
 
     }
 
