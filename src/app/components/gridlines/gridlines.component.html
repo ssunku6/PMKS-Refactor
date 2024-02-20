@@ -23,7 +23,7 @@
     ></line>
 <!--  Major X Labels-->
     <text 
-        [attr.y]='lineAndLabel.line ' x='0' text-anchor='end'
+        [attr.y]='(lineAndLabel.line-3 * getZoomPan().currentZoom) ' [attr.x]='(getZoomPan().currentZoom * -3)' text-anchor='end'
         [attr.stroke-width]='(5 * getZoomPan().currentZoom)'
         [attr.font-size]='(15 * getZoomPan().currentZoom)'
         style="-webkit-user-select: none;
@@ -35,13 +35,13 @@
 <!--  Major Y Lines-->
 @for (lineAndLabel of getLines(true, false).lines; track $index){
     <line
-        [attr.x1]='lineAndLabel.line' [attr.x2]='lineAndLabel.line' 
+        [attr.x1]='(lineAndLabel.line)' [attr.x2]='lineAndLabel.line' 
         [attr.y1]='getZoomPan().viewBoxY' [attr.y2]='(getZoomPan().viewBoxY+getZoomPan().viewBoxHeight)'
         [attr.stroke-width]='((1 * getZoomPan().currentZoom))' stroke='black'
     ></line>
     <!--  Major Y Labels-->
     <text 
-        [attr.x]='lineAndLabel.line' y='0' text-anchor='end'
+        [attr.x]='(lineAndLabel.line-3 * getZoomPan().currentZoom)' [attr.y]='(getZoomPan().currentZoom * -3)' text-anchor='end'
         [attr.stroke-width]='(5 * getZoomPan().currentZoom)'
         [attr.font-size]='(15 * getZoomPan().currentZoom)'
         style="-webkit-user-select: none;
@@ -67,7 +67,7 @@
     ></line>
 }
 <text 
-        [attr.x]='0' y='0' text-anchor='end'
+        [attr.x]='(getZoomPan().currentZoom * -3)' [attr.y]='(getZoomPan().currentZoom * -3)' text-anchor='end'
         [attr.stroke-width]='(5 * getZoomPan().currentZoom)'
         [attr.font-size]='(15 * getZoomPan().currentZoom)'
         style="-webkit-user-select: none;

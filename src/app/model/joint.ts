@@ -57,7 +57,7 @@ export class Joint {
         return this._type;
     }
     get angle(): number{
-        return this.angle;
+        return this._angle;
     }
 
     get isGrounded(): boolean{

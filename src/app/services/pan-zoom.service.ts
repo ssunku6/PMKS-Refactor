@@ -32,7 +32,7 @@ constructor() {
         windowWidth: window.innerWidth,
         windowHeight: window.innerHeight,
         currentZoom: 2,
-        zoomScale: 1.1
+        zoomScale: 1.02
     }
 
 }

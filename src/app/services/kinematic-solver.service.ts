@@ -227,7 +227,6 @@ export class KinematicSolverService {
                                 } as SolvePrerequisite
                             }
                         } else {
-                            let solveType = knownJointOneType == neighbor.type ? SolveType.CircleCircle : SolveType.CircleLine;
                             return {
                                 jointToSolve: joint,
                                 solveType: SolveType.CircleCircle,
@@ -263,8 +262,7 @@ export class KinematicSolverService {
         positions.push(startingPositions);
 
 
-        while (!(movingForward > 0 && this.returnedToStart(positions) && currentTimeStep != 0) && stuckcounter < 4 && currentTimeStep < 720) {
-            console.log(positions[positions.length - 1]);
+        while (!(movingForward > 0 && this.returnedToStart(positions) && currentTimeStep != 0) && stuckcounter < 5 && currentTimeStep < 720) {
             let nextPositions: Coord[] = new Array();
             for (let i = 0; i < solveOrder.length; i++) {
                 let nextJointPosition = this.solveNextJointPosition(positions[currentTimeStep], solveOrder, solveMap.get(solveOrder[i])!, movingForward, nextPositions);
@@ -289,6 +287,8 @@ export class KinematicSolverService {
         }
         return positions;
     }
+
+
     returnedToStart(positions: Coord[][]): boolean {
         let haveReturned = true;
         let startingPositions: Coord[] = positions[0];
@@ -301,34 +301,25 @@ export class KinematicSolverService {
             }
         }
         return haveReturned;
-
-
     }
 
     private solveNextJointPosition(prevPositions: Coord[], solveOrder: number[], solvePrerequisite: SolvePrerequisite, movingForward: number, nextPositions: Coord[]): Coord | undefined {
         switch (solvePrerequisite.solveType) {
             case SolveType.Ground:
-                console.log("Solving Ground");
                 return solvePrerequisite.jointToSolve._coords;
                 break;
-
             case SolveType.RevoluteInput:
-                console.log("Solving Rev Input");
                 return this.solveRevInput(prevPositions, solveOrder, solvePrerequisite, movingForward);
                 break;
-
             case SolveType.PrismaticInput:
                 return this.solvePrisInput(prevPositions, solveOrder, solvePrerequisite, movingForward);
                 break;
             case SolveType.CircleCircle:
                 return this.solveCircleCircle(prevPositions, solveOrder, solvePrerequisite, movingForward, nextPositions);
-
                 break;
             case SolveType.CircleLine:
-                console.log("Solving Circle Line");
                 return this.solveCircleLine(prevPositions, solveOrder, solvePrerequisite, movingForward, nextPositions);
                 break;
-
         }
         return undefined;
     }
@@ -345,12 +336,10 @@ export class KinematicSolverService {
         return new Coord(x, y);
     }
 
-
-
     private solvePrisInput(prevPositions: Coord[], solveOrder: number[], solvePrerequisite: SolvePrerequisite, movingForward: number): Coord | undefined {
         let input = solvePrerequisite.jointToSolve;
         let prevPosition: Coord = prevPositions[solveOrder.indexOf(input.id)];
-        const increment: number = input.inputSpeed * movingForward ? 0.1 : -0.1;
+        const increment: number = (input.inputSpeed * movingForward) > 0 ? 0.05 : -0.05;
         const angle: number = input.angle;
         const x = prevPosition.x + increment * Math.cos(angle);
         const y = prevPosition.y + increment * Math.sin(angle);
@@ -435,6 +424,7 @@ export class KinematicSolverService {
         const r = solvePrerequisite.distFromKnownJointOne!;
         const h = nextPositions[solveOrder.indexOf(solvePrerequisite.knownJointOne!.id)!].x;
         const k = nextPositions[solveOrder.indexOf(solvePrerequisite.knownJointOne!.id)!].y;
+
         let m = Math.tan(solvePrerequisite.jointToSolve!.angle * Math.PI / 180);
         if (m > 1000 || m < -1000) {
             m = Number.MAX_VALUE;
