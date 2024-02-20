@@ -9,15 +9,17 @@ export class CompoundLink{
     private _mass: number;
     private _centerOfMass: Coord;
     private _links: Map<number, Link>;
+    private _isLocked: boolean;
 
 
     constructor(id: number, linkA: Link, linkB: Link);
     constructor(id: number, links: Link[]);
     constructor(id: number, linkAORLinks: Link | Link[], linkB?: Link){
         this._id = id;
-        this._name = '';
+        this._name = id as unknown as string;
         this._mass = 0;
         this._links = new Map();
+        this._isLocked = true;
         //currently reference to array, may need to make a deep copy later
         if(Array.isArray(linkAORLinks)){
             linkAORLinks.forEach(link =>{
@@ -29,6 +31,9 @@ export class CompoundLink{
         } else {
             throw new Error("Invalid Constructor Parameters");
         }
+      this._links.forEach((link: Link, key: number) => {
+        link.locked = true; // Assuming there is a method like lockLink in your Link class
+      });
         this._centerOfMass = this.calculateCenterOfMass();
     }
      //getters
@@ -50,6 +55,9 @@ export class CompoundLink{
     get links(): Map<number, Link>{
         return this._links;
     }
+    get lock(): boolean {
+      return this._isLocked;
+    }
     //setters
     set name(value: string) {
         this._name = value;
@@ -58,6 +66,9 @@ export class CompoundLink{
     set mass(value: number) {
         this._mass = value;
     }
+  set lock(value: boolean) {
+      this._isLocked = value;
+  }
     //TODO: complete secondary information calculations and modifications
     calculateCenterOfMass(): Coord{
         return new Coord(0,0);
@@ -66,7 +77,11 @@ export class CompoundLink{
         this._links.set(newLink.id,newLink);
         this.calculateCenterOfMass();
     }
-    
+
+    updateLockState(value: boolean) {
+      this.lock = value;
+    }
+
     removeLink(idORRef: number | Link){
         if(typeof idORRef === 'number'){
             this._links.delete(idORRef);
@@ -108,8 +123,6 @@ export class CompoundLink{
         }
     }
 
-
-
     compoundLinkAfterRemoveWeld(joint: Joint, idCount: number): CompoundLink[]{
         let replacementCompoundLinks: CompoundLink[] = [];
         let count:number = idCount
@@ -119,9 +132,10 @@ export class CompoundLink{
         weldedSets.delete(joint);
         const visitedLinks: Link[] = [];
         for(const [weldedJoint,links] of weldedSets){
-            const compound: Link[] = []; 
+            const compound: Link[] = [];
             if(links.some(link => !visitedLinks.includes(link))){
                 this.DepthFirstSearch(weldedJoint,weldedSets,compound, visitedLinks);
+
                 replacementCompoundLinks.push(new CompoundLink(count,compound));
                 count++;
             }
@@ -158,5 +172,5 @@ export class CompoundLink{
             }
         }
     }
-   
+
 }

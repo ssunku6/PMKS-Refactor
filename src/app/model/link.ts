@@ -1,6 +1,6 @@
-import { Coord } from '../model/coord'
-import { Joint } from '../model/joint'
-import { Force } from '../model/force'
+import {Coord} from '../model/coord'
+import {Joint} from '../model/joint'
+import {Force} from '../model/force'
 
 export class Link {
     private _id: number;
@@ -10,6 +10,7 @@ export class Link {
     private _joints: Map<number, Joint>;
     private _forces: Map<number, Force>;
     private _color: string = "";
+    private _isLocked: boolean;
 
     private linkColorOptions = [
         '#727FD5',
@@ -35,6 +36,7 @@ export class Link {
         this._forces = new Map();
         this._joints = new Map();
         this._color = this.linkColorOptions[id % this.linkColorOptions.length];
+        this._isLocked = false;
 
         if(Array.isArray(jointAORJoints)){
             jointAORJoints.forEach(joint => {
@@ -76,6 +78,10 @@ export class Link {
     get forces(): Map<number,Force> {
         return this._forces;
     }
+    get locked(): boolean {
+        return this._isLocked;
+    }
+
     //setters
     set name(value: string) {
         this._name = value;
@@ -85,11 +91,27 @@ export class Link {
         this._mass = value;
     }
 
+    set locked(value: boolean) {
+        this._isLocked = value;
+        this.updateLocks(value);
+    }
+
 
     //TODO: complete secondary information calculations and modifications
     addTracer(newJoint: Joint){
         this._joints.set(newJoint.id,newJoint);
         this.calculateCenterOfMass();
+    }
+
+    // update all of the locks i.e. subjoints need to lock when the link is locked,
+    // and unlock when the link is unlocked
+    updateLocks(value: boolean){
+        console.log('Updating lock in link')
+        this._joints.forEach((joint: Joint, key: number) => {
+            // Your logic for updating locks for each joint goes here
+            joint.locked = value;
+            console.log(`Joint ${key}: ${joint}`);
+        });
     }
 
     removeJoint(idORRef: number | Joint){
@@ -142,22 +164,151 @@ export class Link {
         return new Coord(centerX, centerY);
     }
 
-    calculateLength(): number{
-        return 0;
+    // find the first two non-null joints of a link. Do pythagorean math to find length
+    calculateLength(): number | null{
+        // Get the first two non-empty keys from the joints map
+        const jointKeys = Array.from(this.joints.keys()).filter(key => {
+            const joint = this.joints.get(key);
+            return joint !== null && joint !== undefined;
+        }).slice(0, 2);
+
+        // Retrieve the joints using the keys
+        const jointOne = this.joints.get(jointKeys[0]);
+        const jointTwo = this.joints.get(jointKeys[1]);
+        if(jointOne && jointTwo) {
+            let vectorX = Math.abs(jointOne?.coords.x - jointTwo?.coords.x);
+            let vectorY = Math.abs(jointOne?.coords.y - jointTwo?.coords.y);
+            let hypotenuse = (vectorX * vectorX) + (vectorY * vectorY);
+            return Math.sqrt(hypotenuse);
+        }
+        else {
+            return null;
+        }
     }
 
-    calculateAngle(): number{
-        return 0;
+    // find the first tow non-empty joints in map. Calculate angle between them
+    // using trigonometry (arctan)
+    calculateAngle(): number | null {
+        // Get the first two non-empty keys from the joints map
+        const jointKeys = Array.from(this.joints.keys()).filter(key => {
+            const joint = this.joints.get(key);
+            return joint !== null && joint !== undefined;
+        }).slice(0, 2);
+
+        // Retrieve the joints using the keys
+        const jointOne = this.joints.get(jointKeys[0]);
+        const jointTwo = this.joints.get(jointKeys[1]);
+
+        if (jointOne && jointTwo) {
+            // Calculate the differences in x and y coordinates
+            const vectorX = jointTwo.coords.x - jointOne.coords.x;
+            const vectorY = jointTwo.coords.y - jointOne.coords.y;
+
+            // Calculate the angle using arctangent
+            const angleInRadians = Math.atan2(vectorY, vectorX);
+
+            // Convert the angle to degrees
+            let angleInDegrees = angleInRadians * (180 / Math.PI);
+
+            // Ensure the angle is in the range of +180 to -180 degrees
+            if (angleInDegrees > 180) {
+                angleInDegrees -= 360;
+            } else if (angleInDegrees < -180) {
+                angleInDegrees += 360;
+            }
+
+            return angleInDegrees;
+        } else {
+            // Handle the case where one or both joints are not found
+            return null; // or throw an error, return NaN, or handle it based on your requirements
+        }
     }
 
-    setAngle(newAngle: number){
+    // set length uses vector scaling to set the new distance at the same angle
+    setLength(newLength: number, refJoint: Joint) {
+      // Get the first two non-empty keys from the joints map
+      const jointKeys = Array.from(this.joints.keys()).filter(key => {
+        const joint = this.joints.get(key);
+        return joint !== null && joint !== undefined;
+      }).slice(0, 2);
 
+      // Retrieve the joints using the keys
+      let jointOne = this.joints.get(jointKeys[0]);
+      let jointTwo = this.joints.get(jointKeys[1]);
+
+      // Calculate the current length
+      const currentLength = this.calculateLength();
+
+      if (jointOne && jointTwo && currentLength) {
+
+        // handle the reference joint ID not being the first joint
+        if(refJoint.id == jointTwo.id){
+          let placeholderJoint = jointOne;
+          jointOne = jointTwo;
+          jointTwo = placeholderJoint;
+        }
+
+        // Calculate the scaling factor to achieve the new length
+        const scalingFactor = newLength / currentLength;
+
+        // Calculate the vector between the two joints
+        const vectorX = jointTwo.coords.x - jointOne.coords.x;
+        const vectorY = jointTwo.coords.y - jointOne.coords.y;
+
+        // Scale the vector
+        const scaledVectorX = vectorX * scalingFactor;
+        const scaledVectorY = vectorY * scalingFactor;
+
+        // Update the coordinates of jointTwo to achieve the new length
+        jointTwo.coords.x = jointOne.coords.x + scaledVectorX;
+        jointTwo.coords.y = jointOne.coords.y + scaledVectorY;
+
+      }
     }
 
-    setLength(newLength: number){
+    // set angle uses trig to caluclate the new x and y coordinates along the same distance
+    setAngle(newAngle: number, refJoint: Joint){
+      // Get the first two non-empty keys from the joints map
+      const jointKeys = Array.from(this.joints.keys()).filter(key => {
+        const joint = this.joints.get(key);
+        return joint !== null && joint !== undefined;
+      }).slice(0, 2);
 
+      // Retrieve the joints using the keys
+      let jointOne = this.joints.get(jointKeys[0]);
+      let jointTwo = this.joints.get(jointKeys[1]);
+
+      // if the value of current angle is 0, program breaks, so add a miniscule amount to it
+      const currentAngle = (this.calculateAngle() as number) + 0.000000001;
+      const currentDistance = this.calculateLength();
+      if (jointOne && jointTwo && currentAngle && currentDistance) {
+
+        // handle the reference joint ID not being the first joint
+        if(refJoint.id == jointTwo.id){
+          let placeholderJoint = jointOne;
+          jointOne = jointTwo;
+          jointTwo = placeholderJoint;
+        }
+
+
+        // Calculate the angle difference
+        const angleDifference = newAngle - currentAngle;
+
+        // Convert currentAngle to radians
+        const currentAngleInRadians = (currentAngle * Math.PI) / 180;
+
+        // Calculate the new angle in radians
+        let angleInRadians = (angleDifference * Math.PI) / 180;
+
+        // Calculate the new coordinates of jointTwo
+        const newX = jointOne.coords.x + currentDistance * Math.cos(currentAngleInRadians + angleInRadians);
+        const newY = jointOne.coords.y + currentDistance * Math.sin(currentAngleInRadians + angleInRadians);
+
+        // Update the coordinates of jointTwo
+        jointTwo.coords.x = newX;
+        jointTwo.coords.y = newY;
+      }
     }
-
     containsJoint(idORRef: number | Joint):boolean{
         let id: number;
         if(typeof idORRef === 'number'){

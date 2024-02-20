@@ -22,12 +22,20 @@
 }
 
 .input-section {
-  margin-right: 10px; /* Adjust the margin as needed */
+  margin-right: 10px;
 }
+
+.disabled-input {
+  pointer-events: none;
+  background-color: #f0f0f0;
+  color: #a0a0a0;
+  cursor: not-allowed;
+}
+
 input {
   width: 30%;
 }
 
 label {
-  margin-right: 5px; /* Adjust the margin as needed */
+  margin-right: 5px;
 }

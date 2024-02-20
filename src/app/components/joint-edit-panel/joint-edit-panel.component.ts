@@ -22,7 +22,7 @@ interface Tab {
 export class jointEditPanelComponent {
 
   graphExpanded: { [key: string]: boolean } = {
-    basicBasic: false,
+    basicBasic: true,
     basicVisual: false,
     advancedSettingsBasic: false,
     advancedSettingsVisual: false
@@ -35,8 +35,17 @@ export class jointEditPanelComponent {
   }
 
   getMechanism(): Mechanism {return this.stateService.getMechanism();}
-  getCurrentJoint(){
+  getCurrentJoint() {
     let currentJointInteractor = this.interactorService.getSelectedObject();
+
+    // check the lock- disable dragging if the joint is locked, enable it if not
+    if (currentJointInteractor) {
+      if ((currentJointInteractor as JointInteractor).getJoint().locked) {
+        console.log("Cannot drag current selected joint!")
+        currentJointInteractor.draggable = false;
+      }
+      else{ currentJointInteractor.draggable = true; }
+    }
     return (currentJointInteractor as JointInteractor).getJoint();
   }
   getJointName(): string {return this.getCurrentJoint().name;}
@@ -69,11 +78,40 @@ export class jointEditPanelComponent {
   setJointXCoord(xCoordInput: number): void {this.getMechanism().setXCoord(this.getCurrentJoint().id, xCoordInput);}
   setJointYCoord(yCoordInput: number): void {this.getMechanism().setYCoord(this.getCurrentJoint().id, yCoordInput);}
 
+  getJointLockState(): boolean {
+    return this.getCurrentJoint().locked;
+  }
+
   // geteLinksForJoint and getConnectedJoints are both used to dynamically
   // view and modify the connected joints in a mechanism. Is sent to a loop of
   // dual input blocks in the HTML, that's created by looping through all of the
   // connected joints
-  getLinksForJoint(): IterableIterator<Link> {return this.getMechanism().getConnectedLinksForJoint(this.getCurrentJoint()).values();}
+  getLinksForJoint(): IterableIterator<Link> {
+    return this.getMechanism().getConnectedLinksForJoint(this.getCurrentJoint()).values();
+  }
+
+  // Function utilized in conjunction with dual input blocks to change the angle of the current
+  // joint (the first parameter) in relation to the second joint (the second parameter).
+  changeJointAngle(notCurrentJoint: number, newAngle: number): void {
+    for (const link of this.getLinksForJoint()) {
+      const jointIds = Array.from(link.joints.keys());
+      if (jointIds.includes(notCurrentJoint)) {
+        link.setAngle(newAngle, this.getCurrentJoint());
+      }
+    }
+  }
+
+  // Function utilized in conjunction with dual input blocks to change the distance of the current
+  // joint (the first parameter) in relation to the second joint (the second parameter).
+  changeJointDistance(notCurrentJoint: number, newDistance: number): void {
+    for (const link of this.getLinksForJoint()) {
+      const jointIds = Array.from(link.joints.keys());
+      if (jointIds.includes(notCurrentJoint)) {
+        link.setLength(newDistance, this.getCurrentJoint());
+      }
+    }
+  }
+
   getConnectedJoints(): Joint[] {
     const connectedLinks: Link[] = Array.from(this.getLinksForJoint());
     const allJoints: Joint[] = connectedLinks.reduce(
@@ -88,19 +126,33 @@ export class jointEditPanelComponent {
     return allJoints;
   }
 
-  // Function utilized in conjunction with dual input blocks to change the angle of the current
-  // joint (the first parameter) in relation to the second joint (the second parameter).
-  // TODO does not currently work. need to account for several joints. is placeholder!
-  changeJointAngle(jointIDReference: number, newAngle: number): void {
-    console.log("changing angle from this joint ", jointIDReference, " to this angle ", newAngle);
-    this.getMechanism().setAngleToJoint(this.getCurrentJoint().id, jointIDReference, newAngle);
+  getJointDistance(otherJoint: Joint): number{
+    let currentJoint = this.getCurrentJoint();
+    let xDiff = otherJoint.coords.x - currentJoint.coords.x;
+    let yDiff = otherJoint.coords.y - currentJoint.coords.y;
+
+    let hypotenuse = (xDiff*xDiff) + (yDiff*yDiff);
+    return Math.sqrt(hypotenuse);
   }
-  // Function utilized in conjunction with dual input blocks to change the distance of the current
-  // joint (the first parameter) in relation to the second joint (the second parameter).
-  // TODO does not currently work. need to account for several joints. is placeholder!
-  changeJointDistance(jointIDReference: number, newDistance: number): void {
-    console.log("changing distance from this joint ", jointIDReference, " to this distance ", newDistance);
-    this.getMechanism().setDistanceToJoint(this.getCurrentJoint().id, jointIDReference, newDistance);
+
+  getJointAngle(otherJoint: Joint): number{
+
+    let currentJoint = this.getCurrentJoint();
+    let xDiff = otherJoint.coords.x - currentJoint.coords.x;
+    let yDiff = otherJoint.coords.y - currentJoint.coords.y;
+    // Calculate the angle using arctangent
+    const angleInRadians = Math.atan2(yDiff, xDiff);
+
+    // Convert the angle to degrees
+    let angleInDegrees = angleInRadians * (180 / Math.PI);
+
+    // Ensure the angle is in the range of +180 to -180 degrees
+    if (angleInDegrees > 180) {
+      angleInDegrees -= 360;
+    } else if (angleInDegrees < -180) {
+      angleInDegrees += 360;
+    }
+    return angleInDegrees;
   }
 
   // handleToggleGroundChanged is used by the edit panel implementation of a toggle block

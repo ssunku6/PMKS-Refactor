@@ -15,6 +15,7 @@ export class Joint {
     private _isInput: boolean;
     private _inputSpeed: number;
     private _isWelded: boolean;
+    private _parentLocked: boolean;
 
 
 
@@ -30,6 +31,7 @@ export class Joint {
         this._isInput = false;
         this._isWelded = false;
         this._inputSpeed = 0;
+        this._parentLocked = false;
 
         if(typeof xORCoord === 'number' && y !== undefined)
         {
@@ -75,6 +77,9 @@ export class Joint {
     get isWelded(): boolean{
         return this._isWelded;
     }
+    get locked(): boolean{
+        return this._parentLocked;
+    }
     //----------------------------setters----------------------------
     set name(newName: string){
         this._name = newName;
@@ -86,6 +91,9 @@ export class Joint {
 
     set speed(newSpeed: number){
         this._inputSpeed = newSpeed;
+    }
+    set locked(value: boolean){
+        this._parentLocked = value;
     }
 
     //----------------------------Joint Modification with modifying other variables----------------------------
@@ -130,6 +138,13 @@ export class Joint {
         this._type = JointType.Revolute;
     }
 
+    addLock() {
+        console.log('setting lock in child')
+        this._parentLocked = true;
+    }
+    breakLock() {
+        this._parentLocked = false;
+    }
 
 
 
@@ -170,6 +185,13 @@ export class Joint {
     canRemoveSlider(): boolean {
         return true;
     }
+    canLock(): boolean{
+        return true;
+    }
+    canUnlock(): boolean{
+        return true;
+    }
+
     //----------------------------Joint Alteration Relative to other Joints----------------------------
     setDistancetoJoint(newDistance: number, jointRef: Joint){
 

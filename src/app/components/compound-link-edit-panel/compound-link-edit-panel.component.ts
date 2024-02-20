@@ -10,15 +10,17 @@ import { ColorService } from 'src/app/services/color.service';
 import { FormControl, FormGroup } from "@angular/forms";
 import { LinkComponent } from '../link/link.component';
 import { Coord } from 'src/app/model/coord';
+import {CompoundLinkInteractor} from "../../interactions/compound-link-interactor";
+import {CompoundLink} from "../../model/compound-link";
 
 
 @Component({
-    selector: 'app-link-edit-panel',
-    templateUrl: './link-edit-panel.component.html',
-    styleUrls: ['./link-edit-panel.component.scss'],
+    selector: 'app-compound-link-edit-panel',
+    templateUrl: './compound-link-edit-panel.component.html',
+    styleUrls: ['./compound-link-edit-panel.component.scss'],
 
 })
-export class LinkEditPanelComponent{
+export class CompoundLinkEditPanelComponent {
 
     sectionExpanded: { [key: string]: boolean } = {
         LBasic: true,
@@ -30,89 +32,62 @@ export class LinkEditPanelComponent{
         FVisual: false,
       };
       isEditingTitle: boolean = false;
-      isLocked: boolean = this.getSelectedObject().locked;
       selectedIndex: number = this.getColorIndex();
 
     constructor(private stateService: StateService, private interactionService: InteractionService, private colorService: ColorService){
 
     }
 
-    getSelectedObject(): Link{
-        let link = this.interactionService.getSelectedObject() as LinkInteractor;
-        return link.getLink();
+    getSelectedObject(): CompoundLink {
+        let compoundLink = this.interactionService.getSelectedObject() as CompoundLinkInteractor;
+        return compoundLink.compoundLink as CompoundLink;
     }
 
-    lockLink(): void {
-        this.isLocked = !this.isLocked;
-        console.log('Setting in link edit panel')
-        this.getSelectedObject().locked = this.isLocked;
+    getAllConnectedLinks(): IterableIterator<Link> {
+        let compoundLink = this.getSelectedObject();
+        return compoundLink.links.values();
     }
 
-    getLinkLength(): number{
+    getLinkLength(currentLink: Link): number{
         // @ts-ignore
-        return this.getSelectedObject().calculateLength().toFixed(4) as unknown as number;
+        return currentLink.calculateLength()?.toFixed(4) as unknown as number;
     }
-    getLinkAngle(): number{
-        // @ts-ignore
-        return this.getSelectedObject().calculateAngle().toFixed(4) as unknown as number;
+    getLinkAngle(currentLink: Link): number{
+        return currentLink.calculateAngle()?.toFixed(4) as unknown as number;
     }
 
-    getLinkJoints(): Map<number, Joint>{
-        return this.getSelectedObject().joints;
+    getLinkJoints(currentLink: Link): Map<number, Joint>{
+        return currentLink.joints;
     }
 
     //Returns the joints contained in a link.
-    getLinkComponents():IterableIterator<Joint>{
-        //console.log(this.getLinkJoints());
-        return this.getLinkJoints().values();
+    getLinkComponents(currentLink: Link): IterableIterator<Joint>{
+        return this.getLinkJoints(currentLink).values();
     }
 
-    getLinkName(): string{
+    getCompoundLinkName(): string{
         return this.getSelectedObject().name;
     }
-    setLinkLength(newLength: number): void{
-      let refJoint = this.getSelectedObject().joints.get(0);
-      for (const joint of this.getSelectedObject().joints.values()) {
-        if (joint !== null && joint !== undefined) {
-          refJoint = joint;
-          break;
-        }
-      }
-      if(refJoint) {
-        console.log("Reference joint ID: " + refJoint.id)
-        this.getSelectedObject().setLength(newLength, refJoint);
-      }
-    }
-    setLinkAngle(newAngle: number): void{
-      let refJoint = this.getSelectedObject().joints.get(0);
-      for (const joint of this.getSelectedObject().joints.values()) {
-        if (joint !== null && joint !== undefined) {
-          refJoint = joint;
-          break;
-        }
-      }
-      if(refJoint) {
-        console.log("Reference joint ID: " + refJoint.id)
-        this.getSelectedObject().setAngle(newAngle, refJoint);
-      }
+    getCompoundLinkLockState(): boolean{
+      return this.getSelectedObject().lock;
     }
 
-
-    setLinkName(newName: string){
+    setCompoundLinkName(newName: string){
         this.getSelectedObject().name = newName;
         console.log("it set the new name " + this.getSelectedObject().name);
         this.isEditingTitle=false;
     }
 
+    /*
     addTracer(): void{
         let CoM = this.getSelectedObject().centerOfMass;
         let tracer = Joint.constructor(-1, CoM);
         this.getSelectedObject().addTracer(tracer);
     }
+     */
 
-    deleteLink(){
-        console.log("link " + this.getSelectedObject().id + " has been deleted")
-        this.stateService.getMechanism().removeLink(this.getSelectedObject().id);
+    deleteCompoundLink(){
+        this.stateService.getMechanism().removeCompoundLink(this.getSelectedObject());
     }
 
     onTitleBlockClick(event: MouseEvent): void {
@@ -133,19 +108,24 @@ export class LinkEditPanelComponent{
         return this.colorService.getLinkColorOptions();
     }
 
+    /*
     getColor(): string{
         return this.getSelectedObject().color;
     }
+     */
 
     getColorIndex(): number{
         return this.colorService.getLinkColorIndex(this.getSelectedObject().id);
     }
 
+    /*
     //TODO
-    setLinkColor(newColor: number){
+    setCompoundLinkColor(newColor: number){
         console.log(newColor);
         this.getSelectedObject().setColor(newColor);
         this.selectedIndex=newColor;
     }
+     */
+
 
 }

@@ -25,22 +25,18 @@
     width:100%;
   }
 
-.disabled-panel {
-  opacity: 0.5; /* Adjust the opacity to control the greying out effect */
-  pointer-events: none; /* Disable user interactions */
-}
-
   .flex-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
   }
-  /*
-  .flex-container > * {
-    margin: 5px;
-  }
-  */
+
+.disabled-panel {
+  opacity: 0.5; /* Adjust the opacity to control the greying out effect */
+  pointer-events: none; /* Disable user interactions */
+}
+
   .left-aligned {
     margin-right: auto; /* Pushes this element to the left */
   }

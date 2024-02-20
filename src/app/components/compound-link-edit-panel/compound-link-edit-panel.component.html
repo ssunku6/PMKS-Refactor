@@ -3,62 +3,55 @@
     <!--  Name does not work because no name is set-->
       <panel-section-collapsible>
     <title-block icon='expand_more' description='' class="editHeader" (click)="onTitleBlockClick($event)">
-      Edit Link
+      Edit Compound Link
       <ng-container *ngIf="isEditingTitle; else linkNameDisplay">
-    <input #linkNameInput [(ngModel)]="this.getSelectedObject().name" (blur)="setLinkName(linkNameInput.value)" (keyup.enter)="setLinkName(linkNameInput.value)"/>
+    <input #linkNameInput [(ngModel)]="this.getSelectedObject().name" (blur)="setCompoundLinkName(linkNameInput.value)" (keyup.enter)="setCompoundLinkName(linkNameInput.value)"/>
   </ng-container>
   <ng-template #linkNameDisplay>
-    {{ this.getLinkName() }}
+    {{ this.getCompoundLinkName() }}
   </ng-template>
   <button (click)="this.isEditingTitle=true">
     <img src='assets/icons/edit.svg' style="height: 20px; width: 20px;"/>
   </button>
-  <button (click)="this.deleteLink()">
+  <button (click)="this.deleteCompoundLink()">
     <img src='assets/icons/trash.svg' style="height: 20px; width: 20px;"/>
   </button>
-        <button (click)="this.lockLink()">
-          <ng-container *ngIf="isLocked; else unlockIcon">
-            <img src='assets/icons/unlock.svg' style="height: 20px; width: 20px;"/>
-          </ng-container>
-          <ng-template #unlockIcon>
-            <img src='assets/icons/lock.svg' style="height: 20px; width: 20px;"/>
-          </ng-template>
-        </button>
+
     </title-block>
-    <p>This is where you edit Links. Change things such as the position.</p>
-      </panel-section-collapsible >
-
-<div id="body" [class.disabled-panel]="isLocked">
-
+    <p>COMPOUND LINK EDIT PANEL WAHOO</p>
+      </panel-section-collapsible>
+    <div id="body" [class.disabled-panel]="getCompoundLinkLockState()">
       <!-- BASIC SETTING DROPDOWN -->
-      <collapsible-subsection [expanded]='true' titleLabel='Basic Settings' [expanded]="sectionExpanded['LBasic']"
+      <collapsible-subsection titleLabel='Basic Settings' [expanded]="sectionExpanded['LBasic'] || getCompoundLinkLockState()"
             (opened)="sectionExpanded['LBasic'] = true"
             (closed)="sectionExpanded['LBasic'] = false">
             <div>
+                <div *ngFor='let link of getAllConnectedLinks(); let i = index;'>
             <dual-input-block id="lengthAndAngle"
-              [input1Value]="getLinkLength()"
-              [input2Value]="getLinkAngle()"
-              (input1Change)="setLinkLength($event)"
-              (input2Change)="setLinkAngle($event)"
+                              [disabled]=true
+              [input1Value]="getLinkLength(link)"
+              [input2Value]="getLinkAngle(link)"
                 label1=""
                 label2="⊾"
-                tooltip = "Enter the length and angle of the link">
-                Link Length and Angle
+                tooltip = "The length and angle of the link">
+                Link {{ link.name }} Length and Angle
             </dual-input-block>
-              <dual-button btn1Text="Add Tracer" btn2Text="Add Force"
-              [btn1Action]="addTracer" ></dual-button>
+                </div>
+                <!--<dual-button btn1Text="Add Tracer" btn2Text="Add Force" [btn1Action]="addTracer" ></dual-button> -->
+
             </div>
       </collapsible-subsection>
 
       <!-- COMPONENTS DROPDOWN -->
-      <collapsible-subsection [expanded]='true' titleLabel='Components' [expanded]="sectionExpanded['LComponent']"
+      <collapsible-subsection titleLabel='Components' [expanded]="sectionExpanded['LComponent'] || getCompoundLinkLockState()"
             (opened)="sectionExpanded['LComponent'] = true"
             (closed)="sectionExpanded['LComponent'] = false">
             <div id="linkComponents">
               <p>Components</p>
               <!--{{this.getLinkComponents()}} -->
               <div id="container">
-                <div *ngFor='let joint of getLinkComponents(); let i = index;'>
+                  <div *ngFor='let link of getAllConnectedLinks(); let i = index;'>
+                <div *ngFor='let joint of getLinkComponents(link); let i = index;'>
                   <dual-input-block
                     [input1Value]="this.roundToFour(joint.coords.x)"
                     [input2Value]="this.roundToFour(joint.coords.y)"
@@ -70,6 +63,7 @@
                     Joint {{ joint.name }}:
                   </dual-input-block>
                 </div>
+                  </div>
                 </div>
               </div>
       </collapsible-subsection>
@@ -79,15 +73,15 @@
         <div>
         <p class="colors">Link Color:</p>
         <div class="row">
+            <!--
         <div *ngFor='let color of getColors(); let i=index' class="colors"
                [style.backgroundColor]='color'
-               (click)='setLinkColor(i)'>
-            <!-- Use an *ngIf directive to show a check mark if the color is selected -->
+               (click)='setLinkColor(i, link)'>
             <mat-icon *ngIf='selectedIndex === i' style="color:white">check</mat-icon>
           </div>
+          -->
         </div>
     </div>
       </collapsible-subsection>
-</div>
-
-</div>
+      </div>
+    </div>

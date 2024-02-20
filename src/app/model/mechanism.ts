@@ -72,6 +72,10 @@ export class Mechanism {
             console.error(`Joint with ID ${jointID} ${errorMsg}`);
             return false;
         }
+        if(joint.locked && successMsg !== 'unwelded'){
+            console.error(`Joint with ID ${jointID} is locked`)
+            return false;
+        }
 
         try {
             action(joint);
@@ -91,7 +95,7 @@ export class Mechanism {
      * @memberof Mechanism
      */
     addWeld(jointID: number) {
-        this.executeJointAction(jointID,  joint => joint.canAddWeld(), 'cannot become welded', 'has been successfully welded', joint => {
+        this.executeJointAction(jointID,  joint => joint.canAddWeld(), 'cannot become welded', 'successfully welded', joint => {
             joint.addWeld();
             //cascade effects into affected links, compound links,
             let connectedLinks: Link[] = this.getConnectedLinksForJoint(joint);
@@ -107,6 +111,7 @@ export class Mechanism {
                 let compoundLink: CompoundLink = new CompoundLink(this._idCount,connectedLinks);
                 this._idCount++;
                 this._compoundLinks.set(compoundLink.id,compoundLink);
+                compoundLink
             //if part of one or more compoundLink, combine them and add any other existing links
             } else if(connectedCompoundLinks.length >= 1){
                 for(let compoundLink of connectedCompoundLinks){
@@ -132,21 +137,40 @@ export class Mechanism {
      * @memberof Mechanism
      */
     removeWeld(jointID: number) {
-        this.executeJointAction(jointID, joint => joint.canRemoveWeld(), 'cannot become unwelded', 'has been successfully unwelded', joint => {
+        this.executeJointAction(jointID, joint => joint.canRemoveWeld(), 'cannot become unwelded', 'unwelded', joint => {
             joint.removeWeld();
             //cascade effects into affected links, compound links, and forces
             let connectedCompoundLinks: CompoundLink[] = this.getConnectedCompoundLinks(joint);
+
+
             for(let compoundLink of connectedCompoundLinks){
+                console.log("compound links being checked")
                 let newCompoundLinks: CompoundLink[] = compoundLink.compoundLinkAfterRemoveWeld(joint, this._idCount);
                 this._compoundLinks.delete(compoundLink.id);
+
+                // Unlock every link that isn't part of a compound link
+                this.unlockNonCompoundLinks();
+
                 for(let link of newCompoundLinks){
                     this._compoundLinks.set(link.id,link);
                     this._idCount++;
                 }
             }
         });
-
     }
+
+  private unlockNonCompoundLinks(): void {
+    for (let link of this._links.values()) {
+      let isPartOfCompoundLink = Array.from(
+        this._compoundLinks.values()).some(compoundLink => compoundLink.links.has(link.id));
+      console.log("Unlocking non-compound link:" + link.name);
+      if (!isPartOfCompoundLink) {
+        console.log("Link is not part of compound: " + link.name);
+        // Assuming you have a method to unlock the link, adjust accordingly
+        link.locked=false;
+      }
+    }
+  }
     /**
      *  Given a joint's ID, turns the joint into a prismatic-revolute joint with a slider and angle.
      *
@@ -202,6 +226,15 @@ export class Mechanism {
     removeInput(jointID: number) {
         this.executeJointAction(jointID, joint => joint.canRemoveInput(), 'cannot have its input removed', 'input removed successfully', joint => joint.removeInput());
     }
+
+
+    lockJoint(jointID: number) {
+        this.executeJointAction(jointID, joint => joint.canLock(), 'cannot be locked', 'successfully locked', joint => joint.addLock());
+    }
+    unlockJoint(joint: Joint) {
+        joint.breakLock();
+    }
+
     /**
      * Given a joint's ID, and a Coordinate, creates a new joint with the coordinate, and a new Link containing the passed Joint, and the new joint.
      * TODO: Account for creating a link between two joints
@@ -286,6 +319,13 @@ export class Mechanism {
     canRemoveSlider(joint: Joint): boolean{
         return joint.canRemoveSlider()
     }
+    canLock(joint: Joint): boolean{
+        return joint.canLock()
+    }
+    canUnlock(joint: Joint): boolean{
+        return joint.canUnlock()
+    }
+
     //----------------------------JOINT EDIT MENU ACTIONS----------------------------
     /**
      * Changes the name of a Joint given its ID and new name.
@@ -486,6 +526,15 @@ export class Mechanism {
             }
         }
     }
+
+    // first removes every link within the compound link, then the compound link itself
+    public removeCompoundLink (compoundLink: CompoundLink) {
+      for(let link of compoundLink.links.values()) {
+        this.removeLink(link.id);
+      }
+      this._compoundLinks.delete(compoundLink.id);
+    }
+
     private removeLinkCascadeCompoundLinks(link: Link){
         let compoundLink: CompoundLink | undefined;
         compoundLink = undefined;
@@ -525,9 +574,11 @@ export class Mechanism {
      * @param {number} newLength
      * @memberof Mechanism
      */
+    /*
     setLinkLength(linkID: number, newLength: number) {
         this.executeLinkAction(linkID, link => {link.setLength(newLength);});
     }
+     */
     /**
      * Sets the angle of a link relative to the x axis, while maintaining its length given its ID.
      *
@@ -535,9 +586,11 @@ export class Mechanism {
      * @param {number} newAngle
      * @memberof Mechanism
      */
+    /*
     setLinkAngle(linkID: number, newAngle: number) {
-        this.executeLinkAction(linkID, link => {link.setAngle(newAngle);});
+        this.executeLinkAction(linkID, link => {link.setAngle(newAngle, refJoint);});
     }
+     */
     /**
      * Changes the mass of a specified Link
      *
