@@ -67,28 +67,25 @@ export class KinematicSolverService {
         return { correspondingJoints: correspondingJoints, positions: positions } as AnimationPositions;
     }
 
-
-  transformPositionsForChart(positions: Coord[][][]): { xData: any[], yData: any[], timeLabels: string[] } {
+  transformPositionsForChart(positions: Coord[][][], joint: Joint): { xData: any[], yData: any[], timeLabels: string[] } {
     const xData = [];
     const yData = [];
-    const timeLabels = [];
+    const timeLabels = positions[0].map((_, index) => `${index + 1}`);
 
     for (let i = 0; i < positions.length; i++) {
-      const timeStepData = positions[i];
+      const mechanismOfI = positions[i];
 
-      const flattenedTimeStepData = timeStepData.flat();
+        let columnOfJointPos: Coord[] = mechanismOfI.map(row => row[joint.id]);
+        const xValues = columnOfJointPos.map(coord => coord.x);
+        const yValues = columnOfJointPos.map(coord => coord.y);
+        console.log("Here are the values being transformed into a chart for joint: " + joint.id + " and name: " + joint.name)
+        console.log(xValues);
+        console.log(yValues);
+        xData.push({data: xValues, label: `X Position of Joint`});
+        yData.push({data: yValues, label: `Y Position of Joint`});
 
-
-      const xValues = flattenedTimeStepData.map(coord => coord.x);
-      const yValues = flattenedTimeStepData.map(coord => coord.y);
-      console.log("Here are the values being transformed into a chart")
-      console.log(xValues);
-      console.log(yValues);
-
-      xData.push({ data: xValues, label: `X Position of Joint (Time Step ${i + 1})` });
-      yData.push({ data: yValues, label: `Y Position of Joint (Time Step ${i + 1})` });
-      timeLabels.push(`Time Step ${i + 1}`);
     }
+
 
     return { xData, yData, timeLabels };
   }
@@ -295,7 +292,7 @@ export class KinematicSolverService {
 
 
         while (!(movingForward > 0 && this.returnedToStart(positions) && currentTimeStep != 0) && stuckcounter < 4 && currentTimeStep < 720) {
-            console.log(positions[positions.length - 1]);
+            //console.log(positions[positions.length - 1]);
             let nextPositions: Coord[] = new Array();
             for (let i = 0; i < solveOrder.length; i++) {
                 let nextJointPosition = this.solveNextJointPosition(positions[currentTimeStep], solveOrder, solveMap.get(solveOrder[i])!, movingForward, nextPositions);
@@ -321,6 +318,8 @@ export class KinematicSolverService {
         console.log("Here is the position of every joint at T=0" + positions[0])
         return positions;
     }
+
+
     returnedToStart(positions: Coord[][]): boolean {
         let haveReturned = true;
         let startingPositions: Coord[] = positions[0];
@@ -340,12 +339,12 @@ export class KinematicSolverService {
     private solveNextJointPosition(prevPositions: Coord[], solveOrder: number[], solvePrerequisite: SolvePrerequisite, movingForward: number, nextPositions: Coord[]): Coord | undefined {
         switch (solvePrerequisite.solveType) {
             case SolveType.Ground:
-                console.log("Solving Ground");
+                //console.log("Solving Ground");
                 return solvePrerequisite.jointToSolve._coords;
                 break;
 
             case SolveType.RevoluteInput:
-                console.log("Solving Rev Input");
+                //console.log("Solving Rev Input");
                 return this.solveRevInput(prevPositions, solveOrder, solvePrerequisite, movingForward);
                 break;
 
