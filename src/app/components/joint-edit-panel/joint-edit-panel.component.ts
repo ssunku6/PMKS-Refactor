@@ -28,6 +28,10 @@ export class jointEditPanelComponent {
     advancedSettingsVisual: false
   };
   isEditingTitle: boolean = false;
+  public weldIconPath: string = "assets/icons/weld.svg";
+  public addInputIconPath: string = "assets/icons/addInput.svg";
+  public rotateRightIconPath: string = "assets/icons/rotateRight.svg";
+  public rotateLeftIconPath: string = "assets/icons/rotateLeft.svg";
 
   constructor(private stateService: StateService, private interactorService: InteractionService){
     console.log("joint-edit-panel.constructor");

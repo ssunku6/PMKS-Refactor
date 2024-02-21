@@ -43,3 +43,8 @@
 .right-aligned {
   margin-left: auto; /* Pushes this element to the right */
 }
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}

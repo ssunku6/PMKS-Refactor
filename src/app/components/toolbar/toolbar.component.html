@@ -6,7 +6,7 @@
     src='assets/logo.svg'
     onClick='window.location.reload()'
   /> 
-  <button mat-button class="toolbar-button"
+  <button mat-button class="toolbar-button" onclick="window.open(window.location.origin, '_blank'); logEvent(this.analytics, 'new_file');"
   matTooltip='Open a new tab with a blank project' 
   matTooltipShowDelay='1000'>
     <mat-icon>note_add</mat-icon>

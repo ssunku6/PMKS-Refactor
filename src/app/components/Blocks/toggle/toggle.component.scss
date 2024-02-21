@@ -15,6 +15,7 @@
   display: flex;
   align-items: center;
   width: 100%; /* Make the container take full width */
+  margin-top: 5px;
 }
 
 .label {
@@ -24,8 +25,8 @@
 .switch {
   position: relative;
   display: inline-block;
-  width: 60px;
-  height: 34px;
+  width: 50px;
+  height: 25px;
 }
 
 .switch-container {
@@ -56,8 +57,8 @@
 .slider:before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
+  height: 18px;
+  width: 18px;
   left: 4px;
   bottom: 4px;
   background-color: white;
@@ -67,17 +68,17 @@
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #3f51b5;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #3f51b5;
 }
 
 input:checked + .slider:before {
-  -webkit-transform: translateX(30px); /* Updated value for the checked state */
-  -ms-transform: translateX(30px);
-  transform: translateX(30px);
+  -webkit-transform: translateX(23px); /* Updated value for the checked state */
+  -ms-transform: translateX(23px);
+  transform: translateX(23px);
 }
 
 
@@ -86,4 +87,12 @@ input:checked + .slider:before {
   font-size: 18px;
   vertical-align: middle;
   padding-top: 2px;
+}
+
+.switch .check {
+  position: absolute;
+  top: 50%;
+  right: -5px; /* Adjust this value according to your design */
+  transform: translateY(-50%);
+  transition: .4s;
 }

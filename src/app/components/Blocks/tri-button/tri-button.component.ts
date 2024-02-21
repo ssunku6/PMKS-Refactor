@@ -14,6 +14,7 @@ export class TriButtonComponent {
   @Input() btn1Disabled: boolean = false;
   @Input() btn2Disabled: boolean = false;
   @Input() btn3Disabled: boolean = false;
+  @Input() btn2Visible: boolean = true;
   @Input() btn3Visible: boolean = false;
   @Input() btn1Text: string = '';
   @Input() btn2Text: string = '';
@@ -22,6 +23,10 @@ export class TriButtonComponent {
   @Input() btn1Action!: () => void;
   @Input() btn2Action!: () => void;
   @Input() btn3Action!: () => void;
+  @Input() btn1SVGPath: string = '';
+  @Input() btn2SVGPath: string = '';
+  @Input() btn3SVGPath: string = '';
+
 
 /*
   <mat-icon svgIcon='unweld_joint'></mat-icon>
