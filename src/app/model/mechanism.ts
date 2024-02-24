@@ -176,7 +176,6 @@ export class Mechanism {
       console.log("Unlocking non-compound link:" + link.name);
       if (!isPartOfCompoundLink) {
         console.log("Link is not part of compound: " + link.name);
-        // Assuming you have a method to unlock the link, adjust accordingly
         link.locked=false;
       }
     }
@@ -758,7 +757,7 @@ export class Mechanism {
     private getEffectiveConnectedLinksForJoint(joint: Joint): RigidBody[] {
         let connectedLinks: Link[] = this.getConnectedLinksForJoint(joint);
         let connectedCompoundLinks: CompoundLink[] = this.getConnectedCompoundLinks(joint);
-    
+
         for (let compoundLink of connectedCompoundLinks) {
             for (let link of compoundLink.links.values()) {
                 connectedLinks = connectedLinks.filter(connectedLink => connectedLink.id !== link.id);
@@ -766,14 +765,14 @@ export class Mechanism {
         }
         return [...connectedLinks, ...connectedCompoundLinks] as RigidBody[];
     }
-    
+
     //----------------------------GET FUNCTIONS----------------------------
     getJoint(id: number): Joint {
         return this._joints.get(id)!;
     }
-    
-    
-    
+
+
+
     getJoints(): IterableIterator<Joint>{
         return this._joints.values();
     }
@@ -827,7 +826,7 @@ export class Mechanism {
 
     }
 
-    
+
 
 
 }

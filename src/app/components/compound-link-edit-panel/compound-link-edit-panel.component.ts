@@ -1,15 +1,9 @@
-import { Component, OnDestroy, OnInit} from '@angular/core'
-import { Interactor } from 'src/app/interactions/interactor';
-import { LinkInteractor } from 'src/app/interactions/link-interactor';
-import { Link } from 'src/app/model/link';
-import { Mechanism } from 'src/app/model/mechanism';
-import { InteractionService } from 'src/app/services/interaction.service';
-import { StateService } from 'src/app/services/state.service';
-import { Joint } from 'src/app/model/joint';
-import { ColorService } from 'src/app/services/color.service';
-import { FormControl, FormGroup } from "@angular/forms";
-import { LinkComponent } from '../link/link.component';
-import { Coord } from 'src/app/model/coord';
+import {Component} from '@angular/core'
+import {Link} from 'src/app/model/link';
+import {InteractionService} from 'src/app/services/interaction.service';
+import {StateService} from 'src/app/services/state.service';
+import {Joint} from 'src/app/model/joint';
+import {ColorService} from 'src/app/services/color.service';
 import {CompoundLinkInteractor} from "../../interactions/compound-link-interactor";
 import {CompoundLink} from "../../model/compound-link";
 
@@ -31,6 +25,7 @@ export class CompoundLinkEditPanelComponent {
         FBasic: true,
         FVisual: false,
       };
+      isLocked = false;
       isEditingTitle: boolean = false;
       selectedIndex: number = this.getColorIndex();
 
@@ -76,6 +71,13 @@ export class CompoundLinkEditPanelComponent {
         this.getSelectedObject().name = newName;
         console.log("it set the new name " + this.getSelectedObject().name);
         this.isEditingTitle=false;
+    }
+
+    updateCompoundLinkLock(): void {
+      // reverse the lock state when updating, because it's a binary boolean (either locked or not)
+      this.isLocked = !this.isLocked;
+      console.log("Updating compound link lock to this value: " + this.isLocked);
+      this.getSelectedObject().lock = this.isLocked;
     }
 
     /*

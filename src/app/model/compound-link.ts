@@ -20,7 +20,7 @@ export class CompoundLink implements RigidBody{
         this._name = id as unknown as string;
         this._mass = 0;
         this._links = new Map();
-        this._isLocked = true;
+        this._isLocked = false;
         //currently reference to array, may need to make a deep copy later
         if(Array.isArray(linkAORLinks)){
             linkAORLinks.forEach(link =>{
@@ -32,9 +32,7 @@ export class CompoundLink implements RigidBody{
         } else {
             throw new Error("Invalid Constructor Parameters");
         }
-      this._links.forEach((link: Link, key: number) => {
-        link.locked = true; // Assuming there is a method like lockLink in your Link class
-      });
+      this.updateSublinkLocks(this._isLocked);
         this._centerOfMass = this.calculateCenterOfMass();
     }
      //getters
@@ -69,18 +67,22 @@ export class CompoundLink implements RigidBody{
     }
   set lock(value: boolean) {
       this._isLocked = value;
+      this.updateSublinkLocks(value);
   }
-    //TODO: complete secondary information calculations and modifications
-    calculateCenterOfMass(): Coord{
+
+  updateSublinkLocks(value: boolean) {
+    this._links.forEach((link: Link, key: number) => {
+      link.locked = value;
+    });
+  }
+//TODO: complete secondary information calculations and modifications
+
+calculateCenterOfMass(): Coord{
         return new Coord(0,0);
     }
     addLink(newLink: Link){
         this._links.set(newLink.id,newLink);
         this.calculateCenterOfMass();
-    }
-
-    updateLockState(value: boolean) {
-      this.lock = value;
     }
 
     removeLink(idORRef: number | Link){

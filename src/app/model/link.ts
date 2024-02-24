@@ -113,7 +113,6 @@ export class Link implements RigidBody{
     updateLocks(value: boolean){
         console.log('Updating lock in link')
         this._joints.forEach((joint: Joint, key: number) => {
-            // Your logic for updating locks for each joint goes here
             joint.locked = value;
             console.log(`Joint ${key}: ${joint}`);
         });
@@ -324,6 +323,7 @@ export class Link implements RigidBody{
         jointTwo.coords.y = newY;
       }
     }
+
     containsJoint(idORRef: number | Joint):boolean{
         let id: number;
         if(typeof idORRef === 'number'){
