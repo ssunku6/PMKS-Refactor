@@ -102,8 +102,6 @@ export class Link implements RigidBody{
         this.updateLocks(value);
     }
 
-
-    //TODO: complete secondary information calculations and modifications
     addTracer(newJoint: Joint){
         this._joints.set(newJoint.id,newJoint);
         this.calculateCenterOfMass();
