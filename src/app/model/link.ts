@@ -73,7 +73,8 @@ export class Link implements RigidBody{
     }
 
     get centerOfMass(): Coord {
-        return this._centerOfMass;
+      // ensures that the center of mass is always updating, specifically when adding tracer points is useful
+        return this.calculateCenterOfMass();
     }
 
     get joints(): Map<number,Joint> {
@@ -156,6 +157,7 @@ export class Link implements RigidBody{
 
         // Iterate over each joint and accumulate x and y coordinates
         this._joints.forEach((joint) => {
+          console.log("X and Y of current joint: " + joint.coords.x + " " + joint.coords.y);
             totalX += joint.coords.x;
             totalY += joint.coords.y;
         });
@@ -165,7 +167,8 @@ export class Link implements RigidBody{
         const centerX = totalX / numberOfJoints;
         const centerY = totalY / numberOfJoints;
 
-        return new Coord(centerX, centerY);
+        this._centerOfMass = new Coord(centerX, centerY);
+        return this._centerOfMass;
     }
 
     // find the first two non-null joints of a link. Do pythagorean math to find length

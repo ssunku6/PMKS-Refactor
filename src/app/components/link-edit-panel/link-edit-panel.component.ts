@@ -42,6 +42,10 @@ export class LinkEditPanelComponent{
         return link.getLink();
     }
 
+    getMechanism(): Mechanism {
+      return this.stateService.getMechanism();
+    }
+
     lockLink(): void {
         this.isLocked = !this.isLocked;
         console.log('Setting in link edit panel')
@@ -70,6 +74,7 @@ export class LinkEditPanelComponent{
     getLinkName(): string{
         return this.getSelectedObject().name;
     }
+
     setLinkLength(newLength: number): void{
       let refJoint = this.getSelectedObject().joints.get(0);
       for (const joint of this.getSelectedObject().joints.values()) {
@@ -106,8 +111,8 @@ export class LinkEditPanelComponent{
 
     addTracer(): void{
         let CoM = this.getSelectedObject().centerOfMass;
-        let tracer = Joint.constructor(-1, CoM);
-        this.getSelectedObject().addTracer(tracer);
+      let linkID = this.getSelectedObject().id;
+        this.getMechanism().addJointToLink(linkID, CoM);
     }
 
     deleteLink(){

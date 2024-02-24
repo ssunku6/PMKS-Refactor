@@ -46,7 +46,10 @@
                 Link Length and Angle
             </dual-input-block>
               <dual-button btn1Text="Add Tracer" btn2Text="Add Force"
-              [btn1Action]="addTracer" ></dual-button>
+              [btn1Action]="addTracer"
+                           [Link]= getSelectedObject()
+              [mechanism]="getMechanism()">
+              ></dual-button>
             </div>
       </collapsible-subsection>
 

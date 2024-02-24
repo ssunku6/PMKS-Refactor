@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {Link} from "../../../model/link";
+import {Joint} from "../../../model/joint";
+import {Mechanism} from "../../../model/mechanism";
 
 
 @Component({
@@ -10,6 +12,8 @@ import {Link} from "../../../model/link";
 })
 export class DualButtonComponent {
   @Input() Link!: Link;
+  @Input() joint!: Joint;
+  @Input() mechanism!: Mechanism;
   @Input() btn1Disabled: boolean = false;
   @Input() btn2Disabled: boolean = false;
   @Input() btn1Text: string = '';
@@ -24,6 +28,15 @@ export class DualButtonComponent {
   <mat-icon [svgIcon]=btn3Icon></mat-icon>
     <mat-icon svgIcon='weld_joint'></mat-icon>
 */
-  
+
   constructor() {}
+  getSelectedObject(): Link {
+    return this.Link;
+  }
+
+  getMechanism(): Mechanism {
+    return this.mechanism;
+  }
 }
+
+
