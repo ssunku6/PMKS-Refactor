@@ -155,7 +155,6 @@ export class Link implements RigidBody{
 
         // Iterate over each joint and accumulate x and y coordinates
         this._joints.forEach((joint) => {
-          console.log("X and Y of current joint: " + joint.coords.x + " " + joint.coords.y);
             totalX += joint.coords.x;
             totalY += joint.coords.y;
         });
