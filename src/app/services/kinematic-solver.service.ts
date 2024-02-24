@@ -57,9 +57,11 @@ export class KinematicSolverService {
         //fourth, solve for all of the possible positions for each mechanism.
 
         let positions: Coord[][][] = new Array();
+
         let correspondingJoints: number[][] = new Array();
         for (let solveOrder of solveOrders) {
           const jointIds: number[] = solveOrder.order.map(joint => joint.id);
+          console.log("jointIDs in solve order: " + jointIds);
           correspondingJoints.push(jointIds);
             positions.push(this.getPositions(jointIds, solveOrder.prerequisites));
 
@@ -94,6 +96,8 @@ export class KinematicSolverService {
           yData.push({data: yValues, label: `Y Position of Joint`});
         }
     }
+
+    console.log("Time Labels of joint x: " + joint.id + " " + timeLabels);
 
     return { xData, yData, timeLabels };
   }

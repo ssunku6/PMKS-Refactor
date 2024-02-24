@@ -135,6 +135,10 @@ export class LinkAnalysisPanelComponent {
         let placeholderCoMJoint = this.getPlaceholderCoMJoint();
         const animationPositions = this.kinematicSolverService.solvePositions();
         let chartData = this.kinematicSolverService.transformPositionsForChart(animationPositions, placeholderCoMJoint);
+        console.log("X data of CoM: " + chartData.xData);
+        console.log("Y data of CoM: " + chartData.yData);
+        console.log("Time data of CoM: " + chartData.timeLabels);
+
         return chartData;
 
       case GraphType.CoMVelocity:
