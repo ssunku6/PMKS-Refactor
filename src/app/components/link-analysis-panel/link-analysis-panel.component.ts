@@ -30,7 +30,7 @@ export enum GraphType {
 export class LinkAnalysisPanelComponent {
 
   currentGraphType: GraphType | null = null;
-  graphTypes = GraphType; // Make the enum accessible in the template
+  graphTypes = GraphType;
 
   graphExpanded: { [key: string]: boolean } = {
     dataSummary: true,
@@ -100,6 +100,9 @@ export class LinkAnalysisPanelComponent {
     }
   }
 
+  // create a new joint in the center of mass of the current link
+  // use this joint for solving position data
+  // basically a sneaky workaround to position solving an actual link (which would be hard)
   addPlaceholderCoMJoint(): void{
     let CoM = this.getCurrentLink().centerOfMass;
     // DO NOT REMOVE THESE VALUE CHANGES
@@ -111,10 +114,16 @@ export class LinkAnalysisPanelComponent {
     this.getMechanism().addJointToLink(linkID, CoM);
   }
 
+  // deletes placeholder joint. Should be called immediately after closing graphs, so as
+  // to not compromise the mechanism people have made
   removePlaceholderCoMJoint(): void {
     this.getMechanism().removeJoint(this.getPlaceholderCoMJoint().id);
   }
 
+  // function searches through current link to find the placeholder joint:
+  // the placeholder joint will always have the highest joint ID, because
+  // it is being created directly before this function call
+  // (and thus nothing could be higher than it)
   getPlaceholderCoMJoint(): Joint {
     const joints = this.getCurrentLink().joints;
 
@@ -129,11 +138,11 @@ export class LinkAnalysisPanelComponent {
     }
 
     // @ts-ignore
-    console.log("Here is the com placeholder joint: " + maxJoint.id);
-    // @ts-ignore
     return maxJoint;
 }
 
+  // calls the positionSolver on current joint and reformats data into a type that chart,js can take
+  // see TransformPositionsForChart function in kinematic solver for more detail
   getGraphData() {
     switch(this.currentGraphType) {
       case GraphType.CoMPosition:

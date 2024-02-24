@@ -77,6 +77,8 @@ export class JointAnalysisPanelComponent {
 
   // utilizes enums to properly open each graph and find the data for it.
   // will one day have velocity, acceleration, the whole 9 yards.
+  // calls the positionSolver and reformats data into a type that chart,js can take
+  // see TransformPositionsForChart function in kinematic solver for more detail
   getGraphData() {
     switch(this.currentGraphType) {
       case GraphType.JointPosition:

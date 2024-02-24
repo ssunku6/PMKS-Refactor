@@ -23,7 +23,18 @@ export interface SolvePrerequisite {
 
 }
 export interface AnimationPositions {
+  // correspondingJoints is a 2D array of numbers. The first dimension
+  // (corresondingJoints[i]) corresponds to a number[]. The first dimension
+  // represents a mechanism, so every mechanism has it's own row of number[].
+  // the second dimension corresponds to each joint id contained within the mechanism.
     correspondingJoints: number[][],
+
+  // positions is a 3D array of Coords. The first dimension represents each mechanism.
+  // the second dimension represents the timescale for the mechanism
+  // i.e., to get the timescale, you need positions[i].map
+  // the third dimension represents the the position for each joint in a mechanism-
+  // the index is the joint place in the solveorder, and the value indexed is the
+  // position in Coord form. For implementation, refernce TransformPositionsForChart.
     positions: Coord[][][];
 }
 
@@ -53,17 +64,22 @@ export class KinematicSolverService {
             solveOrders.push(this.determineSolveOrder(subMechanism))
         }
         //console.log(`number of solve orders completed: ${solveOrders.length}`);
-        console.log(solveOrders);
+        //console.log(solveOrders);
+
         //fourth, solve for all of the possible positions for each mechanism.
-
         let positions: Coord[][][] = new Array();
-
         let correspondingJoints: number[][] = new Array();
+
+        // for each mechanism (solveOrder), we push the corresponding joints
+      // i.e. which joints live in which mechanism, and in what order.
+      // additionally, we push every position into the Positions array.
+      // this allows us to have a convenient place where all positions for all mechanisms
+      // at all times are stored.
         for (let solveOrder of solveOrders) {
           const jointIds: number[] = solveOrder.order.map(joint => joint.id);
           console.log("jointIDs in solve order: " + jointIds);
           correspondingJoints.push(jointIds);
-            positions.push(this.getPositions(jointIds, solveOrder.prerequisites));
+          positions.push(this.getPositions(jointIds, solveOrder.prerequisites));
 
         }
         //console.log(`number animations completed: ${positions.length}`);
@@ -73,13 +89,17 @@ export class KinematicSolverService {
     }
 
     // helper function transforms the positions and corresponding joints
-    // into data that can be fed into a chart.js object
+    // into data that can be fed into a chart.js object. Used for joint / link analysis panels.
+  // Takes in the animationPositions we solved for in this.solvePositions() and the current joint.
+  // first finds the mechanism containing the current joint, then takes the data from that mechanism
+  // and converts into x and y values. these are represented by number[] objects.
+  // returns xData, yData, which are of course all x/y positions of the joint.
+  // returns timeLabels[], which contains every timestep we have solved for.
   transformPositionsForChart(animationPositions: AnimationPositions, joint: Joint): { xData: any[], yData: any[], timeLabels: string[] } {
       const positions = animationPositions.positions;
       const correspondingJoints = animationPositions.correspondingJoints;
       const xData = [];
     const yData = [];
-    console.log("Length of timescale: " +positions[0].length);
     const timeLabels = positions[0].map((_, index) => `${index + 1}`);
 
     // LOOP THROUGH EVERY MECHANISM, with intention of finding current joint
@@ -97,8 +117,6 @@ export class KinematicSolverService {
           yData.push({data: yValues, label: `Y Position of Joint`});
         }
     }
-
-    console.log("Time Labels of joint x: " + joint.id + " " + timeLabels);
 
     return { xData, yData, timeLabels };
   }
