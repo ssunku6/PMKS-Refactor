@@ -70,7 +70,7 @@ export class LinkAnalysisPanelComponent {
     if(this.currentGraphType == GraphType.CoMPosition){
       this.addPlaceholderCoMJoint();
     }
-    //this.getGraphData();
+    this.getGraphData();
   }
 
   closeAnalysisGraph() {
@@ -102,6 +102,11 @@ export class LinkAnalysisPanelComponent {
 
   addPlaceholderCoMJoint(): void{
     let CoM = this.getCurrentLink().centerOfMass;
+    // DO NOT REMOVE THESE VALUE CHANGES
+    // PUTTING THE TRACER POINT PERFECTLY IN LINE BREAKS EVERYTHING
+    // THESE ARE NECESSARY TO WORK (FOR SOME REASON)
+    CoM.x = CoM.x - 0.00001;
+    CoM.y = CoM.y - 0.00001;
     let linkID = this.getCurrentLink().id;
     this.getMechanism().addJointToLink(linkID, CoM);
   }

@@ -79,6 +79,7 @@ export class KinematicSolverService {
       const correspondingJoints = animationPositions.correspondingJoints;
       const xData = [];
     const yData = [];
+    console.log("Length of timescale: " +positions[0].length);
     const timeLabels = positions[0].map((_, index) => `${index + 1}`);
 
     // LOOP THROUGH EVERY MECHANISM, with intention of finding current joint
