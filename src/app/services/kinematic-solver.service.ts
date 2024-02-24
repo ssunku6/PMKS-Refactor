@@ -168,8 +168,8 @@ export class KinematicSolverService {
         return 3 * (N - 1) - 2 * J;
     }
 
-    private minDistanceFromGround(input: Joint, subMechanism: Map<Joint, RigidBody[]>, visitedJoints: Joint[] = new Array()): number {
-        visitedJoints.push(input);
+    private minDistanceFromGround(input: Joint, subMechanism: Map<Joint, RigidBody[]>, visitedJoints: number[] = new Array()): number {
+        visitedJoints.push(input.id);
         let prismaticAddOne = input.type == JointType.Prismatic ? 2 : 1;
         if (input.isGrounded && !input.isInput) {
             return prismaticAddOne;
@@ -177,8 +177,8 @@ export class KinematicSolverService {
         let min = Number.MAX_VALUE;
         for (let rigidBody of subMechanism.get(input)!) {
             for (let joint of rigidBody.getJoints()) {
-                if (!visitedJoints.includes(joint)) {
-                    let minFromJoint = this.minDistanceFromGround(joint, subMechanism, visitedJoints);
+                if (!visitedJoints.includes(joint.id)) {
+                    let minFromJoint = this.minDistanceFromGround(joint, subMechanism, Array.from(visitedJoints));
                     if (minFromJoint + prismaticAddOne < min) {
                         min = minFromJoint + prismaticAddOne;
                     }
@@ -236,8 +236,6 @@ export class KinematicSolverService {
         return { order: solveOrderWithJoints, prerequisites: solveMap };
 
     }
-
-
     private jointCanBeSolved(joint: Joint, links: RigidBody[], solvedJoints: number[]): SolvePrerequisite | undefined {
         let canBeSolved = undefined;
         let solveType: SolveType | undefined;
@@ -271,7 +269,6 @@ export class KinematicSolverService {
                                 } as SolvePrerequisite
                             }
                         } else {
-                            let solveType = knownJointOneType == neighbor.type ? SolveType.CircleCircle : SolveType.CircleLine;
                             return {
                                 jointToSolve: joint,
                                 solveType: SolveType.CircleCircle,
@@ -307,7 +304,7 @@ export class KinematicSolverService {
         positions.push(startingPositions);
 
 
-        while (!(movingForward > 0 && this.returnedToStart(positions) && currentTimeStep != 0) && stuckcounter < 4 && currentTimeStep < 720) {
+        while (!(movingForward > 0 && this.returnedToStart(positions) && currentTimeStep != 0) && stuckcounter < 5 && currentTimeStep < 720) {
             //console.log(positions[positions.length - 1]);
             let nextPositions: Coord[] = new Array();
             for (let i = 0; i < solveOrder.length; i++) {
@@ -396,7 +393,7 @@ export class KinematicSolverService {
     private solvePrisInput(prevPositions: Coord[], solveOrder: number[], solvePrerequisite: SolvePrerequisite, movingForward: number): Coord | undefined {
         let input = solvePrerequisite.jointToSolve;
         let prevPosition: Coord = prevPositions[solveOrder.indexOf(input.id)];
-        const increment: number = input.inputSpeed * movingForward ? 0.1 : -0.1;
+        const increment: number = (input.inputSpeed * movingForward) > 0 ? 0.05 : -0.05;
         const angle: number = input.angle;
         const x = prevPosition.x + increment * Math.cos(angle);
         const y = prevPosition.y + increment * Math.sin(angle);
@@ -481,6 +478,7 @@ export class KinematicSolverService {
         const r = solvePrerequisite.distFromKnownJointOne!;
         const h = nextPositions[solveOrder.indexOf(solvePrerequisite.knownJointOne!.id)!].x;
         const k = nextPositions[solveOrder.indexOf(solvePrerequisite.knownJointOne!.id)!].y;
+
         let m = Math.tan(solvePrerequisite.jointToSolve!.angle * Math.PI / 180);
         if (m > 1000 || m < -1000) {
             m = Number.MAX_VALUE;

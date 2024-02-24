@@ -52,10 +52,9 @@ export class AnimationService {
                 jointIDs: number[] = new Array(),
                 animationFrames: Coord[][] = frames.positions[subMechanismIndex],
                 inputSpeed: number = this.stateService.getMechanism().getJoint(frames.correspondingJoints[subMechanismIndex][0]).inputSpeed;
-
             for (let jointIndex = 0; jointIndex < frames.correspondingJoints[subMechanismIndex].length; jointIndex++) {
-                startingPositions.push(frames.positions[subMechanismIndex][jointIndex][0]);
-                jointIDs.push(frames.correspondingJoints[subMechanismIndex][jointIndex])
+                startingPositions.push(frames.positions[subMechanismIndex][0][jointIndex]);
+                jointIDs.push(frames.correspondingJoints[subMechanismIndex][jointIndex]);
             }
             this.animationStates.push({
                 mechanismIndex: mechanismIndex,
@@ -69,11 +68,10 @@ export class AnimationService {
             })
         }
         this.invaldMechanism = this.animationStates.length == 0 ? true : false;
+        console.log(this.invaldMechanism);
         console.log("animation states:\n");
         console.log(this.animationStates);
     }
-
-
     animateMechanisms(playPause: boolean) {
         console.log(`animating Mechanisms ${playPause}`);
         if (playPause == false) {
@@ -87,7 +85,6 @@ export class AnimationService {
             }
         }
     }
-
     singleMechanismAnimation(state: JointAnimationState) {
         //stop if paused
         if (state.isPaused) {
@@ -102,27 +99,18 @@ export class AnimationService {
             for (let jointIndex = 0; jointIndex < state.jointIDs.length; jointIndex++) {
                 this.stateService.getMechanism().getJoint(state.jointIDs[jointIndex]).setCoordinates(state.animationFrames[state.currentFrameIndex][jointIndex]);
             }
-
             setTimeout(() => {
                 this.singleMechanismAnimation(state)
             }, Math.round((1000 * 60) / (state.inputSpeed * 360)));
         }
     }
-
-
     reset() {
         for (let state of this.animationStates) {
-            for (let jointIndex of state.jointIDs) {
-                this.stateService.getMechanism().setXCoord(state.jointIDs[jointIndex], state.startingPositions[jointIndex].x);
-                this.stateService.getMechanism().setYCoord(state.jointIDs[jointIndex], state.startingPositions[jointIndex].y);
+            for (let jointIndex = 0; jointIndex < state.jointIDs.length; jointIndex++) {
+                this.stateService.getMechanism().getJoint(state.jointIDs[jointIndex]).setCoordinates(state.startingPositions[jointIndex]);
             }
             state.isPaused = true;
             state.currentFrameIndex = 0;
         }
     }
-
-
-
-
-
 }

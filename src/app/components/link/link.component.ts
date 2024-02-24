@@ -49,7 +49,7 @@ export class LinkComponent extends AbstractInteractiveComponent {
 
 
 	getDrawnPath(): string{
-	let radius: number = 15;
+	let radius: number = 25;
   //convert all joint coordinates from to position in model to position on screen
   let joints: IterableIterator<Joint> = this.link.joints.values();
   let allCoords: Coord[] = [];

@@ -37,7 +37,7 @@ export class JointComponent extends AbstractInteractiveComponent {
   }
 
   public getRadius(): number {
-    return 10;
+    return 15;
   }
 
   public getColor(): string {

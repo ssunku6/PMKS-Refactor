@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Coord } from '../model/coord';
-import { StateService } from './state.service';
-import { UnitConversionService } from './unit-conversion.service';
-import { MousePosition } from './mouse-position.service';
+
 
 export interface ZoomPan {
     viewBoxX: number;
@@ -32,7 +30,7 @@ constructor() {
         windowWidth: window.innerWidth,
         windowHeight: window.innerHeight,
         currentZoom: 2,
-        zoomScale: 1.1
+        zoomScale: 1.02
     }
 
 }
