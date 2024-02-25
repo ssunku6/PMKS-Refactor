@@ -29,8 +29,9 @@ export class CompoundLinkEditPanelComponent {
       isEditingTitle: boolean = false;
       selectedIndex: number = this.getColorIndex();
      referenceJoint: Joint | undefined;
+      uniqueJoints: Set<Joint> = this.getUniqueJoints();
 
-    constructor(private stateService: StateService, private interactionService: InteractionService, private colorService: ColorService){
+  constructor(private stateService: StateService, private interactionService: InteractionService, private colorService: ColorService){
 
     }
 
@@ -54,6 +55,18 @@ export class CompoundLinkEditPanelComponent {
 
     getLinkJoints(currentLink: Link): Map<number, Joint>{
         return currentLink.joints;
+    }
+
+    // return a set of all unique joints i.e. if link A has joints 0,1 and
+  // link B has joints 1,3, then the set will be 0,1,3.
+    getUniqueJoints(): Set<Joint> {
+    let allUniqueJoints: Set<Joint> = new Set();
+      for(let link of this.getAllConnectedLinks()) {
+        for (let joint of link.joints.values()) {
+          allUniqueJoints.add(joint);
+        }
+      }
+      return allUniqueJoints;
     }
 
     //Returns the joints contained in a link.
