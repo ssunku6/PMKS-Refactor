@@ -28,6 +28,7 @@ export class CompoundLinkEditPanelComponent {
       isLocked = false;
       isEditingTitle: boolean = false;
       selectedIndex: number = this.getColorIndex();
+     referenceJoint: Joint | undefined;
 
     constructor(private stateService: StateService, private interactionService: InteractionService, private colorService: ColorService){
 
@@ -87,6 +88,55 @@ export class CompoundLinkEditPanelComponent {
         this.getSelectedObject().addTracer(tracer);
     }
      */
+
+    onReferenceJointSelected(joint: Joint){
+      this.referenceJoint = joint;
+    }
+
+    getReferenceJointDist(): number {
+      let refJointCoord = this.referenceJoint?.coords;
+      let xDiff = 0;
+      let yDiff = 0;
+
+      if(refJointCoord) {
+        xDiff = refJointCoord.x - this.getSelectedObject().centerOfMass.x;
+        yDiff = refJointCoord.y - this.getSelectedObject().centerOfMass.y;
+      }
+
+      return Math.sqrt((xDiff * xDiff) + (yDiff * yDiff));
+    }
+
+    getReferenceJointAngle(): number {
+      let refJointCoord = this.referenceJoint?.coords;
+      let vectorX = 0;
+      let vectorY = 0;
+
+      if(refJointCoord) {
+        // Calculate the differences in x and y coordinates
+        vectorX =  this.getSelectedObject().centerOfMass.x - refJointCoord.x;
+        vectorY = this.getSelectedObject().centerOfMass.y - refJointCoord.y;
+      }
+
+      // Calculate the angle using arctangent
+      const angleInRadians = Math.atan2(vectorY, vectorX);
+
+      // Convert the angle to degrees
+      let angleInDegrees = angleInRadians * (180 / Math.PI);
+
+      // Ensure the angle is in the range of +180 to -180 degrees
+      if (angleInDegrees > 180) {
+        angleInDegrees -= 360;
+      } else if (angleInDegrees < -180) {
+        angleInDegrees += 360;
+      }
+
+      return angleInDegrees;
+    }
+
+
+  setReferenceJointAngle(newAngle: number){
+
+  }
 
     deleteCompoundLink(){
         this.stateService.getMechanism().removeCompoundLink(this.getSelectedObject());

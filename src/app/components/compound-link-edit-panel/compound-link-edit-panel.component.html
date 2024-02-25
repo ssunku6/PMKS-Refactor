@@ -26,7 +26,31 @@
       </button>
 
     </title-block>
-    <p>COMPOUND LINK EDIT PANEL WAHOO</p>
+
+        <p>Reference Joint</p>
+        <div class="button-container">
+          <div *ngFor="let link of this.getAllConnectedLinks()">
+            <div *ngFor="let joint of link.getJoints()" class = "button-wrapper">
+              <button class="referenceJointSelect" (click) = onReferenceJointSelected(joint)>
+                Name of Joint: {{ joint.name }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <dual-input-block id="referenceJoint"
+                          [disabled]=false
+                          [input1Value]="getReferenceJointDist()"
+                          [input2Value]="getReferenceJointAngle()"
+                          (input2Change)="setReferenceJointAngle($event)"
+                          label1=""
+                          label2="⊾"
+                          tooltip = "The length and angle of the link">
+          Reference Joint {{ this.referenceJoint?.name }} Distance and Angle to CoM
+        </dual-input-block>
+
+
+
       </panel-section-collapsible>
     <div id="body" [class.disabled-panel]="getCompoundLinkLockState()">
       <!-- BASIC SETTING DROPDOWN -->

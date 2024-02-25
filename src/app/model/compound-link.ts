@@ -32,7 +32,7 @@ export class CompoundLink implements RigidBody{
         } else {
             throw new Error("Invalid Constructor Parameters");
         }
-      this.updateSublinkLocks(this._isLocked);
+        this.updateSublinkLocks(this._isLocked);
         this._centerOfMass = this.calculateCenterOfMass();
     }
      //getters
@@ -49,7 +49,7 @@ export class CompoundLink implements RigidBody{
     }
 
     get centerOfMass(): Coord {
-        return this._centerOfMass;
+        return this.calculateCenterOfMass();
     }
     get links(): Map<number, Link>{
         return this._links;
@@ -77,9 +77,29 @@ export class CompoundLink implements RigidBody{
   }
 //TODO: complete secondary information calculations and modifications
 
-calculateCenterOfMass(): Coord{
-        return new Coord(0,0);
+    calculateCenterOfMass(): Coord{
+      let totalX = 0;
+      let totalY = 0;
+      let totalJoints = 0;
+
+      // Iterate over each joint and accumulate x and y coordinates
+      this._links.forEach((link) => {
+        link._joints.forEach((joint) => {
+          totalX += joint.coords.x;
+          totalY += joint.coords.y;
+          totalJoints += 1;
+        });
+      });
+
+      // Calculate the mean (average) by dividing by the number of joints
+      const centerX = totalX / totalJoints;
+      const centerY = totalY / totalJoints;
+
+      this._centerOfMass = new Coord(centerX, centerY);
+      return this._centerOfMass;
     }
+
+
     addLink(newLink: Link){
         this._links.set(newLink.id,newLink);
         this.calculateCenterOfMass();

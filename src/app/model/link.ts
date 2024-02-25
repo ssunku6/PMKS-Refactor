@@ -12,7 +12,7 @@ export class Link implements RigidBody{
     private _name: string;
     private _mass: number;
     private _centerOfMass: Coord;
-    private _joints: Map<number, Joint>;
+    _joints: Map<number, Joint>;
     private _forces: Map<number, Force>;
     private _color: string = "";
     private _isLocked: boolean;

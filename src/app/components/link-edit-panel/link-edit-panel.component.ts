@@ -97,7 +97,6 @@ export class LinkEditPanelComponent{
         }
       }
       if(refJoint) {
-        console.log("Reference joint ID: " + refJoint.id)
         this.getSelectedObject().setAngle(newAngle, refJoint);
       }
     }
