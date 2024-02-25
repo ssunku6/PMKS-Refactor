@@ -28,8 +28,8 @@
                           (closed)="graphExpanded['basicBasic'] = false">
     <!-- THE JOINT X AND Y COORD INPUT COMPONENT -->
     <div class="flex-container">
-      <dual-input-block [input1Value]="getJointXCoord()"
-                        [input2Value]="getJointYCoord()"
+      <dual-input-block [input1Value]="getJointXCoord().toFixed(4)"
+                        [input2Value]="getJointYCoord().toFixed(4)"
                         (input1Change)="setJointXCoord($event)"
                         (input2Change)="setJointYCoord($event)"
                         tooltip="Change the x and y values of the current joint!"
@@ -46,8 +46,8 @@
         <div *ngFor='let joint of getConnectedJoints(); let i = index;'>
           <ng-container *ngIf="getCurrentJoint().name !== joint.name">
            <dual-input-block
-                  [input1Value]="getJointDistance(joint)"
-                  [input2Value]="getJointAngle(joint)"
+                  [input1Value]="getJointDistance(joint).toFixed(4)"
+                  [input2Value]="getJointAngle(joint).toFixed(4)"
                   (input1Change)="changeJointDistance(joint.id, $event)"
                   (input2Change)="changeJointAngle(joint.id, $event)"
                   [disabled] = "joint.locked"

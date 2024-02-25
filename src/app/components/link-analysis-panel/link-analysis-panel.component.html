@@ -20,7 +20,17 @@
           Name of Link: {{ getLinkName() }} <br>
           X Coordinate of Center of Mass: {{ this.getCOMXCoord() }} <br>
           Y Coordinate of Center of Mass: {{ this.getCOMYCoord() }} <br>
-            <p>Reference Joint</p>
+
+          <!-- REFERENCE JOINTS ALL LISTED- AND LOGIC TO SELECT THEM -->
+          <p>Reference Joint</p>
+          <div class="button-container">
+            <div *ngFor="let joint of this.getCurrentLink().getJoints()" class = "button-wrapper">
+              <button class="referenceJointSelect" (click) = onReferenceJointSelected(joint)>
+                Name of Joint: {{ joint.name }}
+              </button>
+            </div>
+          </div>
+
             Name of Joint: {{ getReferenceJointName() }} <br>
             X Coordinate of Joint: {{ this.getReferenceJointXCoord() }} <br>
             Y Coordinate of Joint: {{ this.getReferenceJointYCoord() }} <br>

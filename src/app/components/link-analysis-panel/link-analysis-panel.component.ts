@@ -17,6 +17,9 @@ export enum GraphType {
   CoMPosition,
   CoMVelocity,
   CoMAcceleration,
+  referenceJointPosition,
+  referenceJointVelocity,
+  referenceJointAcceleration
   // Add more graph types as needed
 }
 
@@ -31,6 +34,7 @@ export class LinkAnalysisPanelComponent {
 
   currentGraphType: GraphType | null = null;
   graphTypes = GraphType;
+  referenceJoint: Joint = this.getCurrentLink().joints.get(0) as Joint;
 
   graphExpanded: { [key: string]: boolean } = {
     dataSummary: true,
@@ -50,7 +54,7 @@ export class LinkAnalysisPanelComponent {
     return (currentLinkInteractor as LinkInteractor).getLink();
   }
   getLinkName(): string {return this.getCurrentLink().name;}
-    getReferenceJoint(){return this.getCurrentLink().joints.get(0);}
+    getReferenceJoint(){return this.referenceJoint;}
     getReferenceJointName(){return this.getReferenceJoint()?.name;}
     getReferenceJointXCoord(){return this.getReferenceJoint()?.coords.x.toFixed(3) as unknown as number;}
     getReferenceJointYCoord(){return this.getReferenceJoint()?.coords.y.toFixed(3) as unknown as number;}
@@ -94,6 +98,12 @@ export class LinkAnalysisPanelComponent {
         return 'Center of Mass Velocity';
       case GraphType.CoMAcceleration:
         return 'Center of Mass Acceleration';
+      case GraphType.referenceJointPosition:
+        return 'Reference Joint Position'
+      case GraphType.referenceJointVelocity:
+        return 'Reference Joint Velocity'
+      case GraphType.referenceJointAcceleration:
+        return 'Reference Joint Acceleration'
       // Add more cases as needed
       default:
         return ''; // Handle unknown cases or add a default value
@@ -149,10 +159,6 @@ export class LinkAnalysisPanelComponent {
         let placeholderCoMJoint = this.getPlaceholderCoMJoint();
         const animationPositions = this.kinematicSolverService.solvePositions();
         let chartData = this.kinematicSolverService.transformPositionsForChart(animationPositions, placeholderCoMJoint);
-        console.log("X data of CoM: " + chartData.xData);
-        console.log("Y data of CoM: " + chartData.yData);
-        console.log("Time data of CoM: " + chartData.timeLabels);
-
         return chartData;
 
       case GraphType.CoMVelocity:
@@ -161,6 +167,21 @@ export class LinkAnalysisPanelComponent {
       case GraphType.CoMAcceleration:
       // TODO more bozo behavior
 
+
+      case GraphType.referenceJointPosition:
+        if(this.getReferenceJoint() !== undefined) {
+          const animationPositions = this.kinematicSolverService.solvePositions();
+          let chartData = this.kinematicSolverService.transformPositionsForChart(animationPositions, this.getReferenceJoint()!);
+          return chartData;
+        }
+        return {
+          xData: [],
+          yData: [],
+          timeLabels: []
+        };
+
+
+
       default:
         return {
           xData: [],
@@ -168,6 +189,10 @@ export class LinkAnalysisPanelComponent {
           timeLabels: []
         };
     }
+  }
+
+  onReferenceJointSelected(joint: Joint){
+    this.referenceJoint = joint;
   }
 
 

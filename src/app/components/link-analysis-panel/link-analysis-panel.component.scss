@@ -38,6 +38,16 @@
   margin-left: auto; /* Pushes this element to the right */
 }
 
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.button-wrapper {
+  flex: 0 0 calc(33.33% - 10px); /* Each button takes up approximately one-third of the container with 10px spacing */
+  margin: 5px; /* Adjust the margin as needed for spacing between buttons */
+}
+
 .overlay {
   position: fixed;
   top: 0;

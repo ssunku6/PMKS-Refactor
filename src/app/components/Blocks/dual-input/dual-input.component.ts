@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, Output, EventEmitter } from '@angular/core';
+import {Component, Input, OnInit, OnChanges, Output, EventEmitter, numberAttribute} from '@angular/core';
 import {Form, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {Joint} from "../../../model/joint";
 
@@ -10,8 +10,8 @@ import {Joint} from "../../../model/joint";
 export class DualInputComponent {
   @Input() disabled: boolean=false;
   @Input() tooltip: string = '';
-  @Input() input1Value: number=0;
-  @Input() input2Value: number = 0;
+  @Input({transform: numberAttribute}) input1Value: number=0;
+  @Input({transform: numberAttribute}) input2Value: number = 0;
   @Input() label1: string ="X";
   @Input() label2: string ="Y";
 
