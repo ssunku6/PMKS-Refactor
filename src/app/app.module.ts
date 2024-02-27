@@ -48,7 +48,7 @@ import { NgChartsModule } from 'ng2-charts';
 import {LinkAnalysisPanelComponent} from "./components/link-analysis-panel/link-analysis-panel.component";
 import {CompoundLinkAnalysisPanelComponent} from "./components/compound-link-analysis-panel/compound-link-analysis-panel.component";
 import {CompoundLinkEditPanelComponent} from "./components/compound-link-edit-panel/compound-link-edit-panel.component";
-import { AnimationBarComponent } from './components/animation-bar/animation-bar.component';
+import { AnimationBarComponent } from './components/animationbar/animationbar.component';
 import {AnalysisGraphButtonComponent} from "./components/Blocks/analysis-graph-button/analysis-graph-button.component";
 
 
