@@ -206,8 +206,11 @@ export class AnalysisSolveService {
         const y_intersection = pos2.y + (t_2 * Math.sin(theta2));
         return new Coord(x_intersection,y_intersection);
     }
+    getJointKinematics(jointID:number): JointAnalysis{
+        return this.jointKinematics.get(jointID)!;
+    }
 
-    getLinkKinematics(jointIDs: number[]){
+    getLinkKinematics(jointIDs: number[]): LinkAnalysis{
         let subJoints: JointAnalysis[] = new Array();
         for(let id of jointIDs){
             subJoints.push(this.jointKinematics.get(id)!);
