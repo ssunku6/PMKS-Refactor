@@ -3,6 +3,7 @@ import { StateService } from './state.service';
 import { Joint, JointType } from '../model/joint';
 import { Link, RigidBody } from '../model/link';
 import { Coord } from '../model/coord';
+import { BehaviorSubject } from 'rxjs';
 
 
 export enum SolveType {
@@ -21,53 +22,109 @@ export interface SolvePrerequisite {
     distFromKnownJointTwo?: number;
 
 }
+
 export interface AnimationPositions {
-    correspondingJoints: number[][],
-    positions: Coord[][][];
+    correspondingJoints: number[],
+    positions: Coord[][];
 }
+
+export interface SolveOrder {
+    order: number[],
+    prerequisites: Map<number, SolvePrerequisite>,
+}
+
 
 @Injectable({
     providedIn: 'root'
 })
 export class KinematicSolverService {
+
+    private animationPositions: AnimationPositions[] = new Array();
+    private solveOrders: SolveOrder[] = new Array();
+    private animationsChange: BehaviorSubject<AnimationPositions[]> = new BehaviorSubject<AnimationPositions[]>(this.animationPositions); 
+    public animationsChange$ = this.animationsChange.asObservable();
+
     constructor(private stateService: StateService) {
+        console.log("kinematics constructor");
+        this.solvePositions();
+        this.stateService.getMechanismObservable().subscribe(updatedMechanism => {
+            this.solvePositions();
+        });
 
     }
-    solvePositions(): AnimationPositions {
-        console.log("Solving Positions");
+    public getKinematicsObservable(){
+        return this.animationsChange$;
+
+    }
+
+    getAnimationFrames(): AnimationPositions[]{
+        return this.animationPositions;
+    }
+    getSolveOrders(): SolveOrder[]{
+        return this.solveOrders;
+    }
+    
+    solvePositions(){
         //first get the list of submechanisms to collect positions independently
         const subMechanisms: Map<Joint, RigidBody[]>[] = this.stateService.getMechanism().getSubMechanisms();
-        console.log(`number of subMechanisms: ${subMechanisms.length}`);
-        const validMechanisms: Map<Joint, RigidBody[]>[] = new Array();
+
         //second, determine which submechanisms are valid and can be simulated
+        const validMechanisms: Map<Joint, RigidBody[]>[] = this.getValidMechanisms(subMechanisms);
+
+        //third determine solve order.
+        this.updateSolveOrders(validMechanisms);
+
+        //fourth, solve for all of the possible positions for each mechanism.
+        this.updateAnimationPositions();
+
+        this.animationsChange.next(this.animationPositions);
+    }
+
+    getValidMechanisms(subMechanisms: Map<Joint, RigidBody[]>[]): Map<Joint, RigidBody[]>[] {
+        const validMechanisms: Map<Joint, RigidBody[]>[] = new Array();
         for (let subMechanism of subMechanisms) {
             if (this.isValidMechanism(subMechanism)) {
                 validMechanisms.push(subMechanism);
             }
         }
-        console.log(`number of valid subMechanisms: ${validMechanisms.length}`);
-        //third determine solve order.
-        let solveOrders: { order: number[], prerequisites: Map<number, SolvePrerequisite> }[] = new Array();
-        for (let subMechanism of validMechanisms) {
-            solveOrders.push(this.determineSolveOrder(subMechanism))
+        return validMechanisms;
+    }
+
+    updateSolveOrders(mechanisms: Map<Joint, RigidBody[]>[]) {
+        this.solveOrders = new Array();
+        for (let subMechanism of mechanisms) {
+            this.solveOrders.push(this.determineSolveOrder(subMechanism))
         }
-        console.log(`number of solve orders completed: ${solveOrders.length}`);
-        console.log(solveOrders);
-        //fourth, solve for all of the possible positions for each mechanism.
-        let positions: Coord[][][] = new Array();
-        let correspondingJoints: number[][] = new Array();
-        for (let solveOrder of solveOrders) {
-            correspondingJoints.push(solveOrder.order);
-            positions.push(this.getPositions(solveOrder.order, solveOrder.prerequisites));
+    }
+
+    updateAnimationPositions() {
+        this.animationPositions = new Array();
+        for (let solveOrder of this.solveOrders) {
+            this.animationPositions.push({correspondingJoints: solveOrder.order, positions: this.getPositions(solveOrder.order, solveOrder.prerequisites)})
         }
-        console.log(`number animations completed: ${positions.length}`);
-        console.log(positions);
-        return { correspondingJoints: correspondingJoints, positions: positions } as AnimationPositions;
     }
 
 
     private isValidMechanism(subMechanism: Map<Joint, RigidBody[]>): boolean {
         //ensure only one input is present and grounded
+        let inputJoint: Joint | null = this.getValidInputs(subMechanism);
+        if (inputJoint == null) {
+            return false;
+        }
+        //ensure the DOF is also 1.
+        let degreesOfFreedom: number = this.getDegreesOfFreedom(subMechanism);
+        if (degreesOfFreedom != 1) {
+            return false;
+        }
+        //ensure the minimum viable loop is met.
+        let minDistanceFromGround: number = this.minDistanceFromGround(inputJoint!, subMechanism);
+        if (minDistanceFromGround != 4) {
+            return false;
+        }
+        return true;
+    }
+
+    private getValidInputs(subMechanism: Map<Joint, RigidBody[]>): Joint | null {
         let isValid = true;
         let numberOfInputs = 0;
         let inputJoint: Joint;
@@ -76,35 +133,17 @@ export class KinematicSolverService {
                 inputJoint = joint;
                 numberOfInputs++;
                 if (joint.isGrounded == false) {
-                    isValid = false
+                    return null;
                 }
             }
         }
         if (numberOfInputs != 1) {
-            isValid = false;
+            return null;
         }
-        //ensure the DOF is also 1.
-        let degreesOfFreedom: number = this.getDegreesOfFreedom(subMechanism);
-        if (degreesOfFreedom != 1) {
-            isValid = false;
-        }
-        //ensure the minimum viable loop is met.
-        let minDistanceFromGround: number = 0;
-        if (numberOfInputs == 1) {
-            minDistanceFromGround = this.minDistanceFromGround(inputJoint!, subMechanism);
-            if (minDistanceFromGround != 4) {
-                isValid = false;
-            }
-        }
-
-        console.log(`Mechanism Validity:`)
-        console.log(`number of inputs: ${numberOfInputs} , Must be 1`);
-        console.log(`Degrees of Freedom: ${degreesOfFreedom}, Must be 1`);
-        console.log(`Minimum Distance From Ground: ${minDistanceFromGround}, Must be 4`);
-
-        return isValid;
-
+        return inputJoint!;
     }
+
+
     //Kutzback equation  + Grubler's Equation
     private getDegreesOfFreedom(subMechanism: Map<Joint, RigidBody[]>): number {
         let N: number = 0; // number of links
@@ -139,20 +178,31 @@ export class KinematicSolverService {
             return prismaticAddOne;
         }
         let min = Number.MAX_VALUE;
-        for (let rigidBody of subMechanism.get(input)!) {
-            for (let joint of rigidBody.getJoints()) {
-                if (!visitedJoints.includes(joint.id)) {
-                    let minFromJoint = this.minDistanceFromGround(joint, subMechanism, Array.from(visitedJoints));
-                    if (minFromJoint + prismaticAddOne < min) {
-                        min = minFromJoint + prismaticAddOne;
-                    }
-                }
+        let connectedJoints: Set<Joint> = this.getUnseenNeighbors(subMechanism.get(input)!, visitedJoints);
+
+        for (let joint of connectedJoints) {
+            let minFromJoint = this.minDistanceFromGround(joint, subMechanism, Array.from(visitedJoints));
+            if (minFromJoint + prismaticAddOne < min) {
+                min = minFromJoint + prismaticAddOne;
             }
         }
         return min;
     }
 
-    private determineSolveOrder(subMechanism: Map<Joint, RigidBody[]>) {
+    private getUnseenNeighbors(links: RigidBody[], visitedJoints: number[]): Set<Joint>{
+        let unseenNeighbors: Set<Joint> = new Set();
+        for (let rigidBody of links!) {
+            for (let joint of rigidBody.getJoints()) {
+                if (!visitedJoints.includes(joint.id)) {
+                    unseenNeighbors.add(joint);
+                }
+            }
+        }
+        return unseenNeighbors;
+    }
+
+
+    private determineSolveOrder(subMechanism: Map<Joint, RigidBody[]>): SolveOrder {
         let solveMap: Map<number, SolvePrerequisite> = new Map();
         let solveOrder: number[] = new Array();
         let unsolvedJoints: Joint[] = new Array();
@@ -191,9 +241,10 @@ export class KinematicSolverService {
             }
 
         }
-        return { order: solveOrder, prerequisites: solveMap };
+        return { order: solveOrder, prerequisites: solveMap } as SolveOrder;
 
     }
+
     private jointCanBeSolved(joint: Joint, links: RigidBody[], solvedJoints: number[]): SolvePrerequisite | undefined {
         let canBeSolved = undefined;
         let solveType: SolveType | undefined;
@@ -251,8 +302,8 @@ export class KinematicSolverService {
         let positions: Coord[][] = new Array();
         /**
          * 2D array represents the following
-         * [[p1n,p2n,p3n,p4n],           //positions [1..n] are the positions of joints at timestep n-1
-         *  [p1n+1,p2n+1,p3n+1,p4n+1]
+         * [[j1n,j2n,j3n,j4n],           //positions [0..j] are the positions of joints 0..j at timestep n
+         *  [j1n+1,j2n+1,j3n+1,j4n+1]
          * ]
          */
         let startingPositions: Coord[] = new Array();
@@ -325,7 +376,6 @@ export class KinematicSolverService {
     }
 
     private solveRevInput(prevPositions: Coord[], solveOrder: number[], solvePrerequisite: SolvePrerequisite, movingForward: number): Coord | undefined {
-
         let prevPosition: Coord = prevPositions[solveOrder.indexOf(solvePrerequisite.jointToSolve.id)];
         let inputPosition: Coord = solvePrerequisite.knownJointOne!._coords;
         const radius = solvePrerequisite.distFromKnownJointOne!
@@ -345,6 +395,7 @@ export class KinematicSolverService {
         const y = prevPosition.y + increment * Math.sin(angle);
         return new Coord(x, y);
     }
+
 
     private solveCircleCircle(prevPositions: Coord[], solveOrder: number[], solvePrerequisite: SolvePrerequisite, movingForward: number, nextPositions: Coord[]): Coord | undefined {
 
@@ -376,6 +427,7 @@ export class KinematicSolverService {
 
         return intersection1Diff < intersection2Diff ? intersectionPoints[0] : intersectionPoints[1];
     }
+
     private circleCircleIntersection(firstKnownJointX: number, firstKnownJointY: number, distFromFirstJoint: number, secondKnownJointX: number, secondKnownJointY: number, distFromSecondJoint: number
     ): Coord[] | undefined {
         let xDiffBetweenKnowns = secondKnownJointX - firstKnownJointX;

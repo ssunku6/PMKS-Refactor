@@ -30,9 +30,9 @@ export class AnimationService {
     constructor(private stateService: StateService, private kinematicService: KinematicSolverService) {
         this.animationStates = new Array();
         this.invaldMechanism = true;
-        this.stateService.getMechanismObservable().subscribe(updatedMechanism => {
+        this.kinematicService.getKinematicsObservable().subscribe(updatedPositions => {
             this.initializeAnimations();
-        })
+        });
     }
     isInvalid(): boolean {
         return this.invaldMechanism;
@@ -40,21 +40,21 @@ export class AnimationService {
 
     initializeAnimations() {
         this.animationStates = new Array();
-        let frames: AnimationPositions = this.kinematicService.solvePositions();
+        let frames: AnimationPositions[] = this.kinematicService.getAnimationFrames();
 
-        for (let subMechanismIndex = 0; subMechanismIndex < frames.correspondingJoints.length; subMechanismIndex++) {
+        for (let subMechanismIndex = 0; subMechanismIndex < frames.length; subMechanismIndex++) {
             //intialize animation states
             let mechanismIndex: number = subMechanismIndex,
                 currentFrameIndex: number = 0,
-                totalFrames: number = frames.positions[subMechanismIndex].length,
+                totalFrames: number = frames[subMechanismIndex].positions.length,
                 isPaused: boolean = true,
                 startingPositions: Coord[] = new Array(),
                 jointIDs: number[] = new Array(),
-                animationFrames: Coord[][] = frames.positions[subMechanismIndex],
-                inputSpeed: number = this.stateService.getMechanism().getJoint(frames.correspondingJoints[subMechanismIndex][0]).inputSpeed;
-            for (let jointIndex = 0; jointIndex < frames.correspondingJoints[subMechanismIndex].length; jointIndex++) {
-                startingPositions.push(frames.positions[subMechanismIndex][0][jointIndex]);
-                jointIDs.push(frames.correspondingJoints[subMechanismIndex][jointIndex]);
+                animationFrames: Coord[][] = frames[subMechanismIndex].positions,
+                inputSpeed: number = this.stateService.getMechanism().getJoint(frames[subMechanismIndex].correspondingJoints[0]).inputSpeed;
+            for (let jointIndex = 0; jointIndex < frames[subMechanismIndex].correspondingJoints.length; jointIndex++) {
+                startingPositions.push(frames[subMechanismIndex].positions[0][jointIndex]);
+                jointIDs.push(frames[subMechanismIndex].correspondingJoints[jointIndex]);
             }
             this.animationStates.push({
                 mechanismIndex: mechanismIndex,
@@ -68,12 +68,8 @@ export class AnimationService {
             })
         }
         this.invaldMechanism = this.animationStates.length == 0 ? true : false;
-        console.log(this.invaldMechanism);
-        console.log("animation states:\n");
-        console.log(this.animationStates);
     }
     animateMechanisms(playPause: boolean) {
-        console.log(`animating Mechanisms ${playPause}`);
         if (playPause == false) {
             for (let state of this.animationStates) {
                 state.isPaused = true;
@@ -113,4 +109,33 @@ export class AnimationService {
             state.currentFrameIndex = 0;
         }
     }
+    getSubMechanismIndex(jointID: number): number{
+        for(let state of this.animationStates){
+            if(state.jointIDs.indexOf(jointID) != -1){
+                return this.animationStates.indexOf(state);
+            }
+        }
+        return -1;
+    }
+    getCurrentTime(mechanismIndex: number){
+        let animationState = this.animationStates[mechanismIndex];
+        return (60 / (animationState.inputSpeed * 360)) * animationState.currentFrameIndex;
+
+    }
+    setCurrentTime(timeInSeconds: number, mechanismIndex: number){
+        let animationState = this.animationStates[mechanismIndex];
+        let frame = Math.round(timeInSeconds / (60 / (animationState.inputSpeed * 360)));
+        while(frame > animationState.totalFrames){
+            frame -= animationState.totalFrames;
+        } 
+        while(frame < 0){
+            frame += animationState.totalFrames
+        }
+        animationState.currentFrameIndex = frame;
+    }
+    
+
+
+
+
 }
