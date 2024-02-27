@@ -157,7 +157,7 @@ export class LinkAnalysisPanelComponent {
     switch(this.currentGraphType) {
       case GraphType.CoMPosition:
         let placeholderCoMJoint = this.getPlaceholderCoMJoint();
-        const animationPositions = this.kinematicSolverService.solvePositions();
+        const animationPositions = this.kinematicSolverService.getAnimationFrames();
         let chartData = this.kinematicSolverService.transformPositionsForChart(animationPositions, placeholderCoMJoint);
         return chartData;
 
@@ -170,7 +170,7 @@ export class LinkAnalysisPanelComponent {
 
       case GraphType.referenceJointPosition:
         if(this.getReferenceJoint() !== undefined) {
-          const animationPositions = this.kinematicSolverService.solvePositions();
+          const animationPositions = this.kinematicSolverService.getAnimationFrames();
           let chartData = this.kinematicSolverService.transformPositionsForChart(animationPositions, this.getReferenceJoint()!);
           return chartData;
         }
@@ -194,28 +194,5 @@ export class LinkAnalysisPanelComponent {
   onReferenceJointSelected(joint: Joint){
     this.referenceJoint = joint;
   }
-
-
-  // geteLinksForJoint and getConnectedJoints are both used to dynamically
-  // view and modify the connected joints in a mechanism. Is sent to a loop of
-  // dual input blocks in the HTML, that's created by looping through all of the
-  // connected joints
-    /*
-  getLinksForJoint(): IterableIterator<Link> {return this.getMechanism().getConnectedLinksForJoint(this.getCurrentJoint()).values();}
-  getConnectedJoints(): Joint[] {
-    const connectedLinks: Link[] = Array.from(this.getLinksForJoint());
-    const allJoints: Joint[] = connectedLinks.reduce(
-        (accumulator: Joint[], link: Link) => {
-          const jointMap: Map<number, Joint> = link.joints;
-          const joints: Joint[] = Array.from(jointMap.values());
-          return accumulator.concat(joints);
-        },
-        []
-    );
-    // console.log(allJoints);
-    return allJoints;
-  }
-
-     */
 
 }

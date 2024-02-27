@@ -115,6 +115,11 @@ export class KinematicSolverService {
     updateAnimationPositions() {
       this.animationPositions = new Array();
       for (let solveOrder of this.solveOrders) {
+        this.animationPositions.push({correspondingJoints: solveOrder.order, positions: this.getPositions(solveOrder.order, solveOrder.prerequisites)})
+      }
+      /*
+      this.animationPositions = new Array();
+      for (let solveOrder of this.solveOrders) {
         this.animationPositions.push({
           correspondingJoints: solveOrder.order,
           positions: this.getPositions(solveOrder.order, solveOrder.prerequisites)
@@ -142,37 +147,51 @@ export class KinematicSolverService {
 
         return {correspondingJoints: correspondingJoints, positions: positions} as AnimationPositions;
       }
+       */
     }
 
   // helper function transforms the positions and corresponding joints
     // into data that can be fed into a chart.js object. Used for joint / link analysis panels.
-  // Takes in the animationPositions we solved for in this.solvePositions() and the current joint.
+  // Takes in the animationPositions we solved for and the current joint.
   // first finds the mechanism containing the current joint, then takes the data from that mechanism
   // and converts into x and y values. these are represented by number[] objects.
   // returns xData, yData, which are of course all x/y positions of the joint.
   // returns timeLabels[], which contains every timestep we have solved for.
-  transformPositionsForChart(animationPositions: AnimationPositions, joint: Joint): { xData: any[], yData: any[], timeLabels: string[] } {
-      const positions = animationPositions.positions;
-      const correspondingJoints = animationPositions.correspondingJoints;
+  transformPositionsForChart(animationPositions: AnimationPositions[], joint: Joint): { xData: any[], yData: any[], timeLabels: string[] } {
       const xData = [];
-    const yData = [];
-    const timeLabels = positions[0].map((_, index) => `${index + 1}`);
+      const yData = [];
+      const timeLabels: string[] = [];
 
     // LOOP THROUGH EVERY MECHANISM, with intention of finding current joint
-    for (let i = 0; i < correspondingJoints.length; i++) {
-      const jointsInMechanismI = correspondingJoints[i];
+    for(let i =0; i<animationPositions.length; i++){
+      const positions = animationPositions[i].positions;
+      const correspondingJoints = animationPositions[i].correspondingJoints;
 
-      // if the current joint is in the mechanism, do the thing and get the positions. if not, keep moving
-        if (jointsInMechanismI.includes(joint.id)){
-          let timeStepsforJoints = positions[i];
-          let columnOfJointPos = timeStepsforJoints.map(row => row[jointsInMechanismI.indexOf(joint.id)]);
+      // if current mechanism contains joint
+      if(correspondingJoints.includes(joint.id)){
+        // exist to find the order of joints, to get accurate position data
+        const solveOrderOfMech = this.getSolveOrders()[i].order;
+        timeLabels.push(...positions.map((row, index) => String(index)));
+        let indexOfJointSelected = solveOrderOfMech.indexOf(joint.id);
 
-          const xValues = columnOfJointPos.map(coord => coord.x);
-          const yValues = columnOfJointPos.map(coord => coord.y);
-          xData.push({data: xValues, label: `X Position of Joint`});
-          yData.push({data: yValues, label: `Y Position of Joint`});
-        }
+        // map position values to arrays
+        let columnOfJointPos = positions.map(row => row[indexOfJointSelected]);
+        const xValues = columnOfJointPos.map(coord => coord.x);
+        const yValues = columnOfJointPos.map(coord => coord.y);
+        xData.push({data: xValues, label: `X Position of Joint`});
+        yData.push({data: yValues, label: `Y Position of Joint`});
+        break;
+      }
+
     }
+
+    console.log("X Data of Joint: " + joint.id + ": ");
+    for(let i=0; i<xData.length; i++){
+      console.log(xData[i]);
+    }
+    console.log("Y Data of Joint: " + joint.id + ": " + yData);
+    console.log("Time Data of Joint: " + joint.id + ": " + timeLabels);
+    console.log(timeLabels[1]);
 
     return { xData, yData, timeLabels };
   }

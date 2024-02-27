@@ -141,7 +141,6 @@ export class CompoundLinkAnalysisPanelComponent {
     const joints = new Map();
 
     for (const link of this.getCurrentCompoundLink().links.values()) {
-      // Assuming each link has a _joints property
       for (const [jointId, joint] of link._joints.entries()) {
         joints.set(jointId, joint);
       }
@@ -167,7 +166,7 @@ export class CompoundLinkAnalysisPanelComponent {
     switch(this.currentGraphType) {
       case GraphType.CoMPosition:
         let placeholderCoMJoint = this.getPlaceholderCoMJoint();
-        const animationPositions = this.kinematicSolverService.solvePositions();
+        const animationPositions = this.kinematicSolverService.getAnimationFrames();
         let chartData = this.kinematicSolverService.transformPositionsForChart(animationPositions, placeholderCoMJoint);
         return chartData;
 
@@ -180,7 +179,7 @@ export class CompoundLinkAnalysisPanelComponent {
 
       case GraphType.referenceJointPosition:
         if(this.getReferenceJoint() !== undefined) {
-          const animationPositions = this.kinematicSolverService.solvePositions();
+          const animationPositions = this.kinematicSolverService.getAnimationFrames();
           let chartData = this.kinematicSolverService.transformPositionsForChart(animationPositions, this.getReferenceJoint()!);
           return chartData;
         }

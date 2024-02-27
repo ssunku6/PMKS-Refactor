@@ -26,9 +26,6 @@ export interface LinkAnalysis {
 }
 
 
-
-
-
 @Injectable({
     providedIn: 'root'
 })
@@ -44,7 +41,7 @@ export class AnalysisSolveService {
     updateKinematics() {
         /**Order of operations
          * 1. First we need the Solve Orders and Positions of the joints from position solver
-         * 2. For solving links we need to associate model links with the joints being solved for, we can do so by using the 
+         * 2. For solving links we need to associate model links with the joints being solved for, we can do so by using the
          * 3. Iterate over each position, solving for the needed information for both links and joints.
          * 4. Update the Information
          */
@@ -129,10 +126,10 @@ export class AnalysisSolveService {
      * @param jointIndex - an index for the joint to be solved within with positions array.
      * @param prereq - a SolvePrerequisite that corresponds to that joint.
      * @param positions - an array of joint positions for a particular timestep.
-     * @returns 
+     * @returns
      */
     solveRevInputJointKinematics(jointIndex: number, prereq: SolvePrerequisite, positions: Coord[]): {velocity: Coord, acceleration: Coord}{
-        
+
         const xDifference = positions[jointIndex].x - positions[0].x;
         const yDifference = positions[jointIndex].y - positions[0].y;
         const angleToInput: number = Math.atan2(yDifference, xDifference);
@@ -174,7 +171,7 @@ export class AnalysisSolveService {
         const perp_angle_jk1: number = Math.atan2(diff_jk1.y, diff_jk1.x) + Math.PI / 2;
         const perp_angle_jk2: number = Math.atan2(diff_jk2.y, diff_jk2.x) + Math.PI / 2;
         const jointVelocity: Coord = this.parametricLineIntersection(v_k1, perp_angle_jk1,v_k2,perp_angle_jk2);
-        //acceleration of k1 + (V_k1j^2 / (k1-j)) for centripetal, 
+        //acceleration of k1 + (V_k1j^2 / (k1-j)) for centripetal,
         const x_centripetal_accel_jk1: number = accelerations[known1Index].x + Math.pow(jointVelocity.x, 2)/(-diff_jk1.x);
         const y_centripetal_accel_jk1: number = accelerations[known1Index].y + Math.pow(jointVelocity.y, 2)/(-diff_jk1.y);
         const x_centripetal_accel_jk2: number = accelerations[known2Index].x + Math.pow(jointVelocity.x, 2)/(-diff_jk2.x);
@@ -226,7 +223,7 @@ export class AnalysisSolveService {
             angularVelocity: angle_solutions.vel,
             angularAcceleration: angle_solutions.acc,
         } as LinkAnalysis
-        
+
     }
 
     getLinkCOMSolutions(subJoints: JointAnalysis[]){
@@ -280,5 +277,5 @@ export class AnalysisSolveService {
         return {ang: ang_pos, vel: ang_vel, acc: ang_acc};
     }
 
- 
+
 }

@@ -42,7 +42,7 @@ import {MatInputModule} from "@angular/material/input";
 import {TriButtonComponent} from "./components/Blocks/tri-button/tri-button.component";
 import { DualButtonComponent } from './components/Blocks/dual-button/dual-button.component';
 import {JointAnalysisPanelComponent} from "./components/joint-analysis-panel/joint-analysis-panel.component";
-import {AnalysisPanelComponent} from "./components/analysis-panel/analysis-panel.component";
+import { AnalysisPanelComponent } from "./components/analysis-panel/analysis-panel.component";
 import { GraphSectionComponent } from './components/Blocks/graph-section/graph-section.component';
 import { NgChartsModule } from 'ng2-charts';
 import {LinkAnalysisPanelComponent} from "./components/link-analysis-panel/link-analysis-panel.component";
@@ -70,6 +70,21 @@ import {AnalysisGraphButtonComponent} from "./components/Blocks/analysis-graph-b
     EditPanelComponent,
     AnimationBarComponent,
     AnalysisGraphButtonComponent,
+    AnalysisPanelComponent,
+    CompoundLinkEditPanelComponent,
+    CompoundLinkAnalysisPanelComponent,
+    LinkAnalysisPanelComponent,
+    GraphSectionComponent,
+    LinkEditPanelComponent,
+    PanelSectionCollapsibleComponent,
+    TriButtonComponent,
+    DualButtonComponent,
+    JointAnalysisPanelComponent,
+    ToggleComponent,
+    PanelSectionComponent,
+    TitleBlock,
+    CollapsibleSubsectionComponent,
+    DualInputComponent
   ],
   imports: [
     BrowserModule,

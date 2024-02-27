@@ -82,7 +82,7 @@ export class JointAnalysisPanelComponent {
   getGraphData() {
     switch(this.currentGraphType) {
       case GraphType.JointPosition:
-        const animationPositions = this.kinematicSolverService.solvePositions();
+        const animationPositions = this.kinematicSolverService.getAnimationFrames();
         let chartData = this.kinematicSolverService.transformPositionsForChart(animationPositions, this.getCurrentJoint());
         return chartData;
 
