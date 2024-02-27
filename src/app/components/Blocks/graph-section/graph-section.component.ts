@@ -52,7 +52,7 @@ export class GraphSectionComponent implements AfterViewInit, OnInit {
   @Input() showXAxis = true;
   @Input() showYAxis = true;
   @Input() xAxisLabel = 'Time in Time Steps';
-  @Input() yAxisLabel = 'Position';
+  @Input() yAxisLabel = '';
 
   public chart!: Chart;
 

@@ -216,22 +216,22 @@ export class AnalysisSolveService {
 
       switch (dataOf) {
         case("Position"):
-          xData.push({data: jointAnalysis.positions.map(coord => coord.x), label: "X data of Position of Joint"});
-          yData.push({data: jointAnalysis.positions.map(coord => coord.y), label: "Y data of Position of Joint"});
+          xData.push({data: jointAnalysis.positions.map(coord => coord.x), label: "X data of Position"});
+          yData.push({data: jointAnalysis.positions.map(coord => coord.y), label: "Y data of Position"});
           timeLabels.push(...jointAnalysis.positions.map((_, index) => String(index)));
 
           return { xData, yData, timeLabels };
 
         case("Velocity"):
-          xData.push({data: jointAnalysis.velocities.map(coord => coord.x), label: "X data of Velocity of Joint"});
-          yData.push({data: jointAnalysis.velocities.map(coord => coord.y), label: "Y data of Velocity of Joint"});
+          xData.push({data: jointAnalysis.velocities.map(coord => coord.x), label: "X data of Velocity"});
+          yData.push({data: jointAnalysis.velocities.map(coord => coord.y), label: "Y data of Velocity"});
           timeLabels.push(...jointAnalysis.velocities.map((_, index) => String(index)));
 
           return { xData, yData, timeLabels };
 
         case("Acceleration"):
-          xData.push({data: jointAnalysis.accelerations.map(coord => coord.x), label: "X data of Acceleration of Joint"});
-          yData.push({data: jointAnalysis.accelerations.map(coord => coord.y), label: "Y data of Acceleration of Joint"});
+          xData.push({data: jointAnalysis.accelerations.map(coord => coord.x), label: "X data of Acceleration"});
+          yData.push({data: jointAnalysis.accelerations.map(coord => coord.y), label: "Y data of Acceleration"});
           timeLabels.push(...jointAnalysis.accelerations.map((_, index) => String(index)));
 
           return { xData, yData, timeLabels };
