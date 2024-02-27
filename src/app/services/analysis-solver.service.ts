@@ -87,13 +87,14 @@ export class AnalysisSolveService {
         for (let index = 0; index < solveOrder.order.length; index++) {
             let id = solveOrder.order[index];
             let prereq = solveOrder.prerequisites.get(id)!;
+          let velocity_acceleration: {velocity: Coord, acceleration: Coord};
             switch (prereq.solveType) {
                 case SolveType.Ground:
                     velocities.push(new Coord(0,0));
                     accelerations.push(new Coord(0,0));
                     break;
                 case SolveType.RevoluteInput:
-                    let velocity_acceleration = this.solveRevInputJointKinematics(index,prereq,positions);
+                    velocity_acceleration = this.solveRevInputJointKinematics(index,prereq,positions);
                     velocities.push(velocity_acceleration.velocity);
                     accelerations.push(velocity_acceleration.acceleration);
                     break;
@@ -203,9 +204,45 @@ export class AnalysisSolveService {
         const y_intersection = pos2.y + (t_2 * Math.sin(theta2));
         return new Coord(x_intersection,y_intersection);
     }
+
     getJointKinematics(jointID:number): JointAnalysis{
         return this.jointKinematics.get(jointID)!;
     }
+
+    transformJointKinematicGraph(jointAnalysis: JointAnalysis, dataOf: string): { xData: any[], yData: any[], timeLabels: string[] }{
+      const xData: any[] = [];
+      const yData: any[] = [];
+      const timeLabels: string[] = [];
+
+      switch (dataOf) {
+        case("Position"):
+          xData.push({data: jointAnalysis.positions.map(coord => coord.x), label: "X data of Position of Joint"});
+          yData.push({data: jointAnalysis.positions.map(coord => coord.y), label: "Y data of Position of Joint"});
+          timeLabels.push(...jointAnalysis.positions.map((_, index) => String(index)));
+
+          return { xData, yData, timeLabels };
+
+        case("Velocity"):
+          xData.push({data: jointAnalysis.velocities.map(coord => coord.x), label: "X data of Velocity of Joint"});
+          yData.push({data: jointAnalysis.velocities.map(coord => coord.y), label: "Y data of Velocity of Joint"});
+          timeLabels.push(...jointAnalysis.velocities.map((_, index) => String(index)));
+
+          return { xData, yData, timeLabels };
+
+        case("Acceleration"):
+          xData.push({data: jointAnalysis.accelerations.map(coord => coord.x), label: "X data of Acceleration of Joint"});
+          yData.push({data: jointAnalysis.accelerations.map(coord => coord.y), label: "Y data of Acceleration of Joint"});
+          timeLabels.push(...jointAnalysis.accelerations.map((_, index) => String(index)));
+
+          return { xData, yData, timeLabels };
+
+        default:
+          console.error("Invalid Graph type detected! Returning default values.")
+          return { xData, yData, timeLabels };
+      }
+
+    }
+
 
     getLinkKinematics(jointIDs: number[]): LinkAnalysis{
         let subJoints: JointAnalysis[] = new Array();

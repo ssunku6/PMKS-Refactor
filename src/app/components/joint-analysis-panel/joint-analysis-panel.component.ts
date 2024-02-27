@@ -7,6 +7,7 @@ import {Joint} from "../../model/joint";
 import {Form, FormControl, FormGroup} from "@angular/forms";
 import {Link} from "../../model/link";
 import {KinematicSolverService} from "../../services/kinematic-solver.service";
+import {AnalysisSolveService} from "../../services/analysis-solver.service";
 
 interface Tab {
     selected: boolean,
@@ -43,7 +44,8 @@ export class JointAnalysisPanelComponent {
       accelerationOfJoint: false
   };
 
-  constructor(private stateService: StateService, private interactorService: InteractionService, private kinematicSolverService: KinematicSolverService){
+  constructor(private stateService: StateService, private interactorService: InteractionService,
+              private kinematicSolverService: KinematicSolverService, private analysisSolverService: AnalysisSolveService){
       console.log("joint-analysis-panel.constructor");
   }
 
@@ -80,17 +82,21 @@ export class JointAnalysisPanelComponent {
   // calls the positionSolver and reformats data into a type that chart,js can take
   // see TransformPositionsForChart function in kinematic solver for more detail
   getGraphData() {
+    this.analysisSolverService.updateKinematics();
+    const jointKinematics = this.analysisSolverService.getJointKinematics(this.getCurrentJoint().id);
     switch(this.currentGraphType) {
       case GraphType.JointPosition:
-        const animationPositions = this.kinematicSolverService.getAnimationFrames();
-        let chartData = this.kinematicSolverService.transformPositionsForChart(animationPositions, this.getCurrentJoint());
-        return chartData;
+        let positionChartData = this.analysisSolverService.transformJointKinematicGraph(jointKinematics, this.getGraphTypeName(this.currentGraphType));
+        return positionChartData;
 
       case GraphType.JointVelocity:
-        // do at a later date, bozo TODO
+        let velocityChartData = this.analysisSolverService.transformJointKinematicGraph(jointKinematics, this.getGraphTypeName(this.currentGraphType));
+        return velocityChartData;
+
 
       case GraphType.JointAcceleration:
-        // TODO more bozo behavior
+        let accelerationChartData = this.analysisSolverService.transformJointKinematicGraph(jointKinematics, this.getGraphTypeName(this.currentGraphType));
+        return accelerationChartData;
 
       default:
         return {
