@@ -7,6 +7,8 @@ import {Coord} from "../../../model/coord";
 import { AnimationPositions } from '../../../services/kinematic-solver.service';
 import Papa from 'papaparse';
 import {join} from "@angular/compiler-cli";
+import {StateService} from "../../../services/state.service";
+import {Joint} from "../../../model/joint";
 
 
 
@@ -21,10 +23,12 @@ export class ExportDataComponent {
   @Input() graphText: string = '';
   @Input() btn1Action!: () => void;
 
-  constructor(private kinematicSolverService: KinematicSolverService, private analysisSolverService: AnalysisSolveService) {}
+  constructor(private kinematicSolverService: KinematicSolverService, private analysisSolverService: AnalysisSolveService,
+              private stateService: StateService) {}
 
   exportData() {
     const animationPositions: AnimationPositions[] = this.kinematicSolverService.getAnimationFrames();
+    const mechanism = this.stateService.getMechanism();
 
     // Prepare an array to store CSV rows
     const csvRows: string[] = [];
@@ -36,6 +40,10 @@ export class ExportDataComponent {
         let mechanismOrder = solveOrders[mechanismIndex].order;
         headerRow.push(`Joint ${mechanismOrder[jointIndex]} X`, `Joint ${mechanismOrder[jointIndex]} Y`);
       }
+    }
+
+    for(let joint of mechanism.getJoints()){
+      headerRow.push(`Joint ${joint.id} Link`)
     }
 
     csvRows.push(headerRow.join(',')); // Add more joints as neede
@@ -54,6 +62,12 @@ export class ExportDataComponent {
         // Add a row for each time and joint
         csvRows.push(`${time},${jointDataRow}`);
       }
+    }
+
+    for(let joint of mechanism.getJoints()){
+      const jointConnectedLinks = mechanism.getConnectedLinksForJoint(joint);
+      const jointDataRow = jointConnectedLinks.map(id => id.id);
+      csvRows.push(`${jointDataRow.join(',')}`)
     }
 
     // Join rows into a single CSV string
