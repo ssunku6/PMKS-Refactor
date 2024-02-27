@@ -18,9 +18,9 @@ export enum GraphType {
   CoMPosition,
   CoMVelocity,
   CoMAcceleration,
-  referenceJointPosition,
-  referenceJointVelocity,
-  referenceJointAcceleration
+  referenceJointAngle,
+  referenceJointAngularVelocity,
+  referenceJointAngularAcceleration
   // Add more graph types as needed
 }
 
@@ -104,12 +104,12 @@ export class LinkAnalysisPanelComponent {
         return 'Center of Mass Velocity';
       case GraphType.CoMAcceleration:
         return 'Center of Mass Acceleration';
-      case GraphType.referenceJointPosition:
-        return 'Reference Joint Position'
-      case GraphType.referenceJointVelocity:
-        return 'Reference Joint Velocity'
-      case GraphType.referenceJointAcceleration:
-        return 'Reference Joint Acceleration'
+      case GraphType.referenceJointAngle:
+        return 'Reference Joint Angle'
+      case GraphType.referenceJointAngularVelocity:
+        return 'Reference Joint Angular Velocity'
+      case GraphType.referenceJointAngularAcceleration:
+        return 'Reference Joint Angular Acceleration'
       // Add more cases as needed
       default:
         return ''; // Handle unknown cases or add a default value
@@ -179,10 +179,12 @@ export class LinkAnalysisPanelComponent {
         return comAccelerationChartData;
 
 
-      case GraphType.referenceJointPosition:
+      case GraphType.referenceJointAngle:
         if(this.getReferenceJoint() !== undefined) {
-          jointKinematics = this.analysisSolverService.getJointKinematics(this.getReferenceJoint().id);
-          let chartData = this.analysisSolverService.transformJointKinematicGraph(jointKinematics, "Position");
+          let joints = this.getCurrentLink().getJoints();
+          let jointIds = joints.map(joint => joint.id);
+          let linkKinematics = this.analysisSolverService.getLinkKinematics(jointIds);
+          let chartData = this.analysisSolverService.transformLinkKinematicGraph(linkKinematics, "Angle");
           return chartData;
         }
         return {
@@ -191,10 +193,12 @@ export class LinkAnalysisPanelComponent {
           timeLabels: []
         };
 
-      case GraphType.referenceJointVelocity:
+      case GraphType.referenceJointAngularVelocity:
         if(this.getReferenceJoint() !== undefined) {
-          jointKinematics = this.analysisSolverService.getJointKinematics(this.getReferenceJoint().id);
-          let chartData = this.analysisSolverService.transformJointKinematicGraph(jointKinematics, "Velocity");
+          let joints = this.getCurrentLink().getJoints();
+          let jointIds = joints.map(joint => joint.id);
+          let linkKinematics = this.analysisSolverService.getLinkKinematics(jointIds);
+          let chartData = this.analysisSolverService.transformLinkKinematicGraph(linkKinematics, "Velocity");
           return chartData;
         }
         return {
@@ -203,10 +207,12 @@ export class LinkAnalysisPanelComponent {
           timeLabels: []
         };
 
-      case GraphType.referenceJointAcceleration:
+      case GraphType.referenceJointAngularAcceleration:
         if(this.getReferenceJoint() !== undefined) {
-          jointKinematics = this.analysisSolverService.getJointKinematics(this.getReferenceJoint().id);
-          let chartData = this.analysisSolverService.transformJointKinematicGraph(jointKinematics, "Acceleration");
+          let joints = this.getCurrentLink().getJoints();
+          let jointIds = joints.map(joint => joint.id);
+          let linkKinematics = this.analysisSolverService.getLinkKinematics(jointIds);
+          let chartData = this.analysisSolverService.transformLinkKinematicGraph(linkKinematics, "Acceleration");
           return chartData;
         }
         return {

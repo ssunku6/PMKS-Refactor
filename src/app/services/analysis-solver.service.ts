@@ -6,6 +6,7 @@ import { Coord } from '../model/coord';
 import { KinematicSolverService, SolveOrder, SolvePrerequisite, SolveType } from './kinematic-solver.service';
 import { Mechanism } from '../model/mechanism';
 import { AnimationPositions } from './kinematic-solver.service';
+import {link} from "d3-shape";
 
 
 export interface JointAnalysis {
@@ -242,7 +243,36 @@ export class AnalysisSolveService {
       }
 
     }
+  transformLinkKinematicGraph(linkAnalysis: LinkAnalysis, dataOf: string): { xData: any[], yData: any[], timeLabels: string[] }{
+    const xData: any[] = [];
+    const yData: any[] = [];
+    const timeLabels: string[] = [];
 
+    switch (dataOf) {
+      case("Angle"):
+        xData.push({data: linkAnalysis.angle, label: "Angle of Reference Joint"});
+        timeLabels.push(...linkAnalysis.angle.map((_, index) => String(index)));
+
+        return { xData, yData, timeLabels };
+
+      case("Velocity"):
+        xData.push({data: linkAnalysis.angularVelocity, label: "Angular Velocity"});
+        timeLabels.push(...linkAnalysis.angularVelocity.map((_, index) => String(index)));
+
+        return { xData, yData, timeLabels };
+
+      case("Acceleration"):
+        xData.push({data: linkAnalysis.angularAcceleration, label: "Angular Acceleration"});
+        timeLabels.push(...linkAnalysis.angularAcceleration.map((_, index) => String(index)));
+
+        return { xData, yData, timeLabels };
+
+      default:
+        console.error("Invalid Graph type detected! Returning default values.")
+        return { xData, yData, timeLabels };
+    }
+
+  }
 
     getLinkKinematics(jointIDs: number[]): LinkAnalysis{
         let subJoints: JointAnalysis[] = new Array();
