@@ -50,10 +50,12 @@
     <div class="overlay">
       <div class="modal" (keyup.escape)="closeAnalysisGraph()">
         <button class="close-button" (click)="closeAnalysisGraph()">X</button>
+        {{ getGraphTypeName(currentGraphType) }}
         <app-analysis-graph-block class="large-graph"
                                   [inputXData]="getGraphData().xData"
                                   [inputYData]="getGraphData().yData"
-                                  [inputLabels]="getGraphData().timeLabels">
+                                  [inputLabels]="getGraphData().timeLabels"
+                                  [yAxisLabel]="getGraphTypeName(currentGraphType)">
         </app-analysis-graph-block>
       </div>
     </div>

@@ -2,10 +2,11 @@ import {Component} from '@angular/core'
 import {StateService} from "../../services/state.service";
 import {InteractionService} from "../../services/interaction.service";
 import {Mechanism} from "../../model/mechanism";
-import {LinkInteractor} from "../../interactions/link-interactor";
 import {KinematicSolverService} from "../../services/kinematic-solver.service";
 import {Joint} from "../../model/joint";
 import {CompoundLinkInteractor} from "../../interactions/compound-link-interactor";
+import {AnalysisSolveService, JointAnalysis} from "../../services/analysis-solver.service";
+import {first} from "rxjs";
 
 interface Tab {
     selected: boolean,
@@ -45,7 +46,8 @@ export class CompoundLinkAnalysisPanelComponent {
       accelerationOfJoint: false
   };
 
-  constructor(private stateService: StateService, private interactorService: InteractionService, private kinematicSolverService: KinematicSolverService){
+  constructor(private stateService: StateService, private interactorService: InteractionService,
+              private kinematicSolverService: KinematicSolverService, private analysisSolverService: AnalysisSolveService){
       console.log("joint-analysis-panel.constructor");
   }
 
@@ -74,14 +76,18 @@ export class CompoundLinkAnalysisPanelComponent {
 
   openAnalysisGraph(graphType: GraphType): void {
     this.currentGraphType = graphType;
-    if(this.currentGraphType == GraphType.CoMPosition){
+    if(this.currentGraphType == GraphType.CoMPosition ||
+      this.currentGraphType == GraphType.CoMVelocity ||
+      this.currentGraphType == GraphType.CoMAcceleration){
       this.addPlaceholderCoMJoint();
     }
     this.getGraphData();
   }
 
   closeAnalysisGraph() {
-    if(this.currentGraphType == GraphType.CoMPosition) {
+    if(this.currentGraphType == GraphType.CoMPosition ||
+      this.currentGraphType == GraphType.CoMVelocity ||
+      this.currentGraphType == GraphType.CoMAcceleration) {
       this.removePlaceholderCoMJoint();
     }
 
@@ -123,8 +129,11 @@ export class CompoundLinkAnalysisPanelComponent {
     // THESE ARE NECESSARY TO WORK (FOR SOME REASON)
     CoM.x = CoM.x - 0.00001;
     CoM.y = CoM.y - 0.00001;
-    let compoundLinkID = this.getCurrentCompoundLink().id;
-    this.getMechanism().addJointToLink(compoundLinkID, CoM);
+    const firstNonNullLink = Array.from(this.getCurrentCompoundLink().links.values()).find(link => link !== null);
+    if(firstNonNullLink) {
+      let compoundLinkID = firstNonNullLink.id;
+      this.getMechanism().addJointToLink(compoundLinkID, CoM);
+    }
   }
 
   // deletes placeholder joint. Should be called immediately after closing graphs, so as
@@ -161,27 +170,53 @@ export class CompoundLinkAnalysisPanelComponent {
 }
 
   // calls the positionSolver on current joint and reformats data into a type that chart,js can take
-  // see TransformPositionsForChart function in kinematic solver for more detail
+  // see transformJointKinematicGraph function in analysis solver for more detail
   getGraphData() {
+    this.analysisSolverService.updateKinematics();
+    let jointKinematics: JointAnalysis;
     switch(this.currentGraphType) {
       case GraphType.CoMPosition:
-        let placeholderCoMJoint = this.getPlaceholderCoMJoint();
-        const animationPositions = this.kinematicSolverService.getAnimationFrames();
-        let chartData = this.kinematicSolverService.transformPositionsForChart(animationPositions, placeholderCoMJoint);
-        return chartData;
+        jointKinematics = this.analysisSolverService.getJointKinematics(this.getPlaceholderCoMJoint().id);
+        let comPositionChartData = this.analysisSolverService.transformJointKinematicGraph(jointKinematics, "Position");
+        return comPositionChartData;
 
       case GraphType.CoMVelocity:
-      // do at a later date, bozo TODO
+        jointKinematics = this.analysisSolverService.getJointKinematics(this.getPlaceholderCoMJoint().id);
+        let comVelocityChartData = this.analysisSolverService.transformJointKinematicGraph(jointKinematics, "Velocity");
+        return comVelocityChartData;
 
       case GraphType.CoMAcceleration:
-      // TODO more bozo behavior
+        jointKinematics = this.analysisSolverService.getJointKinematics(this.getPlaceholderCoMJoint().id);
+        let comAccelerationChartData = this.analysisSolverService.transformJointKinematicGraph(jointKinematics, "Acceleration");
+        return comAccelerationChartData;
 
 
       case GraphType.referenceJointPosition:
         if(this.getReferenceJoint() !== undefined) {
-          const animationPositions = this.kinematicSolverService.getAnimationFrames();
-          let chartData = this.kinematicSolverService.transformPositionsForChart(animationPositions, this.getReferenceJoint()!);
-          return chartData;
+          jointKinematics = this.analysisSolverService.getJointKinematics(this.getReferenceJoint().id);
+          return this.analysisSolverService.transformJointKinematicGraph(jointKinematics, "Position");
+        }
+        return {
+          xData: [],
+          yData: [],
+          timeLabels: []
+        };
+
+      case GraphType.referenceJointVelocity:
+        if(this.getReferenceJoint() !== undefined) {
+          jointKinematics = this.analysisSolverService.getJointKinematics(this.getReferenceJoint().id);
+          return this.analysisSolverService.transformJointKinematicGraph(jointKinematics, "Velocity");
+        }
+        return {
+          xData: [],
+          yData: [],
+          timeLabels: []
+        };
+
+      case GraphType.referenceJointAcceleration:
+        if(this.getReferenceJoint() !== undefined) {
+          jointKinematics = this.analysisSolverService.getJointKinematics(this.getReferenceJoint().id);
+          return this.analysisSolverService.transformJointKinematicGraph(jointKinematics, "Acceleration");
         }
         return {
           xData: [],

@@ -150,52 +150,6 @@ export class KinematicSolverService {
        */
     }
 
-  // helper function transforms the positions and corresponding joints
-    // into data that can be fed into a chart.js object. Used for joint / link analysis panels.
-  // Takes in the animationPositions we solved for and the current joint.
-  // first finds the mechanism containing the current joint, then takes the data from that mechanism
-  // and converts into x and y values. these are represented by number[] objects.
-  // returns xData, yData, which are of course all x/y positions of the joint.
-  // returns timeLabels[], which contains every timestep we have solved for.
-  transformPositionsForChart(animationPositions: AnimationPositions[], joint: Joint): { xData: any[], yData: any[], timeLabels: string[] } {
-      const xData = [];
-      const yData = [];
-      const timeLabels: string[] = [];
-
-    // LOOP THROUGH EVERY MECHANISM, with intention of finding current joint
-    for(let i =0; i<animationPositions.length; i++){
-      const positions = animationPositions[i].positions;
-      const correspondingJoints = animationPositions[i].correspondingJoints;
-
-      // if current mechanism contains joint
-      if(correspondingJoints.includes(joint.id)){
-        // exist to find the order of joints, to get accurate position data
-        const solveOrderOfMech = this.getSolveOrders()[i].order;
-        timeLabels.push(...positions.map((row, index) => String(index)));
-        let indexOfJointSelected = solveOrderOfMech.indexOf(joint.id);
-
-        // map position values to arrays
-        let columnOfJointPos = positions.map(row => row[indexOfJointSelected]);
-        const xValues = columnOfJointPos.map(coord => coord.x);
-        const yValues = columnOfJointPos.map(coord => coord.y);
-        xData.push({data: xValues, label: `X Position of Joint`});
-        yData.push({data: yValues, label: `Y Position of Joint`});
-        break;
-      }
-
-    }
-
-    console.log("X Data of Joint: " + joint.id + ": ");
-    for(let i=0; i<xData.length; i++){
-      console.log(xData[i]);
-    }
-    console.log("Y Data of Joint: " + joint.id + ": " + yData);
-    console.log("Time Data of Joint: " + joint.id + ": " + timeLabels);
-    console.log(timeLabels[1]);
-
-    return { xData, yData, timeLabels };
-  }
-
     private isValidMechanism(subMechanism: Map<Joint, RigidBody[]>): boolean {
         //ensure only one input is present and grounded
         let inputJoint: Joint | null = this.getValidInputs(subMechanism);
