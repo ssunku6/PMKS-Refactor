@@ -15,10 +15,9 @@ import { UnitConversionService } from 'src/app/services/unit-conversion.service'
 })
 export class SvgComponent extends AbstractInteractiveComponent {
 
-
   constructor(public override interactionService: InteractionService,
     private stateService: StateService, private panZoomService: PanZoomService, private unitConversionService: UnitConversionService) {
-    
+
     super(interactionService);
   }
 
@@ -41,11 +40,11 @@ export class SvgComponent extends AbstractInteractiveComponent {
 
     return interactor;
   }
-  
+
   getViewBox(): string{
     return this.panZoomService.getViewBox();
   }
-  
+
 
 
 }

@@ -18,7 +18,7 @@ This interactor defines the following behaviors:
 export class CompoundLinkInteractor extends Interactor {
 
     private jointsStartPosModel: Map<number,Coord> = new Map();
-    
+
 
     constructor(public compoundLink: CompoundLink, private stateService: StateService,
         private interactionService: InteractionService) {
@@ -49,12 +49,12 @@ export class CompoundLinkInteractor extends Interactor {
         });
 
     }
-    
+
 
     /**
      * Determines what options should be shown for the context menu when right clicking on a Link
-     * 
-     * @returns 
+     *
+     * @returns
      */
     public override specifyContextMenu(): ContextMenuOption[] {
 
@@ -83,11 +83,11 @@ export class CompoundLinkInteractor extends Interactor {
                 disabled: false
             },
             );
-            
+
         return availableContext;
-        
+
     }
-    
+
     private enterAddLinkCaptureMode(modelPosAtRightClick: Coord): void {
     }
     private enterAddForceCaptureMode(modelPosAtRightClick: Coord): void {
@@ -95,6 +95,10 @@ export class CompoundLinkInteractor extends Interactor {
 
     public override toString(): string {
         return "CompoundLinkInteractor(" + this.compoundLink.name + ")";
+    }
+
+    public getCompoundLink(): CompoundLink {
+      return this.compoundLink;
     }
 
 }

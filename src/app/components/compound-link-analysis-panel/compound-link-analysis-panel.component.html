@@ -1,0 +1,64 @@
+<div id="linkAnalysisPanel">
+<!--  LINK PANEL-->
+  <!-- TITLE BLOCK: CONTAINS TITLE AND DYNAMIC LINK NAME -->
+  <panel-section-collapsible>
+    <title-block icon='expand_more' description='' class = "analysisHeader"
+      >Analysis for Compound Link
+      {{ getLinkName() }}
+    </title-block>
+
+  </panel-section-collapsible>
+
+  <!-- DATA SUMMARY DROPDOWN -->
+
+  <collapsible-subsection titleLabel='Data Summary' [expanded]="graphExpanded['dataSummary']"
+                          (opened)="graphExpanded['dataSummary'] = true"
+                          (closed)="graphExpanded['dataSummary'] = false">
+        <div class="flex-container">
+          <h3>Data Summary</h3>
+            <p>Center of Mass</p>
+          Name of Link: {{ getLinkName() }} <br>
+          X Coordinate of Center of Mass: {{ this.getCOMXCoord() }} <br>
+          Y Coordinate of Center of Mass: {{ this.getCOMYCoord() }} <br>
+
+          <!-- REFERENCE JOINTS ALL LISTED- AND LOGIC TO SELECT THEM -->
+          <p>Reference Joint</p>
+          <div class="button-container">
+            <div *ngFor="let joint of this.getCurrentCompoundLink().getJoints()" class = "button-wrapper">
+              <button class="referenceJointSelect" (click) = onReferenceJointSelected(joint)>
+                Name of Joint: {{ joint.name }}
+              </button>
+            </div>
+          </div>
+
+            Name of Joint: {{ getReferenceJointName() }} <br>
+            X Coordinate of Joint: {{ this.getReferenceJointXCoord() }} <br>
+            Y Coordinate of Joint: {{ this.getReferenceJointYCoord() }} <br>
+
+        </div>
+  </collapsible-subsection>
+
+
+  <!-- EVERY GRAPH OPEN BUTTON -->
+  <div *ngFor="let graphType of getGraphTypes()">
+    <analysis-graph-button [dynamicText]="'Open ' + getGraphTypeName(graphType) + ' Graph'" graphText= 'Open'
+                           [btn1Action]="openAnalysisGraph.bind(this, graphType)"></analysis-graph-button>
+  </div>
+
+  <!-- DYNAMICALLY HANDLE OPENING GRAPHS -->
+  <ng-container *ngIf="currentGraphType !== null">
+    <div class="overlay">
+      <div class="modal" (keyup.escape)="closeAnalysisGraph()">
+        <button class="close-button" (click)="closeAnalysisGraph()">X</button>
+        <app-analysis-graph-block class="large-graph"
+                                  [inputXData]="getGraphData().xData"
+                                  [inputYData]="getGraphData().yData"
+                                  [inputLabels]="getGraphData().timeLabels">
+        </app-analysis-graph-block>
+      </div>
+    </div>
+  </ng-container>
+
+</div>
+
+

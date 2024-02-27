@@ -75,7 +75,6 @@ export class CompoundLink implements RigidBody{
       link.locked = value;
     });
   }
-//TODO: complete secondary information calculations and modifications
 
     calculateCenterOfMass(): Coord{
       let totalX = 0;
@@ -98,7 +97,6 @@ export class CompoundLink implements RigidBody{
       this._centerOfMass = new Coord(centerX, centerY);
       return this._centerOfMass;
     }
-
 
     addLink(newLink: Link){
         this._links.set(newLink.id,newLink);

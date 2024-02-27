@@ -31,7 +31,6 @@
         <p>Reference Joint</p>
         <div class="button-container">
             <div *ngFor="let joint of uniqueJoints" class = "button-wrapper">
-              <p> Joint being logged: {{joint.name}} Has value: {{uniqueJoints.has(joint)}}</p>
                 <button class="referenceJointSelect" (click) = onReferenceJointSelected(joint)>
                   Name of Joint: {{ joint.name }}
                 </button>
