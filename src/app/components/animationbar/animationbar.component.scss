@@ -13,15 +13,20 @@
 
 
     .app-animation-bar-container {
+        position: absolute;
+        bottom: 20px;
+        left: 0;
+        width: 100%;
+        gap: 10px;
+        margin-right: 10px;
         display: flex;
-        flex-direction: row;
-        padding: 0px 0px;
-        z-index: 1;
-        position: fixed;
-        bottom: 0;
+        align-items: center;
+        justify-content: flex-end;
+        pointer-events: none;
     }
 
-    .animationBar {
+    .animation-bar {
+
         height: 48px;
         pointer-events: auto;
         margin: 10px 0;
@@ -33,6 +38,7 @@
         // width: 400px;
         border-radius: var(--border-radius);
         //Set the elevation of the animation bar to 2.
+        @include mat.elevation(2);
         //Set the background color of the animation bar to the background color of the raised button.
         background-color: white;
 
@@ -45,10 +51,6 @@
     }
 
     .animation-button {
-        position: fixed;
-        bottom: 0;
-        margin: 0px;
-        display: flex;
         bottom: 0;
         width: 4rem;
         height: 4rem;

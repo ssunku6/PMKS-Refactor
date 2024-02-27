@@ -37,7 +37,7 @@ export class CompoundLinkComponent extends AbstractInteractiveComponent {
 	return this.colorService.getLinkColorFromID(this.compoundLink.id);
   }
 	getCompoundDrawnPath(): string{
-	const radius: number = 15;
+	const radius: number = 25;
   let allUniqueJointCoords: Set<Coord> = new Set();
   for(let link of this.compoundLink.links.values()){
     for(let joint of link.joints.values())
@@ -61,7 +61,7 @@ export class CompoundLinkComponent extends AbstractInteractiveComponent {
 
 
   getSubLinksPaths(): string[]{
-    const radius: number = 15;
+    const radius: number = 25;
     let subLinkPaths: string[] = [];
 
     this.compoundLink.links.forEach((link,id) =>{

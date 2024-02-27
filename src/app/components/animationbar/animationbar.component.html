@@ -1,0 +1,36 @@
+<div class="app-animation-bar-container" >
+
+    <div class="animation-bar">
+
+        <button class="animation-button" [disabled]='invalidMechanism()' *ngIf='this.getIsPausedAnimating()' mat-mini-fab color='primary'
+            (click)="controlAnimation('play')" matTooltip='Play Animation' matTooltipShowDelay='1000'>
+            Play
+        </button>
+        <button class="animation-button" [disabled]='invalidMechanism()' *ngIf='!this.getIsPausedAnimating()' mat-mini-fab color='warn'
+            (click)="controlAnimation('pause')" matTooltip='Play Animation' matTooltipShowDelay='1000'>
+            Pause
+        </button>
+        <button class="animation-button" [disabled]='invalidMechanism()' (click)="controlAnimation('stop')" mat-mini-fab color='warn'
+            matTooltip='Play Animation' matTooltipShowDelay='1000'>
+            Stop
+        </button>
+
+    </div>
+    <div class="animation-bar">
+
+        <button class="animation-button" [disabled]='invalidMechanism()' *ngIf='this.getIsPausedAnimating()'
+            (click)="controlAnimation('play')" matTooltip='Play Animation' matTooltipShowDelay='1000'>
+            Play
+        </button>
+        <button class="animation-button" [disabled]='invalidMechanism()' *ngIf='!this.getIsPausedAnimating()'
+            (click)="controlAnimation('pause')" matTooltip='Play Animation' matTooltipShowDelay='1000'>
+            Pause
+        </button>
+        <button class="animation-button" [disabled]='invalidMechanism()' (click)="controlAnimation('stop')"
+            matTooltip='Play Animation' matTooltipShowDelay='1000'>
+            Stop
+        </button>
+
+    </div>
+
+</div>
