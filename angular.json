@@ -28,7 +28,7 @@
               "src/theme.scss",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": ["node_modules/papaparse/papaparse.js"]
           },
           "configurations": {
             "production": {

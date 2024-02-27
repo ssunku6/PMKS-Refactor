@@ -25,21 +25,8 @@ export interface SolvePrerequisite {
 }
 
 export interface AnimationPositions {
-  // correspondingJoints is a 2D array of numbers. The first dimension
-  // (corresondingJoints[i]) corresponds to a number[]. The first dimension
-  // represents a mechanism, so every mechanism has it's own row of number[].
-  // the second dimension corresponds to each joint id contained within the mechanism.
-    //correspondingJoints: number[][],
   correspondingJoints: number[],
-
-  // positions is a 3D array of Coords. The first dimension represents each mechanism.
-  // the second dimension represents the timescale for the mechanism
-  // i.e., to get the timescale, you need positions[i].map
-  // the third dimension represents the the position for each joint in a mechanism-
-  // the index is the joint place in the solveorder, and the value indexed is the
-  // position in Coord form. For implementation, refernce TransformPositionsForChart.
-    //positions: Coord[][][];
-    positions: Coord[][];
+  positions: Coord[][];
 }
 
 export interface SolveOrder {
@@ -68,7 +55,6 @@ export class KinematicSolverService {
     }
     public getKinematicsObservable(){
         return this.animationsChange$;
-
     }
 
     getAnimationFrames(): AnimationPositions[]{
@@ -117,37 +103,6 @@ export class KinematicSolverService {
       for (let solveOrder of this.solveOrders) {
         this.animationPositions.push({correspondingJoints: solveOrder.order, positions: this.getPositions(solveOrder.order, solveOrder.prerequisites)})
       }
-      /*
-      this.animationPositions = new Array();
-      for (let solveOrder of this.solveOrders) {
-        this.animationPositions.push({
-          correspondingJoints: solveOrder.order,
-          positions: this.getPositions(solveOrder.order, solveOrder.prerequisites)
-        })
-        //console.log(`number of solve orders completed: ${solveOrders.length}`);
-        //console.log(solveOrders);
-
-        //fourth, solve for all of the possible positions for each mechanism.
-        let positions: Coord[][] = new Array();
-        let correspondingJoints: number[] = new Array();
-
-        // for each mechanism (solveOrder), we push the corresponding joints
-        // i.e. which joints live in which mechanism, and in what order.
-        // additionally, we push every position into the Positions array.
-        // this allows us to have a convenient place where all positions for all mechanisms
-        // at all times are stored.
-        for (let solveOrder of this.solveOrders) {
-          const jointIds: number[] = solveOrder.order.map(joint => joint.id);
-          console.log("jointIDs in solve order: " + jointIds);
-          correspondingJoints.push(jointIds);
-          positions.push(this.getPositions(jointIds, solveOrder.prerequisites));
-        }
-        //console.log(`number animations completed: ${positions.length}`);
-        //console.log(positions);
-
-        return {correspondingJoints: correspondingJoints, positions: positions} as AnimationPositions;
-      }
-       */
     }
 
     private isValidMechanism(subMechanism: Map<Joint, RigidBody[]>): boolean {

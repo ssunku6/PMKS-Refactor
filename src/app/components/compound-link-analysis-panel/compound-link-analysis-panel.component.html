@@ -45,15 +45,12 @@
                            [btn1Action]="openAnalysisGraph.bind(this, graphType)"></analysis-graph-button>
   </div>
 
-  {{ getCurrentCompoundLink().id }} <- Compound Link ID
-
   <!-- DYNAMICALLY HANDLE OPENING GRAPHS -->
   <ng-container *ngIf="currentGraphType !== null">
     <div class="overlay">
       <div class="modal" (keyup.escape)="closeAnalysisGraph()">
         <button class="close-button" (click)="closeAnalysisGraph()">X</button>
         {{ getGraphTypeName(currentGraphType) }}
-        {{ getPlaceholderCoMJoint().id }} <- CoM Joint ID
         <app-analysis-graph-block class="large-graph"
                                   [inputXData]="getGraphData().xData"
                                   [inputYData]="getGraphData().yData"

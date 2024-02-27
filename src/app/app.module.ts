@@ -50,6 +50,8 @@ import {CompoundLinkAnalysisPanelComponent} from "./components/compound-link-ana
 import {CompoundLinkEditPanelComponent} from "./components/compound-link-edit-panel/compound-link-edit-panel.component";
 import { AnimationBarComponent } from './components/animationbar/animationbar.component';
 import {AnalysisGraphButtonComponent} from "./components/Blocks/analysis-graph-button/analysis-graph-button.component";
+import {ExportDataComponent} from "./components/Blocks/export-data/export-data.component";
+import * as Papa from 'papaparse';
 
 
 @NgModule({
@@ -84,7 +86,8 @@ import {AnalysisGraphButtonComponent} from "./components/Blocks/analysis-graph-b
     PanelSectionComponent,
     TitleBlock,
     CollapsibleSubsectionComponent,
-    DualInputComponent
+    DualInputComponent,
+    ExportDataComponent
   ],
   imports: [
     BrowserModule,
