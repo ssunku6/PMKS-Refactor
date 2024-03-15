@@ -60,21 +60,25 @@ export class LinkInteractor extends Interactor {
         let modelPosAtRightClick = this.getMousePos().model;
         availableContext.push(
             {
+                icon: 'assets/contextMenu/addLink.svg',
                 label: "Attach Link",
                 action: () => {this.enterAddLinkCaptureMode(modelPosAtRightClick)},
                 disabled: false
             },
             {
+                icon: 'assets/contextMenu/addTracer.svg',
                 label: "Attach Tracer Point",
                 action: () => {mechanism.addJointToLink(this.link.id, modelPosAtRightClick)},
                 disabled: false
             },
             {
+                icon: 'assets/contextMenu/addForce.svg',
                 label: "Attach Force",
                 action: () => {this.enterAddForceCaptureMode(modelPosAtRightClick)},
                 disabled: false
             },
             {
+                icon: 'assets/contextMenu/trash.svg',
                 label: "Delete Link",
                 action: () => {mechanism.removeLink(this.link.id)},
                 disabled: false

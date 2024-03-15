@@ -18,6 +18,7 @@ like changing the color when it is selected, only need to be specified the view.
 */
 
 export interface ContextMenuOption {
+    icon: string;
     label: string;
     action: () => void;
     disabled: boolean;

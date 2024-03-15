@@ -19,8 +19,13 @@
     <mat-icon>file_open</mat-icon>
     Open
   </button>
-
-  <button mat-button class="toolbar-button"
+  <button mat-button class="toolbar-button" (click)="setCurrentTab('Tutorials');"
+  matTooltip='Show the library of available linkages'
+  matTooltipShowDelay='1000'>
+    <mat-icon>ondemand_video</mat-icon>
+    Tutorials
+  </button>
+  <button mat-button class="toolbar-button" (click)="setCurrentTab('Templates');"
   matTooltip='Show the library of available linkages'
   matTooltipShowDelay='1000'>
     <mat-icon>apps</mat-icon>
@@ -34,7 +39,7 @@
     Save
   </button>
 
-  <button mat-button class="toolbar-button"
+  <button mat-button class="toolbar-button" 
   matTooltip='Copy a URL to clipboard that contains your linakge'
   matTooltipShowDelay='1000'>
     <mat-icon>link</mat-icon>
@@ -43,18 +48,34 @@
 
   <span class="spacer"></span>
 
-  <button mat-button class="toolbar-button"
+  <button mat-button class="toolbar-button" (click)="setCurrentTab('Settings');"
   matTooltip='Change Linkage Settings' 
   matTooltipShowDelay='1000'>
     <mat-icon>settings</mat-icon>
     Settings
   </button>
 
-  <button mat-button class="toolbar-button"
+  <!--<button mat-button class="toolbar-button"
   matTooltip='Get Support from our team' 
   matTooltipShowDelay='1000'>
     <mat-icon>help</mat-icon>
     Help / Feedback
-  </button>
+  </button> -->
   
 </mat-toolbar>
+<div style="top:30px;">
+  @switch(getSelected()){
+    @case (''){
+      
+    }
+    @case ('Settings'){
+      <app-settings-panel></app-settings-panel>
+    }
+    @case ('Templates'){
+      <app-templates-panel></app-templates-panel>
+    }
+    @case ('Tutorials'){
+      <app-tutorials-panel></app-tutorials-panel>
+    }
+  }
+</div>

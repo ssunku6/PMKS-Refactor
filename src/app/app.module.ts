@@ -43,14 +43,15 @@ import {TriButtonComponent} from "./components/Blocks/tri-button/tri-button.comp
 import { DualButtonComponent } from './components/Blocks/dual-button/dual-button.component';
 import {JointAnalysisPanelComponent} from "./components/joint-analysis-panel/joint-analysis-panel.component";
 import {AnalysisPanelComponent} from "./components/analysis-panel/analysis-panel.component";
-import {
-  CompoundLinkEditPanelComponent
-} from "./components/compound-link-edit-panel/compound-link-edit-panel.component";
+import {CompoundLinkEditPanelComponent} from "./components/compound-link-edit-panel/compound-link-edit-panel.component";
 import { SynthesisPanelComponent } from './components/synthesis-panel/synthesis-panel.component';
 import { ThreePosSynthesis } from './components/three-pos-synthesis/three-pos-synthesis.component';
 import { PathSynthesis } from './components/path-synthesis/path-synthesis.component';
 import { RadioComponent } from './components/Blocks/radio/radio.component';
 import { SingleInputComponent } from './components/Blocks/single-input/single-input.coponent';
+import { SettingsPanelComponent } from './components/settings-panel/settings-panel.component';
+import { TemplatesPanelComponent } from './components/templates-panel/templates-panel.component';
+import { TutorialsPanelComponent } from './components/tutorials-panel/tutorials-panel.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,9 @@ import { SingleInputComponent } from './components/Blocks/single-input/single-in
     RadioComponent,
     SingleInputComponent,
     CompoundLinkEditPanelComponent,
+    SettingsPanelComponent,
+    TemplatesPanelComponent,
+    TutorialsPanelComponent,
   ],
   imports: [
     BrowserModule,

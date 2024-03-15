@@ -10,16 +10,11 @@
     $typography-config: mat.get-typography-config($theme);
     $background: map.get($theme, background);
     $foreground: map.get($theme, foreground);
-
-
-
 }
 
 #editJoint {
   //border-top-color: #00043a;
   //border-top: 10px;
-  margin-top: 10px;
-  margin-left: 5px;
   background-color: white;
   border-top: 5px solid #3F51B5;
 }
