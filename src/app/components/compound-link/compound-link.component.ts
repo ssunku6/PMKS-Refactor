@@ -21,11 +21,11 @@ import { UnitConversionService } from 'src/app/services/unit-conversion.service'
 export class CompoundLinkComponent extends AbstractInteractiveComponent {
 
   @Input() compoundLink!: CompoundLink;
-  constructor(public override interactionService: InteractionService, 
-				private stateService: StateService, 
-				private colorService: ColorService, 
+  constructor(public override interactionService: InteractionService,
+				private stateService: StateService,
+				private colorService: ColorService,
 				private svgPathService: SVGPathService,
-        private unitConverter: UnitConversionService) {
+        private unitConversionService: UnitConversionService) {
     super(interactionService);
   }
 
@@ -44,14 +44,14 @@ export class CompoundLinkComponent extends AbstractInteractiveComponent {
     allUniqueJointCoords.add(joint._coords);
   }
   let allCoordsAsArray: Coord[] = Array.from(allUniqueJointCoords,(coord,index) =>{
-    return this.unitConverter.modelCoordToSVGCoord(coord);
+    return this.unitConversionService.modelCoordToSVGCoord(coord);
   });
-	return this.svgPathService.getSingleLinkDrawnPath(allCoordsAsArray, radius); 
+	return this.svgPathService.getSingleLinkDrawnPath(allCoordsAsArray, radius);
   }
   getStrokeColor(): string{
     if (this.getInteractor().isSelected) {
       return '#FFCA26'
-      
+
     } else if(this.isHovered()){
       return '#ffecb2'
     }
@@ -66,11 +66,21 @@ export class CompoundLinkComponent extends AbstractInteractiveComponent {
 
     this.compoundLink.links.forEach((link,id) =>{
       let subLinkCoords = Array.from(link.joints,([id,joint])=>{
-        return this.unitConverter.modelCoordToSVGCoord(joint._coords);
+        return this.unitConversionService.modelCoordToSVGCoord(joint._coords);
       });
       subLinkPaths.push(this.svgPathService.getSingleLinkDrawnPath(subLinkCoords,radius));
     });
     return subLinkPaths;
   }
 
+
+  getLocked(): boolean{
+    return this.compoundLink.lock;
+  }
+  getCOMX(): number {
+    return this.unitConversionService.modelCoordToSVGCoord(this.compoundLink.centerOfMass).x;
+  }
+  getCOMY(): number {
+    return this.unitConversionService.modelCoordToSVGCoord(this.compoundLink.centerOfMass).y;
+  }
 }

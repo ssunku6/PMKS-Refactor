@@ -20,9 +20,9 @@ import { UnitConversionService } from "src/app/services/unit-conversion.service"
 export class LinkComponent extends AbstractInteractiveComponent {
 
   @Input() link!: Link;
-  constructor(public override interactionService: InteractionService, 
-				private stateService: StateService, 
-				private colorService: ColorService, 
+  constructor(public override interactionService: InteractionService,
+				private stateService: StateService,
+				private colorService: ColorService,
 				private svgPathService: SVGPathService,
         private unitConversionService: UnitConversionService) {
     super(interactionService);
@@ -35,10 +35,21 @@ export class LinkComponent extends AbstractInteractiveComponent {
   getColor():string{
 	return this.link.color;
   }
+  getLocked(): boolean{
+    return this.link.locked;
+  }
+
+  getCOMX(): number {
+    return this.unitConversionService.modelCoordToSVGCoord(this.link.centerOfMass).x;
+  }
+  getCOMY(): number {
+    return this.unitConversionService.modelCoordToSVGCoord(this.link.centerOfMass).y;
+  }
+
   getStrokeColor(): string{
     if (this.getInteractor().isSelected) {
       return '#FFCA26'
-      
+
     } else if(this.isHovered()){
       return '#ffecb2'
     }
@@ -58,7 +69,7 @@ export class LinkComponent extends AbstractInteractiveComponent {
       coord = this.unitConversionService.modelCoordToSVGCoord(coord);
       allCoords.push(coord);
     }
-  
+
 	return this.svgPathService.getSingleLinkDrawnPath(allCoords, radius);
   }
 }

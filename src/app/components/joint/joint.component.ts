@@ -19,7 +19,7 @@ export class JointComponent extends AbstractInteractiveComponent {
   @Input() joint!: Joint;
 
   constructor(public override interactionService: InteractionService,
-    private stateService: StateService, 
+    private stateService: StateService,
     private unitConversionService: UnitConversionService) {
     super(interactionService);
   }
@@ -43,13 +43,16 @@ export class JointComponent extends AbstractInteractiveComponent {
   public getColor(): string {
     if (this.getInteractor().isSelected) {
       return '#FFCA26'
-      
+
     } else if(this.isHovered()){
       return '#ffecb2'
     }
     return '#ffffff';
   }
 
+  getLocked():boolean {
+    return this.joint.locked;
+  }
   isWelded(){
     return this.joint.isWelded;
   }
@@ -67,10 +70,10 @@ export class JointComponent extends AbstractInteractiveComponent {
   }
 
   getTranslation(): string{
-    return "translate(" + 
+    return "translate(" +
     this.unitConversionService.modelCoordToSVGCoord(this.joint._coords).x.toString() +
     " " +
-    this.unitConversionService.modelCoordToSVGCoord(this.joint._coords).y.toString() + 
+    this.unitConversionService.modelCoordToSVGCoord(this.joint._coords).y.toString() +
     ") scale(0.6)";
 
 

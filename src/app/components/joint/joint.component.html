@@ -1,14 +1,14 @@
 <svg:g appInteractable [interactor]="getInteractor()">
     @if(isGround() && !isPrismatic() && !isInput()){
         <image xlink:href='../../../assets/joint/Ground.svg'
-        [attr.x]="getX()-getRadius()*5.2" 
+        [attr.x]="getX()-getRadius()*5.2"
         [attr.y]="getY()-getRadius()"
         [attr.height]="getRadius()*4.5"
         />
     }
     @if(isGround() && isInput() && !isPrismatic() && isCCW()) {
         <image xlink:href='../../../assets/joint/InputCCW.svg'
-        [attr.x]="getX()-getRadius()*4.3" 
+        [attr.x]="getX()-getRadius()*4.3"
         [attr.y]="getY()-getRadius()*2.8"
         [attr.height]="getRadius()*6.5"
 
@@ -16,20 +16,20 @@
     }
     @if(isGround() && isInput() && !isPrismatic() && !isCCW()) {
         <image xlink:href='../../../assets/joint/InputCW.svg'
-        [attr.x]="getX()-getRadius()*4.3" 
+        [attr.x]="getX()-getRadius()*4.3"
         [attr.y]="getY()-getRadius()*2.8"
         [attr.height]="getRadius()*6.5"
-        
+
         />
     }
     @if(!isInput() && isPrismatic()) {
         <image xlink:href='../../../assets/joint/SliderPill.svg'
-        [attr.x]="getX()-getRadius()*4.6" 
+        [attr.x]="getX()-getRadius()*4.6"
         [attr.y]="getY()-getRadius()*1.4"
         [attr.height]="getRadius()*3"
         />
         <image xlink:href='../../../assets/joint/SliderTrackMid.svg'
-        [attr.x]="getX()-getRadius()*11" 
+        [attr.x]="getX()-getRadius()*11"
         [attr.y]="getY()-getRadius()*2.5"
         [attr.height]="getRadius()*5"
         />
@@ -37,19 +37,27 @@
     }
     @if(isInput() && isPrismatic()) {
         <image xlink:href='../../../assets/joint/SliderPillInput.svg'
-        [attr.x]="getX()-getRadius()*4.6" 
+        [attr.x]="getX()-getRadius()*4.6"
         [attr.y]="getY()-getRadius()*1.4"
         [attr.height]="getRadius()*3"
         />
         <image xlink:href='../../../assets/joint/SliderTrackMid.svg'
-        [attr.x]="getX()-getRadius()*11" 
+        [attr.x]="getX()-getRadius()*11"
         [attr.y]="getY()-getRadius()*2.5"
         [attr.height]="getRadius()*5"
         />
     }
 
+  @if(getLocked()) {
+    <image xlink:href='../../../assets/icons/lock.svg'
+           [attr.x]="getX()"
+           [attr.y]="getY()"
+           [attr.height]="getRadius()*5"
+    />
+  }
+
     @if(isWelded()){
-        <path 
+        <path
             d='M -5.5 -5.5 H-16.5 V4.5 H-5.5 V15.5 H4.5 V4.5 H15.5 V-5.5 H4.5 V-16.5 H-5.5 V-5.5 Z'
             [attr.fill]="getColor()"
             stroke="#FFCA26"
@@ -59,7 +67,7 @@
 
 
     } @else {
-        <svg:circle 
+        <svg:circle
             [attr.cx]="getX()"
             [attr.cy]="getY()"
             [attr.r]="getRadius()"
@@ -70,9 +78,9 @@
     }
     <!-- Joint name -->
     <svg:text class = "joint-name"
-        [attr.x]="getX()-getRadius()*2" 
-        [attr.y]="getY()- getRadius()*2" 
-        alignment-baseline="middle" 
+        [attr.x]="getX()-getRadius()*2"
+        [attr.y]="getY()- getRadius()*2"
+        alignment-baseline="middle"
         text-anchor="middle">
         {{this.joint.id}}
     </svg:text>
