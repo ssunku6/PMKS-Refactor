@@ -75,15 +75,16 @@ export class LinkInteractor extends Interactor {
                 disabled: false
             },
             {
+              label: this.link.locked ? "Unlock Link" : "Lock Link",
+              action: () => {this.link.locked=(!this.link.locked)},
+              disabled: false
+            },
+            {
                 label: "Delete Link",
                 action: () => {mechanism.removeLink(this.link.id)},
                 disabled: false
             },
-          {
-            label: this.link.locked ? "Unlock Link" : "Lock Link",
-            action: () => {this.link.locked=(!this.link.locked)},
-            disabled: false
-          },
+
             );
 
         return availableContext;
