@@ -26,7 +26,7 @@ export class LinkInteractor extends Interactor {
             this.link.joints.forEach((joint: Joint,id: number) =>{
                 this.jointsStartPosModel.set(id, joint._coords);
             })
-        
+
 
         });
         this.onDrag$.subscribe((event) => {
@@ -46,12 +46,12 @@ export class LinkInteractor extends Interactor {
         });*/
 
     }
-    
+
 
     /**
      * Determines what options should be shown for the context menu when right clicking on a Link
-     * 
-     * @returns 
+     *
+     * @returns
      */
     public override specifyContextMenu(): ContextMenuOption[] {
 
@@ -79,12 +79,17 @@ export class LinkInteractor extends Interactor {
                 action: () => {mechanism.removeLink(this.link.id)},
                 disabled: false
             },
+          {
+            label: this.link.locked ? "Unlock Link" : "Lock Link",
+            action: () => {this.link.locked=(!this.link.locked)},
+            disabled: false
+          },
             );
-            
+
         return availableContext;
-        
+
     }
-    
+
     private enterAddLinkCaptureMode(modelPosAtRightClick: Coord): void {
         const capture = new CreateLinkFromLinkCapture(this.link, modelPosAtRightClick, this.interactionService);
         capture.onClick$.subscribe((mousePos) => {

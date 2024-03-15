@@ -82,6 +82,11 @@ export class CompoundLinkInteractor extends Interactor {
                 action: () => {mechanism.removeLink(this.compoundLink.id)},
                 disabled: false
             },
+          {
+            label: this.compoundLink.lock ? "Unlock Compound Link" : "Lock Compound Link",
+            action: () => {this.compoundLink.lock=(!this.compoundLink.lock)},
+            disabled: false
+          },
             );
 
         return availableContext;
