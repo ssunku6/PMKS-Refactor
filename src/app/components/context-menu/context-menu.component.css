@@ -16,7 +16,7 @@
   
   .context-menu li {
     padding: 8px 12px;
-    padding-left: 36px;  /* Space for the icon */
+    padding-left: 8px;  /* Space for the icon */
     cursor: pointer;
     position: relative;  /* Needed for positioning the icon */
   }

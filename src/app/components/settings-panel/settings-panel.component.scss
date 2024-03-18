@@ -12,18 +12,15 @@
     $typography-config: mat.get-typography-config($theme);
     $background: map.get($theme, background);
     $foreground: map.get($theme, foreground);
+
+    #app-settings-panel-container{  
+      border-radius: 3px;
+      width:395px;
+      float: right;
+      margin-top: 32px;
+      border-top: 5px solid #3F51B5;
+      box-shadow: 3px 3px 3px gray;
+      background-color: white;
+    
+    } 
   }
-
-.app-settings-panel-container{
-  background-color: white;
-  border-radius: 3px;
-  width:395px;
-  float: right;
-  margin-top: 32px;
-  border-top: 5px solid #3F51B5;
-  box-shadow: 3px 3px 3px gray;
-  //width:100%;
-
-}
-  
-

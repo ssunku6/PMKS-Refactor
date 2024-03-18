@@ -5,6 +5,7 @@ import { Mechanism } from 'src/app/model/mechanism';
 import { Coord } from 'src/app/model/coord';
 import { Joint } from 'src/app/model/joint';
 import { Link } from 'src/app/model/link';
+import { StateService } from 'src/app/services/state.service';
 
 
 @Component({
@@ -17,12 +18,12 @@ export class TemplatesPanelComponent {
 
     private mechanism: Mechanism;
 
-    constructor(private interactionService: InteractionService){
-        this.mechanism = new Mechanism();
+    constructor(private interactionService: InteractionService, private stateService: StateService){
+        this.mechanism = this.stateService.getMechanism();
     }
 
     openTemplate(linkage: string){
-        this.mechanism = new Mechanism();
+        //this.mechanism = new Mechanism();
         if(linkage==='fourbar'){
             this.makeFourBar();
         }

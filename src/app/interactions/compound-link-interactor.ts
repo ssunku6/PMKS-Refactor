@@ -63,25 +63,25 @@ export class CompoundLinkInteractor extends Interactor {
         let modelPosAtRightClick = this.getMousePos().model;
         availableContext.push(
             {
-                icon: 'assets/contextMenu/addLink.svg',
+                icon: "assets/contextMenuIcons/addLink.svg",
                 label: "Attach Link",
                 action: () => {this.enterAddLinkCaptureMode(modelPosAtRightClick)},
                 disabled: false
             },
             {
-                icon: 'assets/contextMenu/addTracer.svg',
+                icon: "assets/contextMenuIcons/addTracer.svg",
                 label: "Attach Tracer Point",
                 action: () => {mechanism.addJointToLink(this.compoundLink.id, modelPosAtRightClick)},
                 disabled: false
             },
             {
-                icon: 'assets/contextMenu/addForce.svg',
+                icon: "assets/contextMenuIcons/addForce.svg",
                 label: "Attach Force",
                 action: () => {this.enterAddForceCaptureMode(modelPosAtRightClick)},
                 disabled: false
             },
             {
-                icon: 'assets/contextMenu/trash.svg',
+                icon: "assets/contextMenuIcons/trash.svg",
                 label: "Delete Link",
                 action: () => {mechanism.removeLink(this.compoundLink.id)},
                 disabled: false
