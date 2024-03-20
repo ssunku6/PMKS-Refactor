@@ -134,7 +134,7 @@ export class GraphSectionComponent implements AfterViewInit, OnInit {
         options: {
           ...(this.ChartOptions as ChartOptions),
         },
-        plugins: [verticalLinePlugin]
+        //plugins: [verticalLinePlugin]
       });
     }
   }
