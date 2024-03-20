@@ -78,14 +78,10 @@ export class LinkInteractor extends Interactor {
                 disabled: false
             },
             {
-              label: this.link.locked ? "Unlock Link" : "Lock Link",
-              action: () => {this.link.locked=(!this.link.locked)},
-              disabled: false
-            },
-            {
-              label: this.link.locked ? "Unlock Link" : "Lock Link",
-              action: () => {this.link.locked=(!this.link.locked)},
-              disabled: false
+                icon: this.link.locked ? "assets/contextMenuIcons/unlock.svg" : "assets/contextMenuIcons/lock.svg",
+                label: this.link.locked ? "Unlock Link" : "Lock Link",
+                action: () => {this.link.locked=(!this.link.locked)},
+                disabled: false
             },
             {
                 icon: "assets/contextMenuIcons/trash.svg",
