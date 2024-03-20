@@ -5,6 +5,8 @@
     <li *ngFor="let option of contextMenuService.getMenuOptions()"
         [ngClass]="{'disabled': option.disabled}"
         (click)="onClick(option)"
-        >{{option.label}}</li>
+        >
+        <img [ngClass]="{'disabled': option.disabled}" src="{{option.icon}}">
+        {{option.label}}</li>
   </ul>
 </div>

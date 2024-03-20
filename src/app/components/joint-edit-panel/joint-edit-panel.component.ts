@@ -28,6 +28,10 @@ export class jointEditPanelComponent {
     advancedSettingsVisual: false
   };
   isEditingTitle: boolean = false;
+  public weldIconPath: string = "assets/icons/weld.svg";
+  public addInputIconPath: string = "assets/icons/addInput.svg";
+  public rotateRightIconPath: string = "assets/icons/rotateRight.svg";
+  public rotateLeftIconPath: string = "assets/icons/rotateLeft.svg";
 
   constructor(private stateService: StateService, private interactorService: InteractionService){
     console.log("joint-edit-panel.constructor");
@@ -167,16 +171,29 @@ export class jointEditPanelComponent {
 
   // these values are passed into a tri button. these handle making and removing input.
   //        [btn1Disabled]="!getCurrentJoint().canAddInput() || getCurrentJoint().isInput"
-  makeInput() {this.getMechanism().addInput(this.getCurrentJoint().id);}
-  removeInput() {this.getMechanism().removeInput(this.getCurrentJoint().id);}
+
   makeInputClockwise() {console.log("We would be making the input clockwise here");}
   makeInputCounterClockwise() {console.log("We would be making the input counter clockwise here");}
 
 
   // these values are passed into a tri button. these handle the welding and unwelding
   // of the current joint
-  weldJoint() {this.getMechanism().addWeld(this.getCurrentJoint().id);}
-  unweldJoint(){this.getMechanism().removeWeld(this.getCurrentJoint().id);}
+
+  handleToggleWeldChange(stateChange: boolean) {
+    console.log("Toggle State Changed: ", stateChange);
+    const currentJoint = this.getCurrentJoint();
+    if (stateChange) {this.getMechanism().addWeld(this.getCurrentJoint().id);}
+    else {this.getMechanism().removeWeld(this.getCurrentJoint().id);}
+  }
+
+  handleToggleInputChange(stateChange: boolean) {
+    console.log("Toggle State Changed: ", stateChange);
+    const currentJoint = this.getCurrentJoint();
+    if (stateChange) {this.getMechanism().addInput(this.getCurrentJoint().id);}
+    else {this.getMechanism().removeInput(this.getCurrentJoint().id);}
+  }
+
+
 
   getJointColor(){}
   setJointColor(){}

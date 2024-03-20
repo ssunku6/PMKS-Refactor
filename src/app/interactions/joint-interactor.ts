@@ -51,6 +51,7 @@ export class JointInteractor extends Interactor {
 
         availableContext.push(
             {
+                icon: "assets/contextMenuIcons/addLink.svg",
                 label: "Attach Link",
                 action: () => {this.enterAddLinkCaptureMode()},
                 disabled: false
@@ -59,6 +60,7 @@ export class JointInteractor extends Interactor {
             if(this.joint.isInput){
                 availableContext.push(
                     {
+                        icon: "assets/contextMenuIcons/removeInput.svg",
                         label: "Remove Input",
                         action: () => {mechanism.removeInput(this.joint.id)},
                         disabled: !mechanism.canRemoveInput(this.joint)
@@ -66,6 +68,7 @@ export class JointInteractor extends Interactor {
             }else{
                 availableContext.push(
                     {
+                        icon: "assets/contextMenuIcons/addInput.svg",
                         label: "Add Input",
                         action: () => {mechanism.addInput(this.joint.id)},
                         disabled: !mechanism.canAddInput(this.joint)
@@ -75,6 +78,7 @@ export class JointInteractor extends Interactor {
             if(this.joint.isGrounded){
                 availableContext.push(
                     {
+                        icon: "assets/contextMenuIcons/removeGround.svg",
                         label: "Remove Ground",
                         action: () => {mechanism.removeGround(this.joint.id)},
                         disabled: !mechanism.canRemoveGround(this.joint)
@@ -82,6 +86,7 @@ export class JointInteractor extends Interactor {
             }else{
                 availableContext.push(
                     {
+                        icon: "assets/contextMenuIcons/addGround.svg",
                         label: "Add Ground",
                         action: () => {mechanism.addGround(this.joint.id)},
                         disabled: !mechanism.canAddGround(this.joint)
@@ -91,6 +96,7 @@ export class JointInteractor extends Interactor {
             if(this.joint.type == JointType.Prismatic){
                 availableContext.push(
                     {
+                        icon: "assets/contextMenuIcons/removeSlider.svg",
                         label: "Remove Slider",
                         action: () => {mechanism.removeSlider(this.joint.id)},
                         disabled: !mechanism.canRemoveSlider(this.joint)
@@ -98,6 +104,7 @@ export class JointInteractor extends Interactor {
             }else{
                 availableContext.push(
                     {
+                        icon: "assets/contextMenuIcons/addSlider.svg",
                         label: "Add Slider",
                         action: () => {mechanism.addSlider(this.joint.id)},
                         disabled: !mechanism.canAddSlider(this.joint)
@@ -107,6 +114,7 @@ export class JointInteractor extends Interactor {
             if(this.joint.isWelded){
                 availableContext.push(
                     {
+                        icon: "assets/contextMenuIcons/removeWeld.svg",
                         label: "Remove Weld",
                         action: () => {mechanism.removeWeld(this.joint.id)},
                         disabled: !mechanism.canRemoveWeld(this.joint)
@@ -114,6 +122,7 @@ export class JointInteractor extends Interactor {
             }else{
                 availableContext.push(
                     {
+                        icon: "assets/contextMenuIcons/addWeld.svg",
                         label: "Add Weld",
                         action: () => {mechanism.addWeld(this.joint.id)},
                         disabled: !mechanism.canAddWeld(this.joint)
@@ -121,6 +130,7 @@ export class JointInteractor extends Interactor {
             }
             availableContext.push(
                 {
+                    icon: "assets/contextMenuIcons/trash.svg",
                     label: "Delete Joint",
                     action: () => {mechanism.removeJoint(this.joint.id)},
                     disabled: false

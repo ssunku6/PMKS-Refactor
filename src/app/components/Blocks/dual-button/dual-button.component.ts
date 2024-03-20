@@ -22,6 +22,8 @@ export class DualButtonComponent {
   @Input() btn2Icon: string = '';
   @Input() btn1Action!: () => void;
   @Input() btn2Action!: () => void;
+  @Input() btn1SVGPath: string = '';
+  @Input() btn2SVGPath: string = '';
 
 /*
   <mat-icon svgIcon='unweld_joint'></mat-icon>

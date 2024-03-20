@@ -58,6 +58,9 @@ import {AnalysisGraphButtonComponent} from "./components/Blocks/analysis-graph-b
 import {ExportDataComponent} from "./components/Blocks/export-data/export-data.component";
 import { ImportDataComponent } from "./components/Blocks/import-data/import-data.component";
 
+import { SettingsPanelComponent } from './components/settings-panel/settings-panel.component';
+import { TemplatesPanelComponent } from './components/templates-panel/templates-panel.component';
+import { TutorialsPanelComponent } from './components/tutorials-panel/tutorials-panel.component';
 
 @NgModule({
   declarations: [
@@ -105,6 +108,9 @@ import { ImportDataComponent } from "./components/Blocks/import-data/import-data
     CompoundLinkEditPanelComponent,
     ExportDataComponent,
     ImportDataComponent
+    SettingsPanelComponent,
+    TemplatesPanelComponent,
+    TutorialsPanelComponent,
   ],
   imports: [
     BrowserModule,

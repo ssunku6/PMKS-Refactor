@@ -48,4 +48,6 @@ $my-theme: mat.define-light-theme((
 @include mat.all-component-themes($my-theme);
 @include toolbar.css($my-theme);
 @include sidenav.css($my-theme);
+@include settings.css($my-theme);
+
 @include animationbar.css($my-theme);

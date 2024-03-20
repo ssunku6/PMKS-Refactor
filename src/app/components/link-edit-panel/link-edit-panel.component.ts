@@ -32,6 +32,9 @@ export class LinkEditPanelComponent{
       isEditingTitle: boolean = false;
       isLocked: boolean = this.getSelectedObject().locked;
       selectedIndex: number = this.getColorIndex();
+      public addTracerIconPath: string = "assets/icons/addTracer.svg";
+      public addForceIconPath: string = "assets/icons/addForce.svg";
+ 
 
     constructor(private stateService: StateService, private interactionService: InteractionService, private colorService: ColorService){
 
@@ -146,14 +149,11 @@ export class LinkEditPanelComponent{
         return this.colorService.getLinkColorIndex(this.getSelectedObject().id);
     }
 
-    //TODO
     setLinkColor(newColor: number){
         console.log(newColor);
         this.getSelectedObject().setColor(newColor);
         this.selectedIndex=newColor;
     }
 
-    getLengthIcon() {
-    }
 
 }

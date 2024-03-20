@@ -29,3 +29,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     font-size: 12px;
     margin: 2px 0 2px 6px;
   }
+
+  title-block {
+    font-size: 20px;
+    font-weight: 500;
+  }
