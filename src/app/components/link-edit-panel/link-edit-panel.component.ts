@@ -145,14 +145,11 @@ export class LinkEditPanelComponent{
         return this.colorService.getLinkColorIndex(this.getSelectedObject().id);
     }
 
-    //TODO
     setLinkColor(newColor: number){
         console.log(newColor);
         this.getSelectedObject().setColor(newColor);
         this.selectedIndex=newColor;
     }
 
-    getLengthIcon() {
-    }
 
 }

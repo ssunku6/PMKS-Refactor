@@ -6,7 +6,7 @@
         [ngClass]="{'disabled': option.disabled}"
         (click)="onClick(option)"
         >
-        <img src="{{option.icon}}" style="height: 20px; width: 20px;">
+        <img [ngClass]="{'disabled': option.disabled}" src="{{option.icon}}">
         {{option.label}}</li>
   </ul>
 </div>
