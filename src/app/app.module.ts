@@ -107,7 +107,7 @@ import { TutorialsPanelComponent } from './components/tutorials-panel/tutorials-
     SingleInputComponent,
     CompoundLinkEditPanelComponent,
     ExportDataComponent,
-    ImportDataComponent
+    ImportDataComponent,
     SettingsPanelComponent,
     TemplatesPanelComponent,
     TutorialsPanelComponent,

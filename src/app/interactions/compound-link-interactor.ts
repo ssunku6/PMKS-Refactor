@@ -17,7 +17,7 @@ This interactor defines the following behaviors:
 
 export class CompoundLinkInteractor extends Interactor {
 
-    private jointsStartPosModel: Map<number,Coord> = new Map();
+    private jointsStartPosModel: Map<number, Coord> = new Map();
 
 
     constructor(public compoundLink: CompoundLink, private stateService: StateService,
@@ -25,15 +25,15 @@ export class CompoundLinkInteractor extends Interactor {
         super(true, true);
 
         this.onDragStart$.subscribe((event) => {
-            this.compoundLink.links.forEach((link: Link,id: number) =>{
-                link.joints.forEach((joint: Joint, id: number) =>{
+            this.compoundLink.links.forEach((link: Link, id: number) => {
+                link.joints.forEach((joint: Joint, id: number) => {
                     this.jointsStartPosModel.set(id, joint._coords);
                 });
             });
         });
 
         this.onDrag$.subscribe((event) => {
-            this.jointsStartPosModel.forEach((coord: Coord, jointID: number)=>{
+            this.jointsStartPosModel.forEach((coord: Coord, jointID: number) => {
                 this.stateService.getMechanism().setJointCoord(jointID, coord.add(this.dragOffsetInModel!))
             });
         });
@@ -65,41 +65,34 @@ export class CompoundLinkInteractor extends Interactor {
             {
                 icon: "assets/contextMenuIcons/addLink.svg",
                 label: "Attach Link",
-                action: () => {this.enterAddLinkCaptureMode(modelPosAtRightClick)},
+                action: () => { this.enterAddLinkCaptureMode(modelPosAtRightClick) },
                 disabled: false
             },
             {
                 icon: "assets/contextMenuIcons/addTracer.svg",
                 label: "Attach Tracer Point",
-                action: () => {mechanism.addJointToLink(this.compoundLink.id, modelPosAtRightClick)},
+                action: () => { mechanism.addJointToLink(this.compoundLink.id, modelPosAtRightClick) },
                 disabled: false
             },
             {
                 icon: "assets/contextMenuIcons/addForce.svg",
                 label: "Attach Force",
-                action: () => {this.enterAddForceCaptureMode(modelPosAtRightClick)},
+                action: () => { this.enterAddForceCaptureMode(modelPosAtRightClick) },
                 disabled: false
             },
             {
-              label: this.compoundLink.lock ? "Unlock Compound Link" : "Lock Compound Link",
-              action: () => {this.compoundLink.lock=(!this.compoundLink.lock)},
-              disabled: false
+                label: this.compoundLink.lock ? "Unlock Compound Link" : "Lock Compound Link",
+                icon: this.compoundLink.lock ? "assets/contextMenuIcons/unlock.svg" : "assets/contextMenuIcons/lock.svg",
+                action: () => { this.compoundLink.lock = (!this.compoundLink.lock) },
+                disabled: false
             },
             {
-<<<<<<< HEAD
-              label: this.compoundLink.lock ? "Unlock Compound Link" : "Lock Compound Link",
-              action: () => {this.compoundLink.lock=(!this.compoundLink.lock)},
-              disabled: false
-            },
-            {
-=======
                 icon: "assets/contextMenuIcons/trash.svg",
->>>>>>> e33387a3781ad42a2a451ee56378a1b66848c174
                 label: "Delete Link",
-                action: () => {mechanism.removeLink(this.compoundLink.id)},
+                action: () => { mechanism.removeLink(this.compoundLink.id) },
                 disabled: false
             },
-            );
+        );
 
         return availableContext;
 
@@ -115,7 +108,7 @@ export class CompoundLinkInteractor extends Interactor {
     }
 
     public getCompoundLink(): CompoundLink {
-      return this.compoundLink;
+        return this.compoundLink;
     }
 
 }
