@@ -1,0 +1,124 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin css($theme) {
+    // Get the color config from the theme.
+    $color-config: mat.get-color-config($theme);
+    // Get the primary color palette from the color-config.
+    $primary-palette: map.get($color-config, 'primary');
+    $accent-palette: map.get($color-config, 'accent');
+    $typography-config: mat.get-typography-config($theme);
+    $background: map.get($theme, background);
+    $foreground: map.get($theme, foreground);
+}
+
+#threePos {
+  background-color: white;
+  //border-left: 5px solid #3F51B5;
+  //border-top: 5px solid #3F51B5;
+  border-radius: 3px;
+  //box-shadow: 3px 3px 3px gray;
+  width:395px;
+  margin-left: 5px;
+  margin-right: -5px;
+  }
+  
+  .flex-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  /*
+  .flex-container > * {
+    margin: 5px;
+  }
+  */
+  .left-aligned {
+    margin-right: auto; /* Pushes this element to the left */
+  }
+  
+  .right-aligned {
+    margin-left: auto; /* Pushes this element to the right */
+  }
+
+  #lengthAndAngle {
+    max-height: 10px;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  
+  #trash {
+    background-color: white;
+    border: none;
+    height: 25px;
+    width: 25px;
+    align-items: center;
+    &:hover {
+      background-color: red;
+      border-radius:100%;
+    }
+    
+
+    #icon {
+      
+      &:hover {
+        filter: brightness(0) invert(1);        
+      }
+      
+    }
+  }
+
+  #generateFourBar{ 
+    margin:0 auto;
+    display:block;
+    background-color: white;
+    width: 75%;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid black;
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
+
+  #removeAll{ 
+    margin:0 auto;
+    display:block;
+    background-color: white;
+    width: 75%;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid red;
+    color: red;
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
+
+  #specify {
+    margin:0 auto;
+    display:block;
+    background-color: white;
+    width: 75%;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid black;
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
+
+
+  #tooltip {
+    color: #3f51b5;
+    font-size: 18px;
+    vertical-align: middle;
+    padding-top: 2px;
+  }
+
+  #reference {
+    margin-bottom: 5px;
+    margin-top: -10px;
+    margin-left: 5px;
+  }

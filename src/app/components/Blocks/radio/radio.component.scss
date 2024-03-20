@@ -1,0 +1,58 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin css($theme) {
+  // Get the color config from the theme.
+  $color-config: mat.get-color-config($theme);
+  // Get the primary color palette from the color-config.
+  $primary-palette: map.get($color-config, 'primary');
+  $accent-palette: map.get($color-config, 'accent');
+  $typography-config: mat.get-typography-config($theme);
+  $background: map.get($theme, background);
+  $foreground: map.get($theme, foreground);
+
+  #radio-block {
+
+    #radio-buttons {
+      //font-size: 14px !important;
+      //font-weight: 200 !important;
+      height: 36px;
+      width: 100%;
+      display: flex;
+
+      mat-button-toggle {
+        height: 100%;
+        flex-grow: 1;
+        background-color: purple;
+
+        .mat-button-toggle-label-content {
+          padding: 0;
+        }
+
+        button {
+          height: 100%;
+
+          span {
+            height: 100%;
+            line-height: 36px;
+          }
+        }
+      }
+
+      .mat-button-toggle-checked {
+        background-color: mat.get-color-from-palette($primary-palette, 400);
+        color: white;
+      }
+    }
+  }
+}
+
+.selected {
+  background-color: #007bff; /* Change this to your desired color */
+  color: white; /* Change this to the text color you want */
+}
+
+.primary-color {
+  background-color: white; /* Change this to the same color as above */
+  color: #007bff; /* Change this to the text color you want */
+}

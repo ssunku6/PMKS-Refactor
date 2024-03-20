@@ -1,0 +1,14 @@
+ <div class="radio-block">
+      <div class="row">
+        <div class="buttons">
+          <button mat-stroked-button color='primary' type="button"
+                  [class.selected]="option === selectedOption"
+                  [disabled]="disabled"
+                  *ngFor="let option of options"
+                  (click)="selectOption(option)"
+                  >
+            {{ option }}
+          </button>
+        </div>
+      </div>
+    </div>

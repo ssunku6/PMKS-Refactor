@@ -67,6 +67,7 @@ export class jointEditPanelComponent {
   }
   deleteJoint(){
     this.getMechanism().removeJoint(this.getCurrentJoint().id);
+    this.interactorService.deselectObject();
   }
 
   // get x coord and y coord return the number of the currently selected coord

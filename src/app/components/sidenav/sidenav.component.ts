@@ -16,9 +16,9 @@ interface Tab {
 export class SidenavComponent {
 
     tabs: Tab[] = [
-        {selected: false, label: 'Synthesize',icon: 'assets/sidenav/synthesize.svg'},
+        {selected: false, label: 'Synthesis',icon: 'assets/sidenav/synthesize.svg'},
         {selected: true, label: 'Edit',icon: 'assets/sidenav/edit.svg'},
-        {selected: false, label: 'Analyze', icon:'assets/sidenav/analyze.svg'},
+        {selected: false, label: 'Analysis', icon:'assets/sidenav/analyze.svg'},
     ];
     constructor(){
     }

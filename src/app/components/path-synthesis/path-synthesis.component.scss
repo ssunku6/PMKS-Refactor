@@ -12,24 +12,19 @@
     $foreground: map.get($theme, foreground);
 }
 
-#editLink {
+#path {
     //border-top-color: #00043a;
     //border-top: 10px;
     //margin-top: 10px;
     //margin-left: 5px;
     background-color: white;
     //border-left: 5px solid #3F51B5;
-    border-top: 5px solid #3F51B5;
+    //border-top: 5px solid #3F51B5;
     border-radius: 3px;
-    box-shadow: 3px 3px 3px gray;
+    //box-shadow: 3px 3px 3px gray;
     width:100%;
   }
-
-.disabled-panel {
-  opacity: 0.5; /* Adjust the opacity to control the greying out effect */
-  pointer-events: none; /* Disable user interactions */
-}
-
+  
   .flex-container {
     display: flex;
     flex-direction: column;
@@ -44,7 +39,7 @@
   .left-aligned {
     margin-right: auto; /* Pushes this element to the left */
   }
-
+  
   .right-aligned {
     margin-left: auto; /* Pushes this element to the right */
   }
@@ -75,33 +70,4 @@
   .row {
     display: flex;
   }
-
-  button {
-    background-color: white;
-    border: none;
-    height: 25px;
-    width: 25px;
-    text-align: center;
-    &:hover {
-      background-color: red;
-      border-radius:100%;
-    }
-  }
-
-  #trash {
-    &:hover {
-      filter: brightness(0) invert(1);
-      border-radius:100%;
-    }
-  }
-
-  #edit {
-    &:hover {
-      background-color: #3F51B5;
-      .svg{
-        fill: #e8eaf6;
-      }
-      border-radius:100%;
-
-    }
-  }
+  

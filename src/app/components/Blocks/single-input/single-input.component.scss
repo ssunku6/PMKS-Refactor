@@ -10,22 +10,32 @@
   $typography-config: mat.get-typography-config($theme);
   $background: map.get($theme, background);
   $foreground: map.get($theme, foreground);
+}
+.single-input-block {
+  display: flex;
+  flex-direction: column;
+  margin: 2px;
+}
+
+.input-sections {
+  display: flex;
+  float: left;
+  flex-direction: row;
+  margin-left: auto;
+}
+
+.input-section {
+  margin-right: 10px; /* Adjust the margin as needed */
+}
 
 
-  #normalPanel {
-    pointer-events: all;
-    @include mat.elevation(4);
-    border-radius: var(--border-radius);
-    display: flex;
-    flex-direction: column;
-    //gap: 10px;
-    background-color: mat.get-color-from-palette($background, 'background');
-    background-color: white;
-    border-top: 5px solid mat.get-color-from-palette($primary-palette, 500);
-    //padding: 20px;
+label {
+  margin-right: 5px; /* Adjust the margin as needed */
+}
 
-    > * {
-      width: 100%;
-    }
-  }
+.mat-icon {
+  color: #3f51b5;
+  font-size: 18px;
+  vertical-align: middle;
+  padding-top: 2px;
 }

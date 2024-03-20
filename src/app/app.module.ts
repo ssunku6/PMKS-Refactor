@@ -48,6 +48,11 @@ import { NgChartsModule } from 'ng2-charts';
 import {LinkAnalysisPanelComponent} from "./components/link-analysis-panel/link-analysis-panel.component";
 import {CompoundLinkAnalysisPanelComponent} from "./components/compound-link-analysis-panel/compound-link-analysis-panel.component";
 import {CompoundLinkEditPanelComponent} from "./components/compound-link-edit-panel/compound-link-edit-panel.component";
+import { SynthesisPanelComponent } from './components/synthesis-panel/synthesis-panel.component';
+import { ThreePosSynthesis } from './components/three-pos-synthesis/three-pos-synthesis.component';
+import { PathSynthesis } from './components/path-synthesis/path-synthesis.component';
+import { RadioComponent } from './components/Blocks/radio/radio.component';
+import { SingleInputComponent } from './components/Blocks/single-input/single-input.coponent';
 import { AnimationBarComponent } from './components/animationbar/animationbar.component';
 import {AnalysisGraphButtonComponent} from "./components/Blocks/analysis-graph-button/analysis-graph-button.component";
 import {ExportDataComponent} from "./components/Blocks/export-data/export-data.component";
@@ -87,6 +92,17 @@ import { ImportDataComponent } from "./components/Blocks/import-data/import-data
     TitleBlock,
     CollapsibleSubsectionComponent,
     DualInputComponent,
+    ToggleComponent,
+    TriButtonComponent,
+    DualButtonComponent,
+    JointAnalysisPanelComponent,
+    AnalysisPanelComponent,
+    SynthesisPanelComponent,
+    ThreePosSynthesis,
+    PathSynthesis,
+    RadioComponent,
+    SingleInputComponent,
+    CompoundLinkEditPanelComponent,
     ExportDataComponent,
     ImportDataComponent
   ],
