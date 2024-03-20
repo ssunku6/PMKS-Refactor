@@ -35,6 +35,7 @@ export class SvgInteractor extends Interactor {
         let modelPosAtRightClick = this.getMousePos().model;
         return [
             {
+                icon: "assets/contextMenuIcons/addLink.svg",
                 label: "Create Link",
                 action: () => {
                     this.enterAddLinkCaptureMode(modelPosAtRightClick)

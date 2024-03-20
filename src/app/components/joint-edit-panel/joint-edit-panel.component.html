@@ -68,22 +68,15 @@
                           (closed)="graphExpanded['advancedSettingsBasic'] = false">
     <!-- TOGGLE BLOCK FOR GROUNDING -->
     <app-toggle tooltip="This toggle will enable or disable grounding!"
-                label="Toggle Ground" [initialValue]="true"
+                label="Toggle Ground" [initialValue]="false"
                 (valueChanged)="handleToggleGroundChange($event)"></app-toggle>
+    <app-toggle tooltip="This toggle will enable or disable grounding!"
+                label="Toggle Weld" [initialValue]="false"
+                (valueChanged)="handleToggleWeldChange($event)"></app-toggle>
+    <app-toggle tooltip="This toggle will enable or disable grounding!"
+                label="Toggle Input" [initialValue]="true"
+                (valueChanged)="handleToggleInputChange($event)"></app-toggle>
 
-    <!-- TRI BUTTON THAT IS USED FOR WELDING -->
-    <tri-button btn1Text="Weld" btn2Text="Unweld"
-                [btn1Disabled]="!getCurrentJoint().canAddWeld() || getCurrentJoint().isWelded"
-                [btn2Disabled]="!getCurrentJoint().canAddWeld() || !getCurrentJoint().isWelded"
-                [btn1Action]= "weldJoint" [btn2Action]="unweldJoint"
-                [joint]=getCurrentJoint() [mechanism]="getMechanism()"></tri-button>
-
-    <!-- TRI BUTTON THAT IS USED FOR MAKING A GROUNDED JOINT AN INPUT -->
-    <tri-button btn1Text="Add Input" btn2Text="Remove Input"
-                [btn1Disabled]="!getCurrentJoint().canAddInput() || getCurrentJoint().isInput"
-                [btn2Disabled]="!getCurrentJoint().canAddInput() || !getCurrentJoint().isInput"
-                [btn1Action]= "makeInput" [btn2Action]="removeInput"
-                [joint]=getCurrentJoint() [mechanism]="getMechanism()"></tri-button>
 
     <!-- TRI BUTTON THAT IS USED FOR DIRECTION OF INPUT ON INPUT JOINT -->
     <tri-button *ngIf="getCurrentJoint().isInput"
@@ -91,7 +84,9 @@
                 [btn1Disabled]="!getCurrentJoint().canAddInput() || getCurrentJoint().isInput"
                 [btn2Disabled]="!getCurrentJoint().canAddInput() || !getCurrentJoint().isInput"
                 [btn1Action]= "makeInputCounterClockwise" [btn2Action]="makeInputClockwise"
-                [joint]=getCurrentJoint() [mechanism]="getMechanism()"></tri-button>
+                [joint]=getCurrentJoint() [mechanism]="getMechanism()"
+                [btn1SVGPath]= rotateLeftIconPath
+                [btn2SVGPath]= rotateRightIconPath ></tri-button>
   </collapsible-subsection>
     </div>
 </div>

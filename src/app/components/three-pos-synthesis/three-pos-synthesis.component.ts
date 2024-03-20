@@ -47,6 +47,8 @@ export class ThreePosSynthesis{
     pos3Y: number = 0;
     pos3Angle: number = 0;
     pos3Specified: boolean = false;
+    fourBarGenerated: boolean = false;
+    sixBarGenerated: boolean = false;
     
 
     constructor(private stateService: StateService, private interactionService: InteractionService, private colorService: ColorService){    
@@ -87,9 +89,18 @@ resetPos(pos: number){
     }
 }
 
+isFourBarGenerated(): boolean {
+    return this.fourBarGenerated;
+}
 
 generateFourBar(){
+    this.fourBarGenerated=true;
+    this.sixBarGenerated=false;
+}
 
+generateSixBar(){
+    this.sixBarGenerated=true;
+    //this.fourBarGenerated=false;
 }
 
 setCouplerLength(x: number){
@@ -178,5 +189,7 @@ removeAllPositions(){
         this.deletePosition(i);
         this.resetPos(i)
     }
+    this.fourBarGenerated=false;
+    this.sixBarGenerated=false;
 }
 }

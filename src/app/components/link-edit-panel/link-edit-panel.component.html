@@ -39,13 +39,24 @@
               [input2Value]="getLinkAngle()"
               (input1Change)="setLinkLength($event)"
               (input2Change)="setLinkAngle($event)"
-                label1=""
+                label1="L"
                 label2="⊾"
                 tooltip = "Enter the length and angle of the link">
                 Link Length and Angle
             </dual-input-block>
-              <dual-button btn1Text="Add Tracer" btn2Text="Add Force"
-              [btn1Action]="addTracer" ></dual-button>
+              <div class="row center">            
+                <tri-button btn1Text="Add Tracer"
+                            [btn2Visible]="false"
+                            [btn1Action]= "addTracer" 
+                            [btn1SVGPath]= addTracerIconPath
+                            ></tri-button>
+        
+                <tri-button btn1Text="Add Force"
+                            [btn2Visible]="false"
+                            
+                            [btn1SVGPath]= addForceIconPath
+                            ></tri-button>
+               </div>
             </div>
       </collapsible-subsection>
 

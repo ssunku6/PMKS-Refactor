@@ -3,9 +3,11 @@
     border: 1px solid #ccc;
     background-color: #ffffff;
     z-index: 1000;
-    width: 150px;
+    min-width: 120px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
-    padding: 5px 0; /* Gap at the top and bottom */
+    align-items: center;
+    border-radius: 5px;
+    font-size: 18px;
   }
   
   .context-menu ul {
@@ -15,8 +17,7 @@
   }
   
   .context-menu li {
-    padding: 8px 12px;
-    padding-left: 36px;  /* Space for the icon */
+    padding: 4px 8px 4px 8px;
     cursor: pointer;
     position: relative;  /* Needed for positioning the icon */
   }
@@ -34,4 +35,13 @@
   .context-menu li.disabled:hover {
     background-color: #f2f2f2;
   }
+
+  .context-menu img.disabled {
+    filter: invert(54%) sepia(23%) saturate(21%) hue-rotate(356deg) brightness(89%) contrast(87%);
+  }
   
+  img {
+    position:relative;
+    height:18px;
+    width:18px;
+  }
