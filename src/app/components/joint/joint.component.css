@@ -6,3 +6,7 @@
     -moz-user-select: none;    /* Firefox */
     -ms-user-select: none;     /* IE/Edge */
 }
+
+.weld-icon{
+  color: white;
+}

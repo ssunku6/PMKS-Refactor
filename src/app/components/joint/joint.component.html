@@ -49,7 +49,7 @@
     }
 
   @if(getLocked()) {
-    <image xlink:href='../../../assets/icons/lock.svg'
+    <image xlink:href='../../../assets/icons/lock.svg' class="weld-icon"
            [attr.x]="getX()"
            [attr.y]="getY()"
            [attr.height]="getRadius()*5"
@@ -57,6 +57,13 @@
   }
 
     @if(isWelded()){
+      <image xlink:href='../../../assets/icons/weld.svg'
+             [attr.x]="getX()-getRadius()*2"
+             [attr.y]="getY()-getRadius()*1"
+             [attr.height]="getRadius()*3"
+      />
+
+      <!-- OLD WELD, MEANT TO BE NEW TRACER ICON- TODO PUT INTO ADD TRACER FUNCTIONALITY
         <path
             d='M -5.5 -5.5 H-16.5 V4.5 H-5.5 V15.5 H4.5 V4.5 H15.5 V-5.5 H4.5 V-16.5 H-5.5 V-5.5 Z'
             [attr.fill]="getColor()"
@@ -64,6 +71,7 @@
             [attr.stroke-width]="getStrokeWidth()"
             [attr.transform]="getTranslation()"
         ></path>
+        -->
 
 
     } @else {

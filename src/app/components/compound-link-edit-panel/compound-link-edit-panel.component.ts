@@ -31,9 +31,7 @@ export class CompoundLinkEditPanelComponent {
      referenceJoint: Joint | undefined;
       uniqueJoints: Set<Joint> = this.getUniqueJoints();
 
-  constructor(private stateService: StateService, private interactionService: InteractionService, private colorService: ColorService){
-
-    }
+    constructor(private stateService: StateService, private interactionService: InteractionService, private colorService: ColorService){}
 
     getSelectedObject(): CompoundLink {
         let compoundLink = this.interactionService.getSelectedObject() as CompoundLinkInteractor;
@@ -146,10 +144,9 @@ export class CompoundLinkEditPanelComponent {
       return angleInDegrees;
     }
 
-
-  setReferenceJointAngle(newAngle: number){
-
-  }
+  //  todo  STUBS that do nothing at the moment. used to alter compound link in relation to reference joint.
+  setReferenceJointAngle(newAngle: number){}
+  setReferenceJointDist(newDist: number) {}
 
     deleteCompoundLink(){
         this.stateService.getMechanism().removeCompoundLink(this.getSelectedObject());

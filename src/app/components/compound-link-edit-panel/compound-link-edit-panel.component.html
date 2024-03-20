@@ -41,10 +41,11 @@
                           [disabled]=false
                           [input1Value]="getReferenceJointDist()"
                           [input2Value]="getReferenceJointAngle()"
+                          (input1Change)="setReferenceJointDist($event)"
                           (input2Change)="setReferenceJointAngle($event)"
                           label1=""
                           label2="⊾"
-                          tooltip = "The length and angle of the link">
+                          tooltip = "The position and angle of the reference joint">
           Reference Joint {{ this.referenceJoint?.name }} Distance and Angle to CoM
         </dual-input-block>
 
@@ -53,7 +54,7 @@
       </panel-section-collapsible>
     <div id="body" [class.disabled-panel]="getCompoundLinkLockState()">
       <!-- BASIC SETTING DROPDOWN -->
-      <collapsible-subsection titleLabel='Basic Settings' [expanded]="sectionExpanded['LBasic'] || getCompoundLinkLockState()"
+      <collapsible-subsection titleLabel='Sublinks' [expanded]="sectionExpanded['LBasic'] || getCompoundLinkLockState()"
             (opened)="sectionExpanded['LBasic'] = true"
             (closed)="sectionExpanded['LBasic'] = false">
             <div>
@@ -74,7 +75,7 @@
       </collapsible-subsection>
 
       <!-- COMPONENTS DROPDOWN -->
-      <collapsible-subsection titleLabel='Components' [expanded]="sectionExpanded['LComponent'] || getCompoundLinkLockState()"
+      <collapsible-subsection titleLabel='Joints of Sublinks' [expanded]="sectionExpanded['LComponent'] || getCompoundLinkLockState()"
             (opened)="sectionExpanded['LComponent'] = true"
             (closed)="sectionExpanded['LComponent'] = false">
             <div id="linkComponents">
@@ -84,6 +85,7 @@
                   <div *ngFor='let link of getAllConnectedLinks(); let i = index;'>
                 <div *ngFor='let joint of getLinkComponents(link); let i = index;'>
                   <dual-input-block
+                    [disabled]=true
                     [input1Value]="this.roundToFour(joint.coords.x)"
                     [input2Value]="this.roundToFour(joint.coords.y)"
                     (input1Change)="joint.coords.x=($event)"
