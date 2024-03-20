@@ -77,8 +77,4 @@ export class AnimationBarComponent {
         }
         return index;
     }
-
-    
-
-
 }

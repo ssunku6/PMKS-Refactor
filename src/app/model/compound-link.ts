@@ -160,17 +160,13 @@ export class CompoundLink implements RigidBody{
         }
     }
 
-
     getJoints(): Array<Joint>{
         const joints: Set<Joint> = new Set();
         for(let link of this._links.values()){
             for(let joint of link.joints.values()){
                 joints.add(joint);
             }
-
-
         }
-
         return Array.from(joints);
     }
 }

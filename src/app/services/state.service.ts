@@ -19,7 +19,6 @@ export class StateService {
         console.log("StateService constructor");
 
         this.mechanism = new Mechanism();
-
     }
     
     public getMechanism(): Mechanism {

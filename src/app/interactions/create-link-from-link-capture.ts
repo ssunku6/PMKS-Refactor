@@ -11,8 +11,6 @@ export class CreateLinkFromLinkCapture extends ClickCapture {
 
     constructor(private parentLink: Link, private startPos: Coord, private interactionService: InteractionService) {
         super(ClickCaptureID.CREATE_LINK_FROM_LINK);
-
-
         // on mouse move, if hovering over a Link, store it
         this.onMouseMove$.subscribe((event) => {
             const hovering = interactionService.getHoveringObject();
@@ -22,7 +20,6 @@ export class CreateLinkFromLinkCapture extends ClickCapture {
                 this.hoveringLink = undefined;
             }
         });
-
     }
 
     public getHoveringLink(): Link | undefined {

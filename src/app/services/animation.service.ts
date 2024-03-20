@@ -133,9 +133,4 @@ export class AnimationService {
         }
         animationState.currentFrameIndex = frame;
     }
-    
-
-
-
-
 }

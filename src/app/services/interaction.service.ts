@@ -111,7 +111,7 @@ export class InteractionService {
     public _onMouseRightClick(object: Interactor, event: MouseEvent): void {
         this.mouseMovedAfterDown = false;
 
-        event.preventDefault(); // prevent context menu from appearing
+        event.preventDefault(); // prevent browser default context menu from appearing
         event.stopPropagation(); // don't let parent components handle this event
         console.log("InteractionService.onMouseRightClick", object.constructor.name, event);
         // if click capture, handle special case

@@ -37,11 +37,11 @@ export class Coord {
         return Math.atan2(this.y - arcStart.y, this.x - arcStart.x);
     }
 
-    equals(coord: Coord, objectScale: number) {
+    equals(coord: Coord, objectScale: number): boolean {
         return this.getDistanceTo(coord) < 0.0001 * objectScale;
     }
 
-    looselyEquals(coord: Coord, objectScale: number) {
+    looselyEquals(coord: Coord, objectScale: number): boolean {
         return this.getDistanceTo(coord) < 0.04 * objectScale;
     }
 

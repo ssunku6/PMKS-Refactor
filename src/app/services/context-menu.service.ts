@@ -56,5 +56,4 @@ export class ContextMenuService {
     public getMenuOptions(): ContextMenuOption[] {
         return this.options;
     }
-
 }

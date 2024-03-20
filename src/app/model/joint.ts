@@ -128,11 +128,6 @@ export class Joint {
         this._isInput = false;
         this._type = JointType.Revolute;
     }
-
-
-
-
-
     //----------------------------Joint Modification Querying----------------------------
     canAddGround(): boolean {
         return true;

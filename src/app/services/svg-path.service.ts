@@ -145,6 +145,4 @@ calculateConvexPath(hullPoints: Coord[], r: number): string {
     return ``;
   }
   
-
-
 }

@@ -10,13 +10,10 @@ export class CreateLinkFromJointCapture extends ClickCapture {
 
     constructor(private parentJoint: Joint, private interactionService: InteractionService) {
         super(ClickCaptureID.CREATE_LINK_FROM_JOINT);
-
-
         // on mouse move, if hovering over a Joint, store it
         this.onMouseMove$.subscribe((event) => {
             
         });
-
     }
     public getStartPos(): Coord {
         return this.parentJoint.coords;
