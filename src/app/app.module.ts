@@ -19,6 +19,7 @@ import { SvgComponent } from './components/svg/svg.component';
 import { CreateNewCompLineComponent } from './components/create-new-comp-line/create-new-comp-line.component';
 import { GraphComponent } from './components/graph/graph.component';
 import { JointComponent } from './components/joint/joint.component';
+import { jointEditPanelComponent} from "./components/joint-edit-panel/joint-edit-panel.component";
 import { LinkComponent } from './components/link/link.component';
 import { CompoundLinkComponent } from './components/compound-link/compound-link.component';
 import { GridLinesComponent } from './components/gridlines/gridlines.component';
@@ -27,6 +28,23 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { EditPanelComponent } from './components/edit-panel/edit-panel.component';
 import { AnimationBarComponent } from './components/animationbar/animationbar.component';
 
+import { LinkEditPanelComponent } from './components/link-edit-panel/link-edit-panel.component';
+import { PanelSectionCollapsibleComponent } from './components/Blocks/panel-section-collapsible/panel-section-collapsible.component';
+import { PanelSectionComponent } from './components/Blocks/panel-section/panel-section.component';
+import { TitleBlock } from './components/Blocks/title/title.component';
+import { CollapsibleSubsectionComponent } from './components/Blocks/collapsible-subsection/collapsible-subsection.component';
+import {DualInputComponent} from "./components/Blocks/dual-input/dual-input.component";
+import {FormGroup, FormsModule} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import {ToggleComponent} from "./components/Blocks/toggle/toggle.component";
+import {MatInputModule} from "@angular/material/input";
+import {TriButtonComponent} from "./components/Blocks/tri-button/tri-button.component";
+import { DualButtonComponent } from './components/Blocks/dual-button/dual-button.component';
+import {JointAnalysisPanelComponent} from "./components/joint-analysis-panel/joint-analysis-panel.component";
+import {AnalysisPanelComponent} from "./components/analysis-panel/analysis-panel.component";
 
 @NgModule({
   declarations: [
@@ -37,6 +55,7 @@ import { AnimationBarComponent } from './components/animationbar/animationbar.co
     GraphComponent,
     GridLinesComponent,
     JointComponent,
+    jointEditPanelComponent,
     LinkComponent,
     CompoundLinkComponent,
     CreateNewCompLineComponent,
@@ -44,6 +63,17 @@ import { AnimationBarComponent } from './components/animationbar/animationbar.co
     SidenavComponent,
     EditPanelComponent,
     AnimationBarComponent,
+    LinkEditPanelComponent,
+    PanelSectionCollapsibleComponent,
+    PanelSectionComponent,
+    TitleBlock,
+    CollapsibleSubsectionComponent,
+    DualInputComponent,
+    ToggleComponent,
+    TriButtonComponent,
+    DualButtonComponent,
+    JointAnalysisPanelComponent,
+    AnalysisPanelComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,8 +84,12 @@ import { AnimationBarComponent } from './components/animationbar/animationbar.co
     MatIconModule,
     MatSidenavModule,
     MatButtonToggleModule,
-
-
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatTooltipModule,
+    MatSlideToggleModule,
+    MatInputModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

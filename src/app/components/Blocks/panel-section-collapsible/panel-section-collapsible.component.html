@@ -1,0 +1,6 @@
+<div id='collapsibleContainer' >
+  <ng-content select='[alwaysShown]'></ng-content>
+  <div *ngIf='isLoaded' [@openClose]="expanded ? 'open' : 'closed'" id='expnandingContainer'>
+    <ng-content></ng-content>
+  </div>
+</div>

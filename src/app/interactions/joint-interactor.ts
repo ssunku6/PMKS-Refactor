@@ -28,27 +28,27 @@ export class JointInteractor extends Interactor {
 
         this.onDragEnd$.subscribe((event) => {
         });
-
+        /*
         // if backspace, delete
         this.onKeyDown$.subscribe((event) => {
             if (event.key === "Backspace") {
                 this.stateService.getMechanism().removeJoint(this.joint.id);
             }
-        });
+        });*/
 
     }
-    
+
 
     /**
      * Determines what options should be shown for the context menu when right clicking on a joint
-     * 
-     * @returns 
+     *
+     * @returns
      */
     public override specifyContextMenu(): ContextMenuOption[] {
 
         let availableContext: ContextMenuOption[] = [];
         let mechanism: Mechanism = this.stateService.getMechanism();
-        
+
         availableContext.push(
             {
                 label: "Attach Link",
@@ -126,13 +126,13 @@ export class JointInteractor extends Interactor {
                     disabled: false
                 });
         return availableContext;
-        
+
     }
-    
+
     private enterAddLinkCaptureMode(): void {
         const capture = new CreateLinkFromJointCapture(this.joint, this.interactionService);
         capture.onClick$.subscribe((mousePos) => {
-            
+
             if (capture.getHoveringJoint() === undefined) { // if not hovering over a joint, create a new joint to attach to
                 this.stateService.getMechanism().addLinkToJoint(this.joint.id, mousePos);
             } else { // if hovering over a joint, create a link to that joint
@@ -144,6 +144,10 @@ export class JointInteractor extends Interactor {
 
     public override toString(): string {
         return "jointInteractor(" + this.joint.name + ")";
+    }
+
+    public getJoint(): Joint {
+      return this.joint ;
     }
 
 }

@@ -5,7 +5,7 @@
                 [ngClass]="{'selected': tab.selected}"
                 (click)="setCurrentTab(tab.label)">
                 <img
-                [src]="tab.icon">
+                [src]="tab.icon" style="height:40px; width:40px">
                 {{tab.label}}
         </button>
         }
@@ -19,7 +19,7 @@
                 <p>Synthesize</p>
             }
             @case ('Analyze'){
-                <p>Analyze</p>
+            <app-analysis-panel></app-analysis-panel>
             }
 
         }

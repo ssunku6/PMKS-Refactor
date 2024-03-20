@@ -20,7 +20,6 @@ export interface SolvePrerequisite {
     distFromKnownJointOne?: number;
     knownJointTwo?: Joint;
     distFromKnownJointTwo?: number;
-
 }
 
 export interface AnimationPositions {

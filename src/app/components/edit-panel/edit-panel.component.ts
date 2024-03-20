@@ -12,12 +12,12 @@ import { JointInteractor } from 'src/app/interactions/joint-interactor';
 export class EditPanelComponent {
 
 
-    constructor(private interactionServive: InteractionService){
+    constructor(private interactionService: InteractionService){
     }
-    
+
 
     getSelectedObjectType(): string{
-        let obj = this.interactionServive.getSelectedObject();
+        let obj = this.interactionService.getSelectedObject();
         if(obj == undefined){
             return '';
         } else{

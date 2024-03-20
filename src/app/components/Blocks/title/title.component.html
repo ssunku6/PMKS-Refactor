@@ -1,0 +1,15 @@
+<div id='title-block'>
+  <div class='row'>
+    <ng-content></ng-content>
+    <button
+      id='title-button'
+      mat-flat-button
+      (click)='toggleExpand()'
+      color='primary'
+      *ngIf='buttonLabel && icon'
+    >
+      {{ buttonLabel }}
+    </button>
+  </div>
+  <p id='title-description' *ngIf='description'>{{ description }}</p>
+</div>
