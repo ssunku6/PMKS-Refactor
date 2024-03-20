@@ -29,7 +29,7 @@ export class Link implements RigidBody{
         '#207297',
         '#00695D',
         '#0D453E',
-      ];
+    ];
 
     constructor(id: number, jointA: Joint, jointB: Joint);
     constructor(id: number, joints: Joint[]);

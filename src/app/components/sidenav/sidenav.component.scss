@@ -11,26 +11,6 @@
     $background: map.get($theme, background);
     $foreground: map.get($theme, foreground);
 
-<<<<<<< HEAD
-    .app-sidenav-container {
-        display: flex;
-        flex-direction: row;
-        padding: 0px 0px;
-        z-index: 1;
-        position: absolute;
-        top: 30px;
-    }
-
-    .side-nav {
-        @include mat.elevation(2);
-        background-color: var(--white-background);
-        display: flex;
-        flex-direction: column;
-        padding: 0px 0px;
-        left: 0px;
-        height: calc(100vh - 30px);
-    }
-=======
 .app-sidenav-container{
     display: flex;
     flex-direction: row;
@@ -51,7 +31,6 @@
     left: 0px;
     height: calc(100vh - 30px);
 }
->>>>>>> main
 
 
     .sidenav-button {
@@ -66,27 +45,16 @@
         font-size: 8pt;
     }
 
-<<<<<<< HEAD
     .sidenav-button:hover {
         background-color: #E8EAF6;
         color: '#000000';
     }
 
-    .sidenav-button.selected {
-        background-color: #E8EAF6;
-        filter: brightness(100%);
-        box-sizing: border-box;
-        border-right: 5px solid #3F51B5;
-
-
-    }
-=======
 .sidenav-button.selected{
     background-color: white;
     filter:brightness(100%);
     box-sizing: border-box;
     border-left: 5px solid #3F51B5;
 }
->>>>>>> main
 
 }
