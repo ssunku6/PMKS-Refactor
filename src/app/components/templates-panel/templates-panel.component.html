@@ -1,4 +1,6 @@
-<div class="app-templates-panel-container">
+<!-- *ngIf= open will make the panel "close" when you open a template but makes it so you have to 
+double click templates to open again, works for now, will need a better fix later -->
+<div *ngIf=open class="app-templates-panel-container">
     <panel-section-collapsible>
         <title-block icon='expand_more' description='' class="synthesisHeader">
             Template

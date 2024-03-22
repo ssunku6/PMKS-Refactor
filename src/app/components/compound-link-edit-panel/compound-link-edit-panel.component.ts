@@ -150,6 +150,7 @@ export class CompoundLinkEditPanelComponent {
 
     deleteCompoundLink(){
         this.stateService.getMechanism().removeCompoundLink(this.getSelectedObject());
+        this.interactionService.deselectObject();
     }
 
     onTitleBlockClick(event: MouseEvent): void {
@@ -180,14 +181,14 @@ export class CompoundLinkEditPanelComponent {
         return this.colorService.getLinkColorIndex(this.getSelectedObject().id);
     }
 
-    /*
+    
     //TODO
-    setCompoundLinkColor(newColor: number){
+    setLinkColor(newColor: number){
         console.log(newColor);
         this.getSelectedObject().setColor(newColor);
         this.selectedIndex=newColor;
     }
-     */
+    
 
 
 }
