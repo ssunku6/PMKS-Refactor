@@ -10,13 +10,13 @@
   <ng-template #linkNameDisplay>
     {{ this.getCompoundLinkName() }}
   </ng-template>
-  <button (click)="this.isEditingTitle=true">
+  <button class="topbuttons" (click)="this.isEditingTitle=true">
     <img src='assets/icons/edit.svg' style="height: 20px; width: 20px;"/>
   </button>
-  <button (click)="this.deleteCompoundLink()">
+  <button class="topbuttons" (click)="this.deleteCompoundLink()">
     <img src='assets/icons/trash.svg' style="height: 20px; width: 20px;"/>
   </button>
-      <button (click)="this.updateCompoundLinkLock()">
+      <button class="topbuttons" (click)="this.updateCompoundLinkLock()">
         <ng-container *ngIf="isLocked; else unlockIcon">
           <img src='assets/icons/unlock.svg' style="height: 20px; width: 20px;"/>
         </ng-container>
@@ -28,11 +28,11 @@
     </title-block>
 
         <!-- DYNAMICALLY LIST EVERY UNIQUE REFERENCE JOINT, SO THE USER CAN SELECT ONE -->
-        <p>Reference Joint</p>
+        <div><p style="display:inline-block; margin-bottom: 5px;">Reference Joint</p> <mat-icon matTooltip='Select a reference point for the compound link' [matTooltipShowDelay]='1000' class='label-help'>help_outline</mat-icon> </div>
         <div class="button-container">
             <div *ngFor="let joint of uniqueJoints" class = "button-wrapper">
                 <button class="referenceJointSelect" (click) = onReferenceJointSelected(joint)>
-                  Name of Joint: {{ joint.name }}
+                  Joint: {{ joint.name }}
                 </button>
             </div>
         </div>
@@ -43,7 +43,7 @@
                           [input2Value]="getReferenceJointAngle()"
                           (input1Change)="setReferenceJointDist($event)"
                           (input2Change)="setReferenceJointAngle($event)"
-                          label1=""
+                          label1="L"
                           label2="⊾"
                           tooltip = "The position and angle of the reference joint">
           Reference Joint {{ this.referenceJoint?.name }} Distance and Angle to CoM
@@ -63,7 +63,7 @@
                               [disabled]=true
               [input1Value]="getLinkLength(link)"
               [input2Value]="getLinkAngle(link)"
-                label1=""
+                label1="L"
                 label2="⊾"
                 tooltip = "The length and angle of the link">
                 Link {{ link.name }} Length and Angle
@@ -103,17 +103,17 @@
       <collapsible-subsection [expanded]='true' titleLabel='Visual Settings' [expanded]="sectionExpanded['LVisual']"
             (opened)="sectionExpanded['LVisual'] = true"
             (closed)="sectionExpanded['LVisual'] = false">
-        <div>
-        <p class="colors">Link Color:</p>
-        <div class="row">
-            <!--
-        <div *ngFor='let color of getColors(); let i=index' class="colors"
-               [style.backgroundColor]='color'
-               (click)='setLinkColor(i, link)'>
-            <mat-icon *ngIf='selectedIndex === i' style="color:white">check</mat-icon>
+        <div> 
+          <div>
+            <p class="colors">Link Color:</p>
+            <div class="row">
+              <div *ngFor='let color of getColors(); let i=index' class="colors" [style.backgroundColor]='color'
+                (click)='setLinkColor(i)'>
+                <!-- Use an *ngIf directive to show a check mark if the color is selected -->
+                <mat-icon *ngIf='selectedIndex === i' style="color:white">check</mat-icon>
+              </div>
+            </div>
           </div>
-          -->
-        </div>
     </div>
       </collapsible-subsection>
       </div>

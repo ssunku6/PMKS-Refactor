@@ -35,6 +35,7 @@
 .button-container {
   display: flex;
   flex-wrap: wrap;
+  margin: auto;
 }
 
 .button-wrapper {
@@ -80,4 +81,33 @@
 
   .row {
     display: flex;
+  }
+
+  .topbuttons {
+    background-color: white;
+    border: none;
+    height: 25px;
+    width: 25px;
+    text-align: center;
+  }
+
+  .referenceJointSelect {
+    height: 28px;
+    margin: 2px;
+    background-color: #e8eaf6;
+    color: #3F51B5;
+    border: none;
+    border-radius: 3px;
+  }
+
+  .referenceJointSelect:hover {
+    color: #e8eaf6;
+    background-color: #3F51B5;
+  }
+
+  mat-icon {
+    color: #3f51b5;
+    font-size: 18px;
+    vertical-align: middle;
+    padding-top: 2px;
   }

@@ -57,10 +57,10 @@
   }
 
     @if(isWelded()){
-      <image xlink:href='../../../assets/icons/weld.svg'
-             [attr.x]="getX()-getRadius()*2"
-             [attr.y]="getY()-getRadius()*1"
-             [attr.height]="getRadius()*3"
+      <image xlink:href='../../../assets/icons/weld.svg' class="weld-icon"
+             [attr.x]="getX()-getRadius()*2+12"
+             [attr.y]="getY()-getRadius()*2+12"
+             [attr.height]="getRadius()*2"
       />
 
       <!-- OLD WELD, MEANT TO BE NEW TRACER ICON- TODO PUT INTO ADD TRACER FUNCTIONALITY

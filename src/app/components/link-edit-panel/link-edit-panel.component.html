@@ -39,7 +39,7 @@
           tooltip="Enter the length and angle of the link">
           Link Length and Angle
         </dual-input-block>
-        <dual-button btn1Text="Add Tracer" btn2Text="Add Force" [btn1Action]="addTracer" [Link]=getSelectedObject()
+        <dual-button btn1Text="Add Tracer" btn2Text="Add Force" [btn1Action]="addTracer" [Link]=getSelectedObject() [btn1SVGPath]="addTracerIconPath" [btn2SVGPath]="addForceIconPath"
           [mechanism]="getMechanism()">
           ></dual-button>
       </div>
@@ -50,7 +50,6 @@
       (opened)="sectionExpanded['LComponent'] = true" (closed)="sectionExpanded['LComponent'] = false">
       <div id="linkComponents">
         <p>Components</p>
-        <!--{{this.getLinkComponents()}} -->
         <div id="container">
           <div *ngFor='let joint of getLinkComponents(); let i = index;'>
             <dual-input-block [input1Value]="this.roundToFour(joint.coords.x)"

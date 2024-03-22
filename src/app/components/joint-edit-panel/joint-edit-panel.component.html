@@ -68,13 +68,15 @@
                           (opened)="graphExpanded['advancedSettingsBasic'] = true"
                           (closed)="graphExpanded['advancedSettingsBasic'] = false">
     <!-- TOGGLE BLOCK FOR GROUNDING -->
-    <app-toggle tooltip="This toggle will enable or disable grounding!"
+    <app-toggle tooltip="This toggle will ground or remove the ground on the joint"
                 label="Toggle Ground" [initialValue]="false"
                 (valueChanged)="handleToggleGroundChange($event)"></app-toggle>
-    <app-toggle tooltip="This toggle will enable or disable grounding!"
+    <!-- TOGGLE BLOCK FOR WELDING -->
+    <app-toggle tooltip="This toggle will weld or unweld the joint"
                 label="Toggle Weld" [initialValue]="false"
                 (valueChanged)="handleToggleWeldChange($event)"></app-toggle>
-    <app-toggle tooltip="This toggle will enable or disable grounding!"
+    <!-- TOGGLE BLOCK FOR INPUT -->    
+                <app-toggle tooltip="This toggle will make the joint an input or remove the input"
                 label="Toggle Input" [initialValue]="true"
                 (valueChanged)="handleToggleInputChange($event)"></app-toggle>
 
