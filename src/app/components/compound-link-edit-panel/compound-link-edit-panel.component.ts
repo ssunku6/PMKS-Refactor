@@ -114,7 +114,7 @@ export class CompoundLinkEditPanelComponent {
         yDiff = refJointCoord.y - this.getSelectedObject().centerOfMass.y;
       }
 
-      return Math.sqrt((xDiff * xDiff) + (yDiff * yDiff));
+      return this.roundToFour(Math.sqrt((xDiff * xDiff) + (yDiff * yDiff)));
     }
 
     getReferenceJointAngle(): number {
@@ -141,7 +141,7 @@ export class CompoundLinkEditPanelComponent {
         angleInDegrees += 360;
       }
 
-      return angleInDegrees;
+      return this.roundToFour(angleInDegrees);
     }
 
   //  todo  STUBS that do nothing at the moment. used to alter compound link in relation to reference joint.

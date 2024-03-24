@@ -34,8 +34,13 @@
     <collapsible-subsection [expanded]='true' titleLabel='Basic Settings' [expanded]="sectionExpanded['LBasic']"
       (opened)="sectionExpanded['LBasic'] = true" (closed)="sectionExpanded['LBasic'] = false">
       <div>
-        <dual-input-block id="lengthAndAngle" [input1Value]="getLinkLength()" [input2Value]="getLinkAngle()"
-          (input1Change)="setLinkLength($event)" (input2Change)="setLinkAngle($event)" label1="" label2="" iconLabel1="assets/icons/length.svg" iconLabel2="assets/icons/angle.svg"
+        <dual-input-block id="lengthAndAngle" 
+          [input1Value]="getLinkLength()" 
+          [input2Value]="getLinkAngle()"
+          (input1Change)="setLinkLength($event)" 
+          (input2Change)="setLinkAngle($event)" 
+          iconLabel1="assets/icons/length.svg" iconLabel2="assets/icons/angle.svg" 
+          unit1="cm" unit2="deg"
           tooltip="Enter the length and angle of the link">
           Link Length and Angle
         </dual-input-block>
@@ -52,9 +57,14 @@
         <p>Components</p>
         <div id="container">
           <div *ngFor='let joint of getLinkComponents(); let i = index;'>
-            <dual-input-block [input1Value]="this.roundToFour(joint.coords.x)"
-              [input2Value]="this.roundToFour(joint.coords.y)" (input1Change)="joint.coords.x=($event)"
-              (input2Change)="joint.coords.y=($event)" label1="X" label2="Y" tooltip="Change joint positions">
+            <dual-input-block 
+              [input1Value]="this.roundToFour(joint.coords.x)"
+              [input2Value]="this.roundToFour(joint.coords.y)" 
+              (input1Change)="joint.coords.x=($event)"
+              (input2Change)="joint.coords.y=($event)" 
+              label1="X" label2="Y" 
+              unit1="cm" unit2="cm"
+              tooltip="Change joint positions">
               Joint {{ joint.name }}:
             </dual-input-block>
           </div>

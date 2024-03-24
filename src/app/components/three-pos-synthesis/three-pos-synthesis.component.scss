@@ -70,12 +70,20 @@
     border: 1px solid black;
     margin-top: 3px;
     margin-bottom: 3px;
+    background-color: #e8eaf6;
+    color: #3F51B5;
+    border: none;
+  }
+
+  #generateFourBar:hover {
+    color: #e8eaf6;
+    background-color: #3F51B5;
   }
 
   #removeAll{ 
     margin:0 auto;
     display:block;
-    background-color: white;
+    background-color: #ffcccb;
     width: 75%;
     height: 40px;
     border-radius: 20px;
@@ -83,6 +91,12 @@
     color: red;
     margin-top: 3px;
     margin-bottom: 3px;
+    border: none;
+  }
+
+  #removeAll:hover {
+    color: #ffcccb;
+    background-color: red;
   }
 
   #specify {
@@ -95,6 +109,14 @@
     border: 1px solid black;
     margin-top: 3px;
     margin-bottom: 3px;
+    background-color: #e8eaf6;
+    color: #3F51B5;
+    border: none;
+  }
+
+  #specify:hover {
+    color: #e8eaf6;
+    background-color: #3F51B5;
   }
 
 
@@ -109,4 +131,19 @@
     margin-bottom: 5px;
     margin-top: -10px;
     margin-left: 5px;
+  }
+
+
+  .referenceJointSelect {
+    height: 28px;
+    margin: 2px;
+    background-color: #e8eaf6;
+    color: #3F51B5;
+    border: none;
+    border-radius: 3px;
+  }
+
+  .referenceJointSelect:hover {
+    color: #e8eaf6;
+    background-color: #3F51B5;
   }

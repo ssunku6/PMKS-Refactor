@@ -10,7 +10,7 @@
   <div class="input-sections">
     <div class="input-section">
       <img *ngIf="iconLabel1!==undefined" src="{{iconLabel1}}" style="height:14px;">
-      <label for="input1"> {{label1}}:</label>
+      <label for="input1"> {{label1}}</label>
       <input style="padding-right:30px;" type="text" id="input1" [(ngModel)]="input1Value"
              (keyup.enter)="onEnterKeyInput1()" (blur)="onBlurInput1()"/>
              <span class="unit" style="margin-left:-30px;">{{unit1}}</span>
@@ -18,7 +18,7 @@
 
     <div class="input-section">
       <img *ngIf="iconLabel1!==undefined" src="{{iconLabel2}}" style="height:14px;">
-      <label for="input2">{{label2}}:</label>
+      <label for="input2">{{label2}}</label>
       <input style="padding-right:30px;" type="text" id="input2" [(ngModel)]="input2Value"
              (keyup.enter)="onEnterKeyInput2()" (blur)="onBlurInput1()"/>
              <span class="unit" style="margin-left:-30px;">{{unit2}}</span>

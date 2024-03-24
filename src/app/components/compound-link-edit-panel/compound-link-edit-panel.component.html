@@ -28,7 +28,7 @@
     </title-block>
 
         <!-- DYNAMICALLY LIST EVERY UNIQUE REFERENCE JOINT, SO THE USER CAN SELECT ONE -->
-        <div><p style="display:inline-block; margin-bottom: 5px;">Reference Joint</p> <mat-icon matTooltip='Select a reference point for the compound link' [matTooltipShowDelay]='1000' class='label-help'>help_outline</mat-icon> </div>
+        <div><p style="display:inline-block; margin-bottom: 5px;">Reference Joint</p> <mat-icon matTooltip='Select a reference point for the link' [matTooltipShowDelay]='1000' class='label-help'>help_outline</mat-icon> </div>
         <div class="button-container">
             <div *ngFor="let joint of uniqueJoints" class = "button-wrapper">
                 <button class="referenceJointSelect" (click) = onReferenceJointSelected(joint)>
@@ -44,6 +44,7 @@
                           (input1Change)="setReferenceJointDist($event)"
                           (input2Change)="setReferenceJointAngle($event)"
                           iconLabel1="assets/icons/length.svg" iconLabel2="assets/icons/angle.svg"
+                          unit1="cm" unit2="deg"
                           tooltip = "The position and angle of the reference joint">
           Reference Joint {{ this.referenceJoint?.name }} Distance and Angle to CoM
         </dual-input-block>
@@ -63,12 +64,11 @@
               [input1Value]="getLinkLength(link)"
               [input2Value]="getLinkAngle(link)"
               iconLabel1="assets/icons/length.svg" iconLabel2="assets/icons/angle.svg"
+              unit1="cm" unit2="deg"
                 tooltip = "The length and angle of the link">
                 Link {{ link.name }} Length and Angle
             </dual-input-block>
                 </div>
-                <!--<dual-button btn1Text="Add Tracer" btn2Text="Add Force" [btn1Action]="addTracer" ></dual-button> -->
-
             </div>
       </collapsible-subsection>
 
@@ -90,6 +90,8 @@
                     (input2Change)="joint.coords.y=($event)"
                     label1= "X"
                     label2= "Y"
+                    unit1="cm"
+                    unit2="cm"
                     tooltip= "Change joint positions">
                     Joint {{ joint.name }}:
                   </dual-input-block>

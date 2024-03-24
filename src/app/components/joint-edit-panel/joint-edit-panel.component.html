@@ -35,6 +35,8 @@
                         tooltip="Change the x and y values of the current joint!"
                         label1="X"
                         label2="Y"
+                        unit1="cm"
+                        unit2="cm"
         tooltip = "The location of the Joint in X and Y Positions">
         Input X and Y positions
       </dual-input-block>
@@ -53,6 +55,8 @@
                   [disabled] = "joint.locked"
                   label1= "Distance to Joint"
                   label2= "Angle to Joint"
+                  unit1="cm"
+                  unit2="deg"
                   tooltip = "The distance and angle from Joint {{getCurrentJoint().name}} to {{joint.name}}">
             Joint {{ joint.name }}:
             </dual-input-block>

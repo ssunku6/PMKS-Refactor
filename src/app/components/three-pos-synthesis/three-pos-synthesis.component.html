@@ -5,7 +5,7 @@
             <p>Coupler Link Specifications</p>
             <single-input-block class="right-aligned" [input1Value]="0"
             (input1Change)="setCouplerLength($event)"
-            iconLabel1="assets/icons/angle.svg"
+            iconLabel1="assets/icons/length.svg"
             unit1="cm"
             [showIcon]="false"></single-input-block>
             
@@ -44,6 +44,8 @@
                         tooltip="Change the x and y values of the reference point of the coupler position {{i}}"
                         label1="X"
                         label2="Y"
+                        unit1="cm"
+                        unit2="cm"
                         [showIcon]="false">
                   </dual-input-block>
                   <single-input-block [input1Value]="getPosAngle(1)"
