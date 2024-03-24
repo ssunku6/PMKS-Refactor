@@ -198,4 +198,12 @@ export class jointEditPanelComponent {
   getJointColor(){}
   setJointColor(){}
 
+  canAddWeld(): boolean{
+    return this.getMechanism().canAddWeld(this.getCurrentJoint());
+  }
+
+  canAddInput(): boolean {
+    return this.getCurrentJoint().isGrounded;
+  }
+
 }

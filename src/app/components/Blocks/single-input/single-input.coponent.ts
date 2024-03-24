@@ -11,9 +11,10 @@ export class SingleInputComponent {
   @Input() disabled: boolean=false;
   @Input() tooltip: string = '';
   @Input() input1Value: number=0;
-  @Input() label1: string ="X";
+  @Input() label1: string ="";
   @Input() unit1: string = "cm";
   @Input() showIcon: boolean = true;
+  @Input() iconLabel1: string | undefined;
 
   @Output() input1Change: EventEmitter<number> = new EventEmitter<number>();
 

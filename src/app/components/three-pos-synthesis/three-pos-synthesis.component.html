@@ -1,18 +1,18 @@
 <div id="threePos">
       
 
-      <div>
+      <div style="margin-bottom:10px;">
             <p>Coupler Link Specifications</p>
             <single-input-block class="right-aligned" [input1Value]="0"
             (input1Change)="setCouplerLength($event)"
-            label1="Length"
+            iconLabel1="assets/icons/angle.svg"
             unit1="cm"
             [showIcon]="false"></single-input-block>
             
             <div><img src='assets/icons/referencePoint.svg' style="height: 12px; width: 12px;"/>
-                  <p style="display:inline-block">Fixed Reference</p>
+                  <p style="display:inline-block; margin-bottom:0;">Fixed Reference</p>
             </div>
-            <radio-block id="reference"
+            <radio-block  id="reference"
                   [options]="['Back', 'Center', 'Front']"
                   [initialSelection]="'Center'"
                   (selectionChanged)="setReference($event)"
@@ -48,7 +48,7 @@
                   </dual-input-block>
                   <single-input-block [input1Value]="getPosAngle(1)"
                   (input1Change)="setPositionAngle($event, 1)"
-                  label1="Angle"
+                  iconLabel1="assets/icons/angle.svg"
                   unit1="deg"
                   [showIcon]="false">
             </single-input-block>

@@ -72,11 +72,11 @@
                 label="Toggle Ground" [initialValue]="false"
                 (valueChanged)="handleToggleGroundChange($event)"></app-toggle>
     <!-- TOGGLE BLOCK FOR WELDING -->
-    <app-toggle tooltip="This toggle will weld or unweld the joint"
+    <app-toggle *ngIf="canAddWeld()" tooltip="This toggle will weld or unweld the joint"
                 label="Toggle Weld" [initialValue]="false"
                 (valueChanged)="handleToggleWeldChange($event)"></app-toggle>
     <!-- TOGGLE BLOCK FOR INPUT -->    
-                <app-toggle tooltip="This toggle will make the joint an input or remove the input"
+                <app-toggle *ngIf="canAddInput()" tooltip="This toggle will make the joint an input or remove the input"
                 label="Toggle Input" [initialValue]="true"
                 (valueChanged)="handleToggleInputChange($event)"></app-toggle>
 

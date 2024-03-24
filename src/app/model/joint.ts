@@ -172,9 +172,9 @@ export class Joint {
         return true;
     }
 
-    canAddWeld(): boolean {
+    /* canAddWeld(): boolean {
         return true;
-    }
+    } */
 
     canRemoveWeld(): boolean {
         return true;

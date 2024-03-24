@@ -35,7 +35,7 @@
       (opened)="sectionExpanded['LBasic'] = true" (closed)="sectionExpanded['LBasic'] = false">
       <div>
         <dual-input-block id="lengthAndAngle" [input1Value]="getLinkLength()" [input2Value]="getLinkAngle()"
-          (input1Change)="setLinkLength($event)" (input2Change)="setLinkAngle($event)" label1="L" label2="⊾"
+          (input1Change)="setLinkLength($event)" (input2Change)="setLinkAngle($event)" label1="" label2="" iconLabel1="assets/icons/length.svg" iconLabel2="assets/icons/angle.svg"
           tooltip="Enter the length and angle of the link">
           Link Length and Angle
         </dual-input-block>

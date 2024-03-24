@@ -12,11 +12,14 @@ export class DualInputComponent {
   @Input() tooltip: string = '';
   @Input({transform: numberAttribute}) input1Value: number=0;
   @Input({transform: numberAttribute}) input2Value: number = 0;
-  @Input() label1: string ="X";
-  @Input() label2: string ="Y";
+  @Input() label1: string ="";
+  @Input() label2: string ="";
   @Input() unit1: string ="cm";
   @Input() unit2: string ="deg";
   @Input() showIcon: boolean = true;
+  @Input() iconLabel1: string | undefined;
+  @Input() iconLabel2: string | undefined;
+
 
   @Output() input1Change: EventEmitter<number> = new EventEmitter<number>();
   @Output() input2Change: EventEmitter<number> = new EventEmitter<number>();

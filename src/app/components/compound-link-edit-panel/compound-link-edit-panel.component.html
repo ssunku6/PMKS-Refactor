@@ -43,8 +43,7 @@
                           [input2Value]="getReferenceJointAngle()"
                           (input1Change)="setReferenceJointDist($event)"
                           (input2Change)="setReferenceJointAngle($event)"
-                          label1="L"
-                          label2="⊾"
+                          iconLabel1="assets/icons/length.svg" iconLabel2="assets/icons/angle.svg"
                           tooltip = "The position and angle of the reference joint">
           Reference Joint {{ this.referenceJoint?.name }} Distance and Angle to CoM
         </dual-input-block>
@@ -63,8 +62,7 @@
                               [disabled]=true
               [input1Value]="getLinkLength(link)"
               [input2Value]="getLinkAngle(link)"
-                label1="L"
-                label2="⊾"
+              iconLabel1="assets/icons/length.svg" iconLabel2="assets/icons/angle.svg"
                 tooltip = "The length and angle of the link">
                 Link {{ link.name }} Length and Angle
             </dual-input-block>
@@ -110,7 +108,7 @@
               <div *ngFor='let color of getColors(); let i=index' class="colors" [style.backgroundColor]='color'
                 (click)='setLinkColor(i)'>
                 <!-- Use an *ngIf directive to show a check mark if the color is selected -->
-                <mat-icon *ngIf='selectedIndex === i' style="color:white">check</mat-icon>
+                <mat-icon class="check" *ngIf='selectedIndex === i' style="color:white">check</mat-icon>
               </div>
             </div>
           </div>

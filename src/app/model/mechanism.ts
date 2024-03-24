@@ -105,7 +105,7 @@ export class Mechanism {
      * @memberof Mechanism
      */
     addWeld(jointID: number) {
-        this.executeJointAction(jointID,  joint => joint.canAddWeld(), 'cannot become welded', 'successfully welded', joint => {
+        this.executeJointAction(jointID,  joint => this.canAddWeld(joint), 'cannot become welded', 'successfully welded', joint => {
             joint.addWeld();
             //cascade effects into affected links, compound links,
             let connectedLinks: Link[] = this.getConnectedLinksForJoint(joint);
@@ -317,7 +317,12 @@ export class Mechanism {
     }
 
     canAddWeld(joint: Joint): boolean{
-        return joint.canAddWeld()
+        let count = 0;
+        for(let link of this._links.values()){
+            if(link.containsJoint(joint))
+                count++;
+        }
+        return count>=2;
     }
     canRemoveWeld(joint: Joint): boolean{
         return joint.canRemoveWeld()
