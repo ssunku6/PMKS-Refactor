@@ -3,9 +3,17 @@ import { StateService } from './state.service';
 import { Joint, JointType } from '../model/joint';
 import { Link, RigidBody } from '../model/link';
 import { Coord } from '../model/coord';
-import { KinematicSolverService, SolveOrder, SolvePrerequisite, SolveType } from './kinematic-solver.service';
+// import { KinematicSolverService, SolveOrder, SolvePrerequisite, SolveType } from './kinematic-solver.service';
 import { Mechanism } from '../model/mechanism';
-import { AnimationPositions } from './kinematic-solver.service';
+import {ISolveOrder} from "../interfaces/ISolveOrder";
+import {
+  AnimationPositions,
+  PositionSolverService,
+  SolveType
+} from "./analysis/solvers/kinematics/position-solver.service";
+import {IPositionSolverPrerequisite} from "../interfaces/IPositionSolverPrerequisite";
+// import {AnimationPositions, KinematicSolverService} from "./analysis/solvers/kinematics/position-solver.service";
+// import { AnimationPositions } from './kinematic-solver.service';
 
 
 export interface JointAnalysis {
@@ -34,29 +42,28 @@ export interface LinkAnalysis {
 })
 export class AnalysisSolveService {
 
-    private solveOrders: SolveOrder[] = new Array();
+    private solveOrders: ISolveOrder[] = new Array();
     private jointPositions: AnimationPositions[] = new Array();
     private jointKinematics: Map<number, JointAnalysis> = new Map();
-    constructor(private stateService: StateService, private kinematicService: KinematicSolverService) {
-
+    constructor(private stateService: StateService, private positionSolverService: PositionSolverService) {
     }
 
     updateKinematics() {
         /**Order of operations
          * 1. First we need the Solve Orders and Positions of the joints from position solver
-         * 2. For solving links we need to associate model links with the joints being solved for, we can do so by using the 
+         * 2. For solving links we need to associate model links with the joints being solved for, we can do so by using the
          * 3. Iterate over each position, solving for the needed information for both links and joints.
          * 4. Update the Information
          */
-        this.solveOrders = this.kinematicService.getSolveOrders();
-        this.jointPositions = this.kinematicService.getAnimationFrames();
+        this.solveOrders = this.positionSolverService.getSolveOrders();
+        this.jointPositions = this.positionSolverService.getAnimationFrames();
         this.jointKinematics = new Map();
         for (let i = 0; i < this.solveOrders.length; i++) {
             this.solveSubmechanimsKinematics(this.solveOrders[i], this.jointPositions[i]);
         }
     }
 
-    solveSubmechanimsKinematics(solveOrder: SolveOrder, jointPositions: AnimationPositions) {
+    solveSubmechanimsKinematics(solveOrder: ISolveOrder, jointPositions: AnimationPositions) {
         /**we are given the animation positions and solve order for a submechanism
          * 1. iterate over each set of positions to solve
          * 2. call a function that returns all relevant calculations
@@ -71,8 +78,10 @@ export class AnalysisSolveService {
         }
         const arrayColumn = (array: Coord[][], columnIndex: number) => array.map(row => row[columnIndex])
         this.jointKinematics = new Map();
-        let inputspeed: number = solveOrder.prerequisites.get(solveOrder.order[0])!.jointToSolve.inputSpeed;
-        let timeIncrement: number = 60 / (inputspeed * 360);
+        // let inputspeed: number = solveOrder.prerequisites.get(solveOrder.order[0])!.jointToSolve.inputSpeed;
+        // let timeIncrement: number = 60 / (inputspeed * 360);
+        // TODO: Update this accordingly
+        const timeIncrement = 5;
         for(let i = 0; i < solveOrder.order.length; i++){
             let accelerations = arrayColumn(mechanismAccelerations,i);
             let velocities = arrayColumn(mechanismVelocities,i);
@@ -83,13 +92,13 @@ export class AnalysisSolveService {
     }
 
 
-    solveJointKinematics(solveOrder: SolveOrder, positions: Coord[]): {velocities: Coord[], accelerations: Coord[]} {
+    solveJointKinematics(solveOrder: ISolveOrder, positions: Coord[]): {velocities: Coord[], accelerations: Coord[]} {
         let velocities: Coord[] = new Array();
         let accelerations: Coord[] = new Array();
 
         for (let index = 0; index < solveOrder.order.length; index++) {
             let id = solveOrder.order[index];
-            let prereq = solveOrder.prerequisites.get(id)!;
+            let prereq = solveOrder.prerequisites.get(id)! as IPositionSolverPrerequisite;
             switch (prereq.solveType) {
                 case SolveType.Ground:
                     velocities.push(new Coord(0,0));
@@ -129,10 +138,10 @@ export class AnalysisSolveService {
      * @param jointIndex - an index for the joint to be solved within with positions array.
      * @param prereq - a SolvePrerequisite that corresponds to that joint.
      * @param positions - an array of joint positions for a particular timestep.
-     * @returns 
+     * @returns
      */
-    solveRevInputJointKinematics(jointIndex: number, prereq: SolvePrerequisite, positions: Coord[]): {velocity: Coord, acceleration: Coord}{
-        
+    solveRevInputJointKinematics(jointIndex: number, prereq: IPositionSolverPrerequisite, positions: Coord[]): {velocity: Coord, acceleration: Coord}{
+
         const xDifference = positions[jointIndex].x - positions[0].x;
         const yDifference = positions[jointIndex].y - positions[0].y;
         const angleToInput: number = Math.atan2(yDifference, xDifference);
@@ -154,7 +163,7 @@ export class AnalysisSolveService {
 
 
     //need to account for switching directions
-    solvePrisInputJointKinematics( prereq: SolvePrerequisite): {velocity: Coord, acceleration: Coord}{
+    solvePrisInputJointKinematics( prereq: IPositionSolverPrerequisite): {velocity: Coord, acceleration: Coord}{
         const velocityMag = prereq.jointToSolve.inputSpeed * (0.05 * 6) //Kinematic solver generates frames for 0.05m increments, and animator uses Rev-Input timeInterval calculation
         const velocityTheta = prereq.jointToSolve.angle;
         const deltaX: number = Math.cos(velocityTheta) * velocityMag;
@@ -174,7 +183,7 @@ export class AnalysisSolveService {
         const perp_angle_jk1: number = Math.atan2(diff_jk1.y, diff_jk1.x) + Math.PI / 2;
         const perp_angle_jk2: number = Math.atan2(diff_jk2.y, diff_jk2.x) + Math.PI / 2;
         const jointVelocity: Coord = this.parametricLineIntersection(v_k1, perp_angle_jk1,v_k2,perp_angle_jk2);
-        //acceleration of k1 + (V_k1j^2 / (k1-j)) for centripetal, 
+        //acceleration of k1 + (V_k1j^2 / (k1-j)) for centripetal,
         const x_centripetal_accel_jk1: number = accelerations[known1Index].x + Math.pow(jointVelocity.x, 2)/(-diff_jk1.x);
         const y_centripetal_accel_jk1: number = accelerations[known1Index].y + Math.pow(jointVelocity.y, 2)/(-diff_jk1.y);
         const x_centripetal_accel_jk2: number = accelerations[known2Index].x + Math.pow(jointVelocity.x, 2)/(-diff_jk2.x);
@@ -186,7 +195,7 @@ export class AnalysisSolveService {
     }
 
 
-    solveCircleLineJointKinematics(jointIndex: number, known1Index: number, prereq: SolvePrerequisite, positions: Coord[], velocities: Coord[],accelerations: Coord[]): {velocity: Coord, acceleration: Coord}{
+    solveCircleLineJointKinematics(jointIndex: number, known1Index: number, prereq: IPositionSolverPrerequisite, positions: Coord[], velocities: Coord[],accelerations: Coord[]): {velocity: Coord, acceleration: Coord}{
         //velocity
         const v_k1: Coord = velocities[known1Index];
         const diff_jk1: Coord = new Coord(positions[jointIndex].x - positions[known1Index].x, positions[jointIndex].y - positions[known1Index].y);
@@ -226,7 +235,7 @@ export class AnalysisSolveService {
             angularVelocity: angle_solutions.vel,
             angularAcceleration: angle_solutions.acc,
         } as LinkAnalysis
-        
+
     }
 
     getLinkCOMSolutions(subJoints: JointAnalysis[]){
@@ -280,5 +289,5 @@ export class AnalysisSolveService {
         return {ang: ang_pos, vel: ang_vel, acc: ang_acc};
     }
 
- 
+
 }

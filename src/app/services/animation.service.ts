@@ -3,9 +3,10 @@ import { StateService } from './state.service';
 import { Joint, JointType } from '../model/joint';
 import { Link, RigidBody } from '../model/link';
 import { Coord } from '../model/coord';
-import { KinematicSolverService } from './kinematic-solver.service';
+// import { KinematicSolverService } from './kinematic-solver.service';
 import { Mechanism } from '../model/mechanism';
-import { AnimationPositions } from './kinematic-solver.service';
+import {AnimationPositions, PositionSolverService} from "./analysis/solvers/kinematics/position-solver.service";
+// import { AnimationPositions } from './kinematic-solver.service';
 
 export interface JointAnimationState {
     mechanismIndex: number,
@@ -27,7 +28,7 @@ export class AnimationService {
     private animationStates: JointAnimationState[];
     private invaldMechanism: boolean;
 
-    constructor(private stateService: StateService, private kinematicService: KinematicSolverService) {
+    constructor(private stateService: StateService, private kinematicService: PositionSolverService) {
         this.animationStates = new Array();
         this.invaldMechanism = true;
         this.kinematicService.getKinematicsObservable().subscribe(updatedPositions => {
@@ -127,7 +128,7 @@ export class AnimationService {
         let frame = Math.round(timeInSeconds / (60 / (animationState.inputSpeed * 360)));
         while(frame > animationState.totalFrames){
             frame -= animationState.totalFrames;
-        } 
+        }
         while(frame < 0){
             frame += animationState.totalFrames
         }

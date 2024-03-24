@@ -1,5 +1,6 @@
 import {Joint} from "../model/joint";
-import {SolveType} from "../services/kinematic-solver.service";
+import {SolveType} from "../services/analysis/solvers/kinematics/position-solver.service";
+// import {SolveType} from "../services/kinematic-solver.service";
 
 export interface IPositionSolverPrerequisite {
   // Properties specific to position solving might not be needed if the base is sufficient

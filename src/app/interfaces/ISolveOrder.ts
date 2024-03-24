@@ -6,7 +6,7 @@ import {IVelAccGraphicalSolverPrerequisite} from "./IVelAccGraphicalSolverPrereq
 import {IStressSolverPrerequisite} from "./IStressSolverPrerequisite";
 import {IForceSolverPrerequisite} from "./IForceSolverPrerequisite";
 
-interface ISolverPrerequisite {
+export interface ISolveOrder {
   subMechanism: Map<Joint, RigidBody[]>[]; // Assuming this is common to all solvers
   solverType: string; // Consider making this more specific or utilizing it for dynamic solver handling
   order: number[]; // Make sure the purpose of this order is clear and necessary
