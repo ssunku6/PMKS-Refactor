@@ -20,6 +20,10 @@ import { Coord } from 'src/app/model/coord';
 })
 export class ThreePosSynthesis{
 
+    /*  THE POSITION VALUES ARE ALL HARD CODED BECAUSE THE BACKEND ISN'T SET UP 
+        ALL OF THESE FUNCTIONS SHOULD BE WRITTEN IN THE BACK END AND CALLED TO ON THE FRONT END */
+
+
     sectionExpanded: { [key: string]: boolean } = {
         Basic: false,
       };

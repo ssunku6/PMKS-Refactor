@@ -6,11 +6,14 @@
         <p class="subtitle">This is where you synthesize links</p>
     
     <!--each type of synthesis has its own file and is a collapsible sub section-->
+    <!-- Three Position Synthesis -->
     <collapsible-subsection [expanded]='true' titleLabel='Three Position Synthesis' [expanded]="sectionExpanded['LBasic']"
     (opened)="sectionExpanded['threePos'] = true"
     (closed)="sectionExpanded['threePos'] = false">
     <three-pos-synthesis></three-pos-synthesis>
     </collapsible-subsection>
+
+    <!-- Path Synthesis -->
     <collapsible-subsection [expanded]='true' titleLabel='Path Synthesis' [expanded]="sectionExpanded['LBasic']"
     (opened)="sectionExpanded['path'] = true"
     (closed)="sectionExpanded['path'] = false">

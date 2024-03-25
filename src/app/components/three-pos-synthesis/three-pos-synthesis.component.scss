@@ -14,13 +14,8 @@
 
 #threePos {
   background-color: white;
-  //border-left: 5px solid #3F51B5;
-  //border-top: 5px solid #3F51B5;
   border-radius: 3px;
-  //box-shadow: 3px 3px 3px gray;
-  width:395px;
   margin-left: 5px;
-  margin-right: -5px;
   }
   
   .flex-container {
@@ -29,11 +24,7 @@
     justify-content: space-between;
     align-items: flex-start;
   }
-  /*
-  .flex-container > * {
-    margin: 5px;
-  }
-  */
+
   .left-aligned {
     margin-right: auto; /* Pushes this element to the left */
   }
@@ -57,56 +48,66 @@
     height: 25px;
     width: 25px;
     align-items: center;
-    &:hover {
-      background-color: red;
-      border-radius:100%;
-    }
-    
-
-    #icon {
-      
-      &:hover {
-        filter: brightness(0) invert(1);        
-      }
-      
-    }
+    margin-left: 5px;
   }
 
   #generateFourBar{ 
     margin:0 auto;
     display:block;
     background-color: white;
-    width: 75%;
+    width: 50%;
     height: 40px;
     border-radius: 20px;
     border: 1px solid black;
     margin-top: 3px;
     margin-bottom: 3px;
+    background-color: #e8eaf6;
+    color: #3F51B5;
+    border: none;
+  }
+
+  #generateFourBar:hover {
+    color: #e8eaf6;
+    background-color: #3F51B5;
   }
 
   #removeAll{ 
     margin:0 auto;
     display:block;
-    background-color: white;
-    width: 75%;
+    background-color: #ffcccb;
+    width: 50%;
     height: 40px;
     border-radius: 20px;
     border: 1px solid red;
     color: red;
     margin-top: 3px;
     margin-bottom: 3px;
+    border: none;
+  }
+
+  #removeAll:hover {
+    color: #ffcccb;
+    background-color: red;
   }
 
   #specify {
     margin:0 auto;
     display:block;
     background-color: white;
-    width: 75%;
+    width: 50%;
     height: 40px;
     border-radius: 20px;
     border: 1px solid black;
     margin-top: 3px;
     margin-bottom: 3px;
+    background-color: #e8eaf6;
+    color: #3F51B5;
+    border: none;
+  }
+
+  #specify:hover {
+    color: #e8eaf6;
+    background-color: #3F51B5;
   }
 
 
@@ -121,4 +122,19 @@
     margin-bottom: 5px;
     margin-top: -10px;
     margin-left: 5px;
+  }
+
+
+  .referenceJointSelect {
+    height: 28px;
+    margin: 2px;
+    background-color: #e8eaf6;
+    color: #3F51B5;
+    border: none;
+    border-radius: 3px;
+  }
+
+  .referenceJointSelect:hover {
+    color: #e8eaf6;
+    background-color: #3F51B5;
   }

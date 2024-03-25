@@ -9,15 +9,18 @@ import { JointInteractor } from 'src/app/interactions/joint-interactor';
     styleUrls: ['./settings-panel.component.scss'],
 
 })
-export class SettingsPanelComponent {
+export class SettingsPanelComponent{
+
     sectionExpanded: { [key: string]: boolean } = {
-        basic: true,
-        visual: true,
+        LBasic: true,
+        LVisual: true,
       };
+ 
     gridEnabled: boolean= true;
     minorGridEnabled: boolean = true;
 
     constructor(private interactionService: InteractionService){
+
     }
 
     handleToggleGridChange(stateChange: boolean){

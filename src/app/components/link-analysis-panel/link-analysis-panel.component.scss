@@ -16,11 +16,12 @@
 }
 
 #linkAnalysisPanel {
-  margin-top: 10px;
-  margin-left: 5px;
   background-color: white;
   border-top: 5px solid #3F51B5;
-  width: 400px; // Set a fixed width <- took me foreeeeever to figure out
+  border-radius: 3px;
+  box-shadow: 3px 3px 3px gray;
+  max-height:calc(90vh - 30px);;
+  overflow-y:scroll;
 }
 
 .flex-container {

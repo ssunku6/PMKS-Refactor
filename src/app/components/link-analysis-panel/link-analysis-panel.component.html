@@ -26,7 +26,7 @@
           <div class="button-container">
             <div *ngFor="let joint of this.getCurrentLink().getJoints()" class = "button-wrapper">
               <button class="referenceJointSelect" (click) = onReferenceJointSelected(joint)>
-                Name of Joint: {{ joint.name }}
+                Joint: {{ joint.name }}
               </button>
             </div>
           </div>

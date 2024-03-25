@@ -18,6 +18,8 @@
     border-radius: 3px;
     box-shadow: 3px 3px 3px gray;
     width:100%;
+    max-height:calc(90vh - 30px);;
+    overflow-y:scroll;
   }
 
 .disabled-panel {
@@ -30,7 +32,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
-    overflow:scroll;
+    
   }
   /*
   .flex-container > * {
@@ -84,4 +86,9 @@
     display: flex;
     justify-content: center; /* Center horizontally */
     align-items: center;
+  }
+
+  #linkComponenets {
+    max-height: 100px;
+    overflow-y: scroll;
   }
