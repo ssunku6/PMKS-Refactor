@@ -145,6 +145,10 @@ export class Link implements RigidBody{
         if(this._joints.size === 1){
             throw new Error("Link now only contains 1 Joint");
         }
+        this._name = "";
+        for(let joint of this._joints.values()){
+            this._name += joint.name;
+        }
         
     }
 

@@ -50,6 +50,11 @@ export class CompoundLink implements RigidBody{
         }
         this.updateSublinkLocks(this._isLocked);
         this._centerOfMass = this.calculateCenterOfMass();
+        this._name = "";
+        for(let joint of this.getJoints()){
+            this._name += joint.name;
+        }
+
     }
      //getters
     get id(): number {
@@ -117,6 +122,10 @@ export class CompoundLink implements RigidBody{
     addLink(newLink: Link){
         this._links.set(newLink.id,newLink);
         this.calculateCenterOfMass();
+        this._name = "";
+        for(let joint of this.getJoints()){
+            this._name += joint.name;
+        }
     }
 
     removeLink(idORRef: number | Link){
@@ -128,6 +137,10 @@ export class CompoundLink implements RigidBody{
         this.calculateCenterOfMass();
         if(this._links.size === 1){
             throw new Error("Compound Link now only contains 1 Link");
+        }
+        this._name = "";
+        for(let joint of this.getJoints()){
+            this._name += joint.name;
         }
     }
     containsLink(linkID: number): boolean {
