@@ -35,11 +35,17 @@
                         tooltip="Change the x and y values of the current joint!"
                         label1="X"
                         label2="Y"
+                        unit1="cm"
+                        unit2="cm"
         tooltip = "The location of the Joint in X and Y Positions">
         Input X and Y positions
       </dual-input-block>
-
+    </div>
+  </collapsible-subsection>
       <!-- DYNAMICALLY DISPLAYS CONNECTED JOINTS BASED ON A LIST PROVIDED IN THE TYPESCRIPT -->
+  <collapsible-subsection titleLabel='Distance to Joint' [expanded]="graphExpanded['distance']"
+      (opened)="graphExpanded['distance'] = true"
+      (closed)="graphExpanded['distance'] = false">
       <div id="connectedJoints">
       <p>Connected Joints</p>
         <div id="container">
@@ -51,30 +57,34 @@
                   (input1Change)="changeJointDistance(joint.id, $event)"
                   (input2Change)="changeJointAngle(joint.id, $event)"
                   [disabled] = "joint.locked"
-                  label1= "Distance to Joint"
-                  label2= "Angle to Joint"
+                  iconLabel1 = "assets/icons/length.svg"
+                  iconLabel2="assets/icons/angle.svg"
+                  unit1="cm"
+                  unit2="deg"
                   tooltip = "The distance and angle from Joint {{getCurrentJoint().name}} to {{joint.name}}">
-            Joint {{ joint.name }}:
+            Joint {{getCurrentJoint().name}} to Joint {{ joint.name }}
             </dual-input-block>
           </ng-container>
         </div>
         </div>
       </div>
-    </div>
-  </collapsible-subsection>
+    </collapsible-subsection>
+ 
 
   <!-- ADVANCED SETTING DROPDOWN -->
   <collapsible-subsection titleLabel='Advanced Settings' [expanded]="graphExpanded['advancedSettingsBasic'] || this.getCurrentJoint().locked"
                           (opened)="graphExpanded['advancedSettingsBasic'] = true"
                           (closed)="graphExpanded['advancedSettingsBasic'] = false">
     <!-- TOGGLE BLOCK FOR GROUNDING -->
-    <app-toggle tooltip="This toggle will enable or disable grounding!"
+    <app-toggle tooltip="This toggle will ground or remove the ground on the joint"
                 label="Toggle Ground" [initialValue]="false"
                 (valueChanged)="handleToggleGroundChange($event)"></app-toggle>
-    <app-toggle tooltip="This toggle will enable or disable grounding!"
+    <!-- TOGGLE BLOCK FOR WELDING -->
+    <app-toggle *ngIf="canAddWeld()" tooltip="This toggle will weld or unweld the joint"
                 label="Toggle Weld" [initialValue]="false"
                 (valueChanged)="handleToggleWeldChange($event)"></app-toggle>
-    <app-toggle tooltip="This toggle will enable or disable grounding!"
+    <!-- TOGGLE BLOCK FOR INPUT -->    
+                <app-toggle *ngIf="canAddInput()" tooltip="This toggle will make the joint an input or remove the input"
                 label="Toggle Input" [initialValue]="true"
                 (valueChanged)="handleToggleInputChange($event)"></app-toggle>
 

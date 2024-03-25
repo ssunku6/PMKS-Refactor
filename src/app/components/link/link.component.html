@@ -1,19 +1,16 @@
 <svg:g appInteractable [interactor]="getInteractor()">
 
-        <path
-        [attr.d]="getDrawnPath()"
-        [attr.fill]="getColor()"
-        [attr.fill-opacity]=0.7
-        [attr.stroke]="getStrokeColor()"
-        [attr.stroke-width]=3
-        ></path>
-@if(getLocked()) {
-  <image xlink:href='../../../assets/icons/lock.svg'
-         [attr.x]="getCOMX()"
-         [attr.y]="getCOMY()"
-         [attr.height]="90"
-  />
-}
+  <path [attr.d]="getDrawnPath()" [attr.fill]="getColor()" [attr.fill-opacity]=0.7 [attr.stroke]="getStrokeColor()"
+    [attr.stroke-width]=7></path>
+  @if(getLocked()) {
+  <image xlink:href='../../../assets/icons/lock.svg' [attr.x]="getCOMX()" [attr.y]="getCOMY()" [attr.height]="90" />
+  }
+  @if(isHovered() || isSelected()) {
+  <!-- Link Name -->
+  <svg:text class="link-name" [attr.x]="getCOMX()" [attr.y]="getCOMY()" alignment-baseline="middle"
+    text-anchor="middle">
+    {{this.link.name}}
+  </svg:text>
+  }
 
 </svg:g>
-

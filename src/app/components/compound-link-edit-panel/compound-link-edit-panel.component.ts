@@ -114,7 +114,7 @@ export class CompoundLinkEditPanelComponent {
         yDiff = refJointCoord.y - this.getSelectedObject().centerOfMass.y;
       }
 
-      return Math.sqrt((xDiff * xDiff) + (yDiff * yDiff));
+      return this.roundToFour(Math.sqrt((xDiff * xDiff) + (yDiff * yDiff)));
     }
 
     getReferenceJointAngle(): number {
@@ -141,7 +141,7 @@ export class CompoundLinkEditPanelComponent {
         angleInDegrees += 360;
       }
 
-      return angleInDegrees;
+      return this.roundToFour(angleInDegrees);
     }
 
   //  todo  STUBS that do nothing at the moment. used to alter compound link in relation to reference joint.
@@ -150,6 +150,7 @@ export class CompoundLinkEditPanelComponent {
 
     deleteCompoundLink(){
         this.stateService.getMechanism().removeCompoundLink(this.getSelectedObject());
+        this.interactionService.deselectObject();
     }
 
     onTitleBlockClick(event: MouseEvent): void {
@@ -180,14 +181,14 @@ export class CompoundLinkEditPanelComponent {
         return this.colorService.getLinkColorIndex(this.getSelectedObject().id);
     }
 
-    /*
+    
     //TODO
-    setCompoundLinkColor(newColor: number){
+    setLinkColor(newColor: number){
         console.log(newColor);
         this.getSelectedObject().setColor(newColor);
         this.selectedIndex=newColor;
     }
-     */
+    
 
 
 }

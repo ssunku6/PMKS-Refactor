@@ -6,7 +6,7 @@ import {Mechanism} from "../../model/mechanism";
 import {Joint} from "../../model/joint";
 import {Form, FormControl, FormGroup} from "@angular/forms";
 import {Link} from "../../model/link";
-import {KinematicSolverService} from "../../services/kinematic-solver.service";
+import {PositionSolverService} from "../../services/kinematic-solver.service";
 import {AnalysisSolveService} from "../../services/analysis-solver.service";
 
 interface Tab {
@@ -45,7 +45,7 @@ export class JointAnalysisPanelComponent {
   };
 
   constructor(private stateService: StateService, private interactorService: InteractionService,
-              private kinematicSolverService: KinematicSolverService, private analysisSolverService: AnalysisSolveService){
+              private positionSolver: PositionSolverService, private analysisSolverService: AnalysisSolveService){
       console.log("joint-analysis-panel.constructor");
   }
 
@@ -108,8 +108,8 @@ export class JointAnalysisPanelComponent {
   }
 
   getMechanism(): Mechanism {return this.stateService.getMechanism();}
-  getKinematicSolver(): KinematicSolverService{
-    return this.kinematicSolverService;
+  getKinematicSolver(): PositionSolverService{
+    return this.positionSolver;
   }
   getCurrentJoint(){
     let currentJointInteractor = this.interactorService.getSelectedObject();

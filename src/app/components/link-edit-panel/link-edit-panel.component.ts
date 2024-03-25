@@ -20,7 +20,8 @@ import { Coord } from 'src/app/model/coord';
 })
 export class LinkEditPanelComponent{
 
-    sectionExpanded: { [key: string]: boolean } = {
+      //map of each of the variables that determine whether each collapsible subsection is open
+      sectionExpanded: { [key: string]: boolean } = {
         LBasic: true,
         LVisual: false,
         LComponent: false,
@@ -32,6 +33,7 @@ export class LinkEditPanelComponent{
       isEditingTitle: boolean = false;
       isLocked: boolean = this.getSelectedObject().locked;
       selectedIndex: number = this.getColorIndex();
+      //icon paths for dual button for addFracer and addForce
       public addTracerIconPath: string = "assets/icons/addTracer.svg";
       public addForceIconPath: string = "assets/icons/addForce.svg";
  
@@ -40,11 +42,13 @@ export class LinkEditPanelComponent{
 
     }
 
+    //helper function to access current selected object (will always be a link here)
     getSelectedObject(): Link{
         let link = this.interactionService.getSelectedObject() as LinkInteractor;
         return link.getLink();
     }
 
+    //helper function to access the mechanism 
     getMechanism(): Mechanism {
       return this.stateService.getMechanism();
     }
@@ -56,12 +60,10 @@ export class LinkEditPanelComponent{
     }
 
     getLinkLength(): number{
-        // @ts-ignore
-        return this.getSelectedObject().calculateLength().toFixed(4) as unknown as number;
+        return this.getSelectedObject().calculateLength()!.toFixed(4) as unknown as number;
     }
     getLinkAngle(): number{
-        // @ts-ignore
-        return this.getSelectedObject().calculateAngle().toFixed(4) as unknown as number;
+        return this.getSelectedObject().calculateAngle()!.toFixed(4) as unknown as number;
     }
 
     getLinkJoints(): Map<number, Joint>{
@@ -70,7 +72,6 @@ export class LinkEditPanelComponent{
 
     //Returns the joints contained in a link.
     getLinkComponents():IterableIterator<Joint>{
-        //console.log(this.getLinkJoints());
         return this.getLinkJoints().values();
     }
 
@@ -91,6 +92,7 @@ export class LinkEditPanelComponent{
         this.getSelectedObject().setLength(newLength, refJoint);
       }
     }
+
     setLinkAngle(newAngle: number): void{
       let refJoint = this.getSelectedObject().joints.get(0);
       for (const joint of this.getSelectedObject().joints.values()) {
@@ -107,24 +109,25 @@ export class LinkEditPanelComponent{
 
     setLinkName(newName: string){
         this.getSelectedObject().name = newName;
-        console.log("it set the new name " + this.getSelectedObject().name);
         this.isEditingTitle=false;
     }
 
+    //will create a tracer at the center of mass of the link
     addTracer(): void{
         let CoM = this.getSelectedObject().centerOfMass;
-      let linkID = this.getSelectedObject().id;
+        let linkID = this.getSelectedObject().id;
         this.getMechanism().addJointToLink(linkID, CoM);
     }
 
+    //deletes the link and calls deselectObject to close the panel 
     deleteLink(){
         console.log("link " + this.getSelectedObject().id + " has been deleted")
         this.stateService.getMechanism().removeLink(this.getSelectedObject().id);
         this.interactionService.deselectObject();
     }
 
+    //allows link name to be edited 
     onTitleBlockClick(event: MouseEvent): void {
-        console.log('Title clicked!');
         const clickedElement = event.target as HTMLElement;
         // Check if the clicked element has the 'edit-svg' class, so we can enable editing
         if (clickedElement && clickedElement.classList.contains('edit-svg')) {
@@ -133,6 +136,7 @@ export class LinkEditPanelComponent{
         }
       }
 
+    //helper function to quickly round to 4 decimals
     roundToFour(round:number): number{
         return round.toFixed(4) as unknown as number;
     }

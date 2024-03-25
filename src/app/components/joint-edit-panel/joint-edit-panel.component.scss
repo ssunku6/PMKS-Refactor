@@ -13,17 +13,20 @@
 }
 
 #editJoint {
-  //border-top-color: #00043a;
-  //border-top: 10px;
   background-color: white;
   border-top: 5px solid #3F51B5;
+  border-radius: 3px;
+  box-shadow: 3px 3px 3px gray;
+  width:100%;
+  max-height:calc(90vh - 30px);;
+  overflow-y:scroll;
 }
 
 .flex-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  overflow-y: visible;
+  
 }
 
 .disabled-panel {
@@ -42,4 +45,12 @@
 .row {
   display: flex;
   justify-content: space-between;
+}
+
+button {
+  background-color: white;
+  border: none;
+  height: 25px;
+  width: 25px;
+  text-align: center;
 }

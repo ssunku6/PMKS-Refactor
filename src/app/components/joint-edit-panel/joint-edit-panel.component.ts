@@ -25,7 +25,8 @@ export class jointEditPanelComponent {
     basicBasic: true,
     basicVisual: false,
     advancedSettingsBasic: false,
-    advancedSettingsVisual: false
+    advancedSettingsVisual: false,
+    distance: true,
   };
   isEditingTitle: boolean = false;
   public weldIconPath: string = "assets/icons/weld.svg";
@@ -197,5 +198,13 @@ export class jointEditPanelComponent {
 
   getJointColor(){}
   setJointColor(){}
+
+  canAddWeld(): boolean{
+    return this.getMechanism().canAddWeld(this.getCurrentJoint());
+  }
+
+  canAddInput(): boolean {
+    return this.getCurrentJoint().isGrounded;
+  }
 
 }

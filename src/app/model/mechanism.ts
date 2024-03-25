@@ -11,6 +11,10 @@ export class Mechanism {
     private _forces: Map<number, Force>;
     private _compoundLinks: Map<number, CompoundLink>;
     private _idCount: number;
+    private _jointIDCount: number;
+    private _linkIDCount: number;
+    private _forceIDCount: number;
+    private _compoundLinkIDCount: number;
     private _mechanismChange: BehaviorSubject<Mechanism> = new BehaviorSubject<Mechanism>(this);
     public _mechanismChange$ = this._mechanismChange.asObservable();
 
@@ -20,6 +24,11 @@ export class Mechanism {
         this._forces = new Map();
         this._compoundLinks = new Map();
         this._idCount = 0;
+        this._jointIDCount = 0;
+        this._linkIDCount = 0;
+        this._forceIDCount = 0;
+        this._compoundLinkIDCount = 0;
+        
     }
 
     notifyChange(): void{
@@ -40,14 +49,14 @@ export class Mechanism {
      * @memberof Mechanism
      */
     addLink(coordOne: Coord, coordTwo: Coord) {
-        let jointA = new Joint(this._idCount, coordOne);
-        this._idCount++;
-        let jointB = new Joint(this._idCount, coordTwo);
-        this._idCount++;
+        let jointA = new Joint(this._jointIDCount, coordOne);
+        this._jointIDCount++;
+        let jointB = new Joint(this._jointIDCount, coordTwo);
+        this._jointIDCount++;
         this._joints.set(jointA.id, jointA);
         this._joints.set(jointB.id, jointB);
-        let linkA = new Link(this._idCount, [jointA,jointB]);
-        this._idCount++;
+        let linkA = new Link(this._linkIDCount, [jointA,jointB]);
+        this._linkIDCount++;
         this._links.set(linkA.id, linkA);
         this.notifyChange();
         //console.log(this);
@@ -105,7 +114,7 @@ export class Mechanism {
      * @memberof Mechanism
      */
     addWeld(jointID: number) {
-        this.executeJointAction(jointID,  joint => joint.canAddWeld(), 'cannot become welded', 'successfully welded', joint => {
+        this.executeJointAction(jointID,  joint => this.canAddWeld(joint), 'cannot become welded', 'successfully welded', joint => {
             joint.addWeld();
             //cascade effects into affected links, compound links,
             let connectedLinks: Link[] = this.getConnectedLinksForJoint(joint);
@@ -118,8 +127,8 @@ export class Mechanism {
 
             //if not already part of a CompoundLink create a new one and add all connected links
             } else if(connectedCompoundLinks.length == 0){
-                let compoundLink: CompoundLink = new CompoundLink(this._idCount,connectedLinks);
-                this._idCount++;
+                let compoundLink: CompoundLink = new CompoundLink(this._compoundLinkIDCount,connectedLinks);
+                this._compoundLinkIDCount++;
                 this._compoundLinks.set(compoundLink.id,compoundLink);
                 compoundLink
             //if part of one or more compoundLink, combine them and add any other existing links
@@ -134,8 +143,8 @@ export class Mechanism {
                 this._compoundLinks.delete(compoundLink.id);
                 }
                 //create a new compoundlink containing all of the links that should be connected.
-                let compoundLink: CompoundLink = new CompoundLink(this._idCount,connectedLinks);
-                this._idCount++;
+                let compoundLink: CompoundLink = new CompoundLink(this._compoundLinkIDCount,connectedLinks);
+                this._compoundLinkIDCount++;
                 this._compoundLinks.set(compoundLink.id,compoundLink);
             }
         });
@@ -155,7 +164,7 @@ export class Mechanism {
 
             for(let compoundLink of connectedCompoundLinks){
                 console.log("compound links being checked")
-                let newCompoundLinks: CompoundLink[] = compoundLink.compoundLinkAfterRemoveWeld(joint, this._idCount);
+                let newCompoundLinks: CompoundLink[] = compoundLink.compoundLinkAfterRemoveWeld(joint, this._compoundLinkIDCount);
                 this._compoundLinks.delete(compoundLink.id);
 
                 // Unlock every link that isn't part of a compound link
@@ -163,7 +172,7 @@ export class Mechanism {
 
                 for(let link of newCompoundLinks){
                     this._compoundLinks.set(link.id,link);
-                    this._idCount++;
+                    this._compoundLinkIDCount++;
                 }
             }
         });
@@ -256,16 +265,16 @@ export class Mechanism {
         this.executeJointAction(jointID, (joint) => true, 'cannot have a new link added','has had a new link added', (joint) =>{
             let jointB: Joint;
             if(typeof coordOneORJointID !== 'number'){
-                jointB = new Joint(this._idCount, coordOneORJointID);
-                this._idCount++;
+                jointB = new Joint(this._jointIDCount, coordOneORJointID);
+                this._jointIDCount++;
             }else if(this._joints.has(coordOneORJointID)){
                 jointB = this._joints.get(coordOneORJointID)!;
             }else{
                 return;
             }
             this._joints.set(jointB.id, jointB);
-            let linkA = new Link(this._idCount, joint, jointB);
-            this._idCount++;
+            let linkA = new Link(this._linkIDCount, joint, jointB);
+            this._linkIDCount++;
             this._links.set(linkA.id, linkA);
         });
     }
@@ -317,7 +326,12 @@ export class Mechanism {
     }
 
     canAddWeld(joint: Joint): boolean{
-        return joint.canAddWeld()
+        let count = 0;
+        for(let link of this._links.values()){
+            if(link.containsJoint(joint))
+                count++;
+        }
+        return count>=2;
     }
     canRemoveWeld(joint: Joint): boolean{
         return joint.canRemoveWeld()
@@ -447,8 +461,8 @@ export class Mechanism {
      */
     addJointToLink(linkID: number, coord: Coord) {
         this.executeLinkAction(linkID, link => {
-            let jointA = new Joint(this._idCount, coord);
-            this._idCount++;
+            let jointA = new Joint(this._jointIDCount, coord);
+            this._jointIDCount++;
             this._joints.set(jointA.id, jointA);
             link.addTracer(jointA);
         });
@@ -464,12 +478,12 @@ export class Mechanism {
     addLinkToLink(linkID: number, startCoord: Coord, endCoord: Coord) {
         this.executeLinkAction(linkID, link => {
             //create new joints and link
-            let jointA = new Joint(this._idCount, startCoord);
-            this._idCount++;
-            let jointB = new Joint(this._idCount, endCoord);
-            this._idCount++;
-            let linkB = new Link(this._idCount,jointA, jointB);
-            this._idCount++;
+            let jointA = new Joint(this._jointIDCount, startCoord);
+            this._jointIDCount++;
+            let jointB = new Joint(this._jointIDCount, endCoord);
+            this._jointIDCount++;
+            let linkB = new Link(this._linkIDCount,jointA, jointB);
+            this._linkIDCount++;
             //add new joints and links to mechanism
             this._joints.set(jointA.id, jointA);
             this._joints.set(jointB.id,jointB);
@@ -488,8 +502,8 @@ export class Mechanism {
      */
     addForceToLink(linkID: number, startCoord: Coord, endCoord: Coord) {
         this.executeLinkAction(linkID, link => {
-            let forceA = new Force(this._idCount,startCoord,endCoord);
-            this._idCount++;
+            let forceA = new Force(this._forceIDCount,startCoord,endCoord);
+            this._forceIDCount++;
             this._forces.set(forceA.id, forceA);
             link.addForce(forceA);
         });

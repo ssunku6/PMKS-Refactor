@@ -24,7 +24,7 @@ export class Joint {
     constructor(id: number, xORCoord: number | Coord, y?: number){
         this._id = id;
         // changed name to be the same as ID instead of blank
-        this._name = id as unknown as string;
+        this._name = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".charAt(id % 52);
         this._type = JointType.Revolute;
         this._angle = 0;
         this._isGrounded = false;
@@ -172,9 +172,9 @@ export class Joint {
         return true;
     }
 
-    canAddWeld(): boolean {
+    /* canAddWeld(): boolean {
         return true;
-    }
+    } */
 
     canRemoveWeld(): boolean {
         return true;

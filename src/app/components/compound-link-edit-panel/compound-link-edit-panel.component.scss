@@ -13,16 +13,13 @@
 }
 
 #editLink {
-    //border-top-color: #00043a;
-    //border-top: 10px;
-    //margin-top: 10px;
-    //margin-left: 5px;
     background-color: white;
-    //border-left: 5px solid #3F51B5;
     border-top: 5px solid #3F51B5;
     border-radius: 3px;
     box-shadow: 3px 3px 3px gray;
     width:100%;
+    max-height:calc(90vh - 30px);;
+    overflow-y:scroll;
   }
 
   .flex-container {
@@ -35,6 +32,7 @@
 .button-container {
   display: flex;
   flex-wrap: wrap;
+  margin: auto;
 }
 
 .button-wrapper {
@@ -80,4 +78,37 @@
 
   .row {
     display: flex;
+  }
+
+  .topbuttons {
+    background-color: white;
+    border: none;
+    height: 25px;
+    width: 25px;
+    text-align: center;
+  }
+
+  .referenceJointSelect {
+    height: 28px;
+    margin: 2px;
+    background-color: #e8eaf6;
+    color: #3F51B5;
+    border: none;
+    border-radius: 3px;
+  }
+
+  .referenceJointSelect:hover {
+    color: #e8eaf6;
+    background-color: #3F51B5;
+  }
+
+  mat-icon {
+    color: #3f51b5;
+    font-size: 18px;
+    vertical-align: middle;
+    padding-top: 2px;
+    margin-left:2px;
+  }
+  .check {
+    color: white;
   }

@@ -16,11 +16,12 @@
 }
 
 #linkAnalysisPanel {
-  margin-top: 10px;
-  margin-left: 5px;
   background-color: white;
   border-top: 5px solid #3F51B5;
-  width: 400px; // Set a fixed width <- took me foreeeeever to figure out
+  border-radius: 3px;
+  box-shadow: 3px 3px 3px gray;
+  max-height:calc(90vh - 30px);;
+  overflow-y:scroll;
 }
 
 .flex-container {
@@ -86,4 +87,25 @@
 .large-graph {
   width: 100%;
   height: 500px; /* Set the height to your desired value */
+}
+
+mat-icon {
+  color: #3f51b5;
+  font-size: 18px;
+  vertical-align: middle;
+  padding-top: 2px;
+}
+
+.referenceJointSelect {
+  height: 28px;
+  margin: 2px;
+  background-color: #e8eaf6;
+  color: #3F51B5;
+  border: none;
+  border-radius: 3px;
+}
+
+.referenceJointSelect:hover {
+  color: #e8eaf6;
+  background-color: #3F51B5;
 }

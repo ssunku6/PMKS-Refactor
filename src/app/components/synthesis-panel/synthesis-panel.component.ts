@@ -16,12 +16,4 @@ export class SynthesisPanelComponent {
         path: false,
       };
     constructor(private interactionService: InteractionService){}
-    getSelectedObjectType(): string{
-        let obj = this.interactionService.getSelectedObject();
-        if(obj == undefined){
-            return '';
-        } else{
-            return obj.constructor.name;
-        }
-    }
 }

@@ -11,6 +11,22 @@ export class CompoundLink implements RigidBody{
     private _centerOfMass: Coord;
     private _links: Map<number, Link>;
     private _isLocked: boolean;
+    private _color: string = "";
+
+    private linkColorOptions = [
+        '#727FD5',
+        '#2F3E9F',
+        '#0D125A',
+        // '#283493',
+        // '#3948ab',
+        // '#3f50b5',
+        // '#5c6ac0',
+        // '#7986cb',
+        // '#c5cae9',
+        '#207297',
+        '#00695D',
+        '#0D453E',
+      ];
 
 
     constructor(id: number, linkA: Link, linkB: Link);
@@ -34,6 +50,11 @@ export class CompoundLink implements RigidBody{
         }
         this.updateSublinkLocks(this._isLocked);
         this._centerOfMass = this.calculateCenterOfMass();
+        this._name = "";
+        for(let joint of this.getJoints()){
+            this._name += joint.name;
+        }
+
     }
      //getters
     get id(): number {
@@ -101,6 +122,10 @@ export class CompoundLink implements RigidBody{
     addLink(newLink: Link){
         this._links.set(newLink.id,newLink);
         this.calculateCenterOfMass();
+        this._name = "";
+        for(let joint of this.getJoints()){
+            this._name += joint.name;
+        }
     }
 
     removeLink(idORRef: number | Link){
@@ -112,6 +137,10 @@ export class CompoundLink implements RigidBody{
         this.calculateCenterOfMass();
         if(this._links.size === 1){
             throw new Error("Compound Link now only contains 1 Link");
+        }
+        this._name = "";
+        for(let joint of this.getJoints()){
+            this._name += joint.name;
         }
     }
     containsLink(linkID: number): boolean {
@@ -208,5 +237,11 @@ export class CompoundLink implements RigidBody{
         }
 
         return Array.from(joints);
+    }
+
+    setColor(index: number){
+        console.log(index);
+        this._color=this.linkColorOptions[index];
+        console.log(this._color);
     }
 }

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {Link} from "../../../model/link";
-import {KinematicSolverService} from "../../../services/kinematic-solver.service";
+import {PositionSolverService} from "../../../services/kinematic-solver.service";
 import {AnalysisSolveService} from "../../../services/analysis-solver.service";
 import {Coord} from "../../../model/coord";
 import { AnimationPositions } from '../../../services/kinematic-solver.service';
@@ -23,17 +23,17 @@ export class ExportDataComponent {
   @Input() graphText: string = '';
   @Input() btn1Action!: () => void;
 
-  constructor(private kinematicSolverService: KinematicSolverService, private analysisSolverService: AnalysisSolveService,
+  constructor(private positionSolver: PositionSolverService, private analysisSolverService: AnalysisSolveService,
               private stateService: StateService) {}
 
   exportData() {
-    const animationPositions: AnimationPositions[] = this.kinematicSolverService.getAnimationFrames();
+    const animationPositions: AnimationPositions[] = this.positionSolver.getAnimationFrames();
     const mechanism = this.stateService.getMechanism();
 
     // Prepare an array to store CSV rows
     const csvRows: string[] = [];
     const headerRow = ['Time'];
-    let solveOrders = this.kinematicSolverService.getSolveOrders();
+    let solveOrders = this.positionSolver.getSolveOrders();
 
     for (let mechanismIndex = 0; mechanismIndex < animationPositions.length; mechanismIndex++) {
       for (let jointIndex = 0; jointIndex < animationPositions[mechanismIndex].correspondingJoints.length; jointIndex++) {

@@ -38,7 +38,7 @@ export interface SolveOrder {
 @Injectable({
     providedIn: 'root'
 })
-export class KinematicSolverService {
+export class PositionSolverService {
 
     private animationPositions: AnimationPositions[] = new Array();
     private solveOrders: SolveOrder[] = new Array();
@@ -79,6 +79,8 @@ export class KinematicSolverService {
 
         this.animationsChange.next(this.animationPositions);
     }
+
+
 
     getValidMechanisms(subMechanisms: Map<Joint, RigidBody[]>[]): Map<Joint, RigidBody[]>[] {
         const validMechanisms: Map<Joint, RigidBody[]>[] = new Array();
@@ -168,8 +170,9 @@ export class KinematicSolverService {
         }
         N += links.size + 1; // +1 accounts for ground that is assumed
         console.log(`N = ${N}, J = ${J}`);
-        return 3 * (N - 1) - 2 * J;
+        return 3 * (N - 1) - 2 * J; //
     }
+
 
     private minDistanceFromGround(input: Joint, subMechanism: Map<Joint, RigidBody[]>, visitedJoints: number[] = new Array()): number {
         visitedJoints.push(input.id);
@@ -206,8 +209,6 @@ export class KinematicSolverService {
         let solveMap: Map<number, SolvePrerequisite> = new Map();
         let solveOrder: number[] = new Array();
         let unsolvedJoints: Joint[] = new Array();
-        let jointIdToJointMap: Map<number, Joint> = new Map();
-
 
       //iterate over joints, adding grounded joints to be solved first (since their position doesn't change)
         for (let joint of subMechanism.keys()) {
@@ -227,7 +228,6 @@ export class KinematicSolverService {
             } else {
                 unsolvedJoints.push(joint);
             }
-          jointIdToJointMap.set(joint.id, joint);
         }
         //continue to iterate until all joints are solved
         while (unsolvedJoints.length > 0) {
@@ -243,12 +243,8 @@ export class KinematicSolverService {
                 //append to the end of the array
                 unsolvedJoints.push(currentJoint);
             }
-
         }
-
-        let solveOrderWithJoints: Joint[] = solveOrder.map(id => jointIdToJointMap.get(id)!);
         return { order: solveOrder, prerequisites: solveMap } as SolveOrder;
-
     }
 
     private jointCanBeSolved(joint: Joint, links: RigidBody[], solvedJoints: number[]): SolvePrerequisite | undefined {
@@ -307,8 +303,8 @@ export class KinematicSolverService {
         let stuckcounter: number = 0;
         let positions: Coord[][] = new Array();
         /**
-         * 2D array represents the following
-         * [[j1n,j2n,j3n,j4n],           //positions [0..j] are the positions of joints 0..j at timestep n
+         * 2D positions array represents the following
+         * [[j1n,j2n,j3n,j4n],           //positions [j1..jx] are the positions of joints 0..x at timestep n
          *  [j1n+1,j2n+1,j3n+1,j4n+1]
          * ]
          */
@@ -365,12 +361,10 @@ export class KinematicSolverService {
     private solveNextJointPosition(prevPositions: Coord[], solveOrder: number[], solvePrerequisite: SolvePrerequisite, movingForward: number, nextPositions: Coord[]): Coord | undefined {
         switch (solvePrerequisite.solveType) {
             case SolveType.Ground:
-                //console.log("Solving Ground");
                 return solvePrerequisite.jointToSolve._coords;
                 break;
 
             case SolveType.RevoluteInput:
-                //console.log("Solving Rev Input");
                 return this.solveRevInput(prevPositions, solveOrder, solvePrerequisite, movingForward);
                 break;
 

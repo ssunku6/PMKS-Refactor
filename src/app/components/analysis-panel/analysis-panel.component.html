@@ -13,9 +13,16 @@
                 <p>Force Selected</p>
             }
             @default(){
-                <p>Nothing Selected</p>
-            }
+              <div id="default-view">
+                <title-block>Analysis Panel</title-block>
+                <p class="subtitle">Please select a joint or a link to start analyzing!</p>
+            </div>            
+          }
         }
-  <import-data></import-data>
-  <export-data></export-data>
+  <div id="import-export">
+    <p>Use this panel to import and export kinematic data!</p>
+    <import-data></import-data>
+    <export-data></export-data>
+  </div>
+
 </div>

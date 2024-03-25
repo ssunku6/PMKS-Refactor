@@ -3,7 +3,7 @@ import { StateService } from './state.service';
 import { Joint, JointType } from '../model/joint';
 import { Link, RigidBody } from '../model/link';
 import { Coord } from '../model/coord';
-import { KinematicSolverService } from './kinematic-solver.service';
+import { PositionSolverService } from './kinematic-solver.service';
 import { Mechanism } from '../model/mechanism';
 import { AnimationPositions } from './kinematic-solver.service';
 
@@ -27,10 +27,10 @@ export class AnimationService {
     private animationStates: JointAnimationState[];
     private invaldMechanism: boolean;
 
-    constructor(private stateService: StateService, private kinematicService: KinematicSolverService) {
+    constructor(private stateService: StateService, private positionSolver: PositionSolverService) {
         this.animationStates = new Array();
         this.invaldMechanism = true;
-        this.kinematicService.getKinematicsObservable().subscribe(updatedPositions => {
+        this.positionSolver.getKinematicsObservable().subscribe(updatedPositions => {
             this.initializeAnimations();
         });
     }
@@ -40,7 +40,7 @@ export class AnimationService {
 
     initializeAnimations() {
         this.animationStates = new Array();
-        let frames: AnimationPositions[] = this.kinematicService.getAnimationFrames();
+        let frames: AnimationPositions[] = this.positionSolver.getAnimationFrames();
 
         for (let subMechanismIndex = 0; subMechanismIndex < frames.length; subMechanismIndex++) {
             //intialize animation states

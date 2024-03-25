@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {Link} from "../../../model/link";
-import {KinematicSolverService} from "../../../services/kinematic-solver.service";
+import {PositionSolverService} from "../../../services/kinematic-solver.service";
 import {AnalysisSolveService} from "../../../services/analysis-solver.service";
 import {Coord} from "../../../model/coord";
 import { AnimationPositions } from '../../../services/kinematic-solver.service';
@@ -22,7 +22,7 @@ export class ImportDataComponent {
   @Input() graphText: string = '';
   @Input() btn1Action!: () => void;
 
-  constructor(private kinematicSolverService: KinematicSolverService, private analysisSolverService: AnalysisSolveService,
+  constructor(private positionSolver: PositionSolverService, private analysisSolverService: AnalysisSolveService,
               private stateService: StateService) {}
 
   onFileSelected(event: any) {

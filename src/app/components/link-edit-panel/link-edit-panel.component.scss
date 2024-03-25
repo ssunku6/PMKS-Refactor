@@ -18,6 +18,8 @@
     border-radius: 3px;
     box-shadow: 3px 3px 3px gray;
     width:100%;
+    max-height:calc(90vh - 30px);;
+    overflow-y:scroll;
   }
 
 .disabled-panel {
@@ -30,6 +32,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
+    
   }
   /*
   .flex-container > * {
@@ -77,32 +80,15 @@
     height: 25px;
     width: 25px;
     text-align: center;
-    &:hover {
-      background-color: red;
-      border-radius:100%;
-    }
-  }
-
-  #trash {
-    &:hover {
-      filter: brightness(0) invert(1);
-      border-radius:100%;
-    }
-  }
-
-  #edit {
-    &:hover {
-      background-color: #3F51B5;
-      .svg{
-        fill: #e8eaf6;
-      }
-      border-radius:100%;
-
-    }
   }
 
   .center {
     display: flex;
     justify-content: center; /* Center horizontally */
     align-items: center;
+  }
+
+  #linkComponenets {
+    max-height: 100px;
+    overflow-y: scroll;
   }
