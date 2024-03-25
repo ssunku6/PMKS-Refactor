@@ -1,7 +1,7 @@
+<!-- This is the panel for three position synthesis -->
 <div id="threePos">
-      
-
       <div style="margin-bottom:10px;">
+            <!-- Each coupler position has the same length which is set here -->
             <p>Coupler Link Specifications</p>
             <single-input-block class="right-aligned" [input1Value]="0"
             (input1Change)="setCouplerLength($event)"
@@ -9,6 +9,7 @@
             unit1="cm"
             [showIcon]="false"></single-input-block>
             
+            <!-- The fixed reference is the center of rotation and you set that with the radio block -->
             <div><img src='assets/icons/referencePoint.svg' style="height: 12px; width: 12px;"/>
                   <p style="display:inline-block; margin-bottom:0;">Fixed Reference</p>
             </div>
@@ -23,7 +24,7 @@
             
             <div *ngFor='let i of [1,2,3]'>
                   
-                  <!-- display header, with edit button on right if pose already has been created -->
+                  <!-- displays each position label, if the position is specified/defined, then the trash icon appears -->
                   
                   <div>
                         <mat-icon id="tooltip" matTooltip="Change the x and y values of the reference point of the coupler position {{i}}" [matTooltipShowDelay]='1000' class='label-help'
@@ -36,7 +37,7 @@
                         </button>                       
                   </div>
                   
-                  <!-- display editable pose configuration if pose is both created AND selected -->
+                  <!-- allows the user to enter coordinates and an angle for the position -->
                   <div class='poseData' *ngIf='this.isPositionDefined(i)' >
                         <dual-input-block [input2Value]="getPosYCoord(1)"
                         (input1Change)="setPosXCoord($event, 1)"
@@ -49,22 +50,24 @@
                         [showIcon]="false">
                   </dual-input-block>
                   <single-input-block [input1Value]="getPosAngle(1)"
-                  (input1Change)="setPositionAngle($event, 1)"
-                  iconLabel1="assets/icons/angle.svg"
-                  unit1="deg"
-                  [showIcon]="false">
-            </single-input-block>
+                        (input1Change)="setPositionAngle($event, 1)"
+                        iconLabel1="assets/icons/angle.svg"
+                        unit1="deg"
+                        [showIcon]="false">
+                  </single-input-block>
       </div>
       
-      <!-- if pose has not yet been created and its the first undefined pose, show "create pose" button  -->
+      <!-- if position has not yet been created and its the first undefined position, show "create position" button  -->
       <div class='positionCreate' *ngIf='this.getFirstUndefinedPosition() === i'>
             <button id="specify" (click)="this.specifyPosition(i)">Specify Position</button>
       </div> 
       
 </div>
 </div>
+<!-- If all positions are defined you can then generate a four bar or delete all positions -->
 <div *ngIf='this.allPositionsDefined()' class="definedButtons">
       <button id="generateFourBar" (click)="generateFourBar()">Generate Four-Bar</button>
+      <!-- once a four bar is generated you are able to generate a six bar -->
       <button *ngIf='isFourBarGenerated()' id="generateFourBar" (click)="generateSixBar()">Generate Six-Bar</button>
       <button id="removeAll"  (click)="removeAllPositions()">Remove All Positions</button>
 
