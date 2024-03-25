@@ -36,7 +36,7 @@ export class Link implements RigidBody{
     constructor(id: number, joints: Joint[]);
     constructor(id: number, jointAORJoints: Joint | Joint[], jointB?: Joint){
         this._id = id;
-        this._name = this._name = id as unknown as string;
+        
         this._mass = 0;
         this._forces = new Map();
         this._joints = new Map();
@@ -54,6 +54,12 @@ export class Link implements RigidBody{
             throw new Error("Invalid Constructor Parameters");
         }
         this._centerOfMass = this.calculateCenterOfMass();
+        this._name = "";
+        for(let joint of this._joints.values()){
+            this._name += joint.name;
+        }
+
+
     }
     //getters
     get id(): number {
@@ -105,6 +111,10 @@ export class Link implements RigidBody{
     addTracer(newJoint: Joint){
         this._joints.set(newJoint.id,newJoint);
         this.calculateCenterOfMass();
+        this._name = "";
+        for(let joint of this._joints.values()){
+            this._name += joint.name;
+        }
     }
 
     // update all of the locks i.e. subjoints need to lock when the link is locked,

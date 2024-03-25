@@ -84,15 +84,16 @@
             [attr.stroke-width]="getStrokeWidth()"
         />
     }
+
+    @if(isHovered() || isSelected()) {
     <!-- Joint name -->
     <svg:text class = "joint-name"
         [attr.x]="getX()-getRadius()*2"
         [attr.y]="getY()- getRadius()*2"
         alignment-baseline="middle"
         text-anchor="middle">
-        {{this.joint.id}}
+        {{this.joint.name}}
     </svg:text>
-
-
+    }
 
 </svg:g>

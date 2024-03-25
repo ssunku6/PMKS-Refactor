@@ -37,17 +37,17 @@ export class JointComponent extends AbstractInteractiveComponent {
   }
 
   public getRadius(): number {
-    return 15;
+    return 18;
   }
 
   public getColor(): string {
     if (this.getInteractor().isSelected) {
-      return '#FFCA26'
+      return '#FFCA28'
 
     } else if(this.isHovered()){
-      return '#ffecb2'
+      return '#FFECB3'
     }
-    return '#ffffff';
+    return '#FFF8E1';
   }
 
   getLocked():boolean {

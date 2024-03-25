@@ -16,21 +16,5 @@
         </button>
 
     </div>
-    <div class="animation-bar">
-
-        <button class="animation-button" [disabled]='invalidMechanism()' *ngIf='this.getIsPausedAnimating()'
-            (click)="controlAnimation('play')" matTooltip='Play Animation' matTooltipShowDelay='1000'>
-            Play
-        </button>
-        <button class="animation-button" [disabled]='invalidMechanism()' *ngIf='!this.getIsPausedAnimating()'
-            (click)="controlAnimation('pause')" matTooltip='Play Animation' matTooltipShowDelay='1000'>
-            Pause
-        </button>
-        <button class="animation-button" [disabled]='invalidMechanism()' (click)="controlAnimation('stop')"
-            matTooltip='Play Animation' matTooltipShowDelay='1000'>
-            Stop
-        </button>
-
-    </div>
 
 </div>

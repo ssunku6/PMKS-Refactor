@@ -2,7 +2,7 @@ import {Component} from '@angular/core'
 import {StateService} from "../../services/state.service";
 import {InteractionService} from "../../services/interaction.service";
 import {Mechanism} from "../../model/mechanism";
-import {KinematicSolverService} from "../../services/kinematic-solver.service";
+import {PositionSolverService} from "../../services/kinematic-solver.service";
 import {Joint} from "../../model/joint";
 import {CompoundLinkInteractor} from "../../interactions/compound-link-interactor";
 import {AnalysisSolveService, JointAnalysis} from "../../services/analysis-solver.service";
@@ -47,7 +47,7 @@ export class CompoundLinkAnalysisPanelComponent {
   };
 
   constructor(private stateService: StateService, private interactorService: InteractionService,
-              private kinematicSolverService: KinematicSolverService, private analysisSolverService: AnalysisSolveService){
+              private positionSolver: PositionSolverService, private analysisSolverService: AnalysisSolveService){
       console.log("joint-analysis-panel.constructor");
   }
 

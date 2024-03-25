@@ -48,10 +48,10 @@ export class LinkComponent extends AbstractInteractiveComponent {
 
   getStrokeColor(): string{
     if (this.getInteractor().isSelected) {
-      return '#FFCA26'
+      return '#FFCA28'
 
     } else if(this.isHovered()){
-      return '#ffecb2'
+      return '#FFECB3'
     }
 
     return this.colorService.getLinkColorFromID(this.link.id);
@@ -60,7 +60,7 @@ export class LinkComponent extends AbstractInteractiveComponent {
 
 
 	getDrawnPath(): string{
-	let radius: number = 25;
+	let radius: number = 30;
   //convert all joint coordinates from to position in model to position on screen
   let joints: IterableIterator<Joint> = this.link.joints.values();
   let allCoords: Coord[] = [];
