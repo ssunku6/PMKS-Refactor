@@ -48,13 +48,6 @@
         />
     }
 
-  @if(getLocked()) {
-    <image xlink:href='../../../assets/icons/lock.svg' class="weld-icon"
-           [attr.x]="getX()"
-           [attr.y]="getY()"
-           [attr.height]="getRadius()*5"
-    />
-  }
 
     @if(isWelded()){
       <image xlink:href='../../../assets/icons/weld.svg' class="weld-icon"

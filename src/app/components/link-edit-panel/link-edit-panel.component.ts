@@ -71,8 +71,8 @@ export class LinkEditPanelComponent{
     }
 
     //Returns the joints contained in a link.
-    getLinkComponents():IterableIterator<Joint>{
-        return this.getLinkJoints().values();
+    getLinkComponents(): Joint[]{
+        return Array.from(this.getLinkJoints().values());
     }
 
     getLinkName(): string{

@@ -26,18 +26,18 @@ export class GraphComponent {
     console.log("GraphComponent.constructor");
   }
 
-  public getJoints(): IterableIterator<Joint> {
-    return this.stateService.getMechanism().getJoints();
+  public getJoints(): Joint[] {
+    return Array.from(this.stateService.getMechanism().getJoints());
   }
 
-  public getLinks(): IterableIterator<Link> {
-    return this.stateService.getMechanism().getIndependentLinks();
+  public getLinks(): Link[] {
+    return Array.from(this.stateService.getMechanism().getIndependentLinks());
   }
-  public getCompoundLinks(): IterableIterator<CompoundLink> {
-    return this.stateService.getMechanism().getCompoundLinks();
+  public getCompoundLinks(): CompoundLink[] {
+    return Array.from(this.stateService.getMechanism().getCompoundLinks());
   }
-  public getForces(): IterableIterator<Force> {
-    return this.stateService.getMechanism().getForces();
+  public getForces(): Force[] {
+    return Array.from(this.stateService.getMechanism().getForces());
   }
 //
 public isCreatingComponent(): boolean{
