@@ -60,12 +60,10 @@ export class LinkEditPanelComponent{
     }
 
     getLinkLength(): number{
-        // @ts-ignore
-        return this.getSelectedObject().calculateLength().toFixed(4) as unknown as number;
+        return this.getSelectedObject().calculateLength()!.toFixed(4) as unknown as number;
     }
     getLinkAngle(): number{
-        // @ts-ignore
-        return this.getSelectedObject().calculateAngle().toFixed(4) as unknown as number;
+        return this.getSelectedObject().calculateAngle()!.toFixed(4) as unknown as number;
     }
 
     getLinkJoints(): Map<number, Joint>{

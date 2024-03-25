@@ -25,7 +25,8 @@ export class jointEditPanelComponent {
     basicBasic: true,
     basicVisual: false,
     advancedSettingsBasic: false,
-    advancedSettingsVisual: false
+    advancedSettingsVisual: false,
+    distance: true,
   };
   isEditingTitle: boolean = false;
   public weldIconPath: string = "assets/icons/weld.svg";

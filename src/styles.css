@@ -34,3 +34,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     font-size: 20px;
     font-weight: 500;
   }
+
+  div.app-panel-container, div.app-synthesis-panel-container {
+    width:300px;
+  }
+
+  p, label, input, dual-input-block, single-input-block {
+    color: #263037;
+  }

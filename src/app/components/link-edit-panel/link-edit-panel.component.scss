@@ -18,8 +18,8 @@
     border-radius: 3px;
     box-shadow: 3px 3px 3px gray;
     width:100%;
+    max-height:calc(90vh - 30px);;
     overflow-y:scroll;
-    max-height:fit-content;
   }
 
 .disabled-panel {

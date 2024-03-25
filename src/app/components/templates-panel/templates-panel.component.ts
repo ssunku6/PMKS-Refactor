@@ -30,6 +30,7 @@ export class TemplatesPanelComponent {
         this.open=false; //closes panel sort of, will need a better fix to actually close the panel in the toolbar
         
         //calls helper functions to call to the state and create the mechanisms by calling to the mechanism class
+        //these functions are temporary solutions, in the future should be done using encoding 
         if(linkage==='fourbar'){
             this.makeFourBar();
         }

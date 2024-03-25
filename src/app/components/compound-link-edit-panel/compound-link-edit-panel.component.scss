@@ -13,16 +13,13 @@
 }
 
 #editLink {
-    //border-top-color: #00043a;
-    //border-top: 10px;
-    //margin-top: 10px;
-    //margin-left: 5px;
     background-color: white;
-    //border-left: 5px solid #3F51B5;
     border-top: 5px solid #3F51B5;
     border-radius: 3px;
     box-shadow: 3px 3px 3px gray;
     width:100%;
+    max-height:calc(90vh - 30px);;
+    overflow-y:scroll;
   }
 
   .flex-container {
