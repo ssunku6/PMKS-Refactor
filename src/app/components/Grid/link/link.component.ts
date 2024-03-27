@@ -54,7 +54,7 @@ export class LinkComponent extends AbstractInteractiveComponent {
       return '#FFECB3'
     }
 
-    return this.colorService.getLinkColorFromID(this.link.id);
+    return this.link.color;
 
   }
 
