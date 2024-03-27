@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ContextMenuOption, Interactor } from '../interactions/interactor';
+import { ContextMenuOption, Interactor } from '../controllers/interactor';
 
 @Injectable({
     providedIn: 'root'

@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { ContextMenuOption, Interactor } from '../interactions/interactor';
+import { ContextMenuOption, Interactor } from '../controllers/interactor';
 import { Coord } from '../model/coord';
 import { ContextMenuService } from './context-menu.service';
-import { ClickCapture, ClickCaptureID } from '../interactions/click-capture';
+import { ClickCapture, ClickCaptureID } from '../controllers/click-capture/click-capture';
 import { Subject } from 'rxjs';
-import { SvgInteractor } from '../interactions/svg-interactor';
+import { SvgInteractor } from '../controllers/svg-interactor';
 import { StateService } from './state.service';
 import { MousePosition } from './mouse-position.service';
 import { PanZoomService, ZoomPan } from './pan-zoom.service';
 import { UnitConversionService } from './unit-conversion.service';
+import { BehaviorSubject } from 'rxjs';
 
 /*
 This service keeps track of global state for the interaction system, such as which
@@ -27,7 +28,9 @@ export class InteractionService {
     private objects: Interactor[] = [];
     private selected = new Set<Interactor>(); // set of currently-selected objects
     private isDragging: boolean = false; // whether the selected objects are being dragged
-    private lastSelected: Interactor | undefined;
+    private lastSelected: Interactor | undefined = undefined;
+    private _selectionChange: BehaviorSubject<Interactor | undefined> = new BehaviorSubject<Interactor | undefined>(this.lastSelected);
+    public _selectionChange$ = this._selectionChange.asObservable();
     private heldKeys: Set<string> = new Set<string>(); // keys currently being held down
 
     private mouseMovedAfterDown: boolean = false; // whether the mouse has moved since the last mouse down event
@@ -59,6 +62,7 @@ export class InteractionService {
 
         let isAlreadySelected = this.selected.has(object);
         this.lastSelected = object;
+        this._selectionChange.next(this.lastSelected);
 
         // deselect all other objects and call onDeselect().
         // if the object is already selected, do not call onDeselect() on it.
