@@ -118,5 +118,8 @@ export class LinkInteractor extends Interactor {
     public override toString(): string {
         return "LinkInteractor(" + this.link.name + ")";
     }
+    public override type(): string{
+        return "LinkInteractor"
+    }
 
 }

@@ -106,6 +106,9 @@ export class CompoundLinkInteractor extends Interactor {
     public override toString(): string {
         return "CompoundLinkInteractor(" + this.compoundLink.name + ")";
     }
+    public override type(): string{
+        return "CompoundLinkInteractor"
+    }
 
     public getCompoundLink(): CompoundLink {
         return this.compoundLink;

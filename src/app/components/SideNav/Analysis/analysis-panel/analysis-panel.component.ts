@@ -16,7 +16,7 @@ export class AnalysisPanelComponent {
         if(obj == undefined){
             return '';
         } else{
-            return obj.constructor.name;
+            return obj.type();
         }
     }
 }

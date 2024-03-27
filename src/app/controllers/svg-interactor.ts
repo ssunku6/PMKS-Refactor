@@ -56,5 +56,8 @@ export class SvgInteractor extends Interactor {
     public override toString(): string {
         return "SvgInteractor()";
     }
+    public override type(): string{
+        return "SVGInteractor"
+    }
 
 }

@@ -23,9 +23,12 @@ export class EditPanelComponent {
 
     getSelectedObjectType(): string{
         if(this.selectedObj == undefined){
+            console.log("selected obj is undefined");
             return '';
         } else{
-            return this.selectedObj.constructor.name;
+            console.log(`selected obj is ${this.selectedObj.type()}`);
+            return this.selectedObj.type();
         }
+        
     }
 }

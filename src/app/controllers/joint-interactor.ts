@@ -160,4 +160,7 @@ export class JointInteractor extends Interactor {
       return this.joint ;
     }
 
+    public override type(): string{
+        return "JointInteractor"
+    }
 }

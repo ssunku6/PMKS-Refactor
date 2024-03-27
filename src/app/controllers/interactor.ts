@@ -107,5 +107,8 @@ export abstract class Interactor {
     public toString(): string {
         return "Unspecified Interactor";
     }
+    public type(): string {
+        return "Unspecified Interactor";
+    }
     
 }
