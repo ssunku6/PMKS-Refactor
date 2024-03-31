@@ -28,8 +28,8 @@
                           (closed)="graphExpanded['basicBasic'] = false">
     <!-- THE JOINT X AND Y COORD INPUT COMPONENT -->
     <div class="flex-container">
-      <dual-input-block [input1Value]="getJointXCoord().toFixed(4)"
-                        [input2Value]="getJointYCoord().toFixed(4)"
+      <dual-input-block [input1Value]="getJointXCoord()"
+                        [input2Value]="getJointYCoord()"
                         (input1Change)="setJointXCoord($event)"
                         (input2Change)="setJointYCoord($event)"
                         tooltip="Change the x and y values of the current joint!"

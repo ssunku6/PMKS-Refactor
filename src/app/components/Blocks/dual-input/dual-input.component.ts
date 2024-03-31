@@ -25,10 +25,12 @@ export class DualInputComponent {
   @Output() input2Change: EventEmitter<number> = new EventEmitter<number>();
 
   // handle the enter key being pressed and updating the values of the input blocks
-  onEnterKeyInput1() {this.input1Change.emit(this.input1Value);}
-  onEnterKeyInput2() {this.input2Change.emit(this.input2Value);}
+  onEnterKeyInput1() {
+    this.input1Change.emit(this.input1Value as number);}
+  onEnterKeyInput2() {this.input2Change.emit(this.input2Value as number);}
 
-  onBlurInput1() {this.input1Change.emit(this.input1Value);}
-  onBlurInput2() {this.input2Change.emit(this.input2Value);}
+  onBlurInput1() {
+    this.input1Change.emit(this.input1Value as number);}
+  onBlurInput2() {this.input2Change.emit(this.input2Value as number);}
 
 }

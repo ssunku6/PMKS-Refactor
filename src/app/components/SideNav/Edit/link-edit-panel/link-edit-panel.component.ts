@@ -60,10 +60,10 @@ export class LinkEditPanelComponent{
     }
 
     getLinkLength(): number{
-        return this.getSelectedObject().calculateLength()!.toFixed(4) as unknown as number;
+        return this.getSelectedObject().calculateLength()!;
     }
     getLinkAngle(): number{
-        return this.getSelectedObject().calculateAngle()!.toFixed(4) as unknown as number;
+        return this.getSelectedObject().calculateAngle()!;
     }
 
     getLinkJoints(): Map<number, Joint>{
@@ -138,7 +138,7 @@ export class LinkEditPanelComponent{
 
     //helper function to quickly round to 4 decimals
     roundToFour(round:number): number{
-        return round.toFixed(4) as unknown as number;
+        return Math.round(round * 1000) /1000;
     }
 
     getColors(): string[]{

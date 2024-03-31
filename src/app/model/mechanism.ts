@@ -32,7 +32,8 @@ export class Mechanism {
     }
 
     notifyChange(): void{
-        console.log("updated Mechanism");
+        console.log("updated Mechanism to");
+        console.log(Array.from(this._joints.values()));
         this._mechanismChange.next(this);
     }
 

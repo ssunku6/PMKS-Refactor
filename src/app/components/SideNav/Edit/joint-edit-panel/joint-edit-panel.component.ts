@@ -1,21 +1,21 @@
-import {Component, OnInit} from '@angular/core'
-import {StateService} from "src/app/services/state.service";
-import {InteractionService} from "src/app/services/interaction.service";
-import {JointInteractor} from "src/app/controllers/joint-interactor"
-import {Mechanism} from "src/app/model/mechanism";
-import {Joint} from "src/app/model/joint";
-import {Form, FormControl, FormGroup} from "@angular/forms";
-import {Link} from "src/app/model/link";
+import { Component, OnInit } from '@angular/core'
+import { StateService } from "src/app/services/state.service";
+import { InteractionService } from "src/app/services/interaction.service";
+import { JointInteractor } from "src/app/controllers/joint-interactor"
+import { Mechanism } from "src/app/model/mechanism";
+import { Joint } from "src/app/model/joint";
+import { Form, FormControl, FormGroup } from "@angular/forms";
+import { Link } from "src/app/model/link";
 
 interface Tab {
-    selected: boolean,
-    label: string,
-    icon: string
+  selected: boolean,
+  label: string,
+  icon: string
 }
 @Component({
-    selector: 'app-joint-edit-panel',
-    templateUrl: './joint-edit-panel.component.html',
-    styleUrls: ['./joint-edit-panel.component.scss'],
+  selector: 'app-joint-edit-panel',
+  templateUrl: './joint-edit-panel.component.html',
+  styleUrls: ['./joint-edit-panel.component.scss'],
 
 })
 
@@ -34,12 +34,13 @@ export class jointEditPanelComponent {
   public rotateRightIconPath: string = "assets/icons/rotateRight.svg";
   public rotateLeftIconPath: string = "assets/icons/rotateLeft.svg";
 
-  constructor(private stateService: StateService, private interactorService: InteractionService){
+  constructor(private stateService: StateService, private interactorService: InteractionService) {
     console.log("joint-edit-panel.constructor");
 
   }
 
-  getMechanism(): Mechanism {return this.stateService.getMechanism();}
+  getMechanism(): Mechanism { return this.stateService.getMechanism(); }
+
   getCurrentJoint() {
     let currentJointInteractor = this.interactorService.getSelectedObject();
 
@@ -49,11 +50,37 @@ export class jointEditPanelComponent {
         console.log("Cannot drag current selected joint!")
         currentJointInteractor.draggable = false;
       }
-      else{ currentJointInteractor.draggable = true; }
+      else { currentJointInteractor.draggable = true; }
     }
     return (currentJointInteractor as JointInteractor).getJoint();
   }
-  getJointName(): string {return this.getCurrentJoint().name;}
+
+
+  getJointName(): string { return this.getCurrentJoint().name; }
+  // get x coord and y coord return the number of the currently selected coord
+  // set x and y are used in conjunction with the dual input blocks. by using
+  // the mechanism's built in setXCoord function, we are able to update with no
+  // errors
+  getJointXCoord(): number {
+    return this.getCurrentJoint().coords.x;
+  }
+
+
+  getJointYCoord(): number {
+    return this.getCurrentJoint().coords.y;
+  }
+
+
+  setJointXCoord(xCoordInput: number): void {
+    console.log(`Setting Joint ${this.getCurrentJoint().id}, X coord as ${xCoordInput}`);
+    this.getMechanism().setXCoord(this.getCurrentJoint().id, xCoordInput);
+  }
+  setJointYCoord(yCoordInput: number): void {
+    console.log(`Setting Joint ${this.getCurrentJoint().id}, X coord as ${yCoordInput}`);
+    this.getMechanism().setYCoord(this.getCurrentJoint().id, yCoordInput as number);
+  }
+
+
   onTitleBlockClick(event: MouseEvent): void {
     console.log('Title clicked!');
     const clickedElement = event.target as HTMLElement;
@@ -64,25 +91,18 @@ export class jointEditPanelComponent {
     }
   }
   // TODO figure out where the joint names are displayed on screen and make it the name, not ID
-  setJointName(newName: string){
+  setJointName(newName: string) {
     console.log("Here is the current name of the joint ", this.getCurrentJoint().name);
     this.getCurrentJoint().name = newName;
     console.log("Here is the new name of the joint ", this.getCurrentJoint().name);
-    this.isEditingTitle=false;
+    this.isEditingTitle = false;
   }
-  deleteJoint(){
+  deleteJoint() {
     this.getMechanism().removeJoint(this.getCurrentJoint().id);
     this.interactorService.deselectObject();
   }
 
-  // get x coord and y coord return the number of the currently selected coord
-  // set x and y are used in conjunction with the dual input blocks. by using
-  // the mechanism's built in setXCoord function, we are able to update with no
-  // errors
-  getJointXCoord(): number {return this.getCurrentJoint().coords.x;}
-  getJointYCoord(): number {return this.getCurrentJoint().coords.y;}
-  setJointXCoord(xCoordInput: number): void {this.getMechanism().setXCoord(this.getCurrentJoint().id, xCoordInput);}
-  setJointYCoord(yCoordInput: number): void {this.getMechanism().setYCoord(this.getCurrentJoint().id, yCoordInput);}
+
 
   getJointLockState(): boolean {
     return this.getCurrentJoint().locked;
@@ -121,27 +141,27 @@ export class jointEditPanelComponent {
   getConnectedJoints(): Joint[] {
     const connectedLinks: Link[] = Array.from(this.getLinksForJoint());
     const allJoints: Joint[] = connectedLinks.reduce(
-        (accumulator: Joint[], link: Link) => {
-          const jointMap: Map<number, Joint> = link.joints;
-          const joints: Joint[] = Array.from(jointMap.values());
-          return accumulator.concat(joints);
-        },
-        []
+      (accumulator: Joint[], link: Link) => {
+        const jointMap: Map<number, Joint> = link.joints;
+        const joints: Joint[] = Array.from(jointMap.values());
+        return accumulator.concat(joints);
+      },
+      []
     );
     // console.log(allJoints);
     return allJoints;
   }
 
-  getJointDistance(otherJoint: Joint): number{
+  getJointDistance(otherJoint: Joint): number {
     let currentJoint = this.getCurrentJoint();
     let xDiff = otherJoint.coords.x - currentJoint.coords.x;
     let yDiff = otherJoint.coords.y - currentJoint.coords.y;
 
-    let hypotenuse = (xDiff*xDiff) + (yDiff*yDiff);
+    let hypotenuse = (xDiff * xDiff) + (yDiff * yDiff);
     return Math.sqrt(hypotenuse);
   }
 
-  getJointAngle(otherJoint: Joint): number{
+  getJointAngle(otherJoint: Joint): number {
 
     let currentJoint = this.getCurrentJoint();
     let xDiff = otherJoint.coords.x - currentJoint.coords.x;
@@ -166,15 +186,15 @@ export class jointEditPanelComponent {
   handleToggleGroundChange(stateChange: boolean) {
     console.log("Toggle State Changed: ", stateChange);
     const currentJoint = this.getCurrentJoint();
-    if (stateChange) {this.getMechanism().addGround(this.getCurrentJoint().id);}
-    else {this.getMechanism().removeGround(this.getCurrentJoint().id);}
+    if (stateChange) { this.getMechanism().addGround(this.getCurrentJoint().id); }
+    else { this.getMechanism().removeGround(this.getCurrentJoint().id); }
   }
 
   // these values are passed into a tri button. these handle making and removing input.
   //        [btn1Disabled]="!getCurrentJoint().canAddInput() || getCurrentJoint().isInput"
 
-  makeInputClockwise() {console.log("We would be making the input clockwise here");}
-  makeInputCounterClockwise() {console.log("We would be making the input counter clockwise here");}
+  makeInputClockwise() { console.log("We would be making the input clockwise here"); }
+  makeInputCounterClockwise() { console.log("We would be making the input counter clockwise here"); }
 
 
   // these values are passed into a tri button. these handle the welding and unwelding
@@ -183,23 +203,23 @@ export class jointEditPanelComponent {
   handleToggleWeldChange(stateChange: boolean) {
     console.log("Toggle State Changed: ", stateChange);
     const currentJoint = this.getCurrentJoint();
-    if (stateChange) {this.getMechanism().addWeld(this.getCurrentJoint().id);}
-    else {this.getMechanism().removeWeld(this.getCurrentJoint().id);}
+    if (stateChange) { this.getMechanism().addWeld(this.getCurrentJoint().id); }
+    else { this.getMechanism().removeWeld(this.getCurrentJoint().id); }
   }
 
   handleToggleInputChange(stateChange: boolean) {
     console.log("Toggle State Changed: ", stateChange);
     const currentJoint = this.getCurrentJoint();
-    if (stateChange) {this.getMechanism().addInput(this.getCurrentJoint().id);}
-    else {this.getMechanism().removeInput(this.getCurrentJoint().id);}
+    if (stateChange) { this.getMechanism().addInput(this.getCurrentJoint().id); }
+    else { this.getMechanism().removeInput(this.getCurrentJoint().id); }
   }
 
 
 
-  getJointColor(){}
-  setJointColor(){}
+  getJointColor() { }
+  setJointColor() { }
 
-  canAddWeld(): boolean{
+  canAddWeld(): boolean {
     return this.getMechanism().canAddWeld(this.getCurrentJoint());
   }
 
