@@ -4,7 +4,7 @@
             Settings
           </title-block>
     </panel-section-collapsible>
-  
+
       <!-- BASIC SETTING DROPDOWN -->
       <collapsible-subsection [expanded]='true' titleLabel='Basic Settings' [expanded]="sectionExpanded['LBasic']"
         (opened)="sectionExpanded['LBasic'] = true" (closed)="sectionExpanded['LBasic'] = false">
@@ -23,7 +23,7 @@
                 </radio-block>
             </div>
       </collapsible-subsection>
-  
+
       <!-- VISUAL DROPDOWN -->
       <collapsible-subsection [expanded]='true' titleLabel='Visual Settings' [expanded]="sectionExpanded['LVisual']"
         (opened)="sectionExpanded['LVisual'] = true" (closed)="sectionExpanded['LVisual'] = false">
@@ -36,6 +36,5 @@
             (valueChanged)="handleToggleMinorGridChange($event)"></app-toggle>
         </div>
       </collapsible-subsection>
-      
+
     </div>
-  

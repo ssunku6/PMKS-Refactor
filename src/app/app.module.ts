@@ -61,6 +61,9 @@ import { ImportDataComponent } from "./components/Blocks/import-data/import-data
 import { SettingsPanelComponent } from './components/ToolBar/settings-panel/settings-panel.component';
 import { TemplatesPanelComponent } from './components/ToolBar/templates-panel/templates-panel.component';
 import { TutorialsPanelComponent } from './components/ToolBar/tutorials-panel/tutorials-panel.component';
+import {FeedbackPanelComponent} from "./components/ToolBar/feedback-panel/feedback-panel.component";
+import {SavePanelComponent} from "./components/ToolBar/save-panel/save-panel.component";
+import {SharePanelComponent} from "./components/ToolBar/share-panel/share-panel.component";
 
 @NgModule({
   declarations: [
@@ -111,25 +114,32 @@ import { TutorialsPanelComponent } from './components/ToolBar/tutorials-panel/tu
     SettingsPanelComponent,
     TemplatesPanelComponent,
     TutorialsPanelComponent,
+    FeedbackPanelComponent,
+    SavePanelComponent,
+    SharePanelComponent,
   ],
-  imports: [
-    BrowserModule,
-    MatMenuModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatButtonToggleModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatTooltipModule,
-    MatSlideToggleModule,
-    MatInputModule,
-    FormsModule,
-    NgChartsModule,
-  ],
+    imports: [
+        BrowserModule,
+        MatMenuModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatSidenavModule,
+        MatButtonToggleModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatTooltipModule,
+        MatSlideToggleModule,
+        MatInputModule,
+        FormsModule,
+        NgChartsModule,
+    ],
   providers: [],
+  exports: [
+    PanelSectionCollapsibleComponent,
+    TitleBlock
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
