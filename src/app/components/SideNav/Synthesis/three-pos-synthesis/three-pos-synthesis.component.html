@@ -47,18 +47,18 @@
                   <!-- displays each position label, if the position is specified/defined, then the trash icon appears -->
 
                   <div>
-                        <mat-icon id="tooltip" matTooltip="Change the x and y values of the reference point of the coupler position {{i}}" [matTooltipShowDelay]='1000' class='label-help'
+                    <p style="display:inline; margin: 3px;">Position {{i}}</p>
+                    <mat-icon id="tooltip" matTooltip="Change the x and y values of the reference point of the coupler position {{i}}" [matTooltipShowDelay]='1000' class='label-help'
                         [matTooltipDisabled]='disabled'
                         >help_outline
-                        </mat-icon>
-                        <p style="display:inline; margin: -3px;">Position {{i}}</p>
+                    </mat-icon>
                         <button id="trash" *ngIf='this.isPositionDefined(i)' (click)="this.deletePosition(i)">
-                              <img id="icon" src='assets/icons/trash.svg' style="height: 20px; width: 20px;"/>
+                              <img id="icon" src='assets/icons/trash.svg' style="height: 16px; width: 18px; margin-bottom: -2px;"/>
                         </button>
                   </div>
 
                   <!-- allows the user to enter coordinates and an angle for the position -->
-                  <div class='poseData' *ngIf='this.isPositionDefined(i)' >
+                  <div class='poseData' style="margin-right: -20px;" *ngIf='this.isPositionDefined(i)' >
                         <dual-input-block [input2Value]="getPosYCoord(1)"
                         (input1Change)="setPosXCoord($event, 1)"
                         (input2Change)="setPosYCoord($event, 1)"
@@ -69,7 +69,8 @@
                         unit2="cm"
                         [showIcon]="false">
                   </dual-input-block>
-                  <single-input-block [input1Value]="getPosAngle(1)"
+                  <single-input-block
+                        [input1Value]="getPosAngle(1)"
                         (input1Change)="setPositionAngle($event, 1)"
                         iconLabel1="assets/icons/angle.svg"
                         unit1="deg"
@@ -84,12 +85,21 @@
 
 </div>
 </div>
+    <hr class="solid">
 <!-- If all positions are defined you can then generate a four bar or delete all positions -->
-<div *ngIf='this.allPositionsDefined()' class="definedButtons">
+    <div *ngIf='!this.allPositionsDefined()' class="definedButtons">
+    <button id="generateFourBarGrey" (click)="generateFourBar()">Generate Four-Bar</button>
+    <button id="removeAllGrey"  (click)="removeAllPositions()">Remove All Positions</button>
+    </div>
+
+    <div *ngIf='this.allPositionsDefined()' class="definedButtons">
       <button id="generateFourBar" (click)="generateFourBar()">Generate Four-Bar</button>
-      <!-- once a four bar is generated you are able to generate a six bar -->
-      <button *ngIf='isFourBarGenerated()' id="generateFourBar" (click)="generateSixBar()">Generate Six-Bar</button>
       <button id="removeAll"  (click)="removeAllPositions()">Remove All Positions</button>
+      <!-- once a four bar is generated you are able to generate a six bar -->
+      <div *ngIf='isFourBarGenerated()' class="definedButtons">
+      <button *ngIf='isFourBarGenerated()' id="generateFourBar" (click)="generateSixBar()">Generate Six-Bar</button>
+      <!--  <button id="removeAll"  (click)="removeAllPositions()">Remove All Positions</button> -->
+    </div>
 
 </div>
 </div>

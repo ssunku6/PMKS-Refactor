@@ -44,8 +44,7 @@ setCurrentTab(clickedTab: string){
 }
 isSelected(id: string): boolean{
   return this.tabs.find(tab => tab.label === id)?.selected ?? false;
-
-}
+    }
 getSelected(): string {
     let selectedTab = '';
     this.tabs.forEach((tab)=>{

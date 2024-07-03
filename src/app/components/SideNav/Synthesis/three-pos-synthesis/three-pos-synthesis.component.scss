@@ -75,7 +75,7 @@
   }
 
   hr.solid {
-    border-top: 3px solid #3F51B5;
+    border-top: 1px solid rgba(63, 81, 181, 0.1);
   }
 
   .right-aligned {
@@ -109,15 +109,15 @@
     border: none;
     height: 25px;
     width: 25px;
-    align-items: center;
-    margin-left: 5px;
+    display: inline-block;
+    margin-left: -2px;
   }
 
   #generateFourBar{
     margin:0 auto;
     display:block;
     background-color: white;
-    width: 50%;
+    width: 60%;
     height: 40px;
     border-radius: 20px;
     border: 1px solid black;
@@ -127,7 +127,20 @@
     color: #3F51B5;
     border: none;
   }
-
+  #generateFourBarGrey{
+    margin:0 auto;
+    display:block;
+    background-color: white;
+    width: 60%;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid black;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    background-color: #e8eaf6;
+    color: #808080;
+    border: none;
+  }
   #generateFourBar:hover {
     color: #e8eaf6;
     background-color: #3F51B5;
@@ -137,11 +150,25 @@
     margin:0 auto;
     display:block;
     background-color: #ffcccb;
-    width: 50%;
+    width: 60%;
     height: 40px;
     border-radius: 20px;
     border: 1px solid red;
     color: red;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    border: none;
+  }
+
+  #removeAllGrey{
+    margin:0 auto;
+    display:block;
+    background-color: #e8eaf6;
+    color: #808080;
+    width: 60%;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid black;
     margin-top: 3px;
     margin-bottom: 3px;
     border: none;
@@ -220,3 +247,4 @@
     color: #e8eaf6;
     background-color: #3F51B5;
   }
+
