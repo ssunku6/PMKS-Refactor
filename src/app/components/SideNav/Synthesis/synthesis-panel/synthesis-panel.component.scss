@@ -23,7 +23,9 @@
     padding: 25px;
     justify-content: space-between;
     width: 10px;
+    align-items: center;
     background-color: white;
+    font-size: 100px;
   }
 }
 
@@ -34,9 +36,8 @@ panel-section-collapsible {
     flex-direction: column;
     margin-right: auto;
     width: 800px;
+
 }
-
-
 
 div {
   background-color: white;

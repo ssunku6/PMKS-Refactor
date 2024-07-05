@@ -107,10 +107,8 @@
   #trash {
     background-color: white;
     border: none;
-    height: 25px;
-    width: 25px;
     display: inline-block;
-    margin-left: -2px;
+    margin-left: -8px;
   }
 
   #generateFourBar{
@@ -203,34 +201,35 @@
 
   #lengthTooltip {
     color: #3f51b5;
-    font-size: 18px;
+    font-size: 16px;
     padding-top: 2px;
     display: flex;
     margin-left: -45px;
-    margin-top: 5px;
+    margin-top: 6px;
   }
 
   #fixedReferenceTooltip {
   color: #3f51b5;
-  font-size: 18px;
+  font-size: 16px;
   padding-top: 2px;
   display: flex;
   margin-left: 138px;
-  margin-top: -20px;
+  margin-top: -18.5px;
   }
 
   #tooltip {
     color: #3f51b5;
-    font-size: 18px;
+    font-size: 16px;
     vertical-align: middle;
     padding-top: 2px;
     margin-left: 5px;
+    margin-bottom: -4px;
   }
 
   #reference {
-    margin-bottom: 5px;
-    margin-top: -10px;
-    margin-left: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
 

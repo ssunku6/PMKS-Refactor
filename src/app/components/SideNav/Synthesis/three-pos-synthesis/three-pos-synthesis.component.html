@@ -53,12 +53,12 @@
                         >help_outline
                     </mat-icon>
                         <button id="trash" *ngIf='this.isPositionDefined(i)' (click)="this.deletePosition(i)">
-                              <img id="icon" src='assets/icons/trash.svg' style="height: 16px; width: 18px; margin-bottom: -2px;"/>
+                              <img id="icon" src='assets/icons/trash.svg' style="height: 13px; width: 15px; margin-bottom: -1px;"/>
                         </button>
                   </div>
 
                   <!-- allows the user to enter coordinates and an angle for the position -->
-                  <div class='poseData' style="margin-right: -20px;" *ngIf='this.isPositionDefined(i)' >
+                  <div class='poseData' style="margin-right: -25px; margin-bottom: 15px; margin-top: 15px;" *ngIf='this.isPositionDefined(i)' >
                         <dual-input-block [input2Value]="getPosYCoord(1)"
                         (input1Change)="setPosXCoord($event, 1)"
                         (input2Change)="setPosYCoord($event, 1)"
