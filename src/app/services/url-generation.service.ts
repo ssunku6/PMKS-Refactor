@@ -9,12 +9,12 @@
 // import { JointData, JOINT_TYPE, LinkData, LINK_TYPE, ForceData, ActiveObjData, ACTIVE_TYPE } from './transcoding/transcoder-data';
 // import { SettingsService } from './settings.service';
 // import { ActiveObjService } from './active-obj.service';
-//
-// /*
-//   * This service is responsible for generating the URL from the current mechanism.
-//   * It is not responsible for decoding the URL.
-// */
-//
+
+/*
+  * This service is responsible for generating the URL from the current mechanism.
+  * It is not responsible for decoding the URL.
+*/
+
 // @Injectable({
 //   providedIn: 'root'
 // })
