@@ -19,7 +19,7 @@
     box-shadow: 3px 3px 3px gray;
     width:100%;
     max-height:calc(90vh - 30px);;
-    overflow-y:scroll;
+    //overflow-y:scroll;
   }
 
 .disabled-panel {
@@ -32,7 +32,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
-    
+
   }
   /*
   .flex-container > * {

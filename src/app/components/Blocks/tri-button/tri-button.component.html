@@ -1,17 +1,17 @@
 <div class='row' id='tri-button'>
-  <div class='groupedButtons'>
+  <div class='groupedButtons' style="margin-bottom: 10px;">
     <button mat-stroked-button color='primary' [disabled]='btn1Disabled' class='{{btn1Disabled? "buttonDisabled" :""}}'
-    (click)='btn1Action()'>
+    (click)='btn1Action()' style="padding-left: 5px;padding-right: 5px;">
     <div class="alignVertical">
-      <img src={{btn1SVGPath}} alt="SVG Image" width="20" height="20">
-      <span>{{btn1Text}}</span>
+<!--      <img src={{btn1SVGPath}} alt="SVG Image" width="20" height="20">-->
+      <span style="font-size: 12px">{{btn1Text}}</span>
   </div>
   </button>
   <button *ngIf="btn2Visible" mat-stroked-button color='primary' [disabled]='btn2Disabled' class='{{btn2Disabled? "buttonDisabled" :""}}'
-  (click)='btn2Action()'>
+  (click)='btn2Action()' style="padding-left: 5px;padding-right: 5px;">
   <div class="alignVertical">
-    <img src={{btn2SVGPath}} alt="SVG Image" width="20" height="20">
-    <span>{{btn2Text}}</span>
+<!--    <img src={{btn2SVGPath}} alt="SVG Image" width="20" height="20">-->
+    <span style="font-size: 12px">{{btn2Text}}</span>
 </div>
 </button>
 </div>

@@ -11,17 +11,17 @@
     {{ this.getCompoundLinkName() }}
   </ng-template>
   <button class="topbuttons" (click)="this.isEditingTitle=true">
-    <img src='assets/icons/edit.svg' style="height: 20px; width: 20px;"/>
+    <img src='assets/icons/edit.svg' style="height: 16px; width: 16px;"/>
   </button>
   <button class="topbuttons" (click)="this.deleteCompoundLink()">
-    <img src='assets/icons/trash.svg' style="height: 20px; width: 20px;"/>
+    <img src='assets/icons/trash.svg' style="height: 16px; width: 16px;"/>
   </button>
       <button class="topbuttons" (click)="this.updateCompoundLinkLock()">
         <ng-container *ngIf="isLocked; else unlockIcon">
-          <img src='assets/icons/unlock.svg' style="height: 20px; width: 20px;"/>
+          <img src='assets/icons/unlock.svg' style="height: 16px; width: 16px;"/>
         </ng-container>
         <ng-template #unlockIcon>
-          <img src='assets/icons/lock.svg' style="height: 20px; width: 20px;"/>
+          <img src='assets/icons/lock.svg' style="height: 16px; width: 16px;"/>
         </ng-template>
       </button>
 
@@ -103,7 +103,7 @@
       <collapsible-subsection [expanded]='true' titleLabel='Visual Settings' [expanded]="sectionExpanded['LVisual']"
             (opened)="sectionExpanded['LVisual'] = true"
             (closed)="sectionExpanded['LVisual'] = false">
-        <div> 
+        <div>
           <div>
             <p class="colors">Link Color:</p>
             <div class="row">

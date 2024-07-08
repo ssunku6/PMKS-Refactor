@@ -11,79 +11,46 @@
   $background: map.get($theme, background);
   $foreground: map.get($theme, foreground);
 
-
   #tri-button {
-
     path {
       fill: mat.get-color-from-palette($primary-palette, 500);
-      //fill: red;
-    }
-
-
-    button {
-
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-around;
-      @include mat.typography-level($typography-config, 'body-2');
-      padding: 0 10px;
-      margin: 0;
-      height: 50px !important;
-      //flex-grow: 1;
-
-      .mat-mdc-button-touch-target {
-        height: 50px !important;
-      }
-
-      .mat-icon {
-        margin: 0;
-        //background-color: red;
-        width: 24px;
-        height: 24px;
-      }
-
-      border-color: mat.get-color-from-palette($primary-palette, 500) !important;
-
-
     }
 
     .groupedButtons {
       display: flex;
-      //background-color: red;
-      //width: 100px !important;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+
+      button {
+        width: 200px;
+        margin: 0;
+        padding: 0 10px;
+        height: 50px !important;
+        align-items: center;
+        font-size: 12px; /* Adjust the font size here */
+      }
 
       button:first-child {
-        padding: 0;
-        width: 53px !important;
-        min-width: unset !important;
-
+        padding: 0 5px; /* Adjust the padding for the first button here */
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
-
         margin-right: -1px;
       }
 
       button:last-child {
-        padding: 0;
-        width: 57px !important;
-        min-width: unset !important;
-
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
-
         &.buttonDisabled {
           border-left-color: transparent !important;
         }
       }
-
     }
 
     .button3 {
       padding: 0;
       flex-grow: 1;
-      //font-size: 12px;
-      //background-color: red;
+      font-size: 12px; /* Adjust the font size here if needed */
     }
 
     .buttonDisabled {
@@ -93,14 +60,5 @@
 
       border-color: #bbbbbb !important;
     }
-
   }
-
-
-}
-
-.alignVertical {
-  display: flex; 
-  flex-direction: column; 
-  align-items: center;
 }

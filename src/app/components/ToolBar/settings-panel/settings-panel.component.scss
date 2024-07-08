@@ -12,13 +12,12 @@
     $typography-config: mat.get-typography-config($theme);
     $foreground: map.get($theme, foreground);
 
-    #settings{ 
-      background-color: white; 
+    #settings{
+      background-color: white;
       border-radius: 3px;
       width:395px;
       float: right;
-      margin-top: 32px;
       border-top: 5px solid #3F51B5;
-      box-shadow: 3px 3px 3px gray;    
-    } 
+      box-shadow: 3px 3px 3px gray;
+    }
   }

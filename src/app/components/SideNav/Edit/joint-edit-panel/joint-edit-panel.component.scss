@@ -11,6 +11,14 @@
     $background: map.get($theme, background);
     $foreground: map.get($theme, foreground);
 }
+.button-container {
+  align-items: center;
+}
+
+.button-container tri-button {
+  width: 150px;
+  align-items: center;
+}
 
 #editJoint {
   background-color: white;
@@ -19,14 +27,14 @@
   box-shadow: 3px 3px 3px gray;
   width:100%;
   max-height:calc(90vh - 30px);;
-  overflow-y:scroll;
+  //overflow-y:scroll;
 }
 
 .flex-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  
+
 }
 
 .disabled-panel {
@@ -53,4 +61,5 @@ button {
   height: 25px;
   width: 25px;
   text-align: center;
+  align-items: center;
 }

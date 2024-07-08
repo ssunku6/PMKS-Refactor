@@ -1,7 +1,7 @@
 import { Component} from '@angular/core'
 
 interface Tab {
-    selected: boolean, 
+    selected: boolean,
     label: string,
     icon: string
 }
@@ -33,15 +33,20 @@ setCurrentTab(clickedTab: string){
         }
     });
 }
-isSelected(id: string): boolean{
-    let isSelected = false;
-    this.tabs.forEach((tab)=>{
-        if(tab.label == id){
-            isSelected = tab.selected;
-        }
+  togglePanel(clickedTab: string): void {
+    this.tabs.forEach(tab => {
+      if (tab.label === clickedTab) {
+        tab.selected = !tab.selected; // Toggle selected state
+      } else {
+        tab.selected = false; // Close other panels
+      }
     });
-    return isSelected;
-}
+  }
+
+  isSelected(id: string): boolean {
+    return this.tabs.find(tab => tab.label === id)?.selected ?? false;
+  }
+
 getSelected(): string {
     let selectedTab = '';
     this.tabs.forEach((tab)=>{

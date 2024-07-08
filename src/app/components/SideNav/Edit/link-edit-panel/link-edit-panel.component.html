@@ -5,7 +5,7 @@
       Edit Link
       <!-- edit title input if edit selected -->
       <ng-container *ngIf="isEditingTitle; else linkNameDisplay">
-        <input #linkNameInput [(ngModel)]="this.getSelectedObject().name" 
+        <input #linkNameInput [(ngModel)]="this.getSelectedObject().name"
           (blur)="setLinkName(linkNameInput.value)"
           (keyup.enter)="setLinkName(linkNameInput.value)" />
       </ng-container>
@@ -16,19 +16,19 @@
       <!-- edit, delete,locking buttons -->
       <!-- edit -->
       <button (click)="this.isEditingTitle=true">
-        <img id="edit" src='assets/icons/edit.svg' style="height: 20px; width: 20px;" />
+        <img id="edit" src='assets/icons/edit.svg' style="height: 16px; width: 16px;" />
       </button>
       <!-- delete -->
       <button (click)="this.deleteLink()">
-        <img id="trash" src='assets/icons/trash.svg' style="height: 20px; width: 20px;" />
+        <img id="trash" src='assets/icons/trash.svg' style="height: 16px; width: 16px;" />
       </button>
       <!-- lock -->
       <button (click)="this.lockLink()">
         <ng-container *ngIf="isLocked; else unlockIcon">
-          <img src='assets/icons/unlock.svg' style="height: 20px; width: 20px;" />
+          <img src='assets/icons/unlock.svg' style="height: 16px; width: 16px;" />
         </ng-container>
         <ng-template #unlockIcon>
-          <img src='assets/icons/lock.svg' style="height: 20px; width: 20px;" />
+          <img src='assets/icons/lock.svg' style="height: 16px; width: 16px;" />
         </ng-template>
       </button>
     </title-block>
@@ -42,12 +42,12 @@
       (opened)="sectionExpanded['LBasic'] = true" (closed)="sectionExpanded['LBasic'] = false">
       <div>
         <!-- Link length and angle input -->
-        <dual-input-block id="lengthAndAngle" 
-          [input1Value]="getLinkLength()" 
+        <dual-input-block id="lengthAndAngle"
+          [input1Value]="getLinkLength()"
           [input2Value]="getLinkAngle()"
-          (input1Change)="setLinkLength($event)" 
-          (input2Change)="setLinkAngle($event)" 
-          iconLabel1="assets/icons/length.svg" iconLabel2="assets/icons/angle.svg" 
+          (input1Change)="setLinkLength($event)"
+          (input2Change)="setLinkAngle($event)"
+          iconLabel1="assets/icons/length.svg" iconLabel2="assets/icons/angle.svg"
           unit1="cm" unit2="deg"
           tooltip="Enter the length and angle of the link">
           Link Length and Angle
@@ -67,12 +67,12 @@
         <p>Components</p>
         <div id="container">
           <div *ngFor='let joint of getLinkComponents(); let i = index;'>
-            <dual-input-block 
+            <dual-input-block
               [input1Value]="this.roundToFour(joint.coords.x)"
-              [input2Value]="this.roundToFour(joint.coords.y)" 
+              [input2Value]="this.roundToFour(joint.coords.y)"
               (input1Change)="joint.coords.x=($event)"
-              (input2Change)="joint.coords.y=($event)" 
-              label1="X" label2="Y" 
+              (input2Change)="joint.coords.y=($event)"
+              label1="X" label2="Y"
               unit1="cm" unit2="cm"
               tooltip="Change joint positions">
               Joint {{ joint.name }}:
