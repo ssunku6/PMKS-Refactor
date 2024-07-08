@@ -19,7 +19,8 @@
   }
 
   .scroll-container {
-  height: 300px;
+    max-height: 450px;
+    // height: 50vh;
     overflow:hidden;
     overflow-y:auto;
   }
@@ -58,13 +59,18 @@
 
 
   .icon {
+
   width: 15px; /* Adjust size as necessary */
   height: 15px; /* Adjust size as necessary */
   margin-right: 6px; /* Adjust spacing as necessary */
+    margin-left: 1px;
+    margin-top: 1px;
+    margin-bottom: 2.5px;
   }
 
 
   .label {
+    margin-left: 1px;
     margin-right: auto; /* Adjust spacing as necessary */
     min-width:100px;
     max-width: 100px;
@@ -83,6 +89,7 @@
     align-items: center;
     margin-right: -45px;
     margin-top: 10px;
+
   }
 
   .subtitle {
@@ -113,9 +120,9 @@
 
   #generateFourBar{
     margin:0 auto;
-    display:block;
+    display:inline-block;
     background-color: white;
-    width: 60%;
+    width: 50%;
     height: 40px;
     border-radius: 20px;
     border: 1px solid black;
@@ -127,9 +134,10 @@
   }
   #generateFourBarGrey{
     margin:0 auto;
-    display:block;
+    display:flex;
+    align-items: center;
     background-color: white;
-    width: 60%;
+    width: 50%;
     height: 40px;
     border-radius: 20px;
     border: 1px solid black;
@@ -146,9 +154,9 @@
 
   #removeAll{
     margin:0 auto;
-    display:block;
+    display:inline-block;
     background-color: #ffcccb;
-    width: 60%;
+    width: 50%;
     height: 40px;
     border-radius: 20px;
     border: 1px solid red;
@@ -160,10 +168,11 @@
 
   #removeAllGrey{
     margin:0 auto;
-    display:block;
+    display:flex;
+    align-items: center;
     background-color: #e8eaf6;
     color: #808080;
-    width: 60%;
+    width: 40%;
     height: 40px;
     border-radius: 20px;
     border: 1px solid black;
@@ -186,7 +195,7 @@
     border-radius: 20px;
     border: 1px solid black;
     margin-top: 3px;
-    margin-bottom: 3px;
+    margin-bottom: 20px;
     background-color: #e8eaf6;
     font-weight: bold;
     font-size: 12px;

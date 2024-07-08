@@ -21,6 +21,7 @@
   .synthesisHeader {
     display: flex;
     padding: 25px;
+    flexWrap: 'wrap';
     justify-content: space-between;
     width: 10px;
     align-items: center;
@@ -28,6 +29,7 @@
     font-size: 100px;
   }
 }
+
 
 panel-section-collapsible {
   background-color: #ffffff;

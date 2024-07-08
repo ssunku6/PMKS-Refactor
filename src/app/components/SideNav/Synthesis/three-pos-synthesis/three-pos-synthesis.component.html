@@ -3,8 +3,8 @@
   <div class="scroll-container">
   <div style="margin-bottom:15px;">
             <!-- Each coupler position has the same length which is set here -->
-            <p class="subtitle" style="margin-right: 4px;color:grey;font-size:14px;">Automatically create a 4-bar linkage based on 3 coupler poses.</p>
-            <p style="margin-bottom:3px; margin-right: 4px;">Coupler Link Specifications</p>
+            <p class="subtitle" style="margin-right: 4px; margin-left: 2px;color:grey;font-size:14px;">Automatically create a 4-bar linkage based on 3 coupler poses.</p>
+            <p style="margin-bottom:3px; margin-right: 4px; margin-left: 1.5px;">Coupler Link Specifications</p>
             <div class="input-container">
               <img src="assets/icons/length.svg" alt="length icon" class="icon">
             <span class="label">Length</span>
@@ -15,7 +15,7 @@
               >help_outline
               </mat-icon>
 
-              <single-input-block class="right-aligned" [input1Value]="0" style="margin-bottom:5px;"
+              <single-input-block class="right-aligned" [input1Value]="0" style="margin-bottom:5px;margin-left: 50px;"
             (input1Change)="setCouplerLength($event)"
 
             unit1="cm"
@@ -23,7 +23,7 @@
             </div>
 
             <!-- The fixed reference is the center of rotation and you set that with the radio block -->
-            <div><img src='assets/icons/referencePoint.svg' style="height: 12px; width: 12px;"/>
+            <div><img src='assets/icons/referencePoint.svg' style="height: 12.5px; width: 12.5px; display: inline-block; align-items: center; margin-left: 1.20px;"/>
                   <p style="display:inline-block; margin-bottom:0;">Fixed Reference</p>
             </div>
                   <mat-icon id="fixedReferenceTooltip"
@@ -47,7 +47,7 @@
                   <!-- displays each position label, if the position is specified/defined, then the trash icon appears -->
 
                   <div>
-                    <p style="display:inline; margin: 3px;">Position {{i}}</p>
+                    <p style="display:inline; margin: 2.5px;">Position {{i}}</p>
                     <mat-icon id="tooltip" matTooltip="Change the x and y values of the reference point of the coupler position {{i}}" [matTooltipShowDelay]='1000' class='label-help'
                         [matTooltipDisabled]='disabled'
                         >help_outline
