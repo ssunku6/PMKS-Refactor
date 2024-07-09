@@ -58,19 +58,17 @@
 
 
   .icon {
-
-  width: 15px; /* Adjust size as necessary */
-  height: 15px; /* Adjust size as necessary */
-  margin-right: 6px; /* Adjust spacing as necessary */
+    width: 15px;
+    height: 15px;
+    margin-right: 6px;
     margin-left: 6px;
     margin-top: 1px;
     margin-bottom: 2.5px;
   }
 
-
-  .label {
+.label {
     margin-left: 1px;
-    margin-right: auto; /* Adjust spacing as necessary */
+    margin-right: auto;
     min-width:100px;
     max-width: 100px;
   }

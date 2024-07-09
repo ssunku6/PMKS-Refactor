@@ -77,7 +77,7 @@ input:focus + .slider {
 
 input:checked + .slider:before {
   -webkit-transform: translateX(23px); /* Updated value for the checked state */
-  -ms-transform: translateX(23px);
+  -ms-transform: translatex(23px);
   transform: translateX(23px);
 }
 

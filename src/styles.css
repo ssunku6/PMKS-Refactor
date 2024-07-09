@@ -7,7 +7,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     --white-background: #ffffff;
     --light-primary: #002962;
     --light-accent: #fdc500;
-    --light-warning: #a0001c; 
+    --light-warning: #a0001c;
 
 
 }
@@ -29,6 +29,9 @@ input[type=number] {
     border-bottom: 1px solid rgba(0,0,0, 75%);
     background-color: rgba(63,81,181, 10%);
     border-radius: 3px 3px 0 0;
+    font-family: Roboto, sans-serif;
+    line-height: 32px;
+    font-size: 14px;
     height: 25px;
   }
 
