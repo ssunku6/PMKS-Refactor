@@ -12,6 +12,9 @@ import { LinkComponent } from 'src/app/components/Grid/link/link.component';
 import { Coord } from 'src/app/model/coord';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ChangeDetectorRef } from '@angular/core';
+
+
 
 
 export class AppModule { }
@@ -27,7 +30,6 @@ export class ThreePosSynthesis{
     /*  THE POSITION VALUES ARE ALL HARD CODED BECAUSE THE BACKEND ISN'T SET UP
         ALL OF THESE FUNCTIONS SHOULD BE WRITTEN IN THE BACK END AND CALLED TO ON THE FRONT END */
 
-
     sectionExpanded: { [key: string]: boolean } = {
         Basic: false,
       };
@@ -39,6 +41,7 @@ export class ThreePosSynthesis{
     // handle the enter key being pressed and updating the values of the input blocks
     onEnterKeyInput1() {this.input1Change.emit(this.input1Value);}
     onBlurInput1() {this.input1Change.emit(this.input1Value);}
+    buttonLabel: string = 'Generate Four-Bar';
     reference: string = "Center";
     positions: number[] = [];
     couplerLength: number = 5;
@@ -58,8 +61,7 @@ export class ThreePosSynthesis{
     fourBarGenerated: boolean = false;
     sixBarGenerated: boolean = false;
 
-
-    constructor(private stateService: StateService, private interactionService: InteractionService, private colorService: ColorService){
+    constructor(private stateService: StateService, private interactionService: InteractionService, private colorService: ColorService, private cdr: ChangeDetectorRef){
     }
 
 setReference(r: string) {
@@ -101,15 +103,29 @@ isFourBarGenerated(): boolean {
     return this.fourBarGenerated;
 }
 
+isSixBarGenerated(): boolean {
+    return this.sixBarGenerated;
+  }
+
 generateFourBar(){
-    this.fourBarGenerated=true;
-    this.sixBarGenerated=false;
+  this.fourBarGenerated = !this.fourBarGenerated;
+  this.cdr.detectChanges();
 }
 
-generateSixBar(){
-    this.sixBarGenerated=true;
-    //this.fourBarGenerated=false;
+generateSixBar() {
+  this.sixBarGenerated = !this.sixBarGenerated;
+  /*if (this.buttonLabel === 'Generate Four-Bar') {
+    this.buttonLabel = 'Clear Four-Bar';
+  } else {
+    this.buttonLabel = 'Generate Four-Bar';
+  }
+  */
+  this.cdr.detectChanges();
 }
+
+//clearSixBar() {
+    //this.sixBarGenerated = false;
+  //}
 
 setCouplerLength(x: number){
 
