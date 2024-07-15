@@ -138,6 +138,8 @@
   height: 40px;
   border-radius: 20px;
   border: 1px solid black;
+  font-weight: bold;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
   margin-top: 3px;
   margin-bottom: 10px;
   background-color: #e8eaf6;
@@ -161,8 +163,10 @@
     margin-top: 3px;
     margin-bottom: 8px;
     background-color: #e8eaf6;
+    font-weight: bold;
     color: #3F51B5;
     border: none;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
   }
   #generateFourBarGrey{
     margin:0 auto;
@@ -174,9 +178,11 @@
     border: 1px solid black;
     margin-top: 3px;
     margin-bottom: 10px;
+    font-weight: bold;
     background-color: #e8eaf6;
     color: #808080;
     border: none;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
   }
 
   #generateFourBar:hover {
@@ -191,6 +197,8 @@
     width: 60%;
     height: 40px;
     border-radius: 20px;
+    font-weight: bold;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
     border: 1px solid red;
     color: red;
     margin-top: 8px;
@@ -207,6 +215,8 @@
     height: 40px;
     border-radius: 20px;
     border: 1px solid black;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-weight: bold;
     // margin-top: 12px;
     margin-bottom: 6px;
     border: none;
@@ -230,6 +240,7 @@
     background-color: #e8eaf6;
     font-weight: bold;
     font-size: 12.8px;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
     color: #3F51B5;
     border: none;
   }
