@@ -44,6 +44,15 @@
   display: none;
   }
 
+  /* Firefox Browsers*/
+  @supports (-moz-appearance: none) {
+  .scroll-container {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(63, 81, 181, 0.9) #f1f1f1;
+  }
+}
+
+
 .flex-container {
     display: flex;
     flex-direction: column;
@@ -63,7 +72,7 @@
     margin-right: 6px;
     margin-left: 6px;
     margin-top: 1px;
-    margin-bottom: 2.5px;
+    margin-bottom: -12px;
   }
 
 .label {
@@ -71,6 +80,7 @@
     margin-right: auto;
     min-width:100px;
     max-width: 100px;
+    margin-bottom: -15px;
   }
 
   .left-aligned {
@@ -236,15 +246,16 @@
     display: flex;
     margin-left: -45px;
     margin-top: 6px;
+    margin-bottom: -15px;
   }
 
   #fixedReferenceTooltip {
-  color: #3f51b5;
-  font-size: 16px;
-  padding-top: 2px;
-  display: flex;
-  margin-left: 144px;
-  margin-top: -18.5px;
+    color: #3f51b5;
+    font-size: 16px;
+    padding-top: 2px;
+    display: flex;
+    margin-left: 144px;
+    margin-top: -18.5px;
   }
 
   #tooltip {
