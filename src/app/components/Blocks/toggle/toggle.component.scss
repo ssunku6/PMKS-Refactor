@@ -11,30 +11,34 @@
   $background: map.get($theme, background);
   $foreground: map.get($theme, foreground);
 }
-
 .toggle-container {
   display: flex;
   align-items: center;
   width: 100%; /* Make the container take full width */
   margin-top: 5px;
+  margin-bottom: 5px;
+  //justify-content: space-between;
 }
 
 .label {
-  flex-grow: 1;
-  margin-right: 5px;
+  margin-right:4px;
+  margin-left: 5px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  font-size: 16px;
 }
 
 .switch {
   position: relative;
   display: inline-block;
   width: 50px;
-  height: 25px;
+  height: 15px;
 }
 
 .switch-container {
   display: flex;
   align-items: center;
-  justify-content: flex-end; /* Align the toggle slider to the right */
+  justify-content: end; /* Align the toggle slider to the right */
 }
 
 .switch input {
@@ -42,7 +46,11 @@
   width: 0;
   height: 0;
 }
-
+.buffer{
+  width: 100%;
+  display: flex;
+  justify-content: start;
+}
 .slider {
   position: absolute;
   cursor: pointer;
@@ -54,17 +62,22 @@
   -webkit-transition: .4s;
   transition: .4s;
   border-radius: 34px;
+  margin-right: 10px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
 }
 
 .slider:before {
   position: absolute;
-  content: "";
+  content: "\2714";
   height: 25px;
   width: 25px;
   background-color: #3f51b5;
   -webkit-transition: .4s;
   transition: .4s;
   border-radius: 50%;
+  color: white;
 }
 
 input:checked + .slider {
@@ -76,27 +89,42 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-  -webkit-transform: translateX(23px); /* Updated value for the checked state */
-  -ms-transform: translateX(23px);
-  transform: translateX(23px);
-}
+  -webkit-transform: translateX(20px); /* Updated value for the checked state */
+  -ms-transform: translateX(20px);
+  // transform: translateX(23px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  //transform: translateY(-5px);
 
+}
 
 //.mat-icon {
 //  color: #3f51b5;
 //  font-size: 18px;
 //  vertical-align: middle;
-//  margin-right: 80px;
-//  margin-top: 5px;
-//  padding-top: 2px;
+//  padding-top: 5px;
+//
 //}
+input:not(:checked) + .slider:before{
+  content: '\2716';
+  color: white;
+  background-color: #4e4d4d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input:hover + .slider:before{
+  scale: 1.4;
+}
 
 .toggle-input-icon{
   color: #3f51b5;
   font-size: 18px;
   vertical-align: middle;
   margin-top: 5px;
-  margin-right: 82px;
+  margin-right: 67px;
   padding-top: 2px;
 }
 
@@ -105,47 +133,15 @@ input:checked + .slider:before {
   font-size: 18px;
   vertical-align: middle;
   margin-top: 5px;
-  margin-right: 66px;
+  margin-right: 51px;
   padding-top: 2px;
 }
 
-.switch .check {
-  position: absolute;
-  top: 50%;
-  right: -5px; /* Adjust this value according to your design */
-  transform: translateY(-50%);
-  transition: .4s;
-}
-
-.tick,
-.cross {
-  position: absolute;
-  top: -2px;
-  font-size: 22px;
-  color: white;
-  transition: .4s;
-}
-
-.tick {
-  left: 29px;
-  opacity: 0;
-}
-
-input:checked+.slider+.tick {
-  opacity: 1;
-  color: white;
-}
-
-.cross {
-  right: 29px;
-  opacity: 0;
-}
-
-input:not(:checked) ~ .cross {
-  color: white;
-  opacity: 1;
-}
-
-input:not(:checked) ~ .slider:before{
-  background-color: #4e4d4d;
+.toggle-weld-icon{
+  color: #3f51b5;
+  font-size: 18px;
+  vertical-align: middle;
+  margin-top: 5px;
+  margin-right: 68px;
+  padding-top: 2px;
 }

@@ -7,7 +7,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     --white-background: #ffffff;
     --light-primary: #002962;
     --light-accent: #fdc500;
-    --light-warning: #a0001c; 
+    --light-warning: #a0001c;
 
 
 }
@@ -37,8 +37,14 @@ input[type=number] {
   }
 
   .subtitle {
-    font-size: 12px;
-    margin: 2px 0 2px 6px;
+    display: flex;
+    font-family: Roboto;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: .25px;
+    color: grey;
+    font-size: 14px;
+    margin: 5px 5px 6px 14px;
   }
 
   title-block {

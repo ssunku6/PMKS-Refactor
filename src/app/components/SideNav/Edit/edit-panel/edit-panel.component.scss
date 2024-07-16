@@ -58,12 +58,13 @@
   border-radius: 3px;
   box-shadow: 3px 3px 3px gray;
   width:100%;
-}
 
-.header{
-  display: flex;
-  padding: 3px;
-  justify-content: space-between;
-  //width: 100px;
-  background-color: white;
+  .header{
+    display: flex;
+    padding: 3px;
+    justify-content: space-between;
+    //width: 100px;
+    background-color: white;
+    margin-left: -3px;
+  }
 }

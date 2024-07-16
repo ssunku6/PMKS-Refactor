@@ -14,12 +14,13 @@
 .dual-input-block {
   display: flex;
   flex-direction: column;
-  margin: 2px;
+  margin: 6px;
 }
 
 .input-sections {
   display: flex;
   flex-direction: row;
+  padding-bottom: 5px;
 }
 
 .input-section {

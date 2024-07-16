@@ -1,19 +1,19 @@
 <div class='row' id='dual-button'>
   <div class="traceButton">
-    <button style="padding: 0 5px;" mat-stroked-button color='primary' [disabled]='btn1Disabled' class='{{btn1Disabled? "buttonDisabled" :""}}'
+    <button mat-stroked-button color='primary' [disabled]='btn1Disabled' class='{{btn1Disabled? "buttonDisabled" :""}}'
                                    (click)='btn1Action()'>
     <div class="alignVertical">
-      <img src={{btn1SVGPath}} alt="SVG Image" width="24px" height="24px">
-      <span style="font-size: 13px;">{{btn1Text}}</span>
+<!--      <img src={{btn1SVGPath}} alt="SVG Image" width="24px" height="24px">-->
+      <span>{{btn1Text}}</span>
     </div>
   </button>
   </div>
   <div class="forceButton">
-    <button style="padding: 0 5px;" mat-stroked-button color='primary' [disabled]='btn2Disabled' class='{{btn2Disabled? "buttonDisabled" :""}}'
+    <button mat-stroked-button color='primary' [disabled]='btn2Disabled' class='{{btn2Disabled? "buttonDisabled" :""}}'
                  (click)='btn2Action()'>
       <div class="alignVertical">
-        <img src={{btn2SVGPath}} alt="SVG Image" width="24px" height="24px">
-        <span style="font-size: 13px;">{{btn2Text}}</span>
+<!--        <img src={{btn2SVGPath}} alt="SVG Image" width="24px" height="24px">-->
+        <span>{{btn2Text}}</span>
       </div>
     </button>
   </div>
