@@ -8,8 +8,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     --light-primary: #002962;
     --light-accent: #fdc500;
     --light-warning: #a0001c;
-
-
 }
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
