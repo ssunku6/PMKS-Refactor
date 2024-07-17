@@ -2,14 +2,14 @@
 @use '@angular/material' as mat;
 
 @mixin css($theme) {
-    // Get the color config from the theme.
-    $color-config: mat.get-color-config($theme);
-    // Get the primary color palette from the color-config.
-    $primary-palette: map.get($color-config, 'primary');
-    $accent-palette: map.get($color-config, 'accent');
-    $typography-config: mat.get-typography-config($theme);
-    $background: map.get($theme, background);
-    $foreground: map.get($theme, foreground);
+  // Get the color config from the theme.
+  $color-config: mat.get-color-config($theme);
+  // Get the primary color palette from the color-config.
+  $primary-palette: map.get($color-config, 'primary');
+  $accent-palette: map.get($color-config, 'accent');
+  $typography-config: mat.get-typography-config($theme);
+  $background: map.get($theme, background);
+  $foreground: map.get($theme, foreground);
 }
 
 #editLink {
@@ -19,7 +19,7 @@
     box-shadow: 3px 3px 3px gray;
     width:100%;
     max-height:calc(90vh - 30px);;
-    overflow-y:scroll;
+    //overflow-y:scroll;
   }
 
   .flex-container {
@@ -31,14 +31,30 @@
 
 .button-container {
   display: flex;
+  justify-content: center; /* Center the buttons horizontally */
+  align-items: center; /* Center the buttons vertically if needed */
+  width: 100%; /* Ensure the container takes full width */
   flex-wrap: wrap;
   margin: auto;
+
+  //.button-wrapper {
+  //  flex: 0 0 calc(33.33% - 10px); /* Each button takes up approximately one-third of the container with 10px spacing */
+  //  margin: 5px; /* Adjust the margin as needed for spacing between buttons */
+  //}
+
+  .referenceJointSelect {
+    height: 34px !important;
+    margin: 7px 0;
+    color: #3F51B5;
+    width: 10%;
+    display: flex;
+    justify-content: center; /* Center the buttons horizontally */
+    align-items: center; /* Center the buttons vertically if needed */
+
+  }
 }
 
-.button-wrapper {
-  flex: 0 0 calc(33.33% - 10px); /* Each button takes up approximately one-third of the container with 10px spacing */
-  margin: 5px; /* Adjust the margin as needed for spacing between buttons */
-}
+
 
 .disabled-panel {
   opacity: 0.5; /* Adjust the opacity to control the greying out effect */
@@ -88,27 +104,11 @@
     text-align: center;
   }
 
-  .referenceJointSelect {
-    height: 28px;
-    margin: 2px;
-    background-color: #e8eaf6;
-    color: #3F51B5;
-    border: none;
-    border-radius: 3px;
-  }
-
-  .referenceJointSelect:hover {
-    color: #e8eaf6;
-    background-color: #3F51B5;
-  }
-
   mat-icon {
     color: #3f51b5;
     font-size: 18px;
     vertical-align: middle;
     padding-top: 2px;
-    margin-left:2px;
+    margin-left:4px;
   }
-  .check {
-    color: white;
-  }
+

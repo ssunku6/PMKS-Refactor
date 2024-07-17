@@ -12,6 +12,7 @@
   $typography-config: mat.get-typography-config($theme);
   $foreground: map.get($theme, foreground);
 
+
   #settings {
     background-color: white;
     border-radius: 3px;
