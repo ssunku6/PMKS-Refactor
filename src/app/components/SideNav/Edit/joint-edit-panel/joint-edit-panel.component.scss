@@ -10,6 +10,34 @@
   $foreground: map.get($theme, foreground);
 }
 
+.scroll-container {
+  max-height: calc(100vh - 150px);
+  overflow:hidden;
+  overflow-y:auto;
+}
+.scroll-container::-webkit-scrollbar {
+  width: 8px;
+}
+.scroll-container::-webkit-scrollbar-track {
+  background: rgba(63, 81, 181, 0.9);
+}
+.scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(63, 81, 181, 0.22);
+}
+.scroll-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(63, 81, 181, 0.67);
+}
+.scroll-container::-webkit-scrollbar-button {
+  display: none;
+}
+/* Firefox Browsers*/
+@supports (-moz-appearance: none) {
+  .scroll-container {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(63, 81, 181, 0.9) #f1f1f1;
+  }
+}
+
 .input-direction-label {
   display: flex;
   align-items: center;

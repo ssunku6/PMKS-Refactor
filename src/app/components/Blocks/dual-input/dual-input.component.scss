@@ -23,9 +23,6 @@
   padding-bottom: 5px;
 }
 
-.input-section {
-  margin-right: 10px;
-}
 /* Chrome, Safari, Edge, Opera */
 input[matinput]::-webkit-outer-spin-button,
 input[matinput]::-webkit-inner-spin-button {
@@ -47,8 +44,7 @@ input[matinput][type=number] {
 }
 
 label {
-  margin-right: -10px;
-  margin-left: 6px;
+  margin-right: 5px;
 }
 
 mat-icon {
