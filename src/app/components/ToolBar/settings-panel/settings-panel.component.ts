@@ -1,7 +1,7 @@
 import { Component} from '@angular/core'
 import { InteractionService } from 'src/app/services/interaction.service'
 import { JointInteractor } from 'src/app/controllers/joint-interactor';
-
+import { ToolbarComponent } from 'src/app/components/ToolBar/toolbar/toolbar.component';
 
 @Component({
   selector: 'app-settings-panel',
@@ -20,7 +20,7 @@ export class SettingsPanelComponent{
   gridEnabled: boolean= true;
   minorGridEnabled: boolean = true;
 
-  constructor(private interactionService: InteractionService){
+  constructor(private interactionService: InteractionService, public toolbarComponent: ToolbarComponent){
 
   }
 
@@ -29,6 +29,7 @@ export class SettingsPanelComponent{
     const target = event.target as HTMLElement;
     if (!target.closest('.settings')) {
       this.open = false;
+      this.toolbarComponent.setCurrentTab('');
     }
   }
   handleToggleGridChange(stateChange: boolean){
