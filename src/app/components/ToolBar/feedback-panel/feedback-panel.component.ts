@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { InteractionService } from 'src/app/services/interaction.service'
 import { FormBuilder, FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { ToolbarComponent } from 'src/app/components/ToolBar/toolbar/toolbar.component';
 
 @Component({
   selector: 'app-feedback-panel',
@@ -19,8 +20,9 @@ export class FeedbackPanelComponent {
 
   gridEnabled: boolean= true;
   minorGridEnabled: boolean = true;
+  public open = true
 
-  constructor(private interactionService: InteractionService, private fb: FormBuilder){
+  constructor(private interactionService: InteractionService, private fb: FormBuilder, public toolbarComponent: ToolbarComponent){
   }
 
   commentForm = this.fb.group({
@@ -30,6 +32,14 @@ export class FeedbackPanelComponent {
     diagnostics: [true],
     project: [true],
   });
+
+  closePanel(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('#settings')) {
+      this.open = false;
+      this.toolbarComponent.setCurrentTab('');
+    }
+  }
 
   matcher = new MyErrorStateMatcher();
 
