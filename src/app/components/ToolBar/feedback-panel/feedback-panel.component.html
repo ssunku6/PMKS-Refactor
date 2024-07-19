@@ -1,9 +1,12 @@
 <div id="settings">
   <panel-section-collapsible>
+
   </panel-section-collapsible>
+
   <collapsible-subsection [expanded]='true' titleLabel='Go to Github' [expanded]="sectionExpanded['LBasic']"
                           (opened)="sectionExpanded['LBasic'] = true" (closed)="sectionExpanded['LBasic'] = false">
     <title-block icon='expand_more' description='' class="synthesisHeader">
+      Github
     </title-block>
     <p>PMKS+ is open source! Do you want to help us develop it?</p>
     <button mat-button class="toolbar-button" (click)="gotoGithub();"
@@ -53,6 +56,5 @@
       </form>
     </div>
   </collapsible-subsection>
-
 
 </div>

@@ -1,12 +1,8 @@
-
-
 @use 'sass:map';
 @use '@angular/material' as mat;
 
 @mixin css($theme) {
-  // Get the color config from the theme.
   $color-config: mat.get-color-config($theme);
-  // Get the primary color palette from the color-config.
   $primary-palette: map.get($color-config, 'primary');
   $accent-palette: map.get($color-config, 'accent');
   $typography-config: mat.get-typography-config($theme);
@@ -15,13 +11,38 @@
   #settings {
     background-color: white;
     border-radius: 3px;
+    display: flex;
+    flex-direction: column;
     width: 350px;
-    float: right;
     border-top: 5px solid #3F51B5;
     box-shadow: 0 9px 5px 0 gray, 0 9px 5px 0 gray, 12px 0 15px -4px gray, -12px 0 15px -4px gray;
     opacity: 0.999;
-    padding: 0.5px 0px 0.5px 0px;
+    padding: 10px;
     margin-top: 30px;
     margin-right: 5px;
+
+    .collapsible-subsection {
+      margin-bottom: 20px;
+
+      .synthesisHeader {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      form {
+        .max-width {
+          max-width: 100%;
+        }
+
+        textarea {
+          min-height: 100px;
+        }
+
+        .toolbar-button {
+          // Your button styles here
+        }
+      }
+    }
   }
 }
