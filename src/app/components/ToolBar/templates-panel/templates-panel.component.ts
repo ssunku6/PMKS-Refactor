@@ -26,11 +26,8 @@ export class TemplatesPanelComponent {
     //creates a new mechanism in the state
     this.mechanism = this.stateService.getMechanism();
   }
-  togglePanel(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    if (!target.closest('.app-templates-panel-container')) {
-      this.open = false;
-    }
+  togglePanel() {
+    this.open = false;
   }
 
   openTemplate(linkage: string){

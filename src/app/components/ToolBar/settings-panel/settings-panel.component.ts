@@ -4,46 +4,38 @@ import { JointInteractor } from 'src/app/controllers/joint-interactor';
 
 
 @Component({
-  selector: 'app-settings-panel',
-  templateUrl: './settings-panel.component.html',
-  styleUrls: ['./settings-panel.component.scss'],
+    selector: 'app-settings-panel',
+    templateUrl: './settings-panel.component.html',
+    styleUrls: ['./settings-panel.component.scss'],
 
 })
 export class SettingsPanelComponent{
-  public open = true;
 
-  sectionExpanded: { [key: string]: boolean } = {
-    LBasic: true,
-    LVisual: true,
-  };
+    sectionExpanded: { [key: string]: boolean } = {
+        LBasic: true,
+        LVisual: true,
+      };
+ 
+    gridEnabled: boolean= true;
+    minorGridEnabled: boolean = true;
 
-  gridEnabled: boolean= true;
-  minorGridEnabled: boolean = true;
+    constructor(private interactionService: InteractionService){
 
-  constructor(private interactionService: InteractionService){
-
-  }
-
-
-  closePanel(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    if (!target.closest('.settings')) {
-      this.open = false;
     }
-  }
-  handleToggleGridChange(stateChange: boolean){
-    this.gridEnabled=stateChange;
-  }
 
-  getGridEnabled(): boolean{
-    return this.gridEnabled;
-  }
+    handleToggleGridChange(stateChange: boolean){
+        this.gridEnabled=stateChange;
+    }
 
-  handleToggleMinorGridChange(stateChange: boolean){
-    this.minorGridEnabled=stateChange;
-  }
+    getGridEnabled(): boolean{
+        return this.gridEnabled;
+    }
 
-  getMinorGridEnabled(): boolean{
-    return this.minorGridEnabled;
-  }
+    handleToggleMinorGridChange(stateChange: boolean){
+        this.minorGridEnabled=stateChange;
+    }
+
+    getMinorGridEnabled(): boolean{
+        return this.minorGridEnabled;
+    }
 }
