@@ -44,7 +44,7 @@
     font-family: Roboto, "Helvetica Neue", serif;
     font-weight: 500;
     font-size: 20px;
-    margin-left: -5px;
+    margin-left: 5px;
   }
   .units{
     font-family: Roboto, "Helvetica Neue", serif;
@@ -64,5 +64,8 @@
     width: 100%;
     height: 100%;
     z-index: 10; /* Ensure the overlay is above other content */
+  }
+  #angleUnits{
+    margin-bottom: 10px;
   }
 }
