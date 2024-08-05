@@ -64,6 +64,7 @@ import { TutorialsPanelComponent } from './components/ToolBar/tutorials-panel/tu
 import {FeedbackPanelComponent} from "./components/ToolBar/feedback-panel/feedback-panel.component";
 import {SavePanelComponent} from "./components/ToolBar/save-panel/save-panel.component";
 import {SharePanelComponent} from "./components/ToolBar/share-panel/share-panel.component";
+import {OpenPanelComponent} from "./components/ToolBar/open-panel/open-panel.component";
 import {MatListModule} from "@angular/material/list";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCheckboxModule} from "@angular/material/checkbox";
@@ -120,6 +121,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     FeedbackPanelComponent,
     SavePanelComponent,
     SharePanelComponent,
+    OpenPanelComponent,
   ],
   imports: [
     BrowserModule,
@@ -140,6 +142,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     MatListModule,
     MatExpansionModule,
     MatCheckboxModule,
+
   ],
   providers: [],
   exports: [

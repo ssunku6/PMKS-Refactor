@@ -5,7 +5,7 @@ import {Mechanism} from "src/app/model/mechanism";
 import {PositionSolverService} from "src/app/services/kinematic-solver.service";
 import {Joint} from "src/app/model/joint";
 import {CompoundLinkInteractor} from "src/app/controllers/compound-link-interactor";
-import {AnalysisSolveService, JointAnalysis} from "src/app/services/analysis-solver.service";
+import {AnalysisSolveService, JointAnalysis, LinkAnalysis} from "src/app/services/analysis-solver.service";
 import {first} from "rxjs";
 
 interface Tab {
@@ -173,6 +173,7 @@ export class CompoundLinkAnalysisPanelComponent {
   getGraphData() {
     this.analysisSolverService.updateKinematics();
     let jointKinematics: JointAnalysis;
+    let linkAnalysis: LinkAnalysis;
     switch(this.currentGraphType) {
       case GraphType.CoMPosition:
         jointKinematics = this.analysisSolverService.getJointKinematics(this.getPlaceholderCoMJoint().id);
@@ -192,6 +193,8 @@ export class CompoundLinkAnalysisPanelComponent {
 
       case GraphType.referenceJointPosition:
         if(this.getReferenceJoint() !== undefined) {
+          //linkAnalysis = this.analysisSolverService.getLinkKinematics(this.getPlaceholderCoMJoint().id);
+          //return this.analysisSolverService.transformLinkKinematicGraph(linkAnalysis, "Position");
           jointKinematics = this.analysisSolverService.getJointKinematics(this.getReferenceJoint().id);
           return this.analysisSolverService.transformJointKinematicGraph(jointKinematics, "Position");
         }

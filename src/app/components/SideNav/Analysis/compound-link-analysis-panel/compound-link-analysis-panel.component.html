@@ -41,6 +41,7 @@
 
   <!-- EVERY GRAPH OPEN BUTTON -->
   <div *ngFor="let graphType of getGraphTypes()">
+    <h1>graphType</h1>
     <analysis-graph-button [dynamicText]="'Open ' + getGraphTypeName(graphType) + ' Graph'" graphText= 'Open'
                            [btn1Action]="openAnalysisGraph.bind(this, graphType)"></analysis-graph-button>
   </div>

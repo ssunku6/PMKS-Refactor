@@ -15,7 +15,7 @@
   </button>
 
   <!-- OPEN FILE -->
-  <button mat-button class="toolbar-button"
+  <button mat-button class="toolbar-button" (click)="setCurrentTab('Open');"
           matTooltip='Open a linkage from a file on your device'
           matTooltipShowDelay='1000'>
     <mat-icon>file_open</mat-icon>
@@ -96,6 +96,9 @@
     }
     @case ('Share'){
       <app-share-panel></app-share-panel>
+    }
+    @case ('Open'){
+      <app-open-panel></app-open-panel>
     }
   }
 </div>
